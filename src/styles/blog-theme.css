@@ -1,0 +1,142 @@
+/* Blog Theme - Standalone styling for blog pages */
+
+.blog-theme {
+  --blog-primary: #007acc;
+  --blog-accent: #00ff9d;
+  --blog-bg: #1e1e1e;
+  --blog-bg-secondary: #2d2d2d;
+  --blog-bg-tertiary: #3c3c3c;
+  --blog-text: #ffffff;
+  --blog-text-secondary: #e0e0e0;
+  --blog-text-muted: #999999;
+  --blog-border: #3c3c3c;
+
+  /* Spacing */
+  --blog-space-xs: 0.5rem;
+  --blog-space-sm: 0.75rem;
+  --blog-space-md: 1rem;
+  --blog-space-lg: 1.5rem;
+  --blog-space-xl: 2rem;
+  --blog-space-2xl: 3rem;
+  --blog-space-3xl: 4rem;
+
+  /* Font sizes */
+  --blog-font-xs: 0.75rem;
+  --blog-font-sm: 0.875rem;
+  --blog-font-base: 1rem;
+  --blog-font-lg: 1.125rem;
+  --blog-font-xl: 1.25rem;
+  --blog-font-2xl: 1.5rem;
+  --blog-font-3xl: 2rem;
+  --blog-font-4xl: 2.5rem;
+
+  /* Layout */
+  --blog-container-max: 1200px;
+  --blog-content-max: 800px;
+  --blog-border-radius: 8px;
+
+  background-color: var(--blog-bg);
+  color: var(--blog-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, sans-serif;
+  min-height: 100vh;
+}
+
+.blog-theme * {
+  box-sizing: border-box;
+}
+
+/* Typography */
+.blog-theme h1,
+.blog-theme h2,
+.blog-theme h3,
+.blog-theme h4 {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  color: var(--blog-text);
+  margin: 0;
+}
+
+.blog-theme p {
+  color: var(--blog-text-secondary);
+  line-height: 1.6;
+}
+
+.blog-theme a {
+  color: var(--blog-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.blog-theme a:hover {
+  color: var(--blog-accent);
+}
+
+/* Container */
+.blog-container {
+  max-width: var(--blog-container-max);
+  margin: 0 auto;
+  padding: 0 var(--blog-space-lg);
+}
+
+.blog-content-container {
+  max-width: var(--blog-content-max);
+  margin: 0 auto;
+  padding: 0 var(--blog-space-lg);
+}
+
+/* Cards */
+.blog-card {
+  background: var(--blog-bg-secondary);
+  border: 1px solid var(--blog-border);
+  border-radius: var(--blog-border-radius);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 255, 157, 0.1);
+}
+
+/* Tags */
+.blog-tag {
+  display: inline-block;
+  background: rgba(0, 122, 204, 0.2);
+  color: var(--blog-accent);
+  padding: var(--blog-space-xs) var(--blog-space-sm);
+  border-radius: 20px;
+  font-size: var(--blog-font-xs);
+  border: 1px solid rgba(0, 255, 157, 0.3);
+}
+
+/* Buttons */
+.blog-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--blog-space-sm);
+  background: var(--blog-primary);
+  color: white;
+  padding: var(--blog-space-sm) var(--blog-space-xl);
+  border-radius: 4px;
+  font-size: var(--blog-font-base);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.blog-button:hover {
+  background: #005c99;
+  transform: translateY(-2px);
+}
+
+/* Code font */
+.code-font {
+  font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+/* External link indicator */
+.external-indicator {
+  color: var(--blog-text-muted);
+  font-size: var(--blog-font-sm);
+}

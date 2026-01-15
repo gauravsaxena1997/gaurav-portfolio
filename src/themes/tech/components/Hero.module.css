@@ -1,0 +1,514 @@
+.heroSection {
+  min-height: 100vh;
+  padding-top: calc(var(--navbar-height) + var(--space-xl));
+  padding-bottom: var(--space-2xl);
+  background: #0d1117;
+}
+
+:global(.light-theme) .heroSection {
+  background: #ffffff;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Profile Layout - GitHub style */
+.profileLayout {
+  display: grid;
+  grid-template-columns: 296px 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* Sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--space-xl));
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 296px;
+  height: 296px;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid #30363d;
+  object-fit: cover;
+}
+
+:global(.light-theme) .avatar {
+  border-color: #d0d7de;
+}
+
+.statusBadge {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  background: #0d1117;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #0d1117;
+}
+
+:global(.light-theme) .statusBadge {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+.statusDot {
+  width: 16px;
+  height: 16px;
+  background: #3fb950;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* User Info */
+.userInfo {
+  margin-top: var(--space-md);
+}
+
+.displayName {
+  font-size: 24px;
+  font-weight: 600;
+  color: #f0f6fc;
+  margin: 0;
+  line-height: 1.25;
+}
+
+:global(.light-theme) .displayName {
+  color: #1f2328;
+}
+
+.username {
+  font-size: 20px;
+  font-weight: 300;
+  color: #7d8590;
+  margin: 0;
+  line-height: 1.5;
+}
+
+:global(.light-theme) .username {
+  color: #656d76;
+}
+
+/* CTA Button */
+.ctaButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: 5px 16px;
+  background: #21262d;
+  color: #c9d1d9;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.ctaButton:hover {
+  background: #30363d;
+  border-color: #8b949e;
+}
+
+:global(.light-theme) .ctaButton {
+  background: #f6f8fa;
+  color: #24292f;
+  border-color: rgba(31, 35, 40, 0.15);
+}
+
+:global(.light-theme) .ctaButton:hover {
+  background: #f3f4f6;
+  border-color: rgba(31, 35, 40, 0.15);
+}
+
+/* User Meta */
+.userMeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 14px;
+  color: #7d8590;
+}
+
+.metaItem svg {
+  flex-shrink: 0;
+  color: #7d8590;
+}
+
+.metaItem a {
+  color: #7d8590;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.metaItem a:hover {
+  color: #58a6ff;
+  text-decoration: underline;
+}
+
+:global(.light-theme) .metaItem {
+  color: #656d76;
+}
+
+:global(.light-theme) .metaItem svg {
+  color: #656d76;
+}
+
+:global(.light-theme) .metaItem a {
+  color: #656d76;
+}
+
+:global(.light-theme) .metaItem a:hover {
+  color: #0969da;
+}
+
+/* Main Content */
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* About Box */
+.aboutBox {
+  padding: var(--space-md);
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+}
+
+:global(.light-theme) .aboutBox {
+  background: #f6f8fa;
+  border-color: #d0d7de;
+}
+
+.aboutText {
+  font-size: 14px;
+  color: #c9d1d9;
+  line-height: 1.6;
+  margin: 0 0 var(--space-md) 0;
+}
+
+.aboutText:last-child {
+  margin-bottom: 0;
+}
+
+:global(.light-theme) .aboutText {
+  color: #1f2328;
+}
+
+.aboutTextHighlight {
+  font-size: 14px;
+  color: #58a6ff;
+  line-height: 1.6;
+  margin: 0 0 var(--space-md) 0;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(88, 166, 255, 0.1);
+  border-left: 3px solid #58a6ff;
+  border-radius: 0 4px 4px 0;
+}
+
+:global(.light-theme) .aboutTextHighlight {
+  color: #0969da;
+  background: rgba(9, 105, 218, 0.1);
+  border-left-color: #0969da;
+}
+
+/* Contribution Map */
+.contributionWrapper {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: var(--space-md);
+}
+
+:global(.light-theme) .contributionWrapper {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+.contributionHeader {
+  margin-bottom: var(--space-sm);
+}
+
+.contributionCount {
+  font-size: 14px;
+  color: #c9d1d9;
+}
+
+:global(.light-theme) .contributionCount {
+  color: #1f2328;
+}
+
+.contributionMap {
+  overflow-x: auto;
+}
+
+/* Month Labels */
+.monthLabels {
+  display: flex;
+  margin-bottom: 4px;
+}
+
+.dayLabelSpacer {
+  width: 32px;
+  flex-shrink: 0;
+}
+
+.monthLabel {
+  font-size: 10px;
+  color: #7d8590;
+  flex: 1;
+  min-width: 52px;
+}
+
+:global(.light-theme) .monthLabel {
+  color: #656d76;
+}
+
+/* Grid with Days */
+.gridWithDays {
+  display: flex;
+}
+
+/* Day Labels */
+.dayLabels {
+  display: flex;
+  flex-direction: column;
+  width: 32px;
+  flex-shrink: 0;
+}
+
+.dayLabel {
+  font-size: 10px;
+  color: #7d8590;
+  height: 11px;
+  line-height: 11px;
+}
+
+:global(.light-theme) .dayLabel {
+  color: #656d76;
+}
+
+/* Contribution Grid */
+.contributionGrid {
+  display: flex;
+  gap: 3px;
+}
+
+.contributionCol {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.contributionCell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* Contribution levels - Dark theme */
+.level0 {
+  background: #161b22;
+  outline: 1px solid rgba(27, 31, 35, 0.06);
+}
+
+.level1 {
+  background: #0e4429;
+}
+
+.level2 {
+  background: #006d32;
+}
+
+.level3 {
+  background: #26a641;
+}
+
+/* Light theme contribution colors */
+:global(.light-theme) .level0 {
+  background: #ebedf0;
+}
+
+:global(.light-theme) .level1 {
+  background: #9be9a8;
+}
+
+:global(.light-theme) .level2 {
+  background: #40c463;
+}
+
+:global(.light-theme) .level3 {
+  background: #30a14e;
+}
+
+/* Contribution Legend */
+.contributionLegend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  margin-top: var(--space-sm);
+  font-size: 10px;
+}
+
+.legendLabel {
+  color: #7d8590;
+  margin: 0 4px;
+}
+
+:global(.light-theme) .legendLabel {
+  color: #656d76;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .profileLayout {
+    grid-template-columns: 256px 1fr;
+    gap: var(--space-lg);
+  }
+
+  .avatarWrapper {
+    width: 256px;
+    height: 256px;
+  }
+
+  .sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-md);
+  }
+
+  .profileLayout {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .sidebar {
+    align-items: center;
+    text-align: center;
+  }
+
+  .avatarWrapper {
+    width: 200px;
+    height: 200px;
+  }
+
+  .statusBadge {
+    width: 28px;
+    height: 28px;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .statusDot {
+    width: 12px;
+    height: 12px;
+  }
+
+  .userMeta {
+    align-items: center;
+  }
+
+  .ctaButton {
+    max-width: 280px;
+  }
+
+  /* Contribution map adjustments for mobile */
+  .contributionWrapper {
+    padding: var(--space-sm);
+  }
+
+  .contributionCell {
+    width: 8px;
+    height: 8px;
+  }
+
+  .contributionGrid {
+    gap: 2px;
+  }
+
+  .contributionCol {
+    gap: 2px;
+  }
+
+  .monthLabel {
+    min-width: 40px;
+    font-size: 9px;
+  }
+
+  .dayLabel {
+    font-size: 9px;
+    height: 10px;
+    line-height: 10px;
+  }
+
+  .dayLabelSpacer {
+    width: 24px;
+  }
+
+  .dayLabels {
+    width: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .avatarWrapper {
+    width: 150px;
+    height: 150px;
+  }
+
+  .displayName {
+    font-size: 20px;
+  }
+
+  .username {
+    font-size: 16px;
+  }
+
+  /* Hide contribution map on very small screens, show simplified version */
+  .contributionMap {
+    display: none;
+  }
+
+  .contributionHeader {
+    margin-bottom: 0;
+  }
+}

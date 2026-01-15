@@ -1,0 +1,138 @@
+.contactSection {
+  padding: var(--space-5xl) 0 var(--space-2xl) 0;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+  font-size: var(--font-3xl);
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  padding: var(--space-md);
+}
+
+.formSection,
+.calendlySection {
+  padding: var(--space-lg);
+}
+
+.sectionHeading {
+  color: #00ff9d;
+  font-size: var(--font-lg);
+  margin: 0 0 var(--space-xl) 0;
+  font-family: 'Fira Code', monospace;
+}
+
+:global(.light-theme) .sectionHeading {
+  color: var(--tech-primary);
+}
+
+.formGroup {
+  margin-bottom: var(--space-md);
+}
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: var(--tech-primary);
+  border: none;
+  padding: var(--space-sm) var(--space-xl);
+  transition: all 0.3s;
+  color: white;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: var(--font-base);
+  font-family: 'Fira Code', monospace;
+}
+
+.submitButton:hover {
+  background-color: #005c99;
+  transform: translateY(-0.104vw);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.calendlyContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-2xl);
+  background: rgba(0, 122, 204, 0.1);
+  border-radius: var(--border-radius);
+  border: 0.052vw dashed rgba(0, 255, 157, 0.3);
+  min-height: 15.625vw;
+}
+
+:global(.light-theme) .calendlyContent {
+  background: rgba(0, 122, 204, 0.05);
+  border-color: rgba(0, 122, 204, 0.3);
+}
+
+.calendarIcon {
+  color: var(--tech-primary);
+  margin-bottom: var(--space-lg);
+}
+
+.calendlyText {
+  color: #e0e0e0;
+  font-size: var(--font-base);
+  line-height: 1.5;
+  margin-bottom: var(--space-xl);
+  max-width: 15.625vw;
+}
+
+:global(.light-theme) .calendlyText {
+  color: #666;
+}
+
+.calendlyButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--tech-primary);
+  color: white;
+  padding: var(--space-md) var(--space-2xl);
+  border-radius: var(--border-radius-sm);
+  text-decoration: none;
+  font-size: var(--font-base);
+  font-family: 'Fira Code', monospace;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.calendlyButton:hover {
+  background: #005c99;
+  transform: translateY(-0.104vw);
+  box-shadow: 0 0.26vw 0.521vw rgba(0, 122, 204, 0.3);
+}
+
+@media (max-width: 768px) {
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .calendlyContent {
+    min-height: auto;
+  }
+
+  .calendlyText {
+    max-width: none;
+  }
+}

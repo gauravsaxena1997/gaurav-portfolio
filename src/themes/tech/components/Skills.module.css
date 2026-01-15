@@ -1,0 +1,225 @@
+.skillsSection {
+  padding: var(--space-5xl) 0;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+  font-size: var(--font-3xl);
+}
+
+/* Skills Layout - Sidebar + Content */
+.skillsLayout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--space-xl);
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+:global(.light-theme) .skillsLayout {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+/* Sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  background: #0d1117;
+  border-right: 1px solid #30363d;
+  padding: var(--space-sm) 0;
+}
+
+:global(.light-theme) .sidebar {
+  background: #f6f8fa;
+  border-right-color: #d0d7de;
+}
+
+.categoryButton {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #7d8590;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  border-left: 2px solid transparent;
+}
+
+.categoryButton:hover {
+  background: rgba(88, 166, 255, 0.05);
+  color: #c9d1d9;
+}
+
+:global(.light-theme) .categoryButton {
+  color: #656d76;
+}
+
+:global(.light-theme) .categoryButton:hover {
+  background: rgba(9, 105, 218, 0.05);
+  color: #1f2328;
+}
+
+.activeCategory {
+  background: rgba(88, 166, 255, 0.1);
+  color: #58a6ff;
+  border-left-color: #58a6ff;
+}
+
+:global(.light-theme) .activeCategory {
+  background: rgba(9, 105, 218, 0.1);
+  color: #0969da;
+  border-left-color: #0969da;
+}
+
+/* Skills Content */
+.skillsContent {
+  padding: var(--space-lg);
+}
+
+/* Skills Grid */
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: var(--space-md);
+}
+
+/* Skill Card */
+.skillCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.skillCard:hover {
+  transform: translateY(-2px);
+  border-color: #58a6ff;
+  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.15);
+}
+
+:global(.light-theme) .skillCard {
+  background: #f6f8fa;
+  border-color: #d0d7de;
+}
+
+:global(.light-theme) .skillCard:hover {
+  border-color: #0969da;
+  box-shadow: 0 4px 12px rgba(9, 105, 218, 0.15);
+}
+
+/* Icon Wrapper */
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skillIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.skillCard:hover .skillIcon {
+  transform: scale(1.1);
+}
+
+/* Skill Name */
+.skillName {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: #7d8590;
+  text-align: center;
+  word-break: break-word;
+}
+
+:global(.light-theme) .skillName {
+  color: #656d76;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .skillsLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid #30363d;
+    padding: var(--space-sm);
+    gap: var(--space-xs);
+  }
+
+  :global(.light-theme) .sidebar {
+    border-bottom-color: #d0d7de;
+  }
+
+  .categoryButton {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 4px;
+  }
+
+  .activeCategory {
+    border-left-color: transparent;
+    border-bottom-color: #58a6ff;
+  }
+
+  :global(.light-theme) .activeCategory {
+    border-bottom-color: #0969da;
+  }
+
+  .skillsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
+  .skillCard {
+    padding: var(--space-sm);
+  }
+
+  .iconWrapper {
+    width: 40px;
+    height: 40px;
+  }
+
+  .skillName {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skillsContent {
+    padding: var(--space-md);
+  }
+
+  .skillsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+  }
+}

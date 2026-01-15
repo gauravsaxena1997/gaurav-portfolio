@@ -1,0 +1,51 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--blog-border, #3c3c3c);
+}
+
+.container {
+  max-width: var(--blog-container-max, 1200px);
+  margin: 0 auto;
+  padding: var(--blog-space-md, 1rem) var(--blog-space-lg, 1.5rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  text-decoration: none;
+}
+
+.logoText {
+  font-family: 'Fira Code', monospace;
+  font-size: var(--blog-font-lg, 1.125rem);
+  font-weight: 600;
+  color: var(--blog-accent, #00ff9d);
+}
+
+.nav {
+  display: flex;
+  gap: var(--blog-space-xl, 2rem);
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: var(--blog-space-xs, 0.5rem);
+  color: var(--blog-text-secondary, #e0e0e0);
+  text-decoration: none;
+  font-size: var(--blog-font-base, 1rem);
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: var(--blog-primary, #007acc);
+}
+
+.active {
+  color: var(--blog-primary, #007acc);
+}
