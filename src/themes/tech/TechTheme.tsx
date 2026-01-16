@@ -24,13 +24,15 @@ export function TechTheme() {
     <div className={`tech-theme ${!isDarkTheme ? 'light-theme' : ''}`}>
       <Navbar activeSection={activeSection} />
       <ScrollToTop />
-      <Hero />
-      <CaseStudies />
-      <Services />
-      <Skills />
-      {TESTIMONIALS.length > 0 && <Testimonials />}
-      {BLOG_POSTS.length > 0 && <BlogPreview />}
-      <Contact />
+      <main id="main-content">
+        <Hero />
+        <CaseStudies />
+        <Services />
+        <Skills />
+        {TESTIMONIALS.length > 0 && <Testimonials />}
+        {BLOG_POSTS.length > 0 && <BlogPreview />}
+        <Contact />
+      </main>
     </div>
   );
 }

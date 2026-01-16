@@ -1,0 +1,27 @@
+/* TEAM */
+Developer: Gaurav Saxena
+Role: Full Stack Developer & Freelancer
+Location: Jaipur, Rajasthan, India
+Contact: gauravsaxena.jaipur@gmail.com
+LinkedIn: https://www.linkedin.com/in/gauravsaxena1997
+GitHub: https://github.com/gauravsaxena1997
+
+/* SITE */
+Last updated: 2026-01-16
+Language: English
+Standards: HTML5, CSS3, ES6+
+Framework: Next.js 15
+Styling: Tailwind CSS, CSS Modules
+Deployment: Vercel
+
+/* TECHNOLOGIES */
+Frontend: React, Next.js, TypeScript
+Backend: Node.js, Express
+Database: PostgreSQL, MongoDB, Supabase, Firebase
+DevOps: Docker, AWS, Vercel
+Design: Figma, CSS3, Tailwind
+
+/* THANKS */
+Font: Fira Code by Nikita Prokopov
+Icons: Lucide Icons
+Inspiration: GitHub Profile Design

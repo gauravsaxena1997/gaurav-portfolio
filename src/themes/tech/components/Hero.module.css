@@ -548,6 +548,15 @@
     text-align: center;
   }
 
+  /* Main content left-aligned on mobile */
+  .mainContent {
+    text-align: left;
+  }
+
+  .aboutBox {
+    text-align: left;
+  }
+
   .avatarWrapper {
     width: 200px;
     height: 200px;
@@ -616,27 +625,129 @@
 }
 
 @media (max-width: 480px) {
+  .heroSection {
+    padding-top: 70px;
+    padding-bottom: 40px;
+  }
+
+  .container {
+    padding: 0 16px;
+    padding-top: 24px;
+  }
+
+  .profileLayout {
+    gap: 32px;
+  }
+
   .avatarWrapper {
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
   }
 
   .ctaButton {
-    width: 140px;
+    width: 180px;
+    padding: 10px 18px;
+    font-size: 14px;
   }
 
   .displayName {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .username {
     font-size: 16px;
   }
 
-  /* Stats row stacked on mobile */
+  .userMeta {
+    gap: 8px;
+  }
+
+  .metaItem {
+    font-size: 14px;
+  }
+
+  /* About box */
+  .aboutBox {
+    padding: 16px;
+  }
+
+  .aboutText {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .aboutTextHighlight {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  /* Stats row 2x2 grid on mobile */
   .statsRow {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-sm);
+    gap: 16px;
+    padding: 20px 0;
+  }
+
+  .statValue {
+    font-size: 22px;
+  }
+
+  .statLabel {
+    font-size: 11px;
+  }
+
+  /* Contribution map - make scrollable on mobile */
+  .contributionMap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .contributionWrapper {
+    padding: 16px;
+    min-width: 320px;
+  }
+
+  .contributionGrid {
+    min-width: 280px;
+  }
+
+  .contributionCount {
+    font-size: 13px;
+  }
+
+  .contributionLegend {
+    font-size: 9px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 375px) {
+  .heroSection {
+    padding-top: 65px;
+  }
+
+  .avatarWrapper {
+    width: 140px;
+    height: 140px;
+  }
+
+  .displayName {
+    font-size: 22px;
+  }
+
+  .username {
+    font-size: 15px;
+  }
+
+  .ctaButton {
+    width: 160px;
+    font-size: 13px;
+  }
+
+  .aboutText,
+  .aboutTextHighlight {
+    font-size: 13px;
   }
 
   .statValue {
@@ -647,12 +758,18 @@
     font-size: 10px;
   }
 
-  /* Hide contribution map on very small screens, show simplified version */
-  .contributionMap {
-    display: none;
+  /* Contribution map smaller on very small screens */
+  .contributionWrapper {
+    padding: 12px;
   }
 
-  .contributionHeader {
-    margin-bottom: 0;
+  .monthLabel,
+  .dayLabel {
+    font-size: 8px;
+  }
+
+  .dayLabelSpacer,
+  .dayLabels {
+    width: 20px;
   }
 }

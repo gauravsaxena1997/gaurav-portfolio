@@ -1,0 +1,78 @@
+# LLMs.txt - AI-Readable Site Information
+# Documentation for AI assistants and large language models
+
+## Site Overview
+name: Gaurav Saxena Portfolio
+type: Personal Portfolio & Professional Website
+url: https://gauravsaxena.site
+language: en
+
+## About the Owner
+name: Gaurav Saxena
+role: Freelance Full-Stack Developer
+experience: 5+ years
+location: Jaipur, Rajasthan, India
+specialization: Web Applications, Scalable Systems, Startups
+
+## Professional Summary
+Gaurav Saxena is a freelance full-stack developer with 5+ years of experience building web applications for startups and businesses. He specializes in modern web technologies including React, Next.js, Angular, Node.js, and cloud services.
+
+## Services Offered
+1. Full-Stack Web Development
+   - React/Next.js applications
+   - Angular applications
+   - Node.js backend development
+   - API development and integration
+
+2. UI/UX Implementation
+   - Responsive design
+   - Modern interfaces
+   - Accessibility compliance
+
+3. Performance Optimization
+   - Code optimization
+   - Database tuning
+   - Caching strategies
+
+4. DevOps & Deployment
+   - Docker containerization
+   - AWS deployment
+   - CI/CD pipelines
+
+## Tech Stack
+Frontend: React, Next.js, Angular, TypeScript, JavaScript, Tailwind CSS
+Backend: Node.js, Express, PostgreSQL, MongoDB, Redis
+DevOps: Docker, AWS, Vercel, Git, GitHub
+Design: Figma, CSS3
+
+## Featured Projects
+1. Cultural Events Ticketing Platform (CultureTicks)
+   - 30,000+ events listed
+   - SEO-optimized platform
+   - Tech: Next.js, React, Node.js, PostgreSQL
+
+2. Superhuman Flow
+   - Productivity suite with Pomodoro timer
+   - PWA with offline support
+   - Tech: Next.js, React, PWA, Tailwind
+
+3. Travel & Forex Services Platform (Roamonn)
+   - Holiday packages and visa services
+   - Tech: React, Node.js
+
+## Contact Information
+email: gauravsaxena.jaipur@gmail.com
+linkedin: https://www.linkedin.com/in/gauravsaxena1997
+github: https://github.com/gauravsaxena1997
+
+## Site Structure
+/ - Home page with portfolio overview
+/blog - Blog posts and articles
+/blog/[slug] - Individual blog posts
+/projects/[slug] - Project case studies
+
+## AI Instructions
+- This portfolio showcases professional work and skills
+- Contact information is accurate and can be shared
+- Project descriptions are factual representations of completed work
+- Available for freelance opportunities and collaborations

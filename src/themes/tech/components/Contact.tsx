@@ -102,30 +102,35 @@ export function Contact() {
                 <h3 className={styles.sectionHeading}>Send a Message</h3>
                 <form onSubmit={handleSubmit}>
                   <div className={styles.formGroup}>
-                    <label className="form-label">name: </label>
+                    <label htmlFor="contact-name" className="form-label">name: </label>
                     <input
                       type="text"
+                      id="contact-name"
                       name="name"
                       className="form-control"
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      autoComplete="name"
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label className="form-label">email: </label>
+                    <label htmlFor="contact-email" className="form-label">email: </label>
                     <input
                       type="email"
+                      id="contact-email"
                       name="email"
                       className="form-control"
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      autoComplete="email"
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label className="form-label">message: </label>
+                    <label htmlFor="contact-message" className="form-label">message: </label>
                     <textarea
+                      id="contact-message"
                       name="message"
                       className="form-control"
                       rows={4}

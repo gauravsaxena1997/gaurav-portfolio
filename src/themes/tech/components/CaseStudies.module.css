@@ -34,7 +34,7 @@
   background: transparent;
   border: 1px solid #30363d;
   border-radius: 6px;
-  color: #7d8590;
+  color: #9ca3af;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -151,8 +151,8 @@
   display: inline-block;
   width: fit-content;
   font-size: 12px;
-  color: #7d8590;
-  background: rgba(125, 133, 144, 0.1);
+  color: #9ca3af;
+  background: rgba(156, 163, 175, 0.15);
   padding: 2px 8px;
   border-radius: 12px;
 }
@@ -176,24 +176,101 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .caseStudiesSection {
+    padding: 40px 0 60px 0;
+  }
+
+  .sectionTitle {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+
+  .filterTabs {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .filterTab {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
+  .projectsList {
+    gap: 16px;
+  }
+
   .cardContent {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
   }
 
   .projectIcon {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 10px;
   }
 
   .iconText {
     font-size: 14px;
   }
+
+  .projectTitle {
+    font-size: 15px;
+  }
+
+  .projectDescription {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .categoryBadge {
+    font-size: 11px;
+  }
 }
 
 @media (max-width: 480px) {
+  .caseStudiesSection {
+    padding: 32px 0 48px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+  }
+
+  .filterTabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filterTab {
+    flex-shrink: 0;
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+
   .projectCard {
-    padding: var(--space-md);
+    padding: 16px;
+  }
+
+  .cardContent {
+    gap: 12px;
+  }
+
+  .projectIcon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .iconText {
+    font-size: 13px;
   }
 
   .projectTitle {
@@ -202,5 +279,24 @@
 
   .projectDescription {
     font-size: 13px;
+  }
+}
+
+@media (max-width: 375px) {
+  .projectIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .projectTitle {
+    font-size: 13px;
+  }
+
+  .projectDescription {
+    font-size: 12px;
+  }
+
+  .categoryBadge {
+    font-size: 10px;
   }
 }

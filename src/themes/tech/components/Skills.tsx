@@ -5,46 +5,46 @@ import { SKILL_CATEGORIES } from '@/data';
 import { useSectionAnimation } from '../hooks';
 import styles from './Skills.module.css';
 
-// Comprehensive icon URL mappings
+// Local icon URL mappings - icons stored in public/icons/ to avoid CDN proxy issues
 const getIconUrl = (icon: string): string => {
   const iconMappings: Record<string, string> = {
     // Web
-    react: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg',
-    angularjs: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angularjs/angularjs-original.svg',
-    nextjs: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg',
-    typescript: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg',
-    javascript: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
-    tailwindcss: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
-    nodejs: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg',
-    express: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg',
-    postgresql: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg',
-    mongodb: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg',
-    redis: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg',
+    react: '/icons/react-original.svg',
+    angularjs: '/icons/angularjs-original.svg',
+    nextjs: '/icons/nextjs-original.svg',
+    typescript: '/icons/typescript-original.svg',
+    javascript: '/icons/javascript-original.svg',
+    tailwindcss: '/icons/tailwindcss-original.svg',
+    nodejs: '/icons/nodejs-original.svg',
+    express: '/icons/express-original.svg',
+    postgresql: '/icons/postgresql-original.svg',
+    mongodb: '/icons/mongodb-original.svg',
+    redis: '/icons/redis-original.svg',
     // DevOps
-    docker: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',
-    amazonwebservices: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',
-    git: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg',
-    github: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg',
-    vercel: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg',
-    linux: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg',
+    docker: '/icons/docker-original.svg',
+    amazonwebservices: '/icons/amazonwebservices-original.svg',
+    git: '/icons/git-original.svg',
+    github: '/icons/github-original.svg',
+    vercel: '/icons/vercel-original.svg',
+    linux: '/icons/linux-original.svg',
     // UI/UX
-    figma: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg',
-    css3: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg',
-    sass: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.svg',
-    html5: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg',
+    figma: '/icons/figma-original.svg',
+    css3: '/icons/css3-original.svg',
+    sass: '/icons/sass-original.svg',
+    html5: '/icons/html5-original.svg',
     // Integrations
-    supabase: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg',
-    firebase: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg',
-    stripe: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/stripe.svg',
-    graphql: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg',
-    postman: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg',
+    supabase: '/icons/supabase-original.svg',
+    firebase: '/icons/firebase-original.svg',
+    stripe: '/icons/stripe-original.svg',
+    graphql: '/icons/graphql-plain.svg',
+    postman: '/icons/postman-original.svg',
   };
 
-  return iconMappings[icon] || `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${icon}/${icon}-original.svg`;
+  return iconMappings[icon] || `/icons/${icon}-original.svg`;
 };
 
 // Icons that are dark/black and need inversion in dark mode
-const DARK_ICONS = ['nextjs', 'express', 'github', 'vercel'];
+const DARK_ICONS = ['nextjs', 'express', 'github', 'vercel', 'stripe'];
 
 interface SkillRowProps {
   category: (typeof SKILL_CATEGORIES)[number];

@@ -19,6 +19,7 @@
   font-size: var(--font-3xl);
 }
 
+/* Two-column grid layout */
 .contactGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -63,7 +64,7 @@
 
 .submitButton:hover {
   background-color: #005c99;
-  transform: translateY(-0.104vw);
+  transform: translateY(-2px);
 }
 
 .submitButton:disabled {
@@ -81,8 +82,8 @@
   padding: var(--space-2xl);
   background: rgba(0, 122, 204, 0.1);
   border-radius: var(--border-radius);
-  border: 0.052vw dashed rgba(0, 255, 157, 0.3);
-  min-height: 15.625vw;
+  border: 1px dashed rgba(0, 255, 157, 0.3);
+  min-height: 300px;
 }
 
 :global(.light-theme) .calendlyContent {
@@ -96,15 +97,15 @@
 }
 
 .calendlyText {
-  color: #e0e0e0;
+  color: #c9d1d9;
   font-size: var(--font-base);
-  line-height: 1.5;
+  line-height: 1.6;
   margin-bottom: var(--space-xl);
-  max-width: 15.625vw;
+  max-width: 300px;
 }
 
 :global(.light-theme) .calendlyText {
-  color: #666;
+  color: #656d76;
 }
 
 .calendlyButton {
@@ -124,20 +125,139 @@
 
 .calendlyButton:hover {
   background: #005c99;
-  transform: translateY(-0.104vw);
-  box-shadow: 0 0.26vw 0.521vw rgba(0, 122, 204, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 122, 204, 0.3);
 }
 
+/* Responsive - Two rows on mobile */
 @media (max-width: 768px) {
+  .contactSection {
+    padding: 40px 0;
+  }
+
+  .sectionTitle {
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+
   .contactGrid {
     grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 16px;
+  }
+
+  .formSection,
+  .calendlySection {
+    padding: 20px;
+  }
+
+  .sectionHeading {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .formGroup {
+    margin-bottom: 16px;
+  }
+
+  .submitButton {
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 15px;
+    justify-content: center;
   }
 
   .calendlyContent {
+    padding: 32px 20px;
     min-height: auto;
   }
 
   .calendlyText {
     max-width: none;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .calendlyButton {
+    padding: 14px 32px;
+    font-size: 14px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .contactSection {
+    padding: 32px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .contactGrid {
+    gap: 24px;
+    padding: 0;
+  }
+
+  .formSection,
+  .calendlySection {
+    padding: 16px;
+  }
+
+  .sectionHeading {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .formGroup {
+    margin-bottom: 14px;
+  }
+
+  .submitButton {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .calendlyContent {
+    padding: 24px 16px;
+  }
+
+  .calendarIcon {
+    margin-bottom: 16px;
+  }
+
+  .calendlyText {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .calendlyButton {
+    padding: 12px 24px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 375px) {
+  .sectionTitle {
+    font-size: 22px;
+  }
+
+  .sectionHeading {
+    font-size: 15px;
+  }
+
+  .calendlyText {
+    font-size: 12px;
+  }
+
+  .calendlyButton {
+    font-size: 12px;
+    padding: 10px 20px;
   }
 }
