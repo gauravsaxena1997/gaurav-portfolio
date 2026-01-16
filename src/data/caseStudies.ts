@@ -99,7 +99,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
       'Built a visually striking portfolio with interactive project showcases and skills visualization.',
     techStack: ['Next.js', 'React', 'Tailwind'],
     features: ['Team Showcase', 'Project Gallery', 'Skills Visualization'],
-    liveUrl: 'http://punitgauttam.vercel.app',
+    liveUrl: 'https://punitgauttam.vercel.app/',
   },
   {
     id: 'superhuman-flow',
