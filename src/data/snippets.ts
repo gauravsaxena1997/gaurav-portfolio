@@ -40,6 +40,14 @@ Result: Projects ship 30-40% faster.
         Quality stays high.
 \`\`\`
 
+### Beyond Development
+> I don't stop at deployment.
+
+- Performance Audits & Optimization
+- SEO Analysis & Implementation
+- Post-launch Monitoring & Support
+- Security Audits & Best Practices
+
 ---
 
 *Let's build something great together.*

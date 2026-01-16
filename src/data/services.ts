@@ -59,4 +59,16 @@ export const SERVICES: IService[] = [
       'Tech Stack Decisions',
     ],
   },
+  {
+    id: 'optimization-audits',
+    title: 'Optimization & Audits',
+    description: 'Ensure your app performs, ranks, and stays secure',
+    icon: 'shield-check',
+    features: [
+      'Performance Audits',
+      'SEO Optimization',
+      'Post-launch Monitoring',
+      'Security Audits',
+    ],
+  },
 ];

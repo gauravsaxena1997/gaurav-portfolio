@@ -1,7 +1,7 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { Star } from 'lucide-react';
 import { CASE_STUDIES, CATEGORY_LABELS } from '@/data';
 import { useSectionAnimation } from '../hooks';
 import type { ICaseStudy } from '@/data';
@@ -9,16 +9,6 @@ import styles from './CaseStudies.module.css';
 
 interface ProjectCardProps {
   project: ICaseStudy;
-}
-
-function StarRating() {
-  return (
-    <div className={styles.starRating}>
-      {[...Array(5)].map((_, i) => (
-        <Star key={i} size={12} className={styles.starFilled} fill="currentColor" />
-      ))}
-    </div>
-  );
 }
 
 function ProjectCard({ project }: ProjectCardProps) {
@@ -44,32 +34,25 @@ function ProjectCard({ project }: ProjectCardProps) {
         {/* Center: Info */}
         <div className={styles.projectInfo}>
           <h3 className={styles.projectTitle}>{project.title}</h3>
-          <div className={styles.projectMeta}>
-            <StarRating />
-            <span className={styles.categoryBadge}>{categoryLabel}</span>
-          </div>
+          <span className={styles.categoryBadge}>{categoryLabel}</span>
           <p className={styles.projectDescription}>{project.shortDescription}</p>
-          <div className={styles.techStack}>
-            {project.techStack.slice(0, 4).map((tech) => (
-              <span key={tech} className={styles.techTag}>
-                {tech}
-              </span>
-            ))}
-            {project.techStack.length > 4 && (
-              <span className={styles.techTag}>+{project.techStack.length - 4}</span>
-            )}
-          </div>
         </div>
       </div>
     </Link>
   );
 }
 
+type FilterType = 'all' | 'client' | 'venture';
+
 export function CaseStudies() {
   const sectionTitleRef = useSectionAnimation('projects');
+  const [activeFilter, setActiveFilter] = useState<FilterType>('all');
 
-  // Show all featured case studies without filtering
   const featuredCaseStudies = CASE_STUDIES.filter((cs) => cs.featured);
+
+  const filteredProjects = activeFilter === 'all'
+    ? featuredCaseStudies
+    : featuredCaseStudies.filter((p) => p.category === activeFilter);
 
   return (
     <section id="projects" className={styles.caseStudiesSection}>
@@ -78,9 +61,31 @@ export function CaseStudies() {
           <span ref={sectionTitleRef} className="section-title"></span>
         </h2>
 
+        {/* Filter tabs */}
+        <div className={styles.filterTabs}>
+          <button
+            className={`${styles.filterTab} ${activeFilter === 'all' ? styles.activeTab : ''}`}
+            onClick={() => setActiveFilter('all')}
+          >
+            All
+          </button>
+          <button
+            className={`${styles.filterTab} ${activeFilter === 'client' ? styles.activeTab : ''}`}
+            onClick={() => setActiveFilter('client')}
+          >
+            Freelancing
+          </button>
+          <button
+            className={`${styles.filterTab} ${activeFilter === 'venture' ? styles.activeTab : ''}`}
+            onClick={() => setActiveFilter('venture')}
+          >
+            Personal
+          </button>
+        </div>
+
         {/* Projects list */}
         <div className={styles.projectsList}>
-          {featuredCaseStudies.map((project) => (
+          {filteredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>

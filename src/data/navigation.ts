@@ -5,13 +5,12 @@ export interface INavItem {
 }
 
 export const NAV_ITEMS: INavItem[] = [
-  { id: 'home', label: 'home' },
-  { id: 'projects', label: 'projects' },
-  { id: 'services', label: 'services' },
-  { id: 'skills', label: 'skills' },
-  { id: 'about', label: 'about' },
-  { id: 'blog', label: 'blog' },
-  { id: 'contact', label: 'contact' },
+  { id: 'home', label: 'Home' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'services', label: 'Services' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'blog', label: 'Blog' },
+  { id: 'contact', label: 'Contact' },
 ];
 
 export const SECTIONS = [
@@ -20,7 +19,6 @@ export const SECTIONS = [
   'services',
   'skills',
   'testimonials',
-  'about',
   'blog',
   'contact',
 ] as const;

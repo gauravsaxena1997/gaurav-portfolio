@@ -1,7 +1,10 @@
 .heroSection {
+  height: 100vh;
   min-height: 100vh;
-  padding-top: calc(var(--navbar-height) + var(--space-xl));
-  padding-bottom: var(--space-2xl);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
   background: #0d1117;
 }
 
@@ -10,32 +13,34 @@
 }
 
 .container {
-  max-width: var(--container-max);
+  max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 var(--space-lg);
+  padding: 0 var(--space-2xl);
+  padding-top: var(--navbar-height);
 }
 
 /* Profile Layout - GitHub style */
 .profileLayout {
   display: grid;
-  grid-template-columns: 296px 1fr;
-  gap: var(--space-xl);
-  align-items: start;
+  grid-template-columns: 450px 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+  min-height: calc(100vh - var(--navbar-height));
 }
 
 /* Sidebar */
 .sidebar {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-md);
-  position: sticky;
-  top: calc(var(--navbar-height) + var(--space-xl));
 }
 
 .avatarWrapper {
   position: relative;
-  width: 296px;
-  height: 296px;
+  width: 280px;
+  height: 280px;
 }
 
 .avatar {
@@ -88,11 +93,12 @@
 }
 
 .displayName {
-  font-size: 24px;
+  font-size: clamp(28px, 2.2vw, 42px);
   font-weight: 600;
   color: #f0f6fc;
   margin: 0;
   line-height: 1.25;
+  white-space: nowrap;
 }
 
 :global(.light-theme) .displayName {
@@ -117,8 +123,8 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  width: 100%;
-  padding: 5px 16px;
+  width: 280px;
+  padding: 8px 16px;
   background: #21262d;
   color: #c9d1d9;
   text-decoration: none;
@@ -158,7 +164,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  font-size: 14px;
+  font-size: clamp(14px, 0.85vw, 16px);
   color: #7d8590;
 }
 
@@ -199,6 +205,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
+  padding-top: var(--space-xl);
 }
 
 /* About Box */
@@ -215,7 +222,10 @@
 }
 
 .aboutText {
-  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-size: clamp(15px, 1vw, 18px);
   color: #c9d1d9;
   line-height: 1.6;
   margin: 0 0 var(--space-md) 0;
@@ -229,8 +239,21 @@
   color: #1f2328;
 }
 
+.aboutIcon {
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: #58a6ff;
+}
+
+:global(.light-theme) .aboutIcon {
+  color: #0969da;
+}
+
 .aboutTextHighlight {
-  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-size: clamp(15px, 1vw, 18px);
   color: #58a6ff;
   line-height: 1.6;
   margin: 0 0 var(--space-md) 0;
@@ -291,7 +314,6 @@
   font-size: 10px;
   color: #7d8590;
   flex: 1;
-  min-width: 52px;
 }
 
 :global(.light-theme) .monthLabel {
@@ -301,6 +323,7 @@
 /* Grid with Days */
 .gridWithDays {
   display: flex;
+  width: 100%;
 }
 
 /* Day Labels */
@@ -314,8 +337,9 @@
 .dayLabel {
   font-size: 10px;
   color: #7d8590;
-  height: 11px;
-  line-height: 11px;
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 :global(.light-theme) .dayLabel {
@@ -325,19 +349,42 @@
 /* Contribution Grid */
 .contributionGrid {
   display: flex;
-  gap: 3px;
+  flex: 1;
+  gap: 2px;
 }
 
 .contributionCol {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  flex: 1;
+  gap: 2px;
 }
 
 .contributionCell {
-  width: 10px;
-  height: 10px;
+  width: 100%;
+  aspect-ratio: 1;
   border-radius: 2px;
+}
+
+/* Cell animation states */
+.cellHidden {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.cellAnimated {
+  animation: cellPopIn 0.5s ease-out forwards;
+}
+
+@keyframes cellPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Contribution levels - Dark theme */
@@ -385,6 +432,13 @@
   font-size: 10px;
 }
 
+.contributionLegend .contributionCell {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  aspect-ratio: unset;
+}
+
 .legendLabel {
   color: #7d8590;
   margin: 0 4px;
@@ -394,31 +448,99 @@
   color: #656d76;
 }
 
+/* Stats Row */
+.statsRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 0;
+  border-top: 1px solid #30363d;
+  border-bottom: 1px solid #30363d;
+  margin: var(--space-md) 0;
+}
+
+:global(.light-theme) .statsRow {
+  border-color: #d0d7de;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.statValue {
+  font-size: clamp(24px, 1.8vw, 32px);
+  font-weight: 700;
+  color: #58a6ff;
+}
+
+:global(.light-theme) .statValue {
+  color: #0969da;
+}
+
+.statLabel {
+  font-size: clamp(11px, 0.7vw, 13px);
+  color: #7d8590;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+:global(.light-theme) .statLabel {
+  color: #656d76;
+}
+
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .profileLayout {
+    grid-template-columns: 380px 1fr;
+    gap: var(--space-xl);
+  }
+
+  .avatarWrapper {
+    width: 240px;
+    height: 240px;
+  }
+
+  .ctaButton {
+    width: 240px;
+  }
+}
+
 @media (max-width: 1024px) {
   .profileLayout {
-    grid-template-columns: 256px 1fr;
+    grid-template-columns: 320px 1fr;
     gap: var(--space-lg);
   }
 
   .avatarWrapper {
-    width: 256px;
-    height: 256px;
+    width: 220px;
+    height: 220px;
   }
 
-  .sidebar {
-    position: static;
+  .ctaButton {
+    width: 220px;
   }
 }
 
 @media (max-width: 768px) {
+  .heroSection {
+    height: auto;
+    min-height: 100vh;
+    padding-top: var(--navbar-height);
+    padding-bottom: var(--space-xl);
+  }
+
   .container {
     padding: 0 var(--space-md);
+    padding-top: var(--space-lg);
   }
 
   .profileLayout {
     grid-template-columns: 1fr;
     gap: var(--space-xl);
+    min-height: auto;
   }
 
   .sidebar {
@@ -429,6 +551,10 @@
   .avatarWrapper {
     width: 200px;
     height: 200px;
+  }
+
+  .ctaButton {
+    width: 200px;
   }
 
   .statusBadge {
@@ -447,8 +573,11 @@
     align-items: center;
   }
 
-  .ctaButton {
-    max-width: 280px;
+  /* Stats row 2x2 grid on tablet */
+  .statsRow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
   }
 
   /* Contribution map adjustments for mobile */
@@ -456,28 +585,25 @@
     padding: var(--space-sm);
   }
 
-  .contributionCell {
-    width: 8px;
-    height: 8px;
+  /* Faster animation on mobile */
+  .cellAnimated {
+    animation-duration: 0.15s;
   }
 
   .contributionGrid {
-    gap: 2px;
+    gap: 1px;
   }
 
   .contributionCol {
-    gap: 2px;
+    gap: 1px;
   }
 
   .monthLabel {
-    min-width: 40px;
     font-size: 9px;
   }
 
   .dayLabel {
     font-size: 9px;
-    height: 10px;
-    line-height: 10px;
   }
 
   .dayLabelSpacer {
@@ -491,8 +617,12 @@
 
 @media (max-width: 480px) {
   .avatarWrapper {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
+  }
+
+  .ctaButton {
+    width: 140px;
   }
 
   .displayName {
@@ -501,6 +631,20 @@
 
   .username {
     font-size: 16px;
+  }
+
+  /* Stats row stacked on mobile */
+  .statsRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .statValue {
+    font-size: 20px;
+  }
+
+  .statLabel {
+    font-size: 10px;
   }
 
   /* Hide contribution map on very small screens, show simplified version */

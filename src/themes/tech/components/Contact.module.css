@@ -1,5 +1,10 @@
 .contactSection {
-  padding: var(--space-5xl) 0 var(--space-2xl) 0;
+  padding: var(--space-2xl) 0;
+  background: var(--tech-bg-dark);
+}
+
+:global(.light-theme) .contactSection {
+  background: var(--tech-bg-light);
 }
 
 .container {
