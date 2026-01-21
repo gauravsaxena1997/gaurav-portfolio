@@ -18,7 +18,6 @@ export const SECTIONS = [
   'projects',
   'services',
   'skills',
-  'testimonials',
   'blog',
   'contact',
 ] as const;

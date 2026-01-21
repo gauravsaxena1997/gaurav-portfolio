@@ -1,0 +1,20 @@
+/* Main content area - full viewport height minus header */
+/* GitHub header has two rows: main bar (64px) + nav tabs (~44px) = ~108px */
+/* Announcement bar adds 36px when visible */
+.mainContent {
+  --github-header-height: 108px;
+  --announcement-bar-height: 0px;
+  min-height: calc(100vh - var(--github-header-height) - var(--announcement-bar-height));
+  margin-top: calc(var(--github-header-height) + var(--announcement-bar-height));
+  overflow-x: hidden;
+  transition: margin-top 0.2s ease;
+  background-color: #0d1117;
+}
+
+:global(.light-theme) .mainContent {
+  background-color: #ffffff;
+}
+
+:global(body.has-announcement) .mainContent {
+  --announcement-bar-height: 36px;
+}

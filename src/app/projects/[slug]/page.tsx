@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { CASE_STUDIES } from '@/data';
-import { CaseStudyPage } from '@/themes/tech/components/CaseStudyPage';
+import { ProjectDetailPage } from '@/themes/github/components/ProjectDetailPage';
 
 interface PageProps {
   params: Promise<{
@@ -9,37 +9,37 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return CASE_STUDIES.map((caseStudy) => ({
-    slug: caseStudy.slug,
+  return CASE_STUDIES.map((project) => ({
+    slug: project.slug,
   }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const caseStudy = CASE_STUDIES.find((cs) => cs.slug === slug);
+  const project = CASE_STUDIES.find((p) => p.slug === slug);
 
-  if (!caseStudy) {
+  if (!project) {
     return {
       title: 'Project Not Found',
     };
   }
 
   return {
-    title: `${caseStudy.title} | Gaurav Saxena`,
-    description: caseStudy.shortDescription,
+    title: `${project.title} | Gaurav Saxena`,
+    description: project.shortDescription,
   };
 }
 
 export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params;
-  const caseStudy = CASE_STUDIES.find((cs) => cs.slug === slug);
+  const project = CASE_STUDIES.find((p) => p.slug === slug);
 
-  if (!caseStudy) {
+  if (!project) {
     notFound();
   }
 
   // Find next and previous projects for navigation
-  const currentIndex = CASE_STUDIES.findIndex((cs) => cs.slug === slug);
+  const currentIndex = CASE_STUDIES.findIndex((p) => p.slug === slug);
   const prevProject = currentIndex > 0 ? CASE_STUDIES[currentIndex - 1] : null;
   const nextProject =
     currentIndex < CASE_STUDIES.length - 1
@@ -47,8 +47,8 @@ export default async function ProjectPage({ params }: PageProps) {
       : null;
 
   return (
-    <CaseStudyPage
-      caseStudy={caseStudy}
+    <ProjectDetailPage
+      project={project}
       prevProject={prevProject}
       nextProject={nextProject}
     />

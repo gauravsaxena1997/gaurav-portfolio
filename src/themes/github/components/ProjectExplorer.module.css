@@ -1,0 +1,440 @@
+/* ============================================
+   PROJECT EXPLORER - VS CODE STYLE
+   ============================================ */
+
+/* Desktop Sidebar */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 73px; /* Below header */
+  bottom: 0;
+  width: 300px;
+  background: #181818;
+  border-right: 1px solid #2d2d2d;
+  z-index: 900; /* Below header (1000) but above content */
+  display: flex;
+  flex-direction: column;
+  transition: width 0.2s ease;
+  overflow: hidden;
+}
+
+:global(.light-theme) .sidebar {
+  background: #f3f3f3;
+  border-right-color: #e0e0e0;
+}
+
+.collapsed {
+  width: 52px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #2d2d2d;
+  min-height: 44px;
+}
+
+:global(.light-theme) .header {
+  border-bottom-color: #e0e0e0;
+}
+
+.headerTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #bbbbbb;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+:global(.light-theme) .headerTitle {
+  color: #6f6f6f;
+}
+
+.collapseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #30363d;
+  border: 1px solid #484f58;
+  color: #f0f6fc;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.collapseButton:hover {
+  background: #484f58;
+  border-color: #58a6ff;
+  color: #ffffff;
+}
+
+:global(.light-theme) .collapseButton {
+  background: #e8e8e8;
+  border-color: #d0d0d0;
+  color: #1f2328;
+}
+
+:global(.light-theme) .collapseButton:hover {
+  background: #d0d0d0;
+  border-color: #0969da;
+  color: #000000;
+}
+
+/* Expand button when collapsed */
+.expandButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  background: transparent;
+  border: none;
+  color: #858585;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.expandButton:hover {
+  background: #2d2d2d;
+  color: #ffffff;
+}
+
+:global(.light-theme) .expandButton:hover {
+  background: #e0e0e0;
+  color: #1f1f1f;
+}
+
+/* Section */
+.section {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #bbbbbb;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: #252526;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+:global(.light-theme) .sectionHeader {
+  background: #e8e8e8;
+  color: #6f6f6f;
+}
+
+/* Tree */
+.tree {
+  padding: 4px 0;
+}
+
+/* Folder */
+.folder {
+  user-select: none;
+}
+
+.folderHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px 8px 14px;
+  background: transparent;
+  border: none;
+  color: #cccccc;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.folderHeader:hover {
+  background: #2a2d2e;
+}
+
+:global(.light-theme) .folderHeader {
+  color: #1f1f1f;
+}
+
+:global(.light-theme) .folderHeader:hover {
+  background: #e8e8e8;
+}
+
+.folderActive {
+  color: #ffffff;
+}
+
+:global(.light-theme) .folderActive {
+  color: #1f1f1f;
+}
+
+.folderIcon {
+  display: flex;
+  align-items: center;
+  color: #858585;
+  flex-shrink: 0;
+}
+
+.folderIconType {
+  display: flex;
+  align-items: center;
+  color: #dcb67a;
+  flex-shrink: 0;
+}
+
+:global(.light-theme) .folderIconType {
+  color: #c09553;
+}
+
+.folderName {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.folderCount {
+  font-size: 11px;
+  color: #858585;
+  background: #2d2d2d;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: auto;
+}
+
+:global(.light-theme) .folderCount {
+  background: #d4d4d4;
+  color: #6f6f6f;
+}
+
+/* Folder Content */
+.folderContent {
+  padding-left: 12px;
+}
+
+/* File Item */
+.fileItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 7px 24px;
+  color: #cccccc;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.1s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileItem:hover {
+  background: #2a2d2e;
+}
+
+:global(.light-theme) .fileItem {
+  color: #1f1f1f;
+}
+
+:global(.light-theme) .fileItem:hover {
+  background: #e8e8e8;
+}
+
+.fileActive {
+  background: #094771;
+  color: #ffffff;
+}
+
+.fileActive:hover {
+  background: #094771;
+}
+
+:global(.light-theme) .fileActive {
+  background: #0060c0;
+  color: #ffffff;
+}
+
+:global(.light-theme) .fileActive:hover {
+  background: #0060c0;
+}
+
+.fileIcon {
+  color: #519aba;
+  flex-shrink: 0;
+}
+
+:global(.light-theme) .fileIcon {
+  color: #498ba7;
+}
+
+.fileName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================
+   MOBILE STYLES
+   ============================================ */
+
+.mobileOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+}
+
+.mobileSidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  max-width: 85vw;
+  height: 100%;
+  background: #181818;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+:global(.light-theme) .mobileSidebar {
+  background: #f3f3f3;
+}
+
+.mobileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+:global(.light-theme) .mobileHeader {
+  border-bottom-color: #e0e0e0;
+}
+
+.mobileCloseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #858585;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.mobileCloseButton:hover {
+  background: #2d2d2d;
+  color: #ffffff;
+}
+
+:global(.light-theme) .mobileCloseButton:hover {
+  background: #e0e0e0;
+  color: #1f1f1f;
+}
+
+.mobileToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.mobileToggle:hover {
+  background: #30363d;
+}
+
+:global(.light-theme) .mobileToggle {
+  background: #f6f8fa;
+  border-color: #d0d7de;
+  color: #24292f;
+}
+
+:global(.light-theme) .mobileToggle:hover {
+  background: #eaeef2;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 260px;
+  }
+}
+
+@media (max-width: 1012px) {
+  .sidebar {
+    display: none;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+
+  .mobileToggle {
+    display: flex;
+  }
+}
+
+/* Scrollbar styling */
+.section::-webkit-scrollbar {
+  width: 6px;
+}
+
+.section::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.section::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 3px;
+}
+
+.section::-webkit-scrollbar-thumb:hover {
+  background: #4f4f4f;
+}
+
+:global(.light-theme) .section::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+}
+
+:global(.light-theme) .section::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

@@ -1,5 +1,5 @@
-import { TechTheme } from '@/themes/tech';
+import { GitHubTheme } from '@/themes/github';
 
 export default function Home() {
-  return <TechTheme />;
+  return <GitHubTheme />;
 }

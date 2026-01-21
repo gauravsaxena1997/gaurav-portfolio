@@ -1,6 +1,7 @@
 // Central export for all data
 export * from './profile';
 export * from './caseStudies';
+export * from './featuredProjects';
 export * from './services';
 export * from './testimonials';
 export * from './skills';

@@ -10,9 +10,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
   /* Disable rubber band / bounce effect on scroll */
   overscroll-behavior: none;
+  /* Note: scroll-behavior: smooth removed to prevent scroll animation on page navigation */
 }
 
 body {
@@ -23,6 +23,14 @@ body {
   /* Disable rubber band / bounce effect on scroll */
   overscroll-behavior: none;
   -webkit-overflow-scrolling: auto;
+  /* Consistent background color for entire page */
+  background-color: #0d1117;
+}
+
+/* Light theme body background */
+body.light-theme,
+.light-theme body {
+  background-color: #ffffff;
 }
 
 /* Fira Code font variable */

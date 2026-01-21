@@ -1,0 +1,227 @@
+/* GitHub-inspired Services Section */
+.servicesSection {
+  padding: 24px 0 32px;
+  background: #0d1117;
+  min-height: calc(100vh - 108px);
+  box-sizing: border-box;
+}
+
+:global(.light-theme) .servicesSection {
+  background: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+/* Services Grid - 3 columns on desktop, responsive */
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Service Card - GitHub repo card style */
+.serviceCard {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s ease;
+}
+
+.serviceCard:hover {
+  border-color: #58a6ff;
+}
+
+:global(.light-theme) .serviceCard {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+:global(.light-theme) .serviceCard:hover {
+  border-color: #0969da;
+}
+
+/* Card Header */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.iconWrapper {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #58a6ff, #3fb950);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.serviceIcon {
+  color: #ffffff;
+  width: 22px;
+  height: 22px;
+}
+
+.serviceTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #58a6ff;
+  margin: 0;
+}
+
+:global(.light-theme) .serviceTitle {
+  color: #0969da;
+}
+
+/* Service Description */
+.serviceDescription {
+  font-size: 16px;
+  color: #8b949e;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+:global(.light-theme) .serviceDescription {
+  color: #656d76;
+}
+
+/* Features List */
+.featuresList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #c9d1d9;
+}
+
+:global(.light-theme) .featureItem {
+  color: #1f2328;
+}
+
+.checkIcon {
+  color: #3fb950;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+:global(.light-theme) .checkIcon {
+  color: #1a7f37;
+}
+
+/* Setup Button */
+.setupButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 16px;
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #c9d1d9;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.setupButton:hover {
+  background: #30363d;
+  border-color: #8b949e;
+}
+
+:global(.light-theme) .setupButton {
+  background: #f6f8fa;
+  border-color: #d0d7de;
+  color: #1f2328;
+}
+
+:global(.light-theme) .setupButton:hover {
+  background: #f3f4f6;
+  border-color: #1f2328;
+}
+
+/* Responsive - Tablet */
+@media (max-width: 1024px) {
+  .servicesGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .serviceCard {
+    padding: 18px;
+  }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 640px) {
+  .servicesSection {
+    padding: 24px 0 32px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .servicesGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .serviceCard {
+    padding: 16px;
+  }
+
+  .cardHeader {
+    gap: 10px;
+  }
+
+  .iconWrapper {
+    width: 40px;
+    height: 40px;
+  }
+
+  .serviceIcon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .serviceTitle {
+    font-size: 16px;
+  }
+
+  .serviceDescription {
+    font-size: 15px;
+  }
+
+  .featureItem {
+    font-size: 14px;
+  }
+
+  .setupButton {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}

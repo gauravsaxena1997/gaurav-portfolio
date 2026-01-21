@@ -1,0 +1,467 @@
+/* GitHub-inspired Discussions Section */
+.blogSection {
+  padding: 24px 0 32px;
+  background: #0d1117;
+  min-height: calc(100vh - 108px);
+  box-sizing: border-box;
+}
+
+:global(.light-theme) .blogSection {
+  background: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.headerIcon {
+  color: #a371f7;
+  width: 24px;
+  height: 24px;
+}
+
+:global(.light-theme) .headerIcon {
+  color: #8250df;
+}
+
+.headerText {
+  flex: 1;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #f0f6fc;
+  margin: 0 0 4px 0;
+}
+
+:global(.light-theme) .title {
+  color: #1f2328;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #7d8590;
+  margin: 0;
+}
+
+:global(.light-theme) .subtitle {
+  color: #656d76;
+}
+
+/* Discussions Card */
+.discussionsCard {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+:global(.light-theme) .discussionsCard {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+/* Card Header with Tabs */
+.cardHeader {
+  padding: 12px 16px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.cardHeader::-webkit-scrollbar {
+  display: none;
+}
+
+:global(.light-theme) .cardHeader {
+  background: #f6f8fa;
+  border-bottom-color: #d0d7de;
+}
+
+.cardTabs {
+  display: flex;
+  gap: 8px;
+}
+
+.cardTab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #7d8590;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.cardTab:hover {
+  background: #21262d;
+  color: #f0f6fc;
+}
+
+.cardTabActive {
+  background: #21262d;
+  color: #f0f6fc;
+}
+
+:global(.light-theme) .cardTab {
+  color: #656d76;
+}
+
+:global(.light-theme) .cardTab:hover {
+  background: #eaeef2;
+  color: #1f2328;
+}
+
+:global(.light-theme) .cardTabActive {
+  background: #eaeef2;
+  color: #1f2328;
+}
+
+/* Card Content */
+.cardContent {
+  /* Allow natural height */
+}
+
+/* Discussion Item */
+.discussionItem {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  border-bottom: 1px solid #21262d;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.discussionItem:last-child {
+  border-bottom: none;
+}
+
+.discussionItem:hover {
+  background: #161b22;
+}
+
+:global(.light-theme) .discussionItem {
+  border-bottom-color: #d0d7de;
+}
+
+:global(.light-theme) .discussionItem:hover {
+  background: #f6f8fa;
+}
+
+.discussionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #238636;
+  border-radius: 50%;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+:global(.light-theme) .discussionIcon {
+  background: #1f883d;
+}
+
+.discussionContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.discussionHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.discussionTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: #58a6ff;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discussionItem:hover .discussionTitle {
+  text-decoration: underline;
+}
+
+:global(.light-theme) .discussionTitle {
+  color: #0969da;
+}
+
+.featuredBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #f0883e;
+  background: rgba(240, 136, 62, 0.15);
+  padding: 3px 8px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+:global(.light-theme) .featuredBadge {
+  color: #bf8700;
+  background: rgba(191, 135, 0, 0.15);
+}
+
+.discussionMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #7d8590;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+:global(.light-theme) .discussionMeta {
+  color: #656d76;
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #a371f7;
+  font-weight: 500;
+}
+
+:global(.light-theme) .categoryBadge {
+  color: #8250df;
+}
+
+.metaSeparator {
+  color: #30363d;
+}
+
+:global(.light-theme) .metaSeparator {
+  color: #d0d7de;
+}
+
+.date {
+  color: #7d8590;
+}
+
+:global(.light-theme) .date {
+  color: #656d76;
+}
+
+.readTime {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.discussionExcerpt {
+  font-size: 15px;
+  color: #c9d1d9;
+  line-height: 1.5;
+  margin: 0 0 8px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+:global(.light-theme) .discussionExcerpt {
+  color: #1f2328;
+}
+
+.discussionTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 13px;
+  color: #58a6ff;
+  background: rgba(88, 166, 255, 0.1);
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+:global(.light-theme) .tag {
+  color: #0969da;
+  background: rgba(9, 105, 218, 0.1);
+}
+
+/* Card Footer */
+.cardFooter {
+  padding: 14px 16px;
+  border-top: 1px solid #30363d;
+  display: flex;
+  justify-content: center;
+}
+
+:global(.light-theme) .cardFooter {
+  border-top-color: #d0d7de;
+}
+
+.viewAllLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #58a6ff;
+  text-decoration: none;
+  transition: gap 0.2s;
+}
+
+.viewAllLink:hover {
+  text-decoration: underline;
+  gap: 10px;
+}
+
+:global(.light-theme) .viewAllLink {
+  color: #0969da;
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 40px;
+}
+
+.emptyIcon {
+  color: #30363d;
+  margin-bottom: 20px;
+}
+
+:global(.light-theme) .emptyIcon {
+  color: #d0d7de;
+}
+
+.emptyTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #f0f6fc;
+  margin: 0 0 10px 0;
+}
+
+:global(.light-theme) .emptyTitle {
+  color: #1f2328;
+}
+
+.emptyText {
+  font-size: 15px;
+  color: #7d8590;
+  line-height: 1.6;
+  margin: 0;
+}
+
+:global(.light-theme) .emptyText {
+  color: #656d76;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .blogSection {
+    padding: 24px 0 32px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .cardTabs {
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .discussionItem {
+    padding: 16px;
+  }
+
+  .discussionIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .discussionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .discussionTitle {
+    white-space: normal;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+  }
+
+  .cardTab {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .discussionItem {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .discussionIcon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .discussionTitle {
+    font-size: 15px;
+  }
+
+  .discussionMeta {
+    font-size: 13px;
+  }
+
+  .discussionExcerpt {
+    font-size: 14px;
+  }
+}

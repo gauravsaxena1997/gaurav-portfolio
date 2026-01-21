@@ -1,0 +1,173 @@
+.aboutSection {
+  padding: var(--space-5xl) 0;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+  font-size: var(--font-3xl);
+}
+
+.terminalWrapper {
+  max-width: 52.083vw; /* 1000px at 1920 */
+  margin: 0 auto;
+}
+
+/* Markdown Content Styling */
+.markdownContent {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: var(--font-base);
+  line-height: 1.6;
+  padding: var(--space-md);
+}
+
+/* Headers */
+.h1 {
+  font-size: var(--font-2xl);
+  font-weight: bold;
+  color: #e0e0e0;
+  margin-bottom: var(--space-sm);
+}
+
+.h2 {
+  font-size: var(--font-xl);
+  font-weight: bold;
+  color: #e0e0e0;
+  margin-bottom: var(--space-xs);
+}
+
+.h3 {
+  font-size: var(--font-lg);
+  font-weight: bold;
+  color: #e0e0e0;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+.hash {
+  color: #569cd6;
+}
+
+:global(.light-theme) .h1,
+:global(.light-theme) .h2,
+:global(.light-theme) .h3 {
+  color: #333;
+}
+
+:global(.light-theme) .hash {
+  color: #0451a5;
+}
+
+/* Horizontal Rule */
+.hr {
+  border: none;
+  border-top: 1px solid #444;
+  margin: var(--space-md) 0;
+}
+
+:global(.light-theme) .hr {
+  border-top-color: #ccc;
+}
+
+/* Blockquote */
+.blockquote {
+  padding-left: var(--space-md);
+  border-left: 0.156vw solid #569cd6;
+  color: #9cdcfe;
+  font-style: italic;
+  margin: var(--space-sm) 0;
+}
+
+.quoteSymbol {
+  color: #569cd6;
+}
+
+:global(.light-theme) .blockquote {
+  border-left-color: #0451a5;
+  color: #0451a5;
+}
+
+:global(.light-theme) .quoteSymbol {
+  color: #0451a5;
+}
+
+/* List Items */
+.listItem {
+  padding-left: var(--space-md);
+  color: #e0e0e0;
+  margin: var(--space-xs) 0;
+}
+
+.bullet {
+  color: #ce9178;
+}
+
+:global(.light-theme) .listItem {
+  color: #333;
+}
+
+:global(.light-theme) .bullet {
+  color: #a31515;
+}
+
+/* Code Block Marker */
+.codeMarker {
+  color: #ce9178;
+  font-family: 'Fira Code', monospace;
+}
+
+:global(.light-theme) .codeMarker {
+  color: #a31515;
+}
+
+/* Bold Text */
+.bold {
+  font-weight: bold;
+  color: #dcdcaa;
+}
+
+:global(.light-theme) .bold {
+  color: #795e26;
+}
+
+/* Italic Text */
+.italic {
+  font-style: italic;
+  color: #9cdcfe;
+  margin: var(--space-sm) 0;
+}
+
+:global(.light-theme) .italic {
+  color: #0451a5;
+}
+
+/* Paragraph */
+.paragraph {
+  color: #e0e0e0;
+  margin: var(--space-xs) 0;
+}
+
+:global(.light-theme) .paragraph {
+  color: #333;
+}
+
+/* Empty Line */
+.emptyLine {
+  height: var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  .terminalWrapper {
+    max-width: 100%;
+  }
+
+  .markdownContent {
+    font-size: var(--font-sm);
+  }
+}
