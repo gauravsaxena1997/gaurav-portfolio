@@ -1,0 +1,105 @@
+/* Project Section Header - Fixed position, outside transforms */
+/* This header appears AFTER the diagonal animation completes */
+
+.projectHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  padding: clamp(1.25rem, 2.5vw, 2rem) clamp(2rem, 4vw, 4rem);
+
+  background: var(--creative-bg-primary);
+
+  /* Hidden by default */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.projectHeader.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Project number with flip animation */
+.projectNumber {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  color: var(--creative-accent);
+  font-family: monospace;
+  font-style: italic;
+  line-height: 1;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+  transform-origin: center center;
+  backface-visibility: hidden;
+}
+
+.projectNumber.flipping {
+  transform: rotateX(90deg);
+  opacity: 0;
+}
+
+/* Divider */
+.divider {
+  font-size: clamp(2rem, 4vw, 4rem);
+  color: var(--creative-text-secondary);
+  font-weight: 300;
+  opacity: 0.5;
+}
+
+/* Project name with slide-up animation */
+.projectName {
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
+  font-weight: 600;
+  color: var(--creative-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+}
+
+.projectName.flipping {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .projectHeader {
+    flex-wrap: wrap;
+    gap: clamp(0.5rem, 1vw, 1rem);
+    padding: clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .projectNumber {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .projectName {
+    font-size: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .divider {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .projectHeader {
+    padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .projectNumber {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .projectName {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+  }
+}

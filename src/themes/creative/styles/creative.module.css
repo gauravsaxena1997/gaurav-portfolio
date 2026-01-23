@@ -1,0 +1,109 @@
+/* Creative Theme - Main Styles */
+
+.creativeTheme {
+  min-height: 100vh;
+  background-color: var(--creative-bg-primary);
+  color: var(--creative-text-primary);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Scroll container */
+.scrollContainer {
+  position: relative;
+  width: 100%;
+}
+
+/* Section base styles */
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Horizontal scroll container */
+.horizontalContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 100vh;
+  width: max-content;
+}
+
+/* Horizontal panel */
+.horizontalPanel {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Theme toggle button */
+.themeToggle {
+  position: fixed;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(4rem, 8vw, 6rem);
+  z-index: 1000;
+  background: var(--creative-bg-secondary);
+  border: 1px solid var(--creative-text-secondary);
+  border-radius: 50%;
+  width: clamp(2.5rem, 5vw, 3rem);
+  height: clamp(2.5rem, 5vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--creative-transition-fast),
+              background-color var(--creative-transition-fast),
+              border-color var(--creative-transition-fast);
+}
+
+.themeToggle:hover {
+  transform: scale(1.1);
+  border-color: var(--creative-accent);
+}
+
+.themeToggle svg {
+  width: clamp(1rem, 2vw, 1.25rem);
+  height: clamp(1rem, 2vw, 1.25rem);
+  color: var(--creative-text-primary);
+  transition: color var(--creative-transition-fast);
+}
+
+/* Diagonal section wrapper */
+.diagonalWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Transition zones */
+.transitionZone {
+  position: relative;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    to bottom,
+    var(--creative-bg-primary),
+    var(--creative-bg-secondary)
+  );
+}
+
+/* Pinned section for horizontal scroll */
+.pinnedSection {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Vertical section */
+.verticalSection {
+  position: relative;
+  min-height: 100vh;
+  padding: clamp(2rem, 5vw, 4rem);
+}

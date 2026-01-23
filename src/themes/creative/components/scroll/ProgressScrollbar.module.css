@@ -1,0 +1,39 @@
+/* Progress Scrollbar - Minimal with subtle breakpoints */
+
+.progressContainer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Main progress track - attached to edge */
+.track {
+  width: 3px;
+  height: 100%;
+  background: var(--creative-progress-bg);
+  position: relative;
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--creative-progress-fill);
+  /* No transition for real-time smooth updates */
+}
+
+/* Subtle breakpoints - visible tick marks */
+.breakpoint {
+  position: absolute;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: 2px;
+  background: var(--creative-text-secondary);
+  opacity: 0.5;
+  transform: translateY(-50%);
+  border-radius: 1px;
+}
