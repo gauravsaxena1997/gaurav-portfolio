@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { useScrollContext } from '../../context/ScrollContext';
 import { PlaceholderSection } from './PlaceholderSection';
+import { HeroSection } from '../sections/hero';
 import { ProjectPlaceholder } from './ProjectPlaceholder';
 import styles from './ScrollOrchestrator.module.css';
 
@@ -246,9 +247,7 @@ export function ScrollOrchestrator() {
         <div ref={heroStatsRef} className={styles.horizontalContainer}>
           {/* Hero Panel */}
           <div className={`${styles.panel} ${styles.fullPanel}`}>
-            <PlaceholderSection id="hero" title="HERO SECTION">
-              <p>Lighthouse effect coming in Phase 2</p>
-            </PlaceholderSection>
+            <HeroSection />
           </div>
 
           {/* Stats Panels - 55% width each */}

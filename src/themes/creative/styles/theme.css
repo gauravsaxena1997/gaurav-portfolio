@@ -6,8 +6,8 @@
   --creative-bg-secondary: #141414;
   --creative-text-primary: #ffffff;
   --creative-text-secondary: #a0a0a0;
-  --creative-accent: #FF6300;
-  --creative-accent-hover: #ff7a1a;
+  --creative-accent: #B8860B;
+  --creative-accent-hover: #D4A017;
 
   /* Progress bar */
   --creative-progress-bg: rgba(255, 255, 255, 0.1);
@@ -24,8 +24,8 @@
   --creative-bg-secondary: #f5f5f5;
   --creative-text-primary: #0a0a0a;
   --creative-text-secondary: #666666;
-  --creative-accent: #FF6300;
-  --creative-accent-hover: #e55a00;
+  --creative-accent: #B8860B;
+  --creative-accent-hover: #9A7209;
 
   /* Progress bar */
   --creative-progress-bg: rgba(0, 0, 0, 0.1);
