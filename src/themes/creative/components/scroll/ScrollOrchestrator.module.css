@@ -32,6 +32,12 @@
 
 .fullPanel {
   width: 100vw;
+  flex-shrink: 0;  /* Prevent hero from shrinking */
+}
+
+/* Ensure hero fully scrolls out before first stat panel appears */
+.fullPanel + .statPanel {
+  margin-left: 2vw;  /* Small gap for complete hero exit */
 }
 
 /* Stats panel - compact width, only takes needed space */

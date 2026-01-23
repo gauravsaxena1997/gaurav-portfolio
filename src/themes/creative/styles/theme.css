@@ -73,3 +73,19 @@
   font-size: clamp(0.875rem, 0.5vw + 0.5rem, 1rem);
   line-height: 1.5;
 }
+
+/* Remove default focus outlines for creative theme - use visual feedback instead */
+[data-theme="light"],
+[data-theme="dark"] {
+  button:focus,
+  [role="button"]:focus,
+  a:focus {
+    outline: none;
+  }
+
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  a:focus-visible {
+    outline: none;
+  }
+}

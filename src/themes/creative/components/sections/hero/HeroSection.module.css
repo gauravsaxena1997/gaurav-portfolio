@@ -32,6 +32,46 @@
   clip-path: polygon(0 0, 0 0, 0 0);
 }
 
+/* Particle layer - floating dust motes in spotlight beam */
+.particleLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  /* Same clip-path as spotlight overlay, set by JS */
+  clip-path: polygon(0 0, 0 0, 0 0);
+  overflow: hidden;
+}
+
+/* Individual particle - subtle floating dust mote */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  animation: particleDrift ease-in-out infinite;
+  mix-blend-mode: overlay;
+}
+
+/* Particle floating/drifting animation */
+@keyframes particleDrift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.1;
+  }
+  25% {
+    transform: translate(3px, -2px) scale(1.1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate(5px, 2px) scale(0.9);
+    opacity: 0.15;
+  }
+  75% {
+    transform: translate(2px, -3px) scale(1.05);
+    opacity: 0.2;
+  }
+}
+
 /* Hero content container */
 .heroContent {
   padding: clamp(2rem, 5vw, 6rem);
@@ -394,5 +434,15 @@
 
   .lighthouseMobile.glowActive {
     filter: none;
+  }
+
+  /* Disable particle animations */
+  .particle {
+    animation: none;
+    opacity: 0.15;
+  }
+
+  .particleLayer {
+    display: none;
   }
 }

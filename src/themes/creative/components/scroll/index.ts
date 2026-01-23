@@ -2,4 +2,3 @@
 export { ScrollOrchestrator } from './ScrollOrchestrator';
 export { ProgressScrollbar } from './ProgressScrollbar';
 export { PlaceholderSection } from './PlaceholderSection';
-export { ProjectPlaceholder } from './ProjectPlaceholder';

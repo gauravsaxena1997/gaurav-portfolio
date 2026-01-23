@@ -1,0 +1,296 @@
+.projectsContainer {
+  position: relative;
+  width: 100%;
+  overflow: visible; /* Ensure no overflow interference with sticky */
+}
+
+.projectSlide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Extended height for scroll space (hero + screenshots) */
+  min-height: 250vh;
+  padding: clamp(2rem, 4vw, 4rem);
+  gap: 2rem;
+  position: relative;
+  overflow: visible; /* Allow sticky to work */
+}
+
+/* LEFT COLUMN - Becomes sticky while right scrolls */
+.leftColumn {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  overflow: visible; /* Allow sticky to work */
+}
+
+.stickyContent {
+  position: sticky;
+  top: clamp(2rem, 4vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 500px;
+  /* Sticky within the project slide */
+  align-self: flex-start;
+}
+
+.projectHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.projectNumber {
+  font-family: var(--creative-font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: var(--creative-accent);
+  letter-spacing: 0.05em;
+}
+
+.divider {
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  color: var(--creative-text-secondary);
+  opacity: 0.5;
+}
+
+.projectName {
+  font-family: var(--creative-font-display);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: var(--creative-text-primary);
+  letter-spacing: 0.1em;
+}
+
+/* RIGHT COLUMN - Scrolls with media content */
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem; /* Gap before screenshots section */
+  padding-top: 4rem;
+}
+
+/* Hero video section */
+.heroMedia {
+  width: 100%;
+  max-width: 840px; /* Match video size +20% */
+}
+
+/* Category Badge */
+.categoryBadge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--creative-accent);
+  color: var(--creative-bg-primary);
+  font-size: clamp(0.625rem, 1vw, 0.75rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+/* Section styling */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sectionTitle {
+  font-family: var(--creative-font-display);
+  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+  font-weight: 600;
+  color: var(--creative-text-secondary);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.description {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.8;
+  color: var(--creative-text-primary);
+}
+
+/* Highlights */
+.highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.highlightBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+  color: var(--creative-accent);
+  font-size: clamp(0.875rem, 1.1vw, 1rem);
+  font-weight: 500;
+  border-radius: 4px;
+  border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+  width: fit-content;
+}
+
+.highlightBadge::before {
+  content: '\2713';
+  font-weight: bold;
+}
+
+/* Tech Tags */
+.techTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.techTag {
+  padding: 0.25rem 0.625rem;
+  background: var(--creative-bg-secondary);
+  color: var(--creative-text-primary);
+  font-size: clamp(0.75rem, 1vw, 0.8125rem);
+  font-weight: 500;
+  border-radius: 4px;
+  border: 1px solid var(--creative-text-secondary);
+  opacity: 0.8;
+}
+
+/* CTA Button */
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--creative-accent);
+  color: var(--creative-bg-primary);
+  font-size: clamp(0.8125rem, 1.1vw, 0.9375rem);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: fit-content;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+}
+
+.ctaButton:focus {
+  outline: none;
+}
+
+.ctaButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.5);
+}
+
+/* Other Projects Section */
+.otherProjects {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem);
+  background: var(--creative-bg-secondary);
+}
+
+.otherProjectsTitle {
+  font-family: var(--creative-font-display);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--creative-text-primary);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  text-align: center;
+}
+
+.projectCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2rem);
+  width: 100%;
+  max-width: 1000px;
+}
+
+.projectCard {
+  background: var(--creative-bg-primary);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.projectCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.cardImage {
+  aspect-ratio: 16 / 9;
+  background: var(--creative-bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--creative-text-secondary);
+  font-size: 0.875rem;
+}
+
+.cardTitle {
+  font-family: var(--creative-font-display);
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  font-weight: 600;
+  color: var(--creative-text-primary);
+  padding: 1rem 1rem 0.5rem;
+}
+
+.cardDesc {
+  font-size: clamp(0.8125rem, 1vw, 0.875rem);
+  color: var(--creative-text-secondary);
+  padding: 0 1rem 1rem;
+  line-height: 1.5;
+}
+
+/* Mobile: Stack columns, disable sticky */
+@media (max-width: 900px) {
+  .projectSlide {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 2rem 1rem;
+  }
+
+  .stickyContent {
+    position: relative;
+    top: 0;
+    max-width: 100%;
+  }
+
+  .rightColumn {
+    order: -1; /* Media first on mobile */
+    padding-top: 0;
+  }
+
+  .heroMedia {
+    max-width: 100%;
+  }
+
+  .projectHeader {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectNumber {
+    font-size: 1.5rem;
+  }
+
+  .divider {
+    font-size: 1rem;
+  }
+
+  .projectName {
+    font-size: 0.75rem;
+  }
+}

@@ -9,7 +9,7 @@ interface AIBrainIllustrationProps {
 
 /**
  * Cute floating AI Robot - matches reference design exactly
- * Googly eyes with pupil tracking, floating animation, no legs
+ * Googly eyes with pupil tracking, floating animation
  */
 export const AIBrainIllustration = memo(function AIBrainIllustration({
   className,
@@ -75,7 +75,7 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: '100%', height: '100%', maxHeight: '38vh' }}
+      style={{ width: '100%', height: '100%', maxHeight: '42vh' }}
       aria-hidden="true"
     >
       <defs>

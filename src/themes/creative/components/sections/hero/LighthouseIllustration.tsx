@@ -22,16 +22,18 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
   onClick,
 }: LighthouseIllustrationProps) {
   // Color scheme based on lamp state
+  // Using warm sand beige for tower parts - premium feel, contrasts well with rocks
+  // and doesn't invert badly with spotlight's mix-blend-mode
   const colors = {
-    tower: 'var(--creative-text-primary)',
-    towerStripe: 'var(--creative-text-secondary)',
-    lampHouse: 'var(--creative-bg-secondary)',
-    lamp: isLampOn ? 'var(--creative-accent)' : 'var(--creative-text-secondary)',
+    tower: '#D4C4B0',                  // Warm sand beige
+    towerStripe: '#C9B89D',            // Slightly darker beige for stripes
+    lampHouse: '#BFB09C',              // Darker beige for lamp house
+    lamp: isLampOn ? 'var(--creative-accent)' : '#C9B89D',
     lampGlow: isLampOn ? 'var(--creative-accent)' : 'transparent',
-    roof: 'var(--creative-text-primary)',
-    base: 'var(--creative-text-primary)',
-    window: 'var(--creative-bg-primary)',
-    // Land/cliff colors
+    roof: '#A89880',                   // Darker roof for contrast
+    base: '#BFB09C',                   // Match lamp house
+    window: '#4A4035',                 // Dark warm brown windows
+    // Land/cliff colors - keep theme-aware (work well)
     cliffDark: 'var(--creative-text-primary)',
     cliffMid: 'var(--creative-text-secondary)',
     cliffLight: 'var(--creative-bg-secondary)',

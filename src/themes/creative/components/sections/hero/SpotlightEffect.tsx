@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { useMousePosition } from '../../../hooks/useMousePosition';
 import styles from './HeroSection.module.css';
@@ -31,22 +31,40 @@ const STATIC_ANGLE = (-135 * Math.PI) / 180;
 const AMBIENT_RANGE_DEG = 45;
 const AMBIENT_RANGE_RAD = (AMBIENT_RANGE_DEG * Math.PI) / 180;
 
+// Animation timing
+const BEAM_TRANSITION_DURATION = 0.6; // seconds
+const BEAM_EASE = 'power2.inOut';
+
+// Particle configuration
+const PARTICLE_COUNT = 8;
+
+interface Particle {
+  id: number;
+  x: number;      // Position along beam (0-1, 0 = origin, 1 = far end)
+  y: number;      // Offset from beam center (-1 to 1)
+  size: number;   // Size in pixels
+  delay: number;  // Animation delay
+  duration: number; // Animation duration
+}
+
 /**
  * Creates a clip-path polygon for the spotlight beam
  * Forms a triangular cone from lighthouse origin
  * Values are rounded to 2 decimal places to prevent sub-pixel flickering
+ * @param beamLength - Scale of beam distance (0-1, used for retraction animation)
  */
 function createBeamClipPath(
   originX: number,
   originY: number,
-  angle: number
+  angle: number,
+  beamLength: number = 1
 ): string {
   // Calculate the two edge angles of the beam
   const leftAngle = angle - HALF_BEAM_RAD;
   const rightAngle = angle + HALF_BEAM_RAD;
 
-  // Extend beam far beyond viewport (200% to ensure coverage)
-  const distance = 200;
+  // Extend beam - scale by beamLength for retraction effect (200% max)
+  const distance = 200 * beamLength;
 
   // Calculate end points of beam edges
   const leftX = originX + Math.cos(leftAngle) * distance;
@@ -62,9 +80,28 @@ function createBeamClipPath(
 }
 
 /**
+ * Generate random particles for the beam
+ */
+function generateParticles(): Particle[] {
+  return Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
+    id: i,
+    x: 0.15 + Math.random() * 0.7,       // Position along beam (avoid edges)
+    y: (Math.random() - 0.5) * 1.6,      // Offset from center
+    size: 2 + Math.random() * 2,          // 2-4px
+    delay: Math.random() * 3,             // Random start delay
+    duration: 3 + Math.random() * 2,      // 3-5 second drift cycle
+  }));
+}
+
+/**
  * SpotlightEffect - Uses mix-blend-mode: difference for automatic color inversion
  * This is the industry-standard approach for spotlight/flashlight effects
  * No duplicate content needed - colors invert automatically
+ *
+ * Features:
+ * - Realistic beam retraction when turning off (light fades from far end first)
+ * - Subtle floating particles (dust motes) within the beam
+ * - Smooth transitions with natural easing
  */
 export function SpotlightEffect({
   containerRef,
@@ -74,21 +111,36 @@ export function SpotlightEffect({
   isEnabled = true,
 }: SpotlightEffectProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const particleLayerRef = useRef<HTMLDivElement>(null);
   const angleRef = useRef(STATIC_ANGLE);
+  const beamLengthRef = useRef(isEnabled ? 1 : 0);
   const gyroCleanupRef = useRef<(() => void) | null>(null);
   const ambientTweenRef = useRef<gsap.core.Tween | null>(null);
+  const beamTweenRef = useRef<gsap.core.Tween | null>(null);
 
-  // Update clip-path based on current angle
+  // Generate particles once on mount
+  const particles = useMemo(() => generateParticles(), []);
+
+  // Track previous enabled state for transition direction
+  const prevEnabledRef = useRef(isEnabled);
+
+  // Update clip-path based on current angle and beam length
   const updateClipPath = useCallback(() => {
     if (!overlayRef.current) return;
 
     const clipPath = createBeamClipPath(
       lighthouseOrigin.x,
       lighthouseOrigin.y,
-      angleRef.current
+      angleRef.current,
+      beamLengthRef.current
     );
 
     overlayRef.current.style.clipPath = clipPath;
+
+    // Also update particle layer clip-path
+    if (particleLayerRef.current) {
+      particleLayerRef.current.style.clipPath = clipPath;
+    }
   }, [lighthouseOrigin.x, lighthouseOrigin.y]);
 
   // Mouse/touch position hook (active in mouse or touch mode)
@@ -203,15 +255,93 @@ export function SpotlightEffect({
     updateClipPath();
   }, [updateClipPath]);
 
+  // Beam retraction animation when isEnabled changes
+  useEffect(() => {
+    const turningOn = isEnabled && !prevEnabledRef.current;
+    const turningOff = !isEnabled && prevEnabledRef.current;
+    prevEnabledRef.current = isEnabled;
+
+    // Kill any existing beam animation
+    if (beamTweenRef.current) {
+      beamTweenRef.current.kill();
+      beamTweenRef.current = null;
+    }
+
+    if (turningOff) {
+      // Retract beam: animate length from 1 to 0 (far end fades first)
+      const proxy = { length: beamLengthRef.current };
+      beamTweenRef.current = gsap.to(proxy, {
+        length: 0,
+        duration: BEAM_TRANSITION_DURATION,
+        ease: BEAM_EASE,
+        onUpdate: () => {
+          beamLengthRef.current = proxy.length;
+          updateClipPath();
+        },
+      });
+    } else if (turningOn) {
+      // Extend beam: animate length from 0 to 1 (with slight delay for natural feel)
+      const proxy = { length: beamLengthRef.current };
+      beamTweenRef.current = gsap.to(proxy, {
+        length: 1,
+        duration: BEAM_TRANSITION_DURATION,
+        delay: 0.1, // Slight delay before beam appears
+        ease: BEAM_EASE,
+        onUpdate: () => {
+          beamLengthRef.current = proxy.length;
+          updateClipPath();
+        },
+      });
+    }
+
+    return () => {
+      if (beamTweenRef.current) {
+        beamTweenRef.current.kill();
+        beamTweenRef.current = null;
+      }
+    };
+  }, [isEnabled, updateClipPath]);
+
   return (
-    <div
-      ref={overlayRef}
-      className={styles.spotlightOverlay}
-      aria-hidden="true"
-      style={{
-        opacity: isEnabled ? 1 : 0,
-        transition: 'opacity 0.4s ease',
-      }}
-    />
+    <>
+      {/* Main spotlight overlay with mix-blend-mode */}
+      <div
+        ref={overlayRef}
+        className={styles.spotlightOverlay}
+        aria-hidden="true"
+        style={{
+          opacity: isEnabled ? 1 : 0,
+          transition: `opacity ${BEAM_TRANSITION_DURATION}s cubic-bezier(0.4, 0, 0.2, 1)`,
+        }}
+      />
+
+      {/* Particle layer - floating dust motes in the beam */}
+      <div
+        ref={particleLayerRef}
+        className={styles.particleLayer}
+        aria-hidden="true"
+        style={{
+          opacity: isEnabled ? 1 : 0,
+          transition: `opacity ${BEAM_TRANSITION_DURATION}s cubic-bezier(0.4, 0, 0.2, 1)`,
+        }}
+      >
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            className={styles.particle}
+            style={{
+              // Position particle along beam direction from origin
+              // x = position along beam, y = perpendicular offset
+              left: `${lighthouseOrigin.x * 100 + (Math.cos(STATIC_ANGLE) * p.x * 60)}%`,
+              top: `${lighthouseOrigin.y * 100 + (Math.sin(STATIC_ANGLE) * p.x * 60) + (p.y * 5)}%`,
+              width: `${p.size}px`,
+              height: `${p.size}px`,
+              animationDelay: `${p.delay}s`,
+              animationDuration: `${p.duration}s`,
+            }}
+          />
+        ))}
+      </div>
+    </>
   );
 }

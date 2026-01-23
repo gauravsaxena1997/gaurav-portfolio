@@ -1,0 +1,122 @@
+.tabletFrame {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.frameBezel {
+  position: relative;
+  width: 100%;
+  max-width: 840px; /* Was 700px, +20% */
+  aspect-ratio: 16 / 10;
+  background: var(--creative-text-secondary);
+  border-radius: clamp(16px, 3vw, 24px);
+  padding: clamp(8px, 1.5vw, 12px);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 10px 20px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Dark theme bezel */
+[data-theme='dark'] .frameBezel {
+  background: #2a2a2a;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 10px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Light theme bezel */
+[data-theme='light'] .frameBezel {
+  background: #e0e0e0;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.08),
+    0 10px 20px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.cameraNotch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: clamp(12px, 2vw, 18px);
+  margin-bottom: clamp(4px, 0.8vw, 8px);
+}
+
+.camera {
+  width: clamp(6px, 1vw, 8px);
+  height: clamp(6px, 1vw, 8px);
+  background: #1a1a1a;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+[data-theme='light'] .camera {
+  background: #4a4a4a;
+}
+
+.screenArea {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  border-radius: clamp(8px, 1.5vw, 12px);
+  overflow: hidden;
+  /* Theme-aware background for gaps - this is the key! */
+  background: var(--creative-bg-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.media {
+  width: 100%;
+  height: 100%;
+  /* CRITICAL: object-fit: contain preserves aspect ratio */
+  /* Gaps are filled by parent's background-color */
+  object-fit: contain;
+  display: block;
+}
+
+.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--creative-text-secondary);
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+}
+
+.bottomBezel {
+  display: none;
+}
+
+.homeIndicator {
+  display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .frameBezel {
+    max-width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 480px) {
+  .frameBezel {
+    padding: 6px;
+    border-radius: 12px;
+  }
+
+  .screenArea {
+    border-radius: 6px;
+  }
+}

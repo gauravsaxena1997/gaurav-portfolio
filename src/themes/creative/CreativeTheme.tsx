@@ -5,7 +5,6 @@ import { Sun, Moon } from 'lucide-react';
 import { ScrollProvider } from './context/ScrollContext';
 import { ScrollOrchestrator } from './components/scroll/ScrollOrchestrator';
 import { ProgressScrollbar } from './components/scroll/ProgressScrollbar';
-import { ProjectSectionHeader } from './components/scroll/ProjectSectionHeader';
 
 import './styles/theme.css';
 import './styles/scrollbar.css';
@@ -64,9 +63,6 @@ export function CreativeTheme() {
 
         {/* Custom Progress Scrollbar */}
         <ProgressScrollbar />
-
-        {/* Project Section Header - Fixed position, appears when projects section at top */}
-        <ProjectSectionHeader />
 
         {/* Main Scroll Content */}
         <main className={styles.scrollContainer}>

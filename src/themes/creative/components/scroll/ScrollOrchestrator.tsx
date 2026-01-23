@@ -7,7 +7,7 @@ import { useGSAP } from '@gsap/react';
 import { useScrollContext } from '../../context/ScrollContext';
 import { PlaceholderSection } from './PlaceholderSection';
 import { HeroSection } from '../sections/hero';
-import { ProjectPlaceholder } from './ProjectPlaceholder';
+import { ProjectSection } from '../sections/projects';
 import {
   StatPanel,
   AIBrainIllustration,
@@ -21,13 +21,6 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Sample projects
-const SAMPLE_PROJECTS = [
-  { name: 'Project Alpha', index: 0 },
-  { name: 'Project Beta', index: 1 },
-  { name: 'Project Gamma', index: 2 },
-];
-
 // Services list for vertical scroll section
 const SERVICES = [
   { title: 'MVP Generation', desc: 'From ideation to demo' },
@@ -40,7 +33,6 @@ const SERVICES = [
 export function ScrollOrchestrator() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroStatsRef = useRef<HTMLDivElement>(null);
-  const projectsRef = useRef<HTMLDivElement>(null);
   const projectsServicesRef = useRef<HTMLDivElement>(null);
   const servicesContactRef = useRef<HTMLDivElement>(null);
   const contactCreditsRef = useRef<HTMLDivElement>(null);
@@ -82,44 +74,6 @@ export function ScrollOrchestrator() {
             },
           },
         });
-      }
-
-      // Stats → Projects: Diagonal scroll effect
-      if (projectsRef.current) {
-        // On mobile, start diagonal animation later to avoid overlap with last stat panel
-        const isMobile = window.innerWidth <= 900;
-        const startPosition = isMobile ? 'top 80%' : 'top bottom';
-
-        gsap.fromTo(
-          projectsRef.current,
-          {
-            x: '30vw',
-            y: '30vh',
-            opacity: 0.5,
-          },
-          {
-            x: 0,
-            y: 0,
-            opacity: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: '#projects-section',
-              start: startPosition,
-              end: 'top top',
-              scrub: 1,
-              onLeave: () => {
-                if (projectsRef.current) {
-                  gsap.set(projectsRef.current, { clearProps: 'transform' });
-                }
-              },
-              onEnterBack: () => {
-                if (projectsRef.current) {
-                  gsap.set(projectsRef.current, { x: 0, y: 0 });
-                }
-              },
-            },
-          }
-        );
       }
 
       // Projects section
@@ -313,9 +267,9 @@ export function ScrollOrchestrator() {
         </div>
       </section>
 
-      {/* ===== PROJECTS (Vertical Scroll, comes in diagonally) ===== */}
-      <section id="projects-section" ref={projectsRef} className={styles.projectsSection}>
-        <ProjectPlaceholder projects={SAMPLE_PROJECTS} />
+      {/* ===== PROJECTS (Vertical Scroll) ===== */}
+      <section id="projects-section" className={styles.projectsSection}>
+        <ProjectSection />
       </section>
 
       {/* ===== PROJECTS → SERVICES TRANSITION (Horizontal) ===== */}
