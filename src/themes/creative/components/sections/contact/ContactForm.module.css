@@ -61,7 +61,7 @@
 .textarea:focus {
   outline: none;
   border-color: var(--creative-accent);
-  box-shadow: 0 0 0 3px rgba(var(--creative-accent-rgb, 59, 130, 246), 0.15);
+  box-shadow: 0 0 0 3px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
 }
 
 .input::placeholder,
@@ -112,7 +112,7 @@
 .submitButton:hover:not(:disabled) {
   background: var(--creative-accent-dark, var(--creative-accent));
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 59, 130, 246), 0.3);
+  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
 }
 
 .submitButton:active:not(:disabled) {

@@ -11,7 +11,7 @@
 
 /* Main progress track - attached to edge */
 .track {
-  width: 3px;
+  width: 6px;
   height: 100%;
   background: var(--creative-progress-bg);
   position: relative;
@@ -26,14 +26,22 @@
   /* No transition for real-time smooth updates */
 }
 
-/* Subtle breakpoints - visible tick marks */
+/* Visible breakpoints - golden tick marks */
 .breakpoint {
   position: absolute;
-  left: -2px;
-  width: calc(100% + 4px);
-  height: 2px;
-  background: var(--creative-text-secondary);
-  opacity: 0.5;
+  left: -4px;
+  width: calc(100% + 8px);
+  height: 3px;
+  background: var(--creative-accent);
+  opacity: 0.7;
   transform: translateY(-50%);
-  border-radius: 1px;
+  border-radius: 2px;
+  transition: opacity 0.2s ease;
+}
+
+/* Active breakpoint styling */
+.breakpointActive {
+  opacity: 1;
+  height: 4px;
+  box-shadow: 0 0 6px var(--creative-accent);
 }

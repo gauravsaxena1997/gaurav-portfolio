@@ -8,6 +8,10 @@
   --creative-text-secondary: #a0a0a0;
   --creative-accent: #B8860B;
   --creative-accent-hover: #D4A017;
+  --creative-accent-rgb: 184, 134, 11;
+
+  /* Spotlight beam colors */
+  --creative-spotlight-color: #E8D5A8;
 
   /* Progress bar */
   --creative-progress-bg: rgba(255, 255, 255, 0.1);
@@ -26,6 +30,10 @@
   --creative-text-secondary: #666666;
   --creative-accent: #B8860B;
   --creative-accent-hover: #9A7209;
+  --creative-accent-rgb: 184, 134, 11;
+
+  /* Spotlight beam colors - pure white for clean black inversion on light bg */
+  --creative-spotlight-color: #ffffff;
 
   /* Progress bar */
   --creative-progress-bg: rgba(0, 0, 0, 0.1);

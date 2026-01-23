@@ -18,11 +18,11 @@
   align-items: center;
 }
 
-/* Spotlight overlay - uses mix-blend-mode for automatic color inversion */
+/* Spotlight overlay - uses mix-blend-mode for warm golden tint inversion */
 .spotlightOverlay {
   position: absolute;
   inset: 0;
-  background: #ffffff;
+  background: var(--creative-spotlight-color);
   mix-blend-mode: difference;
   pointer-events: none;
   /* GPU acceleration without will-change to prevent flickering */
@@ -47,7 +47,7 @@
 .particle {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.25);
   animation: particleDrift ease-in-out infinite;
   mix-blend-mode: overlay;
 }

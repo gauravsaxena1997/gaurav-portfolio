@@ -73,6 +73,11 @@
   will-change: transform;
 }
 
+/* Single panel transition - no horizontal scroll needed */
+.singlePanelTransition {
+  width: 100vw;
+}
+
 .transitionPanel {
   width: 100vw;
   height: 100vh;
@@ -121,14 +126,57 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 2.5rem;
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    var(--creative-bg-primary) 0%,
+    var(--creative-bg-secondary) 100%
+  );
+}
+
+/* Decorative accent line at top */
+.otherProjectsContent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--creative-accent),
+    transparent
+  );
 }
 
 .otherProjectsTitle {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 600;
-  color: var(--creative-text-primary);
+  color: var(--creative-accent);
   text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+/* Underline accent */
+.otherProjectsTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--creative-accent);
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.otherProjectsContent:hover .otherProjectsTitle::after {
+  transform: scaleX(1);
 }
 
 .projectCards {
@@ -142,18 +190,37 @@
 .projectCard {
   display: flex;
   flex-direction: column;
-  background: var(--creative-bg-secondary);
-  border: 1px solid var(--creative-text-secondary);
+  background: var(--creative-bg-primary);
+  border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.2);
   border-radius: 12px;
   overflow: hidden;
   text-decoration: none;
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+/* Top accent bar on hover */
+.projectCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--creative-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
 }
 
 .projectCard:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   border-color: var(--creative-accent);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 32px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+}
+
+.projectCard:hover::before {
+  transform: scaleX(1);
 }
 
 .cardImage {
@@ -219,6 +286,59 @@
   color: var(--creative-bg-primary);
   border-radius: 4px;
   font-weight: 500;
+}
+
+/* ===== CTA PANEL ===== */
+.ctaContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 3vw, 2rem);
+  text-align: center;
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.ctaTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--creative-text-primary);
+  line-height: 1.2;
+}
+
+.ctaSubtext {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--creative-text-secondary);
+  line-height: 1.6;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: var(--creative-accent);
+  color: var(--creative-bg-primary);
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 1rem;
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.35);
+}
+
+.ctaButton svg {
+  transition: transform 0.2s ease;
+}
+
+.ctaButton:hover svg {
+  transform: translateX(4px);
 }
 
 /* ===== SERVICES SECTION ===== */

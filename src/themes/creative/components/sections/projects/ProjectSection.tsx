@@ -4,8 +4,8 @@ import { memo, useRef, useEffect, useState } from 'react';
 import { useScrollContext } from '../../../context/ScrollContext';
 import { getProjectsForDisplay } from './config';
 import { TabletFrame } from './TabletFrame';
-import { ScreenshotStack } from './ScreenshotStack';
-import { MobileScreenshots } from './MobileScreenshots';
+import { InteractiveGallery } from './InteractiveGallery';
+import { ProjectCarousel } from './ProjectCarousel';
 import styles from './ProjectSection.module.css';
 
 /**
@@ -85,12 +85,43 @@ export const ProjectSection = memo(function ProjectSection() {
                 <h2 className={styles.projectName}>{project.title.toUpperCase()}</h2>
               </div>
 
-              {/* Category Badge */}
-              <div className={styles.categoryBadge}>
+              {/* Category Badge with Tooltip */}
+              <div
+                className={styles.categoryBadge}
+                data-tooltip={
+                  project.category === 'case-study'
+                    ? 'Deep-dive analysis with problem, solution & results'
+                    : project.category === 'venture'
+                      ? 'Self-initiated project exploring new ideas'
+                      : 'Professional engagement for external clients'
+                }
+              >
                 {project.category === 'case-study' && 'Case Study'}
                 {project.category === 'venture' && 'Personal Venture'}
                 {project.category === 'client' && 'Client Work'}
               </div>
+
+              {/* CTA Button - Prioritized position */}
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.ctaButton}
+                >
+                  View Live
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M7 17L17 7M17 7H7M17 7V17" />
+                  </svg>
+                </a>
+              )}
 
               {/* About */}
               <div className={styles.section}>
@@ -126,28 +157,7 @@ export const ProjectSection = memo(function ProjectSection() {
                 </div>
               )}
 
-              {/* CTA Button */}
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.ctaButton}
-                >
-                  View Live
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M7 17L17 7M17 7H7M17 7V17" />
-                  </svg>
-                </a>
-              )}
-            </div>
+                          </div>
           </div>
 
           {/* Right Column - Hero Video + Screenshots */}
@@ -165,12 +175,12 @@ export const ProjectSection = memo(function ProjectSection() {
             {project.images && project.images.length > 0 && (
               <>
                 {isMobile ? (
-                  <MobileScreenshots
+                  <ProjectCarousel
                     images={project.images}
                     projectName={project.title}
                   />
                 ) : (
-                  <ScreenshotStack
+                  <InteractiveGallery
                     images={project.images}
                     projectName={project.title}
                   />

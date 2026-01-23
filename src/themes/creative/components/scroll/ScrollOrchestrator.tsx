@@ -5,14 +5,13 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { useScrollContext } from '../../context/ScrollContext';
-import { PlaceholderSection } from './PlaceholderSection';
 import { HeroSection } from '../sections/hero';
 import { ProjectSection, getOtherProjects } from '../sections/projects';
 import { ContactSection } from '../sections/contact';
 import {
   StatPanel,
   AIBrainIllustration,
-  LaptopCard,
+  LaptopIllustration,
   GlobeVisualization,
 } from '../sections/stats';
 import styles from './ScrollOrchestrator.module.css';
@@ -68,6 +67,11 @@ export function ScrollOrchestrator() {
             scrub: 1,
             pin: true,
             anticipatePin: 1,
+            snap: {
+              snapTo: 1 / 3, // 4 panels: hero + 3 stats
+              duration: { min: 0.2, max: 0.5 },
+              ease: 'power2.inOut',
+            },
             onUpdate: (self) => {
               if (self.progress < 0.25) {
                 setActiveSection('hero');
@@ -106,29 +110,16 @@ export function ScrollOrchestrator() {
         onEnterBack: () => setActiveSection('contact'),
       });
 
-      // Projects → Services horizontal transition
+      // Other Projects section (single panel - no horizontal scroll, just pin)
       if (projectsServicesRef.current) {
-        const container = projectsServicesRef.current;
-        const scrollWidth = container.scrollWidth - window.innerWidth;
-
-        gsap.to(container, {
-          x: -scrollWidth,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#projects-services-transition',
-            start: 'top top',
-            end: () => `+=${scrollWidth}`,
-            scrub: 1,
-            pin: true,
-            anticipatePin: 1,
-            onUpdate: (self) => {
-              if (self.progress < 0.5) {
-                setActiveSection('projects');
-              } else {
-                setActiveSection('services');
-              }
-            },
-          },
+        ScrollTrigger.create({
+          trigger: '#projects-services-transition',
+          start: 'top top',
+          end: '+=50%', // Short pin for viewing
+          pin: true,
+          anticipatePin: 1,
+          onEnter: () => setActiveSection('projects'),
+          onEnterBack: () => setActiveSection('projects'),
         });
       }
 
@@ -147,6 +138,11 @@ export function ScrollOrchestrator() {
             scrub: 1,
             pin: true,
             anticipatePin: 1,
+            snap: {
+              snapTo: 0.5, // 2 panels: CTA + contact
+              duration: { min: 0.2, max: 0.5 },
+              ease: 'power2.inOut',
+            },
             onUpdate: (self) => {
               if (self.progress < 0.5) {
                 setActiveSection('services');
@@ -213,7 +209,7 @@ export function ScrollOrchestrator() {
                 '1000+ users served',
                 'Startup to enterprise',
               ]}
-              illustration={<LaptopCard />}
+              illustration={<LaptopIllustration />}
               illustrationPosition="top"
             />
           </div>
@@ -240,9 +236,9 @@ export function ScrollOrchestrator() {
         <ProjectSection />
       </section>
 
-      {/* ===== PROJECTS → SERVICES TRANSITION (Horizontal) ===== */}
+      {/* ===== OTHER PROJECTS SECTION ===== */}
       <section id="projects-services-transition" className={styles.horizontalTransition}>
-        <div ref={projectsServicesRef} className={styles.transitionContainer}>
+        <div ref={projectsServicesRef} className={`${styles.transitionContainer} ${styles.singlePanelTransition}`}>
           {/* Other Projects panel with actual content */}
           <div className={styles.transitionPanel}>
             <div className={styles.otherProjectsContent}>
@@ -279,13 +275,6 @@ export function ScrollOrchestrator() {
               </div>
             </div>
           </div>
-          {/* Services panel */}
-          <div className={styles.transitionPanel}>
-            <div className={styles.transitionContent}>
-              <span className={styles.transitionLabel}>Services</span>
-              <p className={styles.transitionSubtext}>What I offer</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -314,11 +303,17 @@ export function ScrollOrchestrator() {
       {/* ===== SERVICES → CONTACT TRANSITION (Horizontal) ===== */}
       <section id="services-contact-transition" className={styles.horizontalTransition}>
         <div ref={servicesContactRef} className={styles.transitionContainer}>
-          {/* End of Services panel */}
+          {/* CTA panel */}
           <div className={styles.transitionPanel}>
-            <div className={styles.transitionContent}>
-              <span className={styles.transitionLabel}>SEO & Performance</span>
-              <p className={styles.transitionSubtext}>Last service item</p>
+            <div className={styles.ctaContent}>
+              <h3 className={styles.ctaTitle}>Ready to build something amazing?</h3>
+              <p className={styles.ctaSubtext}>Let&apos;s discuss your project and bring your ideas to life.</p>
+              <a href="#contact-section" className={styles.ctaButton}>
+                Get in Touch
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
             </div>
           </div>
           {/* Contact panel with actual form */}

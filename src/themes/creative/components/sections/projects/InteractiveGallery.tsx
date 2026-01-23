@@ -3,9 +3,9 @@
 import { memo, useRef, useEffect, useMemo, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { RotateCcw, Move } from 'lucide-react';
-import styles from './ScreenshotStack.module.css';
+import styles from './InteractiveGallery.module.css';
 
-interface ScreenshotStackProps {
+interface InteractiveGalleryProps {
   images: string[];
   projectName: string;
   className?: string;
@@ -52,13 +52,13 @@ const PARALLAX_SPEEDS = [1.0, 0.7, 0.45, 0.25];
 const BASE_POSITIONS = [0, 200, 400, 600];
 
 /**
- * ScreenshotStack - Scattered overlapping screenshot display with parallax + DRAG
+ * InteractiveGallery - Scattered overlapping screenshot display with parallax + DRAG
  */
-export const ScreenshotStack = memo(function ScreenshotStack({
+export const InteractiveGallery = memo(function InteractiveGallery({
   images,
   projectName,
   className,
-}: ScreenshotStackProps) {
+}: InteractiveGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<(HTMLDivElement | null)[]>([]);
 

@@ -2,23 +2,23 @@
 
 import { memo, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import styles from './MobileScreenshots.module.css';
+import styles from './ProjectCarousel.module.css';
 
-interface MobileScreenshotsProps {
+interface ProjectCarouselProps {
   images: string[];
   projectName: string;
   className?: string;
 }
 
 /**
- * MobileScreenshots - Horizontal swipe carousel for mobile devices
+ * ProjectCarousel - Horizontal swipe carousel for mobile devices
  * Used instead of 3D stack animation which is hard to see on small screens
  */
-export const MobileScreenshots = memo(function MobileScreenshots({
+export const ProjectCarousel = memo(function ProjectCarousel({
   images,
   projectName,
   className,
-}: MobileScreenshotsProps) {
+}: ProjectCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 

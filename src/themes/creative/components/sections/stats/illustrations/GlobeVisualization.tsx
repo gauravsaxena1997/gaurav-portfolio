@@ -145,6 +145,18 @@ export const GlobeVisualization = memo(function GlobeVisualization({
         height: '100%',
         maxHeight: '42vh',
         overflow: 'hidden',
+        // Subtle mask to feather the edges where globe is cropped (right and bottom)
+        // This removes hard edges without adding any visible overlay
+        WebkitMaskImage: `
+          linear-gradient(to right, black 0%, black 92%, transparent 100%),
+          linear-gradient(to bottom, black 0%, black 88%, transparent 100%)
+        `,
+        WebkitMaskComposite: 'source-in',
+        maskImage: `
+          linear-gradient(to right, black 0%, black 92%, transparent 100%),
+          linear-gradient(to bottom, black 0%, black 88%, transparent 100%)
+        `,
+        maskComposite: 'intersect',
       }}
     >
       {/*
