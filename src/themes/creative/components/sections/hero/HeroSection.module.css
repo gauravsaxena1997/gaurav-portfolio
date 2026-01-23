@@ -141,13 +141,18 @@
   width: clamp(145px, 18vw, 240px);
   height: auto;
   z-index: 10;
+  /* GPU acceleration to prevent sub-pixel flickering during scroll */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .lighthouseMobile {
   right: 50%;
-  transform: translateX(50%);
+  transform: translateX(50%) translateZ(0);
   bottom: 3%;
   width: clamp(60px, 15vw, 100px);
+  backface-visibility: hidden;
 }
 
 /* Social Links */

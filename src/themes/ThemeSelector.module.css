@@ -1,60 +1,67 @@
+/* Theme Selector - Cross-theme compatible styles */
+
 .themeSelector {
   position: fixed;
-  bottom: var(--space-8);
-  right: var(--space-8);
-  z-index: var(--z-fixed);
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
 }
 
 /* Quick Toggle Button */
 .quickToggle {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-5);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--color-text-dark);
-  background-color: var(--color-bg-dark-card);
-  border: 1px solid var(--color-border-dark);
-  border-radius: var(--radius-full);
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: rgba(30, 30, 30, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
   cursor: pointer;
-  transition: all var(--duration-base) var(--ease-bounce);
-  box-shadow: var(--shadow-lg);
+  transition: all 200ms ease;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3),
+              0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
 }
 
 .quickToggle:hover {
-  background-color: var(--color-bg-dark-elevated);
-  border-color: var(--color-primary);
+  background-color: rgba(40, 40, 40, 0.95);
+  border-color: rgba(184, 134, 11, 0.6);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4),
+              0 10px 20px -8px rgba(0, 0, 0, 0.3);
 }
 
 .quickToggle:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid #B8860B;
   outline-offset: 2px;
 }
 
 .toggleIcon {
   font-size: 1.25rem;
   line-height: 1;
+  color: #B8860B;
 }
 
 .toggleText {
-  font-family: var(--font-sans);
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
 /* Dropdown Menu */
 .dropdown {
   position: absolute;
-  bottom: calc(100% + var(--space-2));
+  bottom: calc(100% + 0.5rem);
   right: 0;
   min-width: 280px;
-  background-color: var(--color-bg-dark-card);
-  border: 1px solid var(--color-border-dark);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-2xl);
+  background-color: rgba(30, 30, 30, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  animation: slideUp var(--duration-fast) var(--ease-out);
+  animation: slideUp 150ms ease-out;
+  backdrop-filter: blur(8px);
 }
 
 @keyframes slideUp {
@@ -75,66 +82,67 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  transition: background-color var(--duration-fast) var(--ease-liquid);
+  transition: background-color 150ms ease;
 }
 
 .dropdownItem:hover {
-  background-color: var(--color-bg-dark-elevated);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .dropdownItem:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid #B8860B;
   outline-offset: -2px;
 }
 
 .dropdownItemActive {
-  background-color: rgba(37, 99, 235, 0.1);
+  background-color: rgba(184, 134, 11, 0.15);
 }
 
 .dropdownItemContent {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-4);
+  gap: 0.75rem;
+  padding: 1rem;
 }
 
 .dropdownIcon {
   font-size: 1.5rem;
   line-height: 1;
+  color: #B8860B;
 }
 
 .dropdownText {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 0.25rem;
 }
 
 .dropdownLabel {
-  font-size: var(--text-sm);
-  font-weight: var(--font-semibold);
-  color: var(--color-text-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
 }
 
 .dropdownDescription {
-  font-size: var(--text-xs);
-  color: var(--color-text-dark-muted);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .checkmark {
-  font-size: var(--text-lg);
-  color: var(--color-primary);
+  font-size: 1.125rem;
+  color: #B8860B;
 }
 
 /* Mobile Styles */
 @media (max-width: 767px) {
   .themeSelector {
-    bottom: var(--space-6);
-    right: var(--space-6);
+    bottom: 1.5rem;
+    right: 1.5rem;
   }
 
   .quickToggle {
-    padding: var(--space-2) var(--space-4);
+    padding: 0.5rem 1rem;
   }
 
   .toggleText {

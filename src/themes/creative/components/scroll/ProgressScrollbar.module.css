@@ -1,4 +1,4 @@
-/* Progress Scrollbar - Minimal with subtle breakpoints */
+/* Progress Scrollbar - Minimal smooth progress indicator */
 
 .progressContainer {
   position: fixed;
@@ -23,25 +23,10 @@
   left: 0;
   width: 100%;
   background: var(--creative-progress-fill);
-  /* No transition for real-time smooth updates */
-}
-
-/* Visible breakpoints - golden tick marks */
-.breakpoint {
-  position: absolute;
-  left: -4px;
-  width: calc(100% + 8px);
-  height: 3px;
-  background: var(--creative-accent);
-  opacity: 0.7;
-  transform: translateY(-50%);
-  border-radius: 2px;
-  transition: opacity 0.2s ease;
-}
-
-/* Active breakpoint styling */
-.breakpointActive {
-  opacity: 1;
-  height: 4px;
-  box-shadow: 0 0 6px var(--creative-accent);
+  /* Rounded ends for smoother look */
+  border-radius: 3px;
+  /* GPU acceleration to prevent flickering */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: height;
 }

@@ -71,6 +71,8 @@ export const InteractiveGallery = memo(function InteractiveGallery({
   // Track if screenshots are in view for the fixed bar
   const [isBarVisible, setIsBarVisible] = useState(false);
   const dragStartRef = useRef<{ x: number; y: number; initialX: number; initialY: number } | null>(null);
+  // Track current parallax offsets for each image (updated by scroll handler)
+  const parallaxOffsetsRef = useRef<number[]>([]);
 
   const xOffsets = useMemo(
     () => generateXOffsets(images.length, projectName),
@@ -92,12 +94,14 @@ export const InteractiveGallery = memo(function InteractiveGallery({
   const handleMouseDown = useCallback((index: number, e: React.MouseEvent) => {
     e.preventDefault();
     setHasInteracted(true);
+    // Capture current parallax offset so image doesn't jump when drag starts
+    const currentParallaxY = parallaxOffsetsRef.current[index] ?? 0;
     const currentPos = dragPositions[index] || { x: 0, y: 0 };
     dragStartRef.current = {
       x: e.clientX,
       y: e.clientY,
       initialX: currentPos.x,
-      initialY: currentPos.y,
+      initialY: currentPos.y + currentParallaxY,  // Include parallax offset
     };
     setDraggingIndex(index);
   }, [dragPositions]);
@@ -135,8 +139,29 @@ export const InteractiveGallery = memo(function InteractiveGallery({
     const handleMouseUp = () => {
       const img = imagesRef.current[draggingIndex];
       if (img) {
-        img.style.transition = '';
+        // Subtle release effect - very quick transition for a slight "settle" feel
+        img.style.transition = 'transform 50ms ease-out';
+        // Clear transition after it completes to let parallax take over smoothly
+        setTimeout(() => {
+          if (img) img.style.transition = '';
+        }, 60);
       }
+
+      // Adjust drag position to account for parallax offset
+      // When parallax resumes, it will add yOffset, so we subtract it now
+      // to keep the image at the same visual position
+      const currentParallaxY = parallaxOffsetsRef.current[draggingIndex] ?? 0;
+      setDragPositions(prev => {
+        const currentPos = prev[draggingIndex] || { x: 0, y: 0 };
+        return {
+          ...prev,
+          [draggingIndex]: {
+            x: currentPos.x,
+            y: currentPos.y - currentParallaxY,
+          },
+        };
+      });
+
       setZIndexOrder(prev => {
         const newOrder = prev.filter(i => i !== draggingIndex);
         newOrder.push(draggingIndex);
@@ -159,12 +184,14 @@ export const InteractiveGallery = memo(function InteractiveGallery({
   const handleTouchStart = useCallback((index: number, e: React.TouchEvent) => {
     setHasInteracted(true);
     const touch = e.touches[0];
+    // Capture current parallax offset so image doesn't jump when drag starts
+    const currentParallaxY = parallaxOffsetsRef.current[index] ?? 0;
     const currentPos = dragPositions[index] || { x: 0, y: 0 };
     dragStartRef.current = {
       x: touch.clientX,
       y: touch.clientY,
       initialX: currentPos.x,
-      initialY: currentPos.y,
+      initialY: currentPos.y + currentParallaxY,  // Include parallax offset
     };
     setDraggingIndex(index);
   }, [dragPositions]);
@@ -202,8 +229,29 @@ export const InteractiveGallery = memo(function InteractiveGallery({
     const handleTouchEnd = () => {
       const img = imagesRef.current[draggingIndex];
       if (img) {
-        img.style.transition = '';
+        // Subtle release effect - very quick transition for a slight "settle" feel
+        img.style.transition = 'transform 50ms ease-out';
+        // Clear transition after it completes to let parallax take over smoothly
+        setTimeout(() => {
+          if (img) img.style.transition = '';
+        }, 60);
       }
+
+      // Adjust drag position to account for parallax offset
+      // When parallax resumes, it will add yOffset, so we subtract it now
+      // to keep the image at the same visual position
+      const currentParallaxY = parallaxOffsetsRef.current[draggingIndex] ?? 0;
+      setDragPositions(prev => {
+        const currentPos = prev[draggingIndex] || { x: 0, y: 0 };
+        return {
+          ...prev,
+          [draggingIndex]: {
+            x: currentPos.x,
+            y: currentPos.y - currentParallaxY,
+          },
+        };
+      });
+
       setZIndexOrder(prev => {
         const newOrder = prev.filter(i => i !== draggingIndex);
         newOrder.push(draggingIndex);
@@ -252,6 +300,9 @@ export const InteractiveGallery = memo(function InteractiveGallery({
         const dragPos = dragPositions[index] || { x: 0, y: 0 };
 
         const yOffset = (1 - progress) * speed * 300;
+
+        // Track current parallax offset for this image (used when drag starts)
+        parallaxOffsetsRef.current[index] = yOffset;
 
         img.style.transform = `translate(calc(-50% + ${xOffset}% + ${dragPos.x}px), calc(${yOffset}px + ${dragPos.y}px)) scale(${scale})`;
       });

@@ -46,7 +46,13 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       onClick={onClick}
-      style={onClick ? { cursor: 'pointer', outline: 'none' } : undefined}
+      style={{
+        ...(onClick ? { cursor: 'pointer', outline: 'none' } : {}),
+        // GPU acceleration to prevent sub-pixel flickering during scroll
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden',
+      }}
+      shapeRendering="geometricPrecision"
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
       aria-label={onClick ? (isLampOn ? 'Turn off spotlight' : 'Turn on spotlight') : undefined}
@@ -127,17 +133,9 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
         {/* Base/foundation */}
         <rect x="20" y="165" width="60" height="15" rx="2" fill={colors.base} />
 
-      {/* Tower body - tapered shape */}
+      {/* Tower body - single unified path to prevent seam flickering */}
       <path
-        d="M30 165 L25 90 L35 90 L35 165 Z"
-        fill={colors.tower}
-      />
-      <path
-        d="M35 165 L35 90 L65 90 L65 165 Z"
-        fill={colors.tower}
-      />
-      <path
-        d="M65 165 L65 90 L75 90 L70 165 Z"
+        d="M30 165 L25 90 L75 90 L70 165 Z"
         fill={colors.tower}
       />
 
