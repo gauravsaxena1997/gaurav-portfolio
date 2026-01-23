@@ -1,0 +1,60 @@
+/* Contact Section Styles */
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2rem, 4vw, 4rem);
+  background: var(--creative-bg-primary);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 6vw, 8rem);
+  max-width: 1200px;
+  width: 100%;
+  align-items: center;
+}
+
+.characterWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.formWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Responsive - Stack on mobile */
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+
+  .characterWrapper {
+    min-height: 280px;
+    order: -1; /* Character above form on mobile */
+  }
+
+  .formWrapper {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .characterWrapper {
+    min-height: 220px;
+  }
+}

@@ -180,22 +180,6 @@ export const ProjectSection = memo(function ProjectSection() {
           </div>
         </div>
       ))}
-
-      {/* Other Projects Section */}
-      <div className={styles.otherProjects}>
-        <h2 className={styles.otherProjectsTitle}>Other Projects to Explore</h2>
-        <div className={styles.projectCards}>
-          {['CultureTicks', 'Roamonn'].map((name) => (
-            <div key={name} className={styles.projectCard}>
-              <div className={styles.cardImage}>
-                <span>Coming Soon</span>
-              </div>
-              <h3 className={styles.cardTitle}>{name}</h3>
-              <p className={styles.cardDesc}>More details coming soon</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 });

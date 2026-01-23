@@ -1,0 +1,180 @@
+/* Contact Form Styles */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  width: 100%;
+  max-width: 480px;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--creative-text-primary);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  color: var(--creative-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.25rem);
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: clamp(0.8rem, 1vw, 0.9rem);
+  font-weight: 500;
+  color: var(--creative-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: clamp(0.75rem, 1.5vw, 1rem);
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  font-family: inherit;
+  color: var(--creative-text-primary);
+  background: var(--creative-bg-secondary);
+  border: 1px solid var(--creative-text-secondary);
+  border-radius: 6px;
+  transition:
+    border-color var(--creative-transition-fast),
+    box-shadow var(--creative-transition-fast);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--creative-accent);
+  box-shadow: 0 0 0 3px rgba(var(--creative-accent-rgb, 59, 130, 246), 0.15);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--creative-text-secondary);
+  opacity: 0.6;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.status {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.success {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.submitButton {
+  padding: clamp(0.875rem, 1.5vw, 1.125rem);
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  font-weight: 600;
+  color: var(--creative-bg-primary);
+  background: var(--creative-accent);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background var(--creative-transition-fast),
+    transform var(--creative-transition-fast),
+    box-shadow var(--creative-transition-fast);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--creative-accent-dark, var(--creative-accent));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 59, 130, 246), 0.3);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--creative-text-secondary);
+  opacity: 0.3;
+}
+
+.dividerText {
+  font-size: 0.85rem;
+  color: var(--creative-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.scheduleButton {
+  padding: clamp(0.875rem, 1.5vw, 1.125rem);
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  font-weight: 600;
+  color: var(--creative-accent);
+  background: transparent;
+  border: 2px solid var(--creative-accent);
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background var(--creative-transition-fast),
+    color var(--creative-transition-fast),
+    transform var(--creative-transition-fast);
+}
+
+.scheduleButton:hover {
+  background: var(--creative-accent);
+  color: var(--creative-bg-primary);
+  transform: translateY(-2px);
+}
+
+.scheduleButton:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container {
+    max-width: 100%;
+  }
+}

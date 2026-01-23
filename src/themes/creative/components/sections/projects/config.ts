@@ -27,3 +27,8 @@ export const getProjectsForDisplay = (): ProjectDisplayData[] => {
     index,
   }));
 };
+
+// Get other projects (not in featured list)
+export const getOtherProjects = (): ICaseStudy[] => {
+  return CASE_STUDIES.filter(p => !FEATURED_PROJECT_IDS.includes(p.id as FeaturedProjectId));
+};

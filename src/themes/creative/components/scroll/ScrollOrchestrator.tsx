@@ -7,7 +7,8 @@ import { useGSAP } from '@gsap/react';
 import { useScrollContext } from '../../context/ScrollContext';
 import { PlaceholderSection } from './PlaceholderSection';
 import { HeroSection } from '../sections/hero';
-import { ProjectSection } from '../sections/projects';
+import { ProjectSection, getOtherProjects } from '../sections/projects';
+import { ContactSection } from '../sections/contact';
 import {
   StatPanel,
   AIBrainIllustration,
@@ -35,12 +36,14 @@ export function ScrollOrchestrator() {
   const heroStatsRef = useRef<HTMLDivElement>(null);
   const projectsServicesRef = useRef<HTMLDivElement>(null);
   const servicesContactRef = useRef<HTMLDivElement>(null);
-  const contactCreditsRef = useRef<HTMLDivElement>(null);
 
   const {
     setActiveSection,
     setTotalProgress,
   } = useScrollContext();
+
+  // Get non-featured projects for "Other Projects" section
+  const otherProjects = getOtherProjects();
 
   useGSAP(
     () => {
@@ -98,18 +101,9 @@ export function ScrollOrchestrator() {
       ScrollTrigger.create({
         trigger: '#contact-section',
         start: 'top center',
-        end: 'bottom center',
+        end: 'bottom bottom',
         onEnter: () => setActiveSection('contact'),
         onEnterBack: () => setActiveSection('contact'),
-      });
-
-      // Credits section
-      ScrollTrigger.create({
-        trigger: '#credits-section',
-        start: 'top center',
-        end: 'bottom bottom',
-        onEnter: () => setActiveSection('credits'),
-        onEnterBack: () => setActiveSection('credits'),
       });
 
       // Projects → Services horizontal transition
@@ -158,32 +152,6 @@ export function ScrollOrchestrator() {
                 setActiveSection('services');
               } else {
                 setActiveSection('contact');
-              }
-            },
-          },
-        });
-      }
-
-      // Contact → Credits horizontal transition
-      if (contactCreditsRef.current) {
-        const container = contactCreditsRef.current;
-        const scrollWidth = container.scrollWidth - window.innerWidth;
-
-        gsap.to(container, {
-          x: -scrollWidth,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#contact-credits-transition',
-            start: 'top top',
-            end: () => `+=${scrollWidth}`,
-            scrub: 1,
-            pin: true,
-            anticipatePin: 1,
-            onUpdate: (self) => {
-              if (self.progress < 0.5) {
-                setActiveSection('contact');
-              } else {
-                setActiveSection('credits');
               }
             },
           },
@@ -275,14 +243,43 @@ export function ScrollOrchestrator() {
       {/* ===== PROJECTS → SERVICES TRANSITION (Horizontal) ===== */}
       <section id="projects-services-transition" className={styles.horizontalTransition}>
         <div ref={projectsServicesRef} className={styles.transitionContainer}>
-          {/* End of Projects panel - Other Projects */}
+          {/* Other Projects panel with actual content */}
           <div className={styles.transitionPanel}>
-            <div className={styles.transitionContent}>
-              <span className={styles.transitionLabel}>Other Projects</span>
-              <p className={styles.transitionSubtext}>More work to explore</p>
+            <div className={styles.otherProjectsContent}>
+              <h2 className={styles.otherProjectsTitle}>Other Projects to Explore</h2>
+              <div className={styles.projectCards}>
+                {otherProjects.map((project) => (
+                  <a
+                    key={project.id}
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.projectCard}
+                  >
+                    <div className={styles.cardImage}>
+                      {project.thumbnail ? (
+                        <img src={project.thumbnail} alt={project.title} />
+                      ) : (
+                        <div className={styles.cardImageFallback}>
+                          {project.title[0]}
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.cardContent}>
+                      <h3 className={styles.cardTitle}>{project.title}</h3>
+                      <p className={styles.cardDesc}>{project.shortDescription}</p>
+                      <div className={styles.cardHighlights}>
+                        {project.highlights?.slice(0, 3).map(h => (
+                          <span key={h} className={styles.cardBadge}>{h}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
-          {/* Start of Services panel */}
+          {/* Services panel */}
           <div className={styles.transitionPanel}>
             <div className={styles.transitionContent}>
               <span className={styles.transitionLabel}>Services</span>
@@ -324,77 +321,9 @@ export function ScrollOrchestrator() {
               <p className={styles.transitionSubtext}>Last service item</p>
             </div>
           </div>
-          {/* Start of Contact panel */}
-          <div className={styles.transitionPanel}>
-            <div className={styles.transitionContent}>
-              <span className={styles.transitionLabel}>Contact</span>
-              <p className={styles.transitionSubtext}>Get in touch</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CONTACT ===== */}
-      <section id="contact-section" className={styles.contactSection}>
-        <div className={styles.contactContent}>
-          <div className={styles.contactIllustration}>
-            <div className={styles.characterPlaceholder}>
-              <span>Animated Character</span>
-              <span className={styles.characterSubtext}>Eye tracking + expressions</span>
-            </div>
-          </div>
-          <div className={styles.contactForm}>
-            <h2 className={styles.contactTitle}>Get in Touch</h2>
-            <div className={styles.formPlaceholder}>
-              <div className={styles.formField}>Name</div>
-              <div className={styles.formField}>Email</div>
-              <div className={styles.formField}>Message</div>
-              <div className={styles.formButton}>Send Message</div>
-            </div>
-            <div className={styles.scheduleButton}>Schedule a Call</div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CONTACT → CREDITS TRANSITION (Horizontal) ===== */}
-      <section id="contact-credits-transition" className={styles.horizontalTransition}>
-        <div ref={contactCreditsRef} className={styles.transitionContainer}>
-          {/* End of Contact panel */}
-          <div className={styles.transitionPanel}>
-            <div className={styles.transitionContent}>
-              <span className={styles.transitionLabel}>Send Message</span>
-              <p className={styles.transitionSubtext}>Or schedule a call</p>
-            </div>
-          </div>
-          {/* Start of Credits panel */}
-          <div className={styles.transitionPanel}>
-            <div className={styles.transitionContent}>
-              <span className={styles.transitionLabel}>Credits</span>
-              <p className={styles.transitionSubtext}>Inspirations & thanks</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CREDITS ===== */}
-      <section id="credits-section" className={styles.creditsSection}>
-        <div className={styles.creditsContent}>
-          <h2 className={styles.creditsTitle}>Credits & Inspirations</h2>
-          <p className={styles.creditsSubtitle}>Thank you to these amazing portfolios for inspiration</p>
-          <div className={styles.creditsList}>
-            {[
-              'michalgrzebisz.com',
-              'robinmastromarino.com',
-              'masontywong.com',
-              'parthsharma.me',
-              'remyjouni.dev',
-              'robbowen.digital',
-            ].map((site) => (
-              <div key={site} className={styles.creditItem}>
-                <div className={styles.creditThumb}>Thumbnail</div>
-                <span className={styles.creditLink}>{site}</span>
-              </div>
-            ))}
+          {/* Contact panel with actual form */}
+          <div id="contact-section" className={styles.transitionPanel}>
+            <ContactSection />
           </div>
         </div>
       </section>
