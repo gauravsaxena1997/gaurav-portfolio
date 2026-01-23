@@ -34,49 +34,12 @@
   width: 100vw;
 }
 
-/* Stats panel - 55% width */
+/* Stats panel - compact width, only takes needed space */
 .statPanel {
-  width: 55vw;
+  width: 33vw;
+  min-width: 320px;
   background: var(--creative-bg-primary);
-  border-left: 1px solid var(--creative-text-secondary);
-}
-
-.statContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(1rem, 2vw, 2rem);
-  padding: clamp(2rem, 4vw, 4rem);
-  text-align: center;
-  height: 100%;
-}
-
-.statTitle {
-  font-size: clamp(2rem, 5vw, 5rem);
-  font-weight: 700;
-  color: var(--creative-text-primary);
-  text-transform: uppercase;
-}
-
-.statSubtitle {
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  color: var(--creative-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.stat3DPlaceholder {
-  width: clamp(180px, 28vw, 350px);
-  height: clamp(180px, 28vw, 350px);
-  border: 2px dashed var(--creative-text-secondary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--creative-bg-secondary);
-  font-size: clamp(0.875rem, 1.2vw, 1.125rem);
-  color: var(--creative-text-secondary);
+  padding: 0 clamp(1.5rem, 3vw, 2.5rem);
 }
 
 /* ===== PROJECTS SECTION ===== */
@@ -399,7 +362,7 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .statPanel {
-    width: 90vw;
+    width: 100vw;
   }
 
   .serviceItem {

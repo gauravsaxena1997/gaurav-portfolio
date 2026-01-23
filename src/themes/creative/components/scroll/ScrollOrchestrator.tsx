@@ -8,6 +8,12 @@ import { useScrollContext } from '../../context/ScrollContext';
 import { PlaceholderSection } from './PlaceholderSection';
 import { HeroSection } from '../sections/hero';
 import { ProjectPlaceholder } from './ProjectPlaceholder';
+import {
+  StatPanel,
+  AIBrainIllustration,
+  LaptopCard,
+  GlobeVisualization,
+} from '../sections/stats';
 import styles from './ScrollOrchestrator.module.css';
 
 // Register GSAP plugins
@@ -53,13 +59,17 @@ export function ScrollOrchestrator() {
         const heroStatsContainer = heroStatsRef.current;
         const heroStatsWidth = heroStatsContainer.scrollWidth - window.innerWidth;
 
+        // Add extra scroll buffer on mobile to ensure last panel is fully visible
+        const isMobile = window.innerWidth <= 900;
+        const scrollBuffer = isMobile ? window.innerWidth * 0.3 : 0;
+
         gsap.to(heroStatsContainer, {
           x: -heroStatsWidth,
           ease: 'none',
           scrollTrigger: {
             trigger: '#hero-stats-section',
             start: 'top top',
-            end: () => `+=${heroStatsWidth}`,
+            end: () => `+=${heroStatsWidth + scrollBuffer}`,
             scrub: 1,
             pin: true,
             anticipatePin: 1,
@@ -76,6 +86,10 @@ export function ScrollOrchestrator() {
 
       // Stats → Projects: Diagonal scroll effect
       if (projectsRef.current) {
+        // On mobile, start diagonal animation later to avoid overlap with last stat panel
+        const isMobile = window.innerWidth <= 900;
+        const startPosition = isMobile ? 'top 80%' : 'top bottom';
+
         gsap.fromTo(
           projectsRef.current,
           {
@@ -90,7 +104,7 @@ export function ScrollOrchestrator() {
             ease: 'none',
             scrollTrigger: {
               trigger: '#projects-section',
-              start: 'top bottom',
+              start: startPosition,
               end: 'top top',
               scrub: 1,
               onLeave: () => {
@@ -250,35 +264,51 @@ export function ScrollOrchestrator() {
             <HeroSection />
           </div>
 
-          {/* Stats Panels - 55% width each */}
+          {/* Stats Panels - compact, full height utilization */}
+
+          {/* Panel 1: AI-Assisted Development */}
           <div className={`${styles.panel} ${styles.statPanel}`}>
-            <div className={styles.statContent}>
-              <h2 className={styles.statTitle}>STAT 1</h2>
-              <p className={styles.statSubtitle}>AI Utilization</p>
-              <div className={styles.stat3DPlaceholder}>
-                <span>3D Neural Network</span>
-              </div>
-            </div>
+            <StatPanel
+              title="AI-Assisted Development"
+              description="I use Claude, Cursor, and Copilot daily. AI handles the repetitive work so I focus on what matters."
+              highlights={[
+                '50% faster delivery',
+                'AI catches edge cases',
+                'Consistent code quality',
+              ]}
+              illustration={<AIBrainIllustration />}
+              illustrationPosition="bottom"
+            />
           </div>
 
+          {/* Panel 2: Proven Track Record */}
           <div className={`${styles.panel} ${styles.statPanel}`}>
-            <div className={styles.statContent}>
-              <h2 className={styles.statTitle}>STAT 2</h2>
-              <p className={styles.statSubtitle}>Experience</p>
-              <div className={styles.stat3DPlaceholder}>
-                <span>3D Laptop</span>
-              </div>
-            </div>
+            <StatPanel
+              title="Proven Track Record"
+              description="5+ years building products at startups and enterprises. Now I bring that experience to your project."
+              highlights={[
+                '5+ years experience',
+                '1000+ users served',
+                'Startup to enterprise',
+              ]}
+              illustration={<LaptopCard />}
+              illustrationPosition="top"
+            />
           </div>
 
+          {/* Panel 3: Global Availability */}
           <div className={`${styles.panel} ${styles.statPanel}`}>
-            <div className={styles.statContent}>
-              <h2 className={styles.statTitle}>STAT 3</h2>
-              <p className={styles.statSubtitle}>Global Timezone</p>
-              <div className={styles.stat3DPlaceholder}>
-                <span>3D Globe</span>
-              </div>
-            </div>
+            <StatPanel
+              title="Global Availability"
+              description="I work across time zones with clients in US, EU, and APAC. Async-first, but always available when it matters."
+              highlights={[
+                '24/7 for critical issues',
+                'Overlap with any timezone',
+                'Async communication pro',
+              ]}
+              illustration={<GlobeVisualization />}
+              illustrationPosition="bottom"
+            />
           </div>
         </div>
       </section>
