@@ -10,6 +10,7 @@ import { useScrollContext } from '../../context/ScrollContext';
 import { HeroSection } from '../sections/hero';
 import { ProjectSection } from '../sections/projects';
 import { ContactSection } from '../sections/contact';
+import { ServicesSection } from '../sections/services';
 import { StatPanel } from '../sections/stats';
 import { ErrorBoundary } from '@/components/shared';
 import { LoadingSkeleton } from '../ui';
@@ -43,14 +44,7 @@ const GlobeVisualization = dynamic(
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
-// Services list for vertical scroll section
-const SERVICES = [
-  { title: 'MVP Generation', desc: 'From ideation to demo' },
-  { title: 'UI/UX Design', desc: 'User-centered design' },
-  { title: 'Development', desc: 'Frontend + Backend' },
-  { title: 'Integrations', desc: 'APIs, payments, auth' },
-  { title: 'SEO & Performance', desc: 'Optimization' },
-];
+// Services section now uses dedicated component
 
 export function ScrollOrchestrator() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -225,25 +219,8 @@ export function ScrollOrchestrator() {
 
 
       {/* ===== SERVICES SECTION ===== */}
-      <section id="services-section" className={styles.servicesSection}>
-        <div className={styles.servicesHeader}>
-          <h2 className={styles.sectionTitle}>SERVICES</h2>
-          <p className={styles.sectionSubtitle}>What I offer</p>
-        </div>
-        <div className={styles.servicesContent}>
-          {SERVICES.map((service, i) => (
-            <div key={service.title} className={styles.serviceItem}>
-              <span className={styles.serviceNumber}>{String(i + 1).padStart(2, '0')}</span>
-              <div className={styles.serviceInfo}>
-                <h3 className={styles.serviceTitle}>{service.title}</h3>
-                <p className={styles.serviceDesc}>{service.desc}</p>
-              </div>
-              <div className={styles.serviceIllustration}>
-                <span>Illustration placeholder</span>
-              </div>
-            </div>
-          ))}
-        </div>
+      <section id="services-section">
+        <ServicesSection />
       </section>
 
       {/* ===== CONTACT SECTION ===== */}

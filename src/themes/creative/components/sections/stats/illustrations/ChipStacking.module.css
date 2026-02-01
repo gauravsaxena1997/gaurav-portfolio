@@ -2,7 +2,6 @@
 .container {
   width: 100%;
   height: 100%;
-  /* Ensure it fills the flex/grid parent fully */
   flex: 1;
   min-height: 300px;
   position: relative;
@@ -11,124 +10,151 @@
   align-items: center;
   justify-content: center;
   touch-action: pan-y;
-  /* Allow vertical scrolling */
 }
 
 .chip {
   position: absolute;
-  padding: 15px 26px;
-  /* Scaled by 10% (was 14px 24px) */
-  border-radius: 13px;
-  /* Scaled by 10% (was 12px) */
+  padding: 14px 24px;
+  border-radius: 14px;
   box-sizing: border-box;
   user-select: none;
   touch-action: none;
-  /* Prevent scroll only on chips */
   pointer-events: auto;
 
-  /* 3D appearance with CSS only */
+  /* 3D appearance */
   transform-style: preserve-3d;
   perspective: 1000px;
-  background: var(--chip-color);
   transform-origin: center center;
   will-change: transform;
 
-  /* Layered shadows for depth */
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.4) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.2) inset,
-    0 10px 30px rgba(0, 0, 0, 0.3),
-    0 2px 5px rgba(0, 0, 0, 0.2);
-
-  /* Smooth hover transitions only */
-  transition:
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
-
+  /* Base Transitions */
+  transition: box-shadow 0.2s ease, filter 0.2s ease, transform 0.2s ease, background-color 0.3s ease, color 0.3s ease;
   cursor: grab;
-}
 
-.chip:hover {
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.4) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.2) inset,
-    0 15px 40px rgba(0, 0, 0, 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.25);
-  filter: brightness(1.1);
-}
-
-.chip:active,
-.chip.dragging {
-  cursor: grabbing;
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.4) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.2) inset,
-    0 20px 50px rgba(0, 0, 0, 0.5),
-    0 6px 12px rgba(0, 0, 0, 0.3);
-  scale: 1.05;
-  filter: brightness(1.15);
-}
-
-.chip:focus-visible {
-  outline: 2px solid var(--creative-accent, #FFD700);
-  outline-offset: 4px;
-}
-
-.chipContent {
+  /* Text Styles */
   font-family: var(--font-display, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
-  font-size: clamp(15px, 2.2vw, 20px);
-  /* Scaled by 10% (was 14-18px) */
+  font-size: clamp(14px, 2vw, 18px);
   font-weight: 700;
-  color: white;
-  text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   white-space: nowrap;
-  overflow: visible;
-  /* Changed from hidden to prevent text clipping */
+
+  /* Flex Centering */
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  pointer-events: none;
-  /* Let events pass to parent chip */
-  padding: 0 8px;
-  /* Increased from 0 4px for better breathing room */
 }
 
-/* Accessibility - Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .chip {
-    transition: none !important;
+/* === VARIANT: GOLD (Primary) === */
+/* Gold remains consistent across themes */
+.chip.gold {
+  background: linear-gradient(135deg, #E6B87A 0%, #C29550 100%);
+  color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.3) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.1) inset,
+    0 10px 20px rgba(194, 149, 80, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chip.gold .chipContent {
+  color: #1a0a00;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* === VARIANT: SECONDARY (Theme Adaptive) === */
+.chip.secondary {
+  border: 2px solid var(--creative-accent);
+  /* Accent Border */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Mode: White Box, Black Text */
+:global([data-theme="dark"]) .chip.secondary {
+  background: #ffffff;
+  color: #000000;
+}
+
+:global([data-theme="dark"]) .chip.secondary .chipContent {
+  color: #000000;
+  text-shadow: none;
+}
+
+/* Light Mode: Black Box, White Text (User Request: "Live mode... block become black") */
+:global([data-theme="light"]) .chip.secondary {
+  background: #000000;
+  color: #ffffff;
+}
+
+:global([data-theme="light"]) .chip.secondary .chipContent {
+  color: #ffffff;
+  text-shadow: none;
+}
+
+/* Fallback / Default (if no theme attr, assume Dark/System) */
+@media (prefers-color-scheme: dark) {
+  .chip.secondary {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .chip.secondary .chipContent {
+    color: #000000;
   }
 }
 
-/* Mobile adjustments */
+@media (prefers-color-scheme: light) {
+  .chip.secondary {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .chip.secondary .chipContent {
+    color: #ffffff;
+  }
+}
+
+/* Hover Effects */
+.chip:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.chip.gold:hover {
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.3) inset,
+    0 15px 30px rgba(194, 149, 80, 0.5),
+    0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.chip.secondary:hover {
+  filter: brightness(1.05);
+  /* Subtle lift */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Active/Drag State */
+.chip:active,
+.chip.dragging {
+  cursor: grabbing;
+  scale: 1.05;
+  filter: brightness(1.15);
+  z-index: 9999 !important;
+}
+
+.chipContent {
+  pointer-events: none;
+  width: 100%;
+  text-align: center;
+}
+
+/* Mobile Adjustments */
 @media (max-width: 768px) {
   .chip {
-    padding: 10px 16px;
-  }
-
-  .chipContent {
-    font-size: 13px;
-    letter-spacing: 0.5px;
-  }
-}
-
-/* Tablet adjustments */
-@media (max-width: 1024px) and (min-width: 769px) {
-  .chipContent {
-    font-size: 15px;
-  }
-}
-
-/* Extra small screens */
-@media (max-width: 375px) {
-  .chip {
-    padding: 8px 12px;
-  }
-
-  .chipContent {
-    font-size: 11px;
+    padding: 10px 18px;
+    border-radius: 10px;
   }
 }

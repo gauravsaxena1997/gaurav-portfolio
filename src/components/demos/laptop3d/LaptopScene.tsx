@@ -11,16 +11,22 @@ interface LaptopSceneProps {
   showClickText?: boolean;
   enableMagneticEffect?: boolean;
   transparent?: boolean;  // Allow transparent background
+  defaultOpen?: boolean;  // Start in open state
+  disableClick?: boolean;  // Prevent click interaction
+  magneticStrength?: number;  // Strength of magnetic effect (0-1)
 }
 
 export function LaptopScene({
   screenContent,
   showClickText = true,
   enableMagneticEffect = true,
-  transparent = false  // Default to false for backwards compatibility
+  transparent = false,  // Default to false for backwards compatibility
+  defaultOpen = false,  // Default to closed
+  disableClick = false,  // Allow clicks by default
+  magneticStrength = 1.0  // Full strength by default
 }: LaptopSceneProps) {
-  const [open, setOpen] = useState(false);
-  const [hinge, setHinge] = useState(1.575);
+  const [open, setOpen] = useState(defaultOpen);
+  const [hinge, setHinge] = useState(defaultOpen ? -0.425 : 1.575);
   const [lightColor, setLightColor] = useState('#f0f0f0');
   const containerRef = useRef<HTMLElement>(null);
   const clickTextRef = useRef<HTMLHeadingElement>(null);
@@ -35,7 +41,7 @@ export function LaptopScene({
       value: targetHinge,
       duration: 0.6,
       ease: 'power2.inOut',
-      onUpdate: function() {
+      onUpdate: function () {
         setHinge(this.targets()[0].value);
       }
     });
@@ -62,6 +68,27 @@ export function LaptopScene({
       });
     }
   }, [open, transparent, showClickText, hinge]);
+
+  // Theme detection for shadow styling
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    const checkTheme = () => {
+      const theme = document.documentElement.getAttribute('data-theme');
+      setIsDarkMode(theme !== 'light'); // Default to dark if null
+    };
+
+    // Check initial
+    checkTheme();
+
+    // Observe changes
+    const Observer = window.MutationObserver || (window as any).WebKitMutationObserver;
+    if (Observer) {
+      const observer = new Observer(checkTheme);
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      return () => observer.disconnect();
+    }
+  }, []);
 
   return (
     <main
@@ -91,22 +118,24 @@ export function LaptopScene({
           color={lightColor}
         />
         <Suspense fallback={null}>
-          <group rotation={[0, Math.PI, 0]} onClick={() => setOpen(!open)}>
+          <group rotation={[0, Math.PI, 0]} onClick={disableClick ? undefined : () => setOpen(!open)}>
             <LaptopModel
               open={open}
               hinge={hinge}
               screenContent={screenContent}
               enableMagneticEffect={enableMagneticEffect}
+              magneticStrength={magneticStrength}
             />
           </group>
           <Environment preset="city" />
         </Suspense>
         <ContactShadows
           position={[0, -4.5, 0]}
-          opacity={0.4}
+          opacity={isDarkMode ? 0.2 : 0.4}
           scale={20}
           blur={1.75}
           far={4.5}
+          color={isDarkMode ? '#ffffff' : '#000000'}
         />
       </Canvas>
     </main>

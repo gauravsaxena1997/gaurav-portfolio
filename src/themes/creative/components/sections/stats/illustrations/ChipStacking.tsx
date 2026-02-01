@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 interface ChipData {
   id: string;
   text: string;
-  color: string;
+  variant: 'gold' | 'secondary';
   baseWidth: number;
   width: number;
 }
@@ -23,20 +23,22 @@ interface ChipStackingProps {
   enableAnimations?: boolean;
 }
 
-const DEFAULT_CHIPS: Omit<ChipData, 'baseWidth' | 'width'>[] = [
-  { id: 'years', text: '6+ YEARS', color: 'linear-gradient(135deg, #E6B87A, #C29550)' },      // Bright gold
-  { id: 'projects', text: '25+ PROJECTS', color: 'linear-gradient(135deg, #B89968, #96794E)' },   // Muted bronze
-  { id: 'expertise', text: 'B2B + B2C', color: 'linear-gradient(135deg, #D4A866, #B18F4C)' },  // Warm amber
-  { id: 'skills', text: 'DESIGN + DEV', color: 'linear-gradient(135deg, #C1985F, #9F7A45)' },     // Deep bronze
-  { id: 'scale', text: 'STARTUP → ENTERPRISE', color: 'linear-gradient(135deg, #DAB272, #B79558)' },      // Light copper
-  { id: 'frameworks', text: 'TESTED FRAMEWORKS', color: 'linear-gradient(135deg, #B49461, #927847)' }, // Dark tan
+const RAW_CHIPS = [
+  '25+ PROJECTS DELIVERED', // Longest (22)
+  '6+ YEARS EXPERIENCE',    // (19)
+  'RAPID PROTOTYPING',      // (17)
+  'SCALABLE SYSTEMS',       // (16)
+  'HIGH CONVERSION',        // (15)
+  'GLOBAL CLIENTS',         // (14)
+  'MARKET READY',           // (12)
 ];
 
-const CHIP_HEIGHT = 66; // Increased by 10% from 60
+const CHIP_HEIGHT = 58;
 
 export function ChipStacking({
   className,
-  chips: userChips = DEFAULT_CHIPS,
+  // chips prop is now optional and we'll derive state from RAW_CHIPS by default
+  chips: userChips,
   enableAnimations = true,
 }: ChipStackingProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,19 +57,34 @@ export function ChipStacking({
       : false
   );
 
-  // Measure chip widths on mount
+  // Initialize and Sort Chips (Pyramid Logic)
   useEffect(() => {
-    const measuredChips: ChipData[] = userChips.map((chip) => {
-      const baseWidth = measureChipWidth(chip.text);
+    // 1. Measure all chips
+    const measured = RAW_CHIPS.map((text) => {
+      const baseWidth = measureChipWidth(text);
       const responsiveWidth = getResponsiveWidth(baseWidth);
       return {
-        ...chip,
+        id: text.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+        text,
         baseWidth,
         width: responsiveWidth,
+        variant: 'secondary' as const, // Placeholder
       };
     });
-    setChips(measuredChips);
-  }, [userChips]);
+
+    // 2. Sort by Width Descending (Widest First -> Bottom)
+    measured.sort((a, b) => b.width - a.width);
+
+    // 3. Assign Alternating Variants
+    // Index 0 (Widest/Bottom) = Gold
+    // Index 1 = Secondary
+    const processed: ChipData[] = measured.map((chip, index) => ({
+      ...chip,
+      variant: index % 2 === 0 ? 'gold' : 'secondary',
+    }));
+
+    setChips(processed);
+  }, []); // Run once on mount
 
   // Initialize physics engine
   useEffect(() => {
@@ -406,10 +423,9 @@ export function ChipStacking({
         <div
           key={chip.id}
           id={`chip-${chip.id}`}
-          className={styles.chip}
+          className={`${styles.chip} ${styles[chip.variant]}`}
           style={
             {
-              '--chip-color': chip.color,
               width: `${chip.width}px`,
               height: `${CHIP_HEIGHT}px`,
               opacity: 0, // Start invisible, will fade in

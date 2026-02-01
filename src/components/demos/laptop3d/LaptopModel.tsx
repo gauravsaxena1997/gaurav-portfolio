@@ -30,6 +30,7 @@ interface LaptopModelProps {
   hinge: number;
   screenContent?: ReactNode;
   enableMagneticEffect?: boolean;
+  magneticStrength?: number;  // Multiplier for magnetic effect (0-1)
 }
 
 export function LaptopModel({
@@ -37,6 +38,7 @@ export function LaptopModel({
   hinge,
   screenContent,
   enableMagneticEffect = true,
+  magneticStrength = 1.0,
   ...props
 }: LaptopModelProps) {
   const group = useRef<THREE.Group>(null!);
@@ -71,9 +73,10 @@ export function LaptopModel({
 
     if (enableMagneticEffect && open) {
       // Magnetic effect - laptop follows mouse with lerp for smoothness
-      const targetRotationX = Math.cos(t / 10) / 10 + 0.25 + mouse.current.y * 0.15;
-      const targetRotationY = Math.sin(t / 10) / 4 + mouse.current.x * 0.3;
-      const targetRotationZ = Math.sin(t / 10) / 10;
+      // Apply magneticStrength multiplier to mouse influence
+      const targetRotationX = Math.cos(t / 10) / 10 + 0.25 + mouse.current.y * 0.15 * magneticStrength;
+      const targetRotationY = Math.sin(t / 10) / 4 + mouse.current.x * 0.3 * magneticStrength;
+      const targetRotationZ = Math.sin(t / 10) / 10 * magneticStrength;
 
       group.current.rotation.x = THREE.MathUtils.lerp(
         group.current.rotation.x,

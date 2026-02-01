@@ -1,0 +1,120 @@
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    fill: #95E1D3;
+}
+
+.codeEditor {
+    animation: fadeIn 0.6s ease-out 0.2s both;
+}
+
+.tabText {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    fill: #95E1D3;
+}
+
+.lineNumber {
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 11px;
+    fill: #ffffff40;
+}
+
+.codeLine {
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    fill: #9CDCFE;
+    animation: typeLine 0.3s ease-out both;
+}
+
+.cursor {
+    animation: blink 0.8s infinite;
+}
+
+.terminal {
+    animation: slideUp 0.5s ease-out both;
+}
+
+.terminalTitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    fill: #ffffff60;
+    letter-spacing: 1px;
+}
+
+.terminalText {
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    fill: #ffffff;
+}
+
+.prompt {
+    fill: #95E1D3;
+    font-weight: 600;
+}
+
+.command {
+    fill: #ffeb3b;
+}
+
+.success {
+    fill: #4CAF50;
+}
+
+.terminalOutput {
+    animation: fadeIn 0.8s ease-out 0.5s both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes typeLine {
+    from {
+        opacity: 0;
+        transform: translateX(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
