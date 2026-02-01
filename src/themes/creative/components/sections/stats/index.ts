@@ -1,2 +1,2 @@
 export { StatPanel } from './StatPanel';
-export { AIBrainIllustration, GlobeVisualization, LaptopIllustration } from './illustrations';
+export { AIBrainIllustration, ChipStacking, GlobeVisualization, LaptopIllustration } from './illustrations';

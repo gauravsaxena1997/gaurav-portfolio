@@ -1,7 +1,10 @@
 'use client';
 
-import { memo, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { type LucideIcon } from 'lucide-react';
 import styles from './StatPanel.module.css';
+import { StatPanelDesktop } from './StatPanelDesktop';
+import { StatPanelMobile } from './StatPanelMobile';
 
 interface StatPanelProps {
   /** Panel title */
@@ -10,59 +13,28 @@ interface StatPanelProps {
   description: string;
   /** Highlight/result items with checkmarks */
   highlights?: string[];
-  /** Illustration component to render */
-  illustration: ReactNode;
-  /** Position of illustration: 'bottom' (default) or 'top' */
-  illustrationPosition?: 'top' | 'bottom';
-  /** Additional class name for the panel */
-  className?: string;
+  illustration?: ReactNode;
+  icon?: LucideIcon;
+
+  // Layout Config
+  desktopLayout?: 'text-left' | 'text-right';
+  illustAlign?: 'center' | 'bottom';
+  highlightsLocation?: 'text' | 'illustration';
 }
 
 /**
- * Individual stat panel component with vertical stacked layout
- * Uses space-between for even distribution
+ * Main StatPanel component serving as a wrapper.
+ * Switches between Desktop and Mobile implementations via CSS.
  */
-export const StatPanel = memo(function StatPanel({
-  title,
-  description,
-  highlights,
-  illustration,
-  illustrationPosition = 'bottom',
-  className,
-}: StatPanelProps) {
-  const contentClass = illustrationPosition === 'top'
-    ? styles.statContentReversed
-    : styles.statContent;
-
+export function StatPanel(props: StatPanelProps) {
   return (
-    <div className={`${styles.statPanel} ${className || ''}`}>
-      <div className={contentClass}>
-        {/* Text content */}
-        <div className={styles.textContent}>
-          <h2 className={styles.title}>{title}</h2>
-          <p className={styles.description}>{description}</p>
-
-          {highlights && highlights.length > 0 && (
-            <ul className={styles.pointsList}>
-              {highlights.map((highlight, index) => (
-                <li key={index} className={styles.point}>
-                  <span className={styles.pointCheck}>✓</span>
-                  <span>{highlight}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Illustration - no tilt */}
-        <div className={styles.illustrationContainer}>
-          <div className={styles.tiltWrapper}>
-            <div className={styles.illustration}>
-              {illustration}
-            </div>
-          </div>
-        </div>
+    <>
+      <div className={styles.desktopWrapper}>
+        <StatPanelDesktop {...props} />
       </div>
-    </div>
+      <div className={styles.mobileWrapper}>
+        <StatPanelMobile />
+      </div>
+    </>
   );
-});
+}

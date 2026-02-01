@@ -3,8 +3,6 @@ import * as THREE from 'three';
 import { useRef, useState, useEffect, type ReactNode } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, Html } from '@react-three/drei';
-import { a as three } from '@react-spring/three';
-import type { Interpolation } from '@react-spring/three';
 import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
@@ -29,7 +27,7 @@ type GLTFResult = GLTF & {
 
 interface LaptopModelProps {
   open: boolean;
-  hinge: Interpolation<number, number>;
+  hinge: number;
   screenContent?: ReactNode;
   enableMagneticEffect?: boolean;
 }
@@ -131,7 +129,7 @@ export function LaptopModel({
       dispose={null}
     >
       {/* Screen/Lid group - animated with hinge */}
-      <three.group rotation-x={hinge} position={[0, -0.04, 0.41]}>
+      <group rotation-x={hinge} position={[0, -0.04, 0.41]}>
         <group position={[0, 2.96, -0.13]} rotation={[Math.PI / 2, 0, 0]}>
           <mesh
             geometry={nodes.Cube008.geometry}
@@ -160,7 +158,7 @@ export function LaptopModel({
             )}
           </mesh>
         </group>
-      </three.group>
+      </group>
 
       {/* Keyboard */}
       <mesh

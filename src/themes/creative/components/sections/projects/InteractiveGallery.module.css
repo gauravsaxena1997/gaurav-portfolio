@@ -1,8 +1,8 @@
 .container {
   position: relative;
   width: 100%;
-  /* Height to accommodate overlapping screenshots + scroll space */
-  min-height: 1100px;
+  /* Extended height for full 4-screenshot reveal before unpin */
+  min-height: 1600px;
 }
 
 .screenshot {
@@ -16,15 +16,18 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  /* Only animate box-shadow, not transform - transform handled by JS for smooth parallax */
-  transition: box-shadow 0.2s ease;
-  will-change: transform;
+  /* Smooth transitions for opacity and box-shadow ONLY - transform handled by JS */
+  transition: opacity 0.3s ease-out, box-shadow 0.2s ease;
+  will-change: transform, opacity;
   background: var(--creative-bg-secondary);
   border: 1px solid rgba(255, 255, 255, 0.1);
 
   /* Draggable cursor */
   cursor: grab;
   user-select: none;
+
+  /* Start invisible - JS reveals them */
+  opacity: 0;
 }
 
 .screenshot:hover {

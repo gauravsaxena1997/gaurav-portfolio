@@ -45,11 +45,18 @@ function generateScales(count: number, seed: string): number[] {
   });
 }
 
-// Parallax speeds - REVERSED: First moves FASTEST to reveal ones behind
-const PARALLAX_SPEEDS = [1.0, 0.7, 0.45, 0.25];
+// Movement speeds - how fast each image rises
+const RISE_SPEEDS = [1.0, 0.85, 0.7, 0.55];
 
-// Base vertical positions (pixels from top)
-const BASE_POSITIONS = [0, 200, 400, 600];
+// Staggered reveal thresholds - when each image starts appearing (0-1 progress)
+// 1st: 0%, 2nd: 20%, 3rd: 40%, 4th: 60%
+const REVEAL_THRESHOLDS = [0, 0.2, 0.4, 0.6];
+
+// Base starting positions (pixels below viewport center) - Reduced gaps
+const START_OFFSETS = [600, 750, 900, 1050];
+
+// Final vertical gaps (cumulative) - Decreasing pattern for tighter fan
+const FINAL_GAPS = [0, 45, 80, 105]; // 0, +45, +35, +25
 
 /**
  * InteractiveGallery - Scattered overlapping screenshot display with parallax + DRAG
@@ -270,7 +277,7 @@ export const InteractiveGallery = memo(function InteractiveGallery({
     };
   }, [draggingIndex, xOffsets, scales]);
 
-  // Parallax scroll effect + bar visibility tracking
+  // Sequential staggered reveal scroll effect
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -281,29 +288,46 @@ export const InteractiveGallery = memo(function InteractiveGallery({
       const windowHeight = window.innerHeight;
 
       // Check if screenshots section is in view
-      // Bar visible when: container top is above 80% of viewport AND container bottom is below 20% of viewport
       const isInView = rect.top < windowHeight * 0.7 && rect.bottom > windowHeight * 0.3;
       setIsBarVisible(isInView);
 
       if (prefersReducedMotion) return;
 
-      const progress = Math.max(0, Math.min(1,
-        (windowHeight - rect.top) / (windowHeight + rect.height * 0.5)
+      // Overall scroll progress (0 = just entered, 1 = fully scrolled through)
+      // Extended runway (0.75) to ensure 4th screenshot is fully visible before unpin
+      const totalProgress = Math.max(0, Math.min(1,
+        (windowHeight - rect.top) / (windowHeight + rect.height * 0.75)
       ));
 
       imagesRef.current.forEach((img, index) => {
         if (!img || draggingIndex === index) return;
 
-        const speed = PARALLAX_SPEEDS[index] ?? 0.25;
+        const threshold = REVEAL_THRESHOLDS[index] ?? 0;
+        const speed = RISE_SPEEDS[index] ?? 0.5;
+        const startOffset = START_OFFSETS[index] ?? 600;
         const xOffset = xOffsets[index] ?? 0;
         const scale = scales[index] ?? 1;
         const dragPos = dragPositions[index] || { x: 0, y: 0 };
 
-        const yOffset = (1 - progress) * speed * 300;
+        // Calculate this image's local progress (0 = not started, 1 = done)
+        // Each image starts at its threshold and completes by end
+        const localProgress = Math.max(0, Math.min(1,
+          (totalProgress - threshold) / (1 - threshold)
+        ));
+
+        // Opacity: fade in as localProgress goes from 0 to 0.3
+        const opacity = Math.min(1, localProgress / 0.3);
+
+        // Vertical position: start below, rise to final stacked position
+        // Final position uses decreasing gaps for tighter fan formation
+        const finalY = FINAL_GAPS[index] ?? 0;
+        const yOffset = startOffset * (1 - localProgress * speed) + finalY;
 
         // Track current parallax offset for this image (used when drag starts)
         parallaxOffsetsRef.current[index] = yOffset;
 
+        // Apply transform and opacity
+        img.style.opacity = String(opacity);
         img.style.transform = `translate(calc(-50% + ${xOffset}% + ${dragPos.x}px), calc(${yOffset}px + ${dragPos.y}px)) scale(${scale})`;
       });
     };
@@ -334,7 +358,7 @@ export const InteractiveGallery = memo(function InteractiveGallery({
           className={`${styles.screenshot} ${draggingIndex === index ? styles.dragging : ''}`}
           style={{
             zIndex: getZIndex(index),
-            top: `${BASE_POSITIONS[index] ?? index * 200}px`,
+            top: 0, // Images start at top, positioned via transform
           }}
           onMouseDown={(e) => handleMouseDown(index, e)}
           onTouchStart={(e) => handleTouchStart(index, e)}

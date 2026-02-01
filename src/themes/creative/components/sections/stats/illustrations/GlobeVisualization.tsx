@@ -22,13 +22,16 @@ export const GlobeVisualization = memo(function GlobeVisualization({
   const pointerInteractionMovement = useRef(0);
   const phiRef = useRef(0);
   const globeRef = useRef<ReturnType<typeof createGlobe> | null>(null);
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Detect dark/light mode
+  // Detect dark/light mode with lazy initialization
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  // Listen for dark/light mode changes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDarkMode(mediaQuery.matches);
-
     const handleChange = (e: MediaQueryListEvent) => {
       setIsDarkMode(e.matches);
     };
@@ -84,15 +87,15 @@ export const GlobeVisualization = memo(function GlobeVisualization({
     // Dark Mode: warm beige dots on dark surface
     const themeColors = isDarkMode
       ? {
-          dark: 0.9,                          // Dark globe surface
-          baseColor: [0.85, 0.78, 0.68] as [number, number, number],  // Warm beige dots (visible on dark)
-          glowColor: [0.25, 0.22, 0.18] as [number, number, number],  // Subtle warm glow
-        }
+        dark: 0.9,                          // Dark globe surface
+        baseColor: [0.85, 0.78, 0.68] as [number, number, number],  // Warm beige dots (visible on dark)
+        glowColor: [0.25, 0.22, 0.18] as [number, number, number],  // Subtle warm glow
+      }
       : {
-          dark: 0.1,                          // Light globe surface
-          baseColor: [0.55, 0.45, 0.35] as [number, number, number],  // Warm brown dots (visible on light)
-          glowColor: [0.85, 0.80, 0.72] as [number, number, number],  // Warm beige glow
-        };
+        dark: 0.1,                          // Light globe surface
+        baseColor: [0.55, 0.45, 0.35] as [number, number, number],  // Warm brown dots (visible on light)
+        glowColor: [0.85, 0.80, 0.72] as [number, number, number],  // Warm beige glow
+      };
 
     globeRef.current = createGlobe(canvasRef.current, {
       devicePixelRatio: 2,
@@ -143,28 +146,11 @@ export const GlobeVisualization = memo(function GlobeVisualization({
         position: 'relative',
         width: '100%',
         height: '100%',
-        maxHeight: '42vh',
-        overflow: 'hidden',
-        // Subtle mask to feather the edges where globe is cropped (right and bottom)
-        // This removes hard edges without adding any visible overlay
-        WebkitMaskImage: `
-          linear-gradient(to right, black 0%, black 92%, transparent 100%),
-          linear-gradient(to bottom, black 0%, black 88%, transparent 100%)
-        `,
-        WebkitMaskComposite: 'source-in',
-        maskImage: `
-          linear-gradient(to right, black 0%, black 92%, transparent 100%),
-          linear-gradient(to bottom, black 0%, black 88%, transparent 100%)
-        `,
-        maskComposite: 'intersect',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      {/*
-        Canvas positioned to crop from RIGHT and BOTTOM:
-        - top: 0 (no top crop - globe starts at container top)
-        - right: negative value pushes globe right, cropping from right edge
-        - Large size + overflow:hidden crops from bottom
-      */}
       <canvas
         ref={canvasRef}
         onPointerDown={handlePointerDown}
@@ -172,12 +158,10 @@ export const GlobeVisualization = memo(function GlobeVisualization({
         onPointerOut={handlePointerOut}
         onPointerMove={handlePointerMove}
         style={{
-          position: 'absolute',
-          top: '0',           // No top crop
-          right: '-15%',      // Push right to crop from right edge
-          width: '140%',      // Bigger than container
-          height: '140%',     // Bigger - bottom gets cropped by overflow:hidden
-          maxWidth: '660px',  // Slightly larger max for 10% size increase
+          width: '100%',
+          height: '100%',
+          maxWidth: '660px',  // Preserve max visual size but allow full height
+          maxHeight: '660px',
           touchAction: 'none',
         }}
         aria-label="Interactive 3D globe showing global availability"

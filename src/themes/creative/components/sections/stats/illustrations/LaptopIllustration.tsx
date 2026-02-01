@@ -18,6 +18,7 @@ export const LaptopIllustration = memo(function LaptopIllustration({
         screenContent={<DashboardScreen />}
         showClickText={false}
         enableMagneticEffect={true}
+        transparent={true}  // Use transparent background in stats section
       />
     </div>
   );

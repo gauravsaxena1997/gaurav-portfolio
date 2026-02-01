@@ -40,8 +40,8 @@ const PARTICLE_COUNT = 8;
 
 interface Particle {
   id: number;
-  x: number;      // Position along beam (0-1, 0 = origin, 1 = far end)
-  y: number;      // Offset from beam center (-1 to 1)
+  x: number;      // Horizontal position (% of container)
+  y: number;      // Vertical position (% of container)
   size: number;   // Size in pixels
   delay: number;  // Animation delay
   duration: number; // Animation duration
@@ -85,23 +85,22 @@ function createBeamClipPath(
 function generateParticles(): Particle[] {
   return Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
     id: i,
-    x: 0.15 + Math.random() * 0.7,       // Position along beam (avoid edges)
-    y: (Math.random() - 0.5) * 1.6,      // Offset from center
-    size: 2 + Math.random() * 2,          // 2-4px
-    delay: Math.random() * 3,             // Random start delay
-    duration: 3 + Math.random() * 2,      // 3-5 second drift cycle
+    x: 6 + Math.random() * 88,
+    y: 8 + Math.random() * 80,
+    size: 2 + Math.random() * 2.4,
+    delay: -Math.random() * 6,
+    duration: 4.5 + Math.random() * 3.5,
   }));
 }
 
 /**
- * SpotlightEffect - Uses mix-blend-mode: difference for automatic color inversion
- * This is the industry-standard approach for spotlight/flashlight effects
- * No duplicate content needed - colors invert automatically
+ * SpotlightEffect - Deterministic spotlight beam and particles
  *
  * Features:
  * - Realistic beam retraction when turning off (light fades from far end first)
  * - Subtle floating particles (dust motes) within the beam
  * - Smooth transitions with natural easing
+ * - Exposes beam clip-path via CSS variable for deterministic lit text layers
  */
 export function SpotlightEffect({
   containerRef,
@@ -118,8 +117,12 @@ export function SpotlightEffect({
   const ambientTweenRef = useRef<gsap.core.Tween | null>(null);
   const beamTweenRef = useRef<gsap.core.Tween | null>(null);
 
-  // Generate particles once on mount
-  const particles = useMemo(() => generateParticles(), []);
+  // Generate particles on client mount to avoid hydration mismatch
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    setParticles(generateParticles());
+  }, []);
 
   // Track previous enabled state for transition direction
   const prevEnabledRef = useRef(isEnabled);
@@ -136,6 +139,10 @@ export function SpotlightEffect({
     );
 
     overlayRef.current.style.clipPath = clipPath;
+
+    if (containerRef.current) {
+      containerRef.current.style.setProperty('--spotlight-clip', clipPath);
+    }
 
     // Also update particle layer clip-path
     if (particleLayerRef.current) {
@@ -304,7 +311,7 @@ export function SpotlightEffect({
 
   return (
     <>
-      {/* Main spotlight overlay with mix-blend-mode */}
+      {/* Spotlight beam - uses difference blend mode for automatic color inversion */}
       <div
         ref={overlayRef}
         className={styles.spotlightOverlay}
@@ -330,10 +337,8 @@ export function SpotlightEffect({
             key={p.id}
             className={styles.particle}
             style={{
-              // Position particle along beam direction from origin
-              // x = position along beam, y = perpendicular offset
-              left: `${lighthouseOrigin.x * 100 + (Math.cos(STATIC_ANGLE) * p.x * 60)}%`,
-              top: `${lighthouseOrigin.y * 100 + (Math.sin(STATIC_ANGLE) * p.x * 60) + (p.y * 5)}%`,
+              left: `${p.x}%`,
+              top: `${p.y}%`,
               width: `${p.size}px`,
               height: `${p.size}px`,
               animationDelay: `${p.delay}s`,

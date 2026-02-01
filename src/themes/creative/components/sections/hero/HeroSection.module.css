@@ -5,7 +5,26 @@
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: 100vh;
+  /* Ensure full viewport coverage within pinned area */
   overflow: hidden;
+  --hero-vertical-padding: clamp(2rem, 5vw, 4rem);
+}
+
+.greetingAccent {
+  color: var(--creative-hero-name-color);
+  font-weight: 800;
+}
+
+/* Initial state - hide text elements for entrance animation, keep lighthouse visible */
+/* Initial state - hide text elements for entrance animation, keep lighthouse visible */
+.heroContainer .greeting,
+.heroContainer .heroName,
+.heroContainer .heroTagline,
+.heroContainer .heroSubtitle,
+.heroContainer .socialLinks {
+  opacity: 0;
+  /* Removed transform: translateX(-30px); to prevent layout shift gaps */
 }
 
 /* Base layer - default theme colors */
@@ -18,18 +37,79 @@
   align-items: center;
 }
 
-/* Spotlight overlay - uses mix-blend-mode for warm golden tint inversion */
+/* Lit layer - deterministic text colors clipped to spotlight */
+.litLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  clip-path: var(--spotlight-clip, polygon(0 0, 0 0, 0 0));
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.litLayerActive {
+  opacity: 1;
+}
+
+.litLayer .heroContent {
+  color: var(--creative-beam-text-inverted);
+}
+
+.litLayer .greeting,
+.litLayer .heroTagline {
+  color: var(--creative-beam-text-inverted);
+}
+
+.litLayer .greetingAccent {
+  color: var(--creative-beam-accent-inverted);
+}
+
+.litLayer .heroName {
+  color: var(--creative-beam-accent-inverted);
+}
+
+.litLayer .heroSubtitle {
+  color: var(--creative-beam-text-muted);
+}
+
+.litLayer .socialLink {
+  color: var(--creative-beam-accent-inverted);
+}
+
+.litLayer .socialDivider {
+  background: var(--creative-beam-text-muted);
+}
+
+/* Remove any text stroke globally in hero */
+.baseLayer *,
+.heroContent * {
+  -webkit-text-stroke: 0 !important;
+  text-stroke: 0 !important;
+  paint-order: fill;
+}
+
+/* Spotlight overlay - golden beam with hard-light blend for dramatic color interaction */
 .spotlightOverlay {
   position: absolute;
   inset: 0;
-  background: var(--creative-spotlight-color);
-  mix-blend-mode: difference;
+  background: radial-gradient(ellipse at 12% 50%,
+      rgba(var(--creative-spotlight-rgb), 0.9) 0%,
+      rgba(var(--creative-spotlight-rgb), 0.65) 55%,
+      rgba(var(--creative-spotlight-rgb), 0.25) 100%);
   pointer-events: none;
-  /* GPU acceleration without will-change to prevent flickering */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   /* Initial clip-path will be set by JS */
   clip-path: polygon(0 0, 0 0, 0 0);
+}
+
+/* Dark mode - keep beam palette consistent */
+[data-theme="dark"] .spotlightOverlay {
+  background: radial-gradient(ellipse at 12% 50%,
+      rgba(var(--creative-spotlight-rgb), 0.9) 0%,
+      rgba(var(--creative-spotlight-rgb), 0.65) 55%,
+      rgba(var(--creative-spotlight-rgb), 0.25) 100%);
 }
 
 /* Particle layer - floating dust motes in spotlight beam */
@@ -47,55 +127,118 @@
 .particle {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 244, 220, 0.65);
+  box-shadow: 0 0 10px rgba(255, 232, 190, 0.65);
   animation: particleDrift ease-in-out infinite;
-  mix-blend-mode: overlay;
 }
 
 /* Particle floating/drifting animation */
 @keyframes particleDrift {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.1;
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(0.98);
+    opacity: 0.3;
   }
+
   25% {
-    transform: translate(3px, -2px) scale(1.1);
-    opacity: 0.25;
+    transform: translate(8px, -6px) scale(1.08);
+    opacity: 0.55;
   }
+
   50% {
-    transform: translate(5px, 2px) scale(0.9);
-    opacity: 0.15;
+    transform: translate(14px, 6px) scale(0.92);
+    opacity: 0.4;
   }
+
   75% {
-    transform: translate(2px, -3px) scale(1.05);
-    opacity: 0.2;
+    transform: translate(6px, -10px) scale(1.03);
+    opacity: 0.5;
   }
 }
 
 /* Hero content container */
 .heroContent {
-  padding: clamp(2rem, 5vw, 6rem);
+  padding: var(--hero-vertical-padding);
+  padding-top: calc(var(--header-height) + var(--hero-vertical-padding));
+  padding-bottom: clamp(1rem, 2vh, 2rem);
   padding-left: clamp(3rem, 8vw, 10rem);
-  max-width: 800px;
+  max-width: 1000px;
 }
 
-/* Typography */
+/* ===== TYPOGRAPHY - NEW DESIGN SYSTEM ===== */
+
+/* Eyebrow - de-emphasized label (increased from 0.875rem to 1.25rem, bolder) */
 .greeting {
-  font-size: clamp(1rem, 1.5vw + 0.5rem, 1.5rem);
-  font-weight: 500;
-  color: var(--creative-text-primary);
-  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
-}
-
-.tagline {
-  font-size: clamp(0.875rem, 1vw + 0.5rem, 1.125rem);
+  font-family: var(--font-body);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: 0;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--creative-text-secondary);
-  margin-bottom: clamp(1rem, 2vw, 1.5rem);
-  font-weight: 500;
+  color: var(--creative-text-primary);
+  opacity: 0.7;
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+  -webkit-text-stroke: 0;
+  /* Remove any stroke */
+  text-stroke: 0;
+  /* Remove any stroke */
 }
 
+/* Hero Name - dominant, 70% visual weight (increased from clamp(3rem, 12vw, 9rem) to clamp(4rem, 14vw, 11rem) = +22%) */
+.heroName {
+  font-family: var(--font-display);
+  font-size: clamp(3.6rem, 12.5vw, 10rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--creative-hero-name-color);
+  margin: clamp(0.75rem, 1.5vw, 1rem) 0 clamp(1.5rem, 3vw, 2rem);
+  margin-left: -0.08em;
+  /* Optical alignment to match greeting left edge */
+  -webkit-text-stroke: 0;
+  /* Remove any stroke */
+  text-stroke: 0;
+  /* Remove any stroke */
+  paint-order: fill;
+  /* Ensure clean rendering */
+}
+
+/* Positioning Line - memorable tagline (increased from clamp(1.25rem, 3vw, 2.25rem) to clamp(1.5rem, 4vw, 2.75rem) = +22%) */
+.heroTagline {
+  font-family: var(--font-body);
+  font-size: clamp(1.5rem, 4vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--creative-text-primary);
+  margin: 0 0 clamp(1.5rem, 3vw, 2rem);
+  max-width: 800px;
+  /* Wider to prevent "Design systems that scale." from wrapping */
+  -webkit-text-stroke: 0;
+  /* Remove any stroke */
+  text-stroke: 0;
+  /* Remove any stroke */
+}
+
+/* Supporting Text - value-focused description (increased from clamp(1rem, 1.5vw, 1.25rem) to clamp(1.125rem, 2vw, 1.5rem) = +20%) */
+.heroSubtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+  color: var(--creative-text-secondary);
+  max-width: 640px;
+  /* Increased from 540px */
+  margin: 0;
+  -webkit-text-stroke: 0;
+  /* Remove any stroke */
+  text-stroke: 0;
+  /* Remove any stroke */
+}
+
+/* Legacy class for compatibility - maps to tagline */
 .heroTitle {
   font-size: clamp(2.5rem, 8vw + 1rem, 7rem);
   font-weight: 700;
@@ -107,14 +250,6 @@
 
 .titleAccent {
   color: var(--creative-accent);
-}
-
-.heroSubtitle {
-  font-size: clamp(1rem, 1.5vw + 0.5rem, 1.35rem);
-  line-height: 1.6;
-  color: var(--creative-text-secondary);
-  max-width: 540px;
-  margin: 0;
 }
 
 /* Non-blending layer - sits ABOVE the spotlight overlay */
@@ -136,23 +271,20 @@
 /* Now inside nonBlendingLayer to avoid mix-blend-mode effects */
 .lighthouse {
   position: absolute;
-  bottom: 0;
+  bottom: -5px;
+  /* Negative margin to eliminate gap from SVG land base */
   right: 0;
   width: clamp(145px, 18vw, 240px);
   height: auto;
   z-index: 10;
-  /* GPU acceleration to prevent sub-pixel flickering during scroll */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   will-change: transform;
 }
 
 .lighthouseMobile {
   right: 50%;
-  transform: translateX(50%) translateZ(0);
+  transform: translateX(50%);
   bottom: 3%;
   width: clamp(60px, 15vw, 100px);
-  backface-visibility: hidden;
 }
 
 /* Social Links */
@@ -162,32 +294,34 @@
   margin-top: clamp(2rem, 4vw, 3rem);
 }
 
+.socialDivider {
+  width: clamp(180px, 42vw, 520px);
+  height: 1px;
+  background: var(--creative-hero-divider-color);
+  margin: clamp(1.25rem, 3vw, 1.75rem) 0 clamp(1rem, 2vw, 1.5rem);
+}
+
 .socialLink {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  color: var(--creative-text-primary);
+  color: var(--creative-hero-social-color);
   transition:
     color var(--creative-transition-fast),
     transform var(--creative-transition-fast);
 }
 
 .socialLink svg {
-  width: clamp(20px, 2.5vw, 28px);
-  height: clamp(20px, 2.5vw, 28px);
-}
-
-.socialLink:hover {
-  color: var(--creative-accent);
-  transform: translateY(-2px);
+  width: clamp(29px, 3.6vw, 38px);
+  /* Increased by 20% */
+  height: clamp(29px, 3.6vw, 38px);
 }
 
 .socialLink:focus-visible {
   outline: 2px solid var(--creative-accent);
   outline-offset: 2px;
 }
-
 
 /* Clickable Lighthouse */
 .lighthouseClickable {
@@ -221,6 +355,7 @@
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -232,6 +367,7 @@
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -243,6 +379,7 @@
     opacity: 0;
     transform: translateY(50px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -250,9 +387,12 @@
 }
 
 @keyframes lampPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     filter: drop-shadow(0 0 8px var(--creative-accent));
   }
+
   50% {
     filter: drop-shadow(0 0 20px var(--creative-accent));
   }
@@ -268,6 +408,7 @@
 /* Tablet and below */
 @media (max-width: 900px) {
   .heroContent {
+    --hero-vertical-padding: clamp(1.75rem, 5vw, 3rem);
     padding-left: clamp(2rem, 5vw, 4rem);
     max-width: 90%;
   }
@@ -281,15 +422,18 @@
 @media (max-width: 768px) {
   .heroContent {
     text-align: left;
-    padding: 1.5rem;
-    padding-top: 12vh;
-    padding-bottom: 38%;
+    --hero-vertical-padding: clamp(1.5rem, 6vw, 2.5rem);
+    padding: var(--hero-vertical-padding);
+    padding-top: calc(var(--header-height) + var(--hero-vertical-padding));
+    padding-bottom: calc(var(--hero-vertical-padding) * 1.1);
     max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
-    height: 100%;
+    justify-content: center;
+    /* Changed from flex-start to center vertically */
+    min-height: 100%;
+    /* Avoid forcing overflow while still filling the panel */
   }
 
   .greeting {
@@ -310,6 +454,22 @@
     line-height: 1.0;
     margin-bottom: 1.25rem;
     text-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+  }
+
+  .heroName {
+    font-size: clamp(2.25rem, 11vw, 4rem);
+    /* Slightly reduced to prevent mobile overflow */
+    line-height: 1.08;
+    /* Slightly tighter for small screens */
+    margin-bottom: 1.1rem;
+    max-width: 100%;
+    /* Allow natural wrapping */
+  }
+
+  .heroTagline {
+    font-size: clamp(1.1rem, 5vw, 1.6rem);
+    line-height: 1.35;
+    max-width: 95%;
   }
 
   .heroSubtitle {
@@ -357,17 +517,6 @@
     animation: lighthouseRise 0.8s ease-out 0.35s forwards;
   }
 
-  /* Lamp glow effect - uses filter instead of animation to avoid re-triggering entrance */
-  .lighthouseMobile.glowActive {
-    filter: drop-shadow(0 0 12px var(--creative-accent));
-    transition: filter 0.3s ease;
-  }
-
-  .lighthouseMobile:not(.glowActive) {
-    filter: none;
-    transition: filter 0.3s ease;
-  }
-
   /* Touch feedback for lighthouse */
   .lighthouseClickable:active {
     transform: scale(0.95);
@@ -377,13 +526,20 @@
 /* Small mobile */
 @media (max-width: 480px) {
   .heroContent {
-    padding: 1.25rem;
-    padding-top: 10vh;
-    padding-bottom: 40%;
+    --hero-vertical-padding: clamp(1.25rem, 6vw, 2rem);
+    padding: var(--hero-vertical-padding);
+    padding-top: calc(var(--header-height) + var(--hero-vertical-padding));
+    padding-bottom: var(--hero-vertical-padding);
   }
 
   .heroTitle {
     font-size: clamp(1.75rem, 11vw, 2.5rem);
+  }
+
+  .heroName {
+    font-size: clamp(2.25rem, 13vw, 3.5rem);
+    /* Increased proportionally */
+    line-height: 1.1;
   }
 
   .heroSubtitle {
@@ -435,10 +591,6 @@
     animation: none;
     opacity: 1;
     transform: none;
-  }
-
-  .lighthouseMobile.glowActive {
-    filter: none;
   }
 
   /* Disable particle animations */

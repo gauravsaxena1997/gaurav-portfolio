@@ -108,10 +108,10 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
         </filter>
       </defs>
 
-      {/* Shadow underneath */}
+      {/* Shadow underneath - moved closer to robot body */}
       <ellipse
         cx="100"
-        cy="192"
+        cy="180"
         rx="35"
         ry="6"
         fill="var(--creative-text-secondary)"

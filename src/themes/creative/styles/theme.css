@@ -1,17 +1,53 @@
 /* Creative Theme - Design Tokens */
+/* Design System: Warm Bronze & Cream - v1.0.0 */
 
 :root {
-  /* Dark theme (default) */
-  --creative-bg-primary: #0a0a0a;
-  --creative-bg-secondary: #141414;
-  --creative-text-primary: #ffffff;
-  --creative-text-secondary: #a0a0a0;
-  --creative-accent: #B8860B;
-  --creative-accent-hover: #D4A017;
-  --creative-accent-rgb: 184, 134, 11;
+  /* ===== DARK THEME (DEFAULT) ===== */
+
+  /* Backgrounds */
+  --creative-bg-primary: #0F0E0D;           /* Deep warm black */
+  --creative-bg-secondary: #1A1816;         /* Elevated warm charcoal */
+  --creative-bg-primary-rgb: 15, 14, 13;    /* For rgba() usage */
+  --creative-bg-secondary-rgb: 26, 24, 22;  /* For rgba() usage */
+
+  /* Text */
+  --creative-text-primary: #F5F4F0;         /* Warm white */
+  --creative-text-secondary: #9B9490;       /* Warm mid-gray */
+
+  /* Accents */
+  --creative-accent: #C9A961;               /* Champagne gold */
+  --creative-accent-secondary: #B8935C;     /* Deeper bronze */
+  --creative-accent-hover: #D4AF6A;         /* Brighter champagne */
+  --creative-accent-rgb: 201, 169, 97;      /* RGB for champagne gold */
+
+  /* Hero-specific accents */
+  --creative-hero-name-color: #B8935C;
+  --creative-hero-social-color: #B8935C;
+  --creative-hero-divider-color: rgba(184, 147, 92, 0.32);
+
+  /* Stats section */
+  --creative-stats-overlay: #C4A15B;
+  --creative-stats-title: #B8935C;  /* Bronze accent - matches hero name */
+  --creative-stats-body: #2F2418;
+  --creative-stats-highlight: #3F2E1B;
+  --creative-stats-check: #1A1208;
+
+  /* Borders */
+  --creative-border-color: rgba(201, 169, 97, 0.2);
 
   /* Spotlight beam colors */
-  --creative-spotlight-color: #E8D5A8;
+  --creative-spotlight-color: #C89C4A;      /* Darker golden beam */
+  --creative-spotlight-rgb: 200, 156, 74;   /* RGB for spotlight */
+
+  /* Beam-on-text colors (when beam crosses text) */
+  --creative-beam-text-inverted: #1A1816;   /* Text becomes warm black */
+  --creative-beam-text-muted: rgba(26, 24, 22, 0.82);
+  --creative-beam-accent-inverted: #FFF2C7; /* Name becomes warm ivory */
+
+  /* Stats section revealed colors (when overlay passes through) */
+  --creative-stats-title-revealed: #FFF2C7;     /* Title becomes warm ivory (same as hero name) */
+  --creative-stats-text-revealed: #1A1816;      /* Description/highlights become dark black */
+  --creative-stats-divider-revealed: rgba(255, 242, 199, 0.32); /* Divider becomes light */
 
   /* Progress bar */
   --creative-progress-bg: rgba(255, 255, 255, 0.1);
@@ -21,19 +57,75 @@
   --creative-transition-fast: 150ms ease;
   --creative-transition-normal: 300ms ease;
   --creative-transition-slow: 500ms ease;
+
+  /* Responsive spacing */
+  --header-height: 64px;  /* Desktop default - overridden in mobile media query */
+  --container-padding: clamp(1rem, 4vw, 3rem);
+  --section-gap: clamp(3rem, 10vh, 8rem);
+
+  /* Typography */
+  --font-display: 'Archivo Expanded', system-ui, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Mobile header height override */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 56px;
+  }
+
+  [data-theme="light"] {
+    --header-height: 56px;
+  }
 }
 
 [data-theme="light"] {
-  --creative-bg-primary: #ffffff;
-  --creative-bg-secondary: #f5f5f5;
-  --creative-text-primary: #0a0a0a;
-  --creative-text-secondary: #666666;
-  --creative-accent: #B8860B;
-  --creative-accent-hover: #9A7209;
-  --creative-accent-rgb: 184, 134, 11;
+  /* ===== LIGHT THEME ===== */
 
-  /* Spotlight beam colors - pure white for clean black inversion on light bg */
-  --creative-spotlight-color: #ffffff;
+  /* Backgrounds */
+  --creative-bg-primary: #FAFAF8;           /* Warm off-white */
+  --creative-bg-secondary: #F5F4F0;         /* Subtle warmth */
+  --creative-bg-primary-rgb: 250, 250, 248; /* For rgba() usage */
+  --creative-bg-secondary-rgb: 245, 244, 240; /* For rgba() usage */
+
+  /* Text */
+  --creative-text-primary: #1A1816;         /* Warm black */
+  --creative-text-secondary: #6B6560;       /* Warm gray */
+
+  /* Accents */
+  --creative-accent: #C9A961;               /* Same champagne gold */
+  --creative-accent-secondary: #B8935C;     /* Same bronze */
+  --creative-accent-hover: #B8935C;         /* Deeper for contrast */
+  --creative-accent-rgb: 201, 169, 97;      /* Same RGB */
+
+  /* Hero-specific accents */
+  --creative-hero-name-color: #B8935C;
+  --creative-hero-social-color: #B8935C;
+  --creative-hero-divider-color: rgba(26, 24, 22, 0.18);
+
+  /* Stats section */
+  --creative-stats-overlay: #D6BD7A;
+  --creative-stats-title: #B8935C;  /* Bronze accent - matches hero name */
+  --creative-stats-body: #33271B;
+  --creative-stats-highlight: #3F2E1B;
+  --creative-stats-check: #1A1208;
+
+  /* Borders */
+  --creative-border-color: rgba(201, 169, 97, 0.15);
+
+  /* Spotlight beam colors */
+  --creative-spotlight-color: #C89C4A;      /* Darker golden beam (same as dark mode) */
+  --creative-spotlight-rgb: 200, 156, 74;   /* RGB for spotlight */
+
+  /* Beam-on-text colors (when beam crosses text) */
+  --creative-beam-text-inverted: #FFFFFF;   /* Text becomes white */
+  --creative-beam-text-muted: rgba(255, 255, 255, 0.82);
+  --creative-beam-accent-inverted: #FFF2C7; /* Name becomes warm ivory */
+
+  /* Stats section revealed colors (when overlay passes through) */
+  --creative-stats-title-revealed: #FFF2C7;     /* Title becomes warm ivory (same as hero name) */
+  --creative-stats-text-revealed: #FFFFFF;      /* Description/highlights become white */
+  --creative-stats-divider-revealed: rgba(255, 242, 199, 0.32); /* Divider becomes light */
 
   /* Progress bar */
   --creative-progress-bg: rgba(0, 0, 0, 0.1);
@@ -82,18 +174,21 @@
   line-height: 1.5;
 }
 
-/* Remove default focus outlines for creative theme - use visual feedback instead */
-[data-theme="light"],
-[data-theme="dark"] {
-  button:focus,
-  [role="button"]:focus,
-  a:focus {
-    outline: none;
-  }
+/* Focus styles - accessibility-first with branded accent */
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--creative-accent);
+  outline-offset: 2px;
+  transition: outline-color var(--creative-transition-fast);
+}
 
-  button:focus-visible,
-  [role="button"]:focus-visible,
-  a:focus-visible {
-    outline: none;
-  }
+/* Remove default focus for non-keyboard interactions */
+button:focus:not(:focus-visible),
+[role="button"]:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
 }

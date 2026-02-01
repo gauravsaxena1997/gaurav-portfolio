@@ -1,0 +1,134 @@
+/* ChipStacking.module.css */
+.container {
+  width: 100%;
+  height: 100%;
+  /* Ensure it fills the flex/grid parent fully */
+  flex: 1;
+  min-height: 300px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: pan-y;
+  /* Allow vertical scrolling */
+}
+
+.chip {
+  position: absolute;
+  padding: 15px 26px;
+  /* Scaled by 10% (was 14px 24px) */
+  border-radius: 13px;
+  /* Scaled by 10% (was 12px) */
+  box-sizing: border-box;
+  user-select: none;
+  touch-action: none;
+  /* Prevent scroll only on chips */
+  pointer-events: auto;
+
+  /* 3D appearance with CSS only */
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  background: var(--chip-color);
+  transform-origin: center center;
+  will-change: transform;
+
+  /* Layered shadows for depth */
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.2) inset,
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 2px 5px rgba(0, 0, 0, 0.2);
+
+  /* Smooth hover transitions only */
+  transition:
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+
+  cursor: grab;
+}
+
+.chip:hover {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.2) inset,
+    0 15px 40px rgba(0, 0, 0, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.25);
+  filter: brightness(1.1);
+}
+
+.chip:active,
+.chip.dragging {
+  cursor: grabbing;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.2) inset,
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    0 6px 12px rgba(0, 0, 0, 0.3);
+  scale: 1.05;
+  filter: brightness(1.15);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--creative-accent, #FFD700);
+  outline-offset: 4px;
+}
+
+.chipContent {
+  font-family: var(--font-display, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-size: clamp(15px, 2.2vw, 20px);
+  /* Scaled by 10% (was 14-18px) */
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: visible;
+  /* Changed from hidden to prevent text clipping */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  pointer-events: none;
+  /* Let events pass to parent chip */
+  padding: 0 8px;
+  /* Increased from 0 4px for better breathing room */
+}
+
+/* Accessibility - Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .chip {
+    transition: none !important;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .chip {
+    padding: 10px 16px;
+  }
+
+  .chipContent {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .chipContent {
+    font-size: 15px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 375px) {
+  .chip {
+    padding: 8px 12px;
+  }
+
+  .chipContent {
+    font-size: 11px;
+  }
+}

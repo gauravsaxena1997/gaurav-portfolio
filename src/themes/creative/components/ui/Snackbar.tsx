@@ -26,12 +26,6 @@ export const Snackbar = memo(function Snackbar({
   children,
 }: SnackbarProps) {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  // Ensure we only render portal on client
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Auto-dismiss logic
   useEffect(() => {
@@ -81,7 +75,8 @@ export const Snackbar = memo(function Snackbar({
   );
 
   // Use portal to render at body level, avoiding overflow:hidden clipping
-  if (!mounted) return null;
+  // Check for SSR before using document
+  if (typeof document === 'undefined') return null;
   return createPortal(snackbarContent, document.body);
 });
 

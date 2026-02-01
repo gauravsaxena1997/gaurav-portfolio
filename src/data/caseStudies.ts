@@ -81,7 +81,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
   {
     id: 'lumore',
     slug: 'lumore',
-    title: 'Lumore - AI-Powered Cosmetic E-commerce Demo',
+    title: 'Lumore: Cosmetic E-comm Demo',
     category: 'case-study',
     featured: true,
     shortDescription:

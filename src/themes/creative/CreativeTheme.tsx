@@ -1,37 +1,35 @@
 'use client';
 
-import { useState, useSyncExternalStore } from 'react';
-import { Sun, Moon } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { ScrollProvider } from './context/ScrollContext';
 import { ScrollOrchestrator } from './components/scroll/ScrollOrchestrator';
 import { ProgressScrollbar } from './components/scroll/ProgressScrollbar';
+import { Header } from './components/header/Header';
+import { GuideBar } from './components/ui';
 
 import './styles/theme.css';
 import './styles/scrollbar.css';
 import styles from './styles/creative.module.css';
 
-// Hook to safely check if we're on the client
-const subscribe = () => () => {};
-const getSnapshot = () => true;
-const getServerSnapshot = () => false;
-
-function useIsMounted() {
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+interface CreativeThemeProps {
+  currentTheme: 'creative' | 'github';
+  onThemeChange: (theme: 'creative' | 'github') => void;
 }
 
-// Hook to get initial theme from localStorage/system preference
-function getInitialTheme(): 'dark' | 'light' {
-  if (typeof window === 'undefined') return 'dark';
-  const saved = localStorage.getItem('creative-theme');
-  if (saved === 'light' || saved === 'dark') return saved;
-  if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
-  return 'dark';
-}
+export function CreativeTheme({ currentTheme, onThemeChange }: CreativeThemeProps) {
+  // Initialize theme from localStorage with lazy initialization (prevents hydration mismatch)
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    if (typeof window === 'undefined') return 'dark';
+    const saved = localStorage.getItem('creative-theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+    if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
+    return 'dark';
+  });
 
-export function CreativeTheme() {
-  const mounted = useIsMounted();
-  // Initialize theme from localStorage (lazy initialization handles client-side read)
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => getInitialTheme());
+  // Apply theme to document root for global access (e.g., portaled modals)
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   // Toggle theme
   const toggleTheme = () => {
@@ -40,26 +38,20 @@ export function CreativeTheme() {
     localStorage.setItem('creative-theme', newTheme);
   };
 
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <ScrollProvider>
       <div
         className={`${styles.creativeTheme} creative-theme`}
         data-theme={theme}
+        suppressHydrationWarning
       >
-        {/* Theme Toggle Button */}
-        <button
-          className={styles.themeToggle}
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-        >
-          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-        </button>
+        {/* Fixed Header */}
+        <Header
+          currentTheme={currentTheme}
+          onThemeChange={onThemeChange}
+          themeMode={theme}
+          onModeToggle={toggleTheme}
+        />
 
         {/* Custom Progress Scrollbar */}
         <ProgressScrollbar />
@@ -68,6 +60,9 @@ export function CreativeTheme() {
         <main className={styles.scrollContainer}>
           <ScrollOrchestrator />
         </main>
+
+        {/* Guide Bar - Welcome message and lighthouse hint */}
+        <GuideBar />
       </div>
     </ScrollProvider>
   );

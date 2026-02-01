@@ -1,7 +1,8 @@
 .projectsContainer {
   position: relative;
   width: 100%;
-  overflow: visible; /* Ensure no overflow interference with sticky */
+  overflow: visible;
+  /* Ensure no overflow interference with sticky */
 }
 
 .projectSlide {
@@ -12,85 +13,115 @@
   padding: clamp(2rem, 4vw, 4rem);
   gap: 2rem;
   position: relative;
-  overflow: visible; /* Allow sticky to work */
+  overflow: visible;
+  /* Allow sticky to work */
 }
 
-/* LEFT COLUMN - Becomes sticky while right scrolls */
+/* LEFT COLUMN - Sticky & Centered */
 .leftColumn {
   position: relative;
   display: flex;
-  align-items: flex-start;
-  overflow: visible; /* Allow sticky to work */
+  align-items: center;
+  /* Vertical center within viewport space */
+  justify-content: center;
+  overflow: visible;
 }
 
 .stickyContent {
   position: sticky;
-  top: clamp(2rem, 4vw, 4rem);
+  top: 0;
+  height: 100vh;
+  /* Take full viewport height for centering */
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: 500px;
-  /* Sticky within the project slide */
+  justify-content: center;
+  /* Center text block vertically */
+  gap: clamp(1.5rem, 3vh, 2.5rem);
+  max-width: 640px;
+  /* Wider for filler look */
+  padding: 2rem;
   align-self: flex-start;
 }
 
 .projectHeader {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  /* Reduced gap */
+  margin-bottom: 1rem;
 }
 
 .projectNumber {
-  font-family: var(--creative-font-display);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8vw, 7rem);
+  /* Double size */
+  font-weight: 800;
   color: var(--creative-accent);
-  letter-spacing: 0.05em;
+  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
-.divider {
-  font-size: clamp(1.25rem, 2.5vw, 2rem);
-  color: var(--creative-text-secondary);
-  opacity: 0.5;
+.headerSeparator {
+  width: 2px;
+  height: clamp(3rem, 6vw, 5rem);
+  background: var(--creative-text-secondary);
+  opacity: 0.3;
+}
+
+.titleStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* Increased gap between title and tag */
 }
 
 .projectName {
-  font-family: var(--creative-font-display);
-  font-size: clamp(1.25rem, 2.5vw, 2rem);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  /* Slightly reduced to give more space */
+  font-weight: 700;
   color: var(--creative-text-primary);
-  letter-spacing: 0.1em;
-  white-space: nowrap;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  margin: 0;
+  max-width: 420px;
+  /* Constrain width to prevent overflow */
 }
 
 /* RIGHT COLUMN - Scrolls with media content */
 .rightColumn {
   display: flex;
   flex-direction: column;
-  gap: 4rem; /* Gap before screenshots section */
+  gap: 4rem;
+  /* Gap before screenshots section */
   padding-top: 4rem;
 }
 
-/* Hero video section */
+/* Hero video section - HERO PATTERN: Centered */
 .heroMedia {
   width: 100%;
-  max-width: 840px; /* Match video size +20% */
+  max-width: 840px;
+  height: 100vh;
+  /* Take full height for vertical centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Category Badge with Tooltip */
+/* Category Badge - Now sits under Title */
 .categoryBadge {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
-  background: var(--creative-accent);
-  color: var(--creative-bg-primary);
-  font-size: clamp(0.625rem, 1vw, 0.75rem);
-  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+  color: var(--creative-accent);
+  border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+  font-size: clamp(0.7rem, 0.9vw, 0.8rem);
+  font-family: var(--font-body);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   border-radius: 4px;
   width: fit-content;
-  position: relative;
-  cursor: help;
 }
 
 .categoryBadge::after {
@@ -120,85 +151,77 @@
   visibility: visible;
 }
 
-/* Section styling */
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.sectionTitle {
-  font-family: var(--creative-font-display);
-  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
-  font-weight: 600;
-  color: var(--creative-text-secondary);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+/* About Description - Large & Bold */
+.aboutSection {
+  margin-top: 1rem;
 }
 
 .description {
-  font-size: clamp(1rem, 1.5vw, 1.125rem);
-  line-height: 1.8;
+  font-family: var(--font-body);
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  line-height: 1.5;
   color: var(--creative-text-primary);
+  font-weight: 600;
+  margin: 0;
 }
 
-/* Highlights */
+/* Highlights - StatPanel style */
+.highlightsSection {
+  margin-top: 1rem;
+}
+
 .highlights {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.highlightBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.375rem 0.75rem;
-  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
-  color: var(--creative-accent);
-  font-size: clamp(0.875rem, 1.1vw, 1rem);
-  font-weight: 500;
-  border-radius: 4px;
-  border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
-  width: fit-content;
-}
-
-.highlightBadge::before {
-  content: '\2713';
-  font-weight: bold;
-}
-
-/* Tech Tags */
-.techTags {
+.highlightItem {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-body);
 }
 
-.techTag {
-  padding: 0.25rem 0.625rem;
-  background: var(--creative-bg-secondary);
-  color: var(--creative-text-primary);
-  font-size: clamp(0.75rem, 1vw, 0.8125rem);
+.pointCheck {
+  color: var(--creative-accent);
+  font-weight: 700;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.highlightText {
+  color: var(--creative-text-secondary);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
   font-weight: 500;
-  border-radius: 4px;
-  border: 1px solid var(--creative-text-secondary);
-  opacity: 0.8;
+  line-height: 1.4;
 }
 
-/* CTA Button */
+
+
+/* CTA Buttons Wrapper */
+.ctaWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Primary CTA Button - INCREASED SIZE */
 .ctaButton {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  /* Increased padding */
   background: var(--creative-accent);
   color: var(--creative-bg-primary);
-  font-size: clamp(0.8125rem, 1.1vw, 0.9375rem);
-  font-weight: 600;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  /* Increased size */
+  font-weight: 700;
   text-decoration: none;
-  border-radius: 6px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+  transition: all 0.2s ease;
   width: fit-content;
 }
 
@@ -207,13 +230,27 @@
   box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
 }
 
-.ctaButton:focus {
-  outline: none;
+/* Secondary Button (Explore More) - INCREASED SIZE */
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  /* Increased padding */
+  background: transparent;
+  color: var(--creative-text-primary);
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  /* Increased size */
+  font-weight: 700;
+  border: 1.5px solid var(--creative-text-secondary);
+  /* Thicker border */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.ctaButton:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.5);
+.secondaryButton:hover {
+  background: var(--creative-text-secondary);
+  color: var(--creative-bg-primary);
 }
 
 /* Mobile: Stack columns, disable sticky */
@@ -231,7 +268,8 @@
   }
 
   .rightColumn {
-    order: -1; /* Media first on mobile */
+    order: -1;
+    /* Media first on mobile */
     padding-top: 0;
   }
 

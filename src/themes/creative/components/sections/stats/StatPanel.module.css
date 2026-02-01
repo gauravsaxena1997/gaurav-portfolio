@@ -6,105 +6,313 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  /* Strict full screen height */
   width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Grid layout - Desktop Zig-Zag (Configurable Split) */
+.statContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Strict 50-50 Split */
+  grid-template-rows: 100%;
+  gap: 0;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: left;
+  position: relative;
+}
+
+/* Reversed logic handled via inline 'order' and 'grid-template-columns' var */
+.statContentReversed {
+  /* Legacy/Fallback */
+}
+
+/* Text block wrapper - HERO PATTERN: Full coverage + flex center */
+.textBlock {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: clamp(2rem, 4vw, 4rem);
   box-sizing: border-box;
 }
 
-/* Grid layout with FIXED row heights for perfect alignment across panels */
-.statContent {
-  display: grid;
-  grid-template-rows: 35vh 45vh;  /* Fixed: Text 35vh, Illustration 45vh */
-  align-items: stretch;
-  width: 100%;
-  height: 80vh;
-  text-align: center;
+.statContentReversed .textBlock {
+  /* No specific override */
 }
 
-/* Reversed layout: illustration on top, text on bottom */
-.statContentReversed {
-  composes: statContent;
-  grid-template-rows: 45vh 35vh;  /* Fixed: Illustration 45vh, Text 35vh */
+/* Lit layer - HERO PATTERN: inset:0 for identical coverage */
+.litLayer {
+  position: absolute;
+  inset: 0;
+  /* Same as Hero - full coverage */
+  z-index: 3;
+  pointer-events: none;
+  clip-path: polygon(0 0, 0 0, 0 0);
+  /* Controlled by JS */
+  opacity: 1;
+
+  /* Gold Background */
+  background: var(--creative-accent);
+
+  /* IDENTICAL to .textBlock for perfect alignment */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2rem, 4vw, 4rem);
+  /* SAME as .textBlock */
+  box-sizing: border-box;
 }
 
-/* Force element ordering for reversed layout */
-.statContentReversed .textContent {
-  grid-row: 2;
+/* High Contrast Colors for Text on Gold Background (Revealed) */
+/* This view is identical in both Light and Dark modes */
+.litLayer .title {
+  color: #0a0a0a !important;
+  /* Solid Black for max contrast on Gold */
 }
 
-.statContentReversed .illustrationContainer {
-  grid-row: 1;
+.litLayer .statIcon {
+  color: #0a0a0a !important;
 }
 
-/* Text content section - centered within its fixed row */
+.litLayer .dividerLine {
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 1;
+}
+
+.litLayer .description,
+.litLayer .point {
+  color: #ffffff !important;
+  /* Solid White on Gold (Pop effect) */
+  opacity: 1 !important;
+}
+
+.litLayer .pointCheck {
+  color: #ffffff !important;
+}
+
+/* Text content section - NO PADDING, FULL HEIGHT */
 .textContent {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: clamp(0.5rem, 1vh, 0.75rem);
-  padding: clamp(0.5rem, 1vh, 1rem) 0;
+  gap: clamp(0.4rem, 1.1vh, 0.8rem);
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  /* ← FULL HEIGHT to match parent */
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-/* Title - large, accent color */
+.statContentReversed .textContent {
+  justify-content: center;
+  /* No extra padding */
+}
+
+/* Header Layout - Flex Row */
+.statHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  margin-bottom: 0;
+  /* ← ZERO margin, let separator handle spacing */
+}
+
+/* Lit layer statHeader - IDENTICAL to base (no overrides) */
+.litLayer .statHeader {
+  /* Gap and margin must be IDENTICAL to prevent shift */
+  gap: 1.25rem;
+  margin-bottom: 0;
+}
+
+/* Subtle separator line between Title and Body */
+.sectionSeparator {
+  width: 100%;
+  height: 1px;
+  background: var(--creative-border-subtle, rgba(255, 255, 255, 0.15));
+  margin: 1.5rem 0;
+  /* Generous spacing above and below */
+}
+
+/* Update separator color when in Lit Layer (Gold BG) */
+.litLayer .sectionSeparator {
+  background: #000000;
+  opacity: 0.6;
+  /* Clear dark line */
+}
+
+.statIcon {
+  color: var(--creative-accent);
+  width: clamp(28px, 5vw, 40px);
+  height: clamp(28px, 5vw, 40px);
+  flex-shrink: 0;
+  opacity: 0.95;
+}
+
+.dividerLine {
+  width: 2px;
+  height: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--creative-text-secondary);
+  opacity: 0.3;
+}
+
+/* Title - Always Gold in Normal state */
 .title {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
-  color: var(--creative-accent);
+  color: var(--creative-accent) !important;
   margin: 0;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  text-align: left;
+  width: 100%;
 }
 
-/* Description - larger, simpler font */
-.description {
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+/* Visual separator after title */
+.titleDivider {
+  width: clamp(120px, 30vw, 240px);
+  height: 1px;
+  background: var(--creative-hero-divider-color);
+  margin: clamp(0.75rem, 2vh, 1.25rem) 0 clamp(0.75rem, 2vh, 1.25rem);
+  opacity: 0.8;
+}
+
+/* Description & Points - Normal Readable state */
+/* Description & Points - BOLD & HUGE (V4.4) - Reduced 30% (V4.5) */
+.description,
+.point {
+  font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+  /* Reduced by ~30% */
+  font-family: var(--font-body);
   color: var(--creative-text-secondary);
-  line-height: 1.6;
+  line-height: 1.5;
+  /* Increased line-height slightly for readability */
   margin: 0;
-  max-width: 90%;
+  text-align: left;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  /* Kept Bold */
+}
+
+/* Dark Mode Normal Layer Overrides - 80% opacity for headroom to 'lit' jump */
+:global([data-theme="dark"]) .description,
+:global([data-theme="dark"]) .point {
+  color: rgba(255, 255, 255, 0.82) !important;
 }
 
 /* Highlights - vertical stacked layout */
 .pointsList {
   list-style: none;
   padding: 0;
-  margin: clamp(0.25rem, 0.5vh, 0.5rem) 0 0 0;
+  margin: clamp(0.3rem, 0.6vh, 0.6rem) 0 0 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: clamp(0.3rem, 0.6vh, 0.5rem);
+  align-items: flex-start;
+  gap: clamp(0.5rem, 0.9vh, 0.8rem);
 }
 
 .point {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  color: var(--creative-text-primary);
-  line-height: 1.4;
+  gap: 10px;
+  font-weight: 600;
 }
 
 .pointCheck {
   color: var(--creative-accent);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.1em;
   flex-shrink: 0;
 }
 
-/* Illustration container - BOTTOM aligned for normal, TOP aligned for reversed */
+/* Illustration container - Default center aligned */
 .illustrationContainer {
   display: flex;
-  align-items: flex-end;      /* Align to BOTTOM of grid cell */
+  align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
-  overflow: visible;
+  overflow: hidden;
+  padding: 0;
 }
 
-/* For reversed layout, align illustration to TOP */
-.statContentReversed .illustrationContainer {
-  align-items: flex-start;    /* Align to TOP of grid cell */
+/* Alignment Utilities */
+.illustrationContainer.alignBottom {
+  align-items: flex-end;
+}
+
+.illustrationContainer.alignCenter {
+  align-items: center;
+}
+
+
+/* Split Layout for Illustration Column (65/35) */
+.illustrationSplitContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.illustrationSplitTop {
+  height: 65%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.illustrationSplitBottom {
+  height: 35%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* Center the block horizontally */
+  padding: 0 10%;
+  /* Inner padding for highlights */
+}
+
+/* Staggered Highlights in Bottom Section */
+/* Container for highlights in the 65/35 split */
+.relocatedHighlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: fit-content;
+  /* Tightly wrap content so it centers as a block */
+  align-items: flex-start;
+  /* Ensure text inside aligns left relative to itself */
+}
+
+.highlightItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  /* Appropriate size for highlights */
+  color: var(--creative-accent);
+  font-weight: 600;
+  opacity: 0;
+  /* Initial state for animation */
+  transform: translateY(20px);
+  /* Initial offset */
 }
 
 /* Tilt wrapper */
@@ -114,7 +322,8 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  max-height: 42vh;
+  max-height: 100%;
+  /* MAX space */
 }
 
 /* Illustration */
@@ -124,39 +333,54 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  max-height: 42vh;
+  max-height: 100%;
+  /* MAX space */
 }
 
-/* Responsive - Mobile */
+/* Component Split Wrappers */
+.desktopWrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mobileWrapper {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.statPanelMobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  width: 100%;
+  background: transparent;
+  color: var(--creative-text-primary);
+  text-align: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.mobilePlaceholder h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--creative-accent);
+}
+
+.mobilePlaceholder p {
+  color: var(--creative-text-secondary);
+  font-family: var(--font-body);
+}
+
+/* Visibility Toggle */
 @media (max-width: 900px) {
-  .statContent {
-    grid-template-rows: 38vh 46vh;  /* Adjust for mobile */
-    height: 84vh;
+  .desktopWrapper {
+    display: none;
   }
 
-  .statContentReversed {
-    grid-template-rows: 46vh 38vh;
-  }
-
-  .textContent {
-    padding: clamp(0.5rem, 1vh, 0.75rem) 0;
-  }
-
-  .title {
-    font-size: clamp(1.75rem, 6vw, 2.25rem);
-  }
-
-  .description {
-    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
-    max-width: 100%;
-  }
-
-  .point {
-    font-size: clamp(0.85rem, 3vw, 1rem);
-  }
-
-  .tiltWrapper,
-  .illustration {
-    max-height: 40vh;
+  .mobileWrapper {
+    display: block;
   }
 }

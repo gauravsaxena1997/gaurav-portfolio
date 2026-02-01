@@ -24,10 +24,12 @@ import {
   Mail,
   Github,
   Calendar,
+  Palette,
 } from 'lucide-react';
 import { NAV_ITEMS, CASE_STUDIES, FEATURED_PROJECTS } from '@/data';
 import { useTheme } from '@/hooks';
 import type { SectionId } from '@/data';
+import { ThemeInfoModal } from '@/components/shared/ThemeInfoModal';
 import styles from './GitHubHeader.module.css';
 
 // Map nav items to GitHub-like icons
@@ -47,6 +49,8 @@ interface GitHubHeaderProps {
   projectName?: string;
   categoryLabel?: string;
   categoryType?: 'client' | 'venture' | 'case-study';
+  currentTheme?: 'creative' | 'github';
+  onThemeChange?: (theme: 'creative' | 'github') => void;
 }
 
 // Search suggestion item types
@@ -87,6 +91,8 @@ export function GitHubHeader({
   projectName,
   categoryLabel,
   categoryType,
+  currentTheme = 'github',
+  onThemeChange,
 }: GitHubHeaderProps) {
   const { isDarkTheme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -94,6 +100,7 @@ export function GitHubHeader({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -352,8 +359,9 @@ export function GitHubHeader({
           )}
         </div>
 
-        {/* Right side icons - only theme toggle and notifications */}
+        {/* Right side icons - theme toggles and notifications */}
         <div className={styles.headerRight}>
+          {/* Mode Toggle (Dark/Light) */}
           <button
             className={styles.themeToggle}
             onClick={toggleTheme}
@@ -361,6 +369,18 @@ export function GitHubHeader({
           >
             {isDarkTheme ? <Sun size={18} /> : <Moon size={18} />}
           </button>
+
+          {/* Theme Switcher (Creative/GitHub) */}
+          {onThemeChange && (
+            <button
+              className={styles.themeToggle}
+              onClick={() => setIsThemeModalOpen(true)}
+              aria-label="View theme options"
+            >
+              <Palette size={18} />
+            </button>
+          )}
+
           <div className={styles.notificationWrapper} ref={notificationRef}>
             <button
               className={styles.iconButton}
@@ -506,8 +526,30 @@ export function GitHubHeader({
               {isDarkTheme ? <Sun size={18} /> : <Moon size={18} />}
               <span>{isDarkTheme ? 'Light mode' : 'Dark mode'}</span>
             </button>
+            {onThemeChange && (
+              <button
+                className={styles.mobileThemeToggle}
+                onClick={() => {
+                  setIsThemeModalOpen(true);
+                  setMobileMenuOpen(false);
+                }}
+              >
+                <Palette size={18} />
+                <span>View theme options</span>
+              </button>
+            )}
           </div>
         </div>
+      )}
+
+      {/* Theme Info Modal */}
+      {onThemeChange && (
+        <ThemeInfoModal
+          isOpen={isThemeModalOpen}
+          onClose={() => setIsThemeModalOpen(false)}
+          currentTheme={currentTheme}
+          onThemeSwitch={onThemeChange}
+        />
       )}
     </header>
   );

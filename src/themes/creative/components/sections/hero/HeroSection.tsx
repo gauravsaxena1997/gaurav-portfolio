@@ -1,18 +1,13 @@
 'use client';
 
 import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
+import { gsap } from 'gsap';
 import { useScrollContext } from '../../../context/ScrollContext';
 import { useDeviceCapabilities } from '../../../hooks/useDeviceCapabilities';
 import { SpotlightEffect, SpotlightMode } from './SpotlightEffect';
 import { LighthouseIllustration } from './LighthouseIllustration';
 import { SocialLinks } from './SocialLinks';
-import { Snackbar, SnackbarKey } from '../../ui';
 import styles from './HeroSection.module.css';
-
-// localStorage key for snackbar dismissal
-const SPOTLIGHT_HINT_DISMISSED_KEY = 'spotlight-hint-dismissed';
-// Delay before showing the hint snackbar (in milliseconds)
-const HINT_DELAY_MS = 8000;
 
 // SVG lamp position: cy="67" in 230-height SVG, with lighthouse group translated by 20
 // Lamp Y = 67 (in lighthouse coords), so ratio = 67/230 = ~0.29 from top
@@ -26,29 +21,46 @@ const SVG_ASPECT_RATIO = 140 / 230;
 interface HeroContentProps {
   /** Whether to apply entrance animations (mobile only) */
   animate: boolean;
+  /** Optional extra className for styling */
+  className?: string;
 }
 
 /**
- * Hero content - tagline, title, subtitle
- * Single layer - mix-blend-mode handles color inversion automatically
+ * Hero content - new design system structure
+ * Hierarchy: Eyebrow → Name (70% weight) → Positioning → Supporting → Social
  */
-function HeroContent({ animate }: HeroContentProps) {
+function HeroContent({ animate, className }: HeroContentProps) {
   const animClass = animate ? styles.animateIn : '';
+  const contentClassName = `${styles.heroContent} ${className ?? ''}`.trim();
 
   return (
-    <div className={styles.heroContent}>
-      <p className={`${styles.greeting} ${animClass}`}>Hi, I&apos;m Gaurav Saxena</p>
-      <p className={`${styles.tagline} ${animClass}`}>Software Engineer & Creative Developer</p>
-      <h1 className={`${styles.heroTitle} ${animClass}`}>
-        Crafting Digital
-        <br />
-        <span className={styles.titleAccent}>Experiences</span>
-      </h1>
-      <p className={`${styles.heroSubtitle} ${animClass}`}>
-        I build performant, accessible, and visually engaging web experiences
-        that blend technical excellence with creative innovation.
+    <div className={contentClassName}>
+      {/* Eyebrow - de-emphasized label */}
+      <p className={`${styles.greeting} ${animClass} greeting`}>
+        Freelancer &middot; Creative <span className={styles.greetingAccent}>Engineer</span>
       </p>
-      <SocialLinks className={animClass} />
+
+      {/* Hero Name - dominant, 70% visual weight */}
+      <h1 className={`${styles.heroName} ${animClass} heroName`}>
+        GAURAV SAXENA
+      </h1>
+
+      {/* Positioning Line - memorable tagline */}
+      <p className={`${styles.heroTagline} ${animClass} heroTagline`}>
+        Design systems that scale.
+        <br />
+        Interfaces that feel right.
+      </p>
+
+      {/* Supporting Text - value-focused description */}
+      <p className={`${styles.heroSubtitle} ${animClass} heroSubtitle`}>
+        Full-stack engineer specializing in design systems, performance, and delightful user experiences.
+      </p>
+
+      <div className={`${styles.socialDivider} ${animClass} socialDivider`} aria-hidden="true" />
+
+      {/* Social Links */}
+      <SocialLinks className={`${animClass} socialLinks`} />
     </div>
   );
 }
@@ -115,7 +127,7 @@ function calculateLampPosition(
 
 /**
  * HeroSection - Main hero component with lighthouse spotlight effect
- * Uses two-layer system: base layer + clipped overlay for color inversion
+ * Uses blend mode for natural color inversion effect
  */
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -125,14 +137,8 @@ export function HeroSection() {
   // Container dimensions for lamp position calculation
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
 
-  // Spotlight toggle state
-  const [isSpotlightEnabled, setIsSpotlightEnabled] = useState(true);
-
-  // Snackbar hint visibility state
-  const [showHintSnackbar, setShowHintSnackbar] = useState(false);
-
-  // Animation state for mobile entrance animations
-  const [hasAnimated, setHasAnimated] = useState(false);
+  // Spotlight toggle state - disabled initially, enabled after entrance animation
+  const [isSpotlightEnabled, setIsSpotlightEnabled] = useState(false);
 
   // Determine spotlight mode based on device capabilities
   const spotlightMode: SpotlightMode = useMemo(() => {
@@ -144,17 +150,48 @@ export function HeroSection() {
   // Check if hero section is active for performance optimization
   const isActive = activeSection === 'hero' || activeSection === 'stats';
 
-  // Trigger entrance animations on mount (mobile only)
+  // Entrance animation on mount
   useEffect(() => {
-    if (isTouchDevice && !prefersReducedMotion) {
-      // Small delay to ensure layout is ready
-      const timer = setTimeout(() => setHasAnimated(true), 100);
-      return () => clearTimeout(timer);
-    } else {
-      // No animations on desktop or reduced motion
-      setHasAnimated(false);
+    // Don't animate if user prefers reduced motion
+    if (prefersReducedMotion) {
+      setIsSpotlightEnabled(true);
+      return;
     }
-  }, [isTouchDevice, prefersReducedMotion]);
+
+    // GSAP staggered entrance animation
+    const tl = gsap.timeline();
+
+    // Set initial state (redundant safety in case CSS doesn't load)
+    gsap.set(['.greeting', '.heroName', '.heroTagline', '.heroSubtitle', '.socialDivider', '.socialLinks'], {
+      opacity: 0,
+      // Removed x: -30 to avoid horizontal overflow/gaps
+    });
+
+    // Staggered animation sequence (fade-in only)
+    tl.to(
+      ['.greeting', '.heroName', '.heroTagline', '.heroSubtitle', '.socialDivider', '.socialLinks'],
+      {
+        opacity: 1,
+        // Removed x: 0
+        duration: 0.375, // 25% faster than 0.5s
+        ease: 'power2.out',
+        stagger: 0.09, // 25% faster than 0.12s (90ms delay between each element)
+        // Total time: 0.375s + (5 × 0.09s) = 0.825s
+      }
+    )
+      // Enable spotlight after all text finishes
+      .call(() => {
+        setIsSpotlightEnabled(true);
+        // Wait a moment after lighthouse lights up, then emit event for GuideBar
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('hero-entrance-complete'));
+        }, 500); // 500ms after lighthouse lights up
+      });
+
+    return () => {
+      tl.kill(); // Cleanup on unmount
+    };
+  }, [prefersReducedMotion]);
 
   // Track container dimensions with ResizeObserver
   useEffect(() => {
@@ -216,44 +253,15 @@ export function HeroSection() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isActive, handleToggle]);
 
-  // Auto-show hint snackbar after delay if user hasn't dismissed it before
-  useEffect(() => {
-    // Check if user has already dismissed the hint
-    const isDismissed = localStorage.getItem(SPOTLIGHT_HINT_DISMISSED_KEY) === 'true';
-    if (isDismissed) return;
-
-    // Only show if user is on hero section
-    if (!isActive) return;
-
-    const timer = setTimeout(() => {
-      // Double-check user is still on hero section
-      if (isActive) {
-        setShowHintSnackbar(true);
-      }
-    }, HINT_DELAY_MS);
-
-    return () => clearTimeout(timer);
-  }, [isActive]);
-
-  // Handle snackbar dismissal
-  const handleDismissHint = useCallback(() => {
-    setShowHintSnackbar(false);
-    // Remember dismissal in localStorage
-    try {
-      localStorage.setItem(SPOTLIGHT_HINT_DISMISSED_KEY, 'true');
-    } catch {
-      // localStorage might be unavailable in some contexts
-    }
-  }, []);
 
   return (
     <div ref={containerRef} className={styles.heroContainer}>
       {/* Content Layer */}
       <div className={styles.baseLayer}>
-        <HeroContent animate={hasAnimated && isTouchDevice} />
+        <HeroContent animate={false} />
       </div>
 
-      {/* Spotlight Overlay - mix-blend-mode: difference automatically inverts colors */}
+      {/* Spotlight Overlay - deterministic beam with explicit text colors */}
       <SpotlightEffect
         containerRef={containerRef}
         lighthouseOrigin={lighthouseOrigin}
@@ -261,6 +269,14 @@ export function HeroSection() {
         isActive={isActive}
         isEnabled={isSpotlightEnabled}
       />
+
+      {/* Lit text layer - clipped to spotlight beam */}
+      <div
+        className={`${styles.litLayer} ${isSpotlightEnabled ? styles.litLayerActive : ''}`.trim()}
+        aria-hidden="true"
+      >
+        <HeroContent animate={false} />
+      </div>
 
       {/* Non-blending layer - sits ABOVE spotlight, unaffected by mix-blend-mode */}
       <div className={styles.nonBlendingLayer}>
@@ -270,24 +286,11 @@ export function HeroSection() {
             ${styles.lighthouse}
             ${styles.lighthouseClickable}
             ${isTouchDevice ? styles.lighthouseMobile : ''}
-            ${hasAnimated && isTouchDevice ? styles.animateIn : ''}
-            ${isSpotlightEnabled && isTouchDevice ? styles.glowActive : ''}
           `.trim()}
         >
           <LighthouseIllustration isLampOn={isSpotlightEnabled} onClick={handleToggle} />
         </div>
       </div>
-
-      {/* Hint snackbar - shows once after delay for first-time visitors */}
-      <Snackbar isVisible={showHintSnackbar} onClose={handleDismissHint}>
-        {isTouchDevice ? (
-          <>Tap the lighthouse to toggle the spotlight</>
-        ) : (
-          <>
-            Click the lighthouse or press <SnackbarKey>L</SnackbarKey> to toggle spotlight
-          </>
-        )}
-      </Snackbar>
     </div>
   );
 }

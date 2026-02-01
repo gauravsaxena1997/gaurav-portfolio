@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Fira_Code } from 'next/font/google';
+import { Fira_Code, Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/shared';
 import './globals.css';
 
@@ -7,6 +7,14 @@ const firaCode = Fira_Code({
   variable: '--font-fira-code',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
+
+// Creative Theme Typography - Inter for body (clean, readable)
+const inter = Inter({
+  variable: '--font-body',
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
   display: 'swap',
 });
 
@@ -112,7 +120,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${firaCode.variable}`}>
+      <head>
+        {/* Load Archivo Expanded via Google Fonts CDN */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className={`${firaCode.variable} ${inter.variable}`}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

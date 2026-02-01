@@ -76,88 +76,63 @@ export const ProjectSection = memo(function ProjectSection() {
           {/* Left Column - Becomes Sticky */}
           <div className={styles.leftColumn}>
             <div className={styles.stickyContent}>
-              {/* Project Number & Name */}
+
+              {/* Row 1: Header (Number | Title / Tag) */}
               <div className={styles.projectHeader}>
                 <span className={styles.projectNumber}>
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className={styles.divider}>|</span>
-                <h2 className={styles.projectName}>{project.title.toUpperCase()}</h2>
+                <div className={styles.headerSeparator} />
+                <div className={styles.titleStack}>
+                  <h2 className={styles.projectName}>{project.title.toUpperCase()}</h2>
+                  <span className={styles.categoryBadge}>
+                    {project.category === 'case-study' && 'Case Study'}
+                    {project.category === 'venture' && 'Personal Venture'}
+                    {project.category === 'client' && 'Client Work'}
+                  </span>
+                </div>
               </div>
 
-              {/* Category Badge with Tooltip */}
-              <div
-                className={styles.categoryBadge}
-                data-tooltip={
-                  project.category === 'case-study'
-                    ? 'Deep-dive analysis with problem, solution & results'
-                    : project.category === 'venture'
-                      ? 'Self-initiated project exploring new ideas'
-                      : 'Professional engagement for external clients'
-                }
-              >
-                {project.category === 'case-study' && 'Case Study'}
-                {project.category === 'venture' && 'Personal Venture'}
-                {project.category === 'client' && 'Client Work'}
-              </div>
-
-              {/* CTA Button - Prioritized position */}
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.ctaButton}
-                >
-                  View Live
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M7 17L17 7M17 7H7M17 7V17" />
-                  </svg>
-                </a>
-              )}
-
-              {/* About */}
-              <div className={styles.section}>
-                <h3 className={styles.sectionTitle}>ABOUT</h3>
+              {/* Row 3: About Text (Large & Bold) */}
+              <div className={styles.aboutSection}>
                 <p className={styles.description}>{project.shortDescription}</p>
               </div>
 
-              {/* Key Highlights */}
+              {/* Row 3: Key Highlights with Stat-style checkmarks */}
               {project.highlights && project.highlights.length > 0 && (
-                <div className={styles.section}>
-                  <h3 className={styles.sectionTitle}>KEY HIGHLIGHTS</h3>
+                <div className={styles.highlightsSection}>
                   <div className={styles.highlights}>
                     {project.highlights.map((highlight) => (
-                      <span key={highlight} className={styles.highlightBadge}>
-                        {highlight}
-                      </span>
+                      <div key={highlight} className={styles.highlightItem}>
+                        <span className={styles.pointCheck}>✓</span>
+                        <span className={styles.highlightText}>{highlight}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Tech Stack */}
-              {project.techStack && project.techStack.length > 0 && (
-                <div className={styles.section}>
-                  <h3 className={styles.sectionTitle}>TECH STACK</h3>
-                  <div className={styles.techTags}>
-                    {project.techStack.map((tech) => (
-                      <span key={tech} className={styles.techTag}>
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Row 5: CTA Buttons */}
+              <div className={styles.ctaWrapper}>
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.ctaButton}
+                  >
+                    View Live
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M7 17L17 7M17 7H7M17 7V17" />
+                    </svg>
+                  </a>
+                )}
+                <button className={styles.secondaryButton}>
+                  Explore More
+                </button>
+              </div>
 
-                          </div>
+            </div>
           </div>
 
           {/* Right Column - Hero Video + Screenshots */}

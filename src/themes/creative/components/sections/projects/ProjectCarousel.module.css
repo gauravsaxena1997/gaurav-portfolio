@@ -9,7 +9,6 @@
 .carousel {
   display: flex;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   /* Hide scrollbar */
@@ -23,7 +22,6 @@
 
 .slide {
   flex: 0 0 100%;
-  scroll-snap-align: start;
   padding: 0 4%;
   box-sizing: border-box;
 }
