@@ -1,9 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
-import { InteractiveCharacter } from './InteractiveCharacter';
+import { useRef, useCallback, useState } from 'react';
 import { ContactForm } from './ContactForm';
-import { useCharacterTracking } from './hooks/useCharacterTracking';
 import styles from './ContactSection.module.css';
 
 interface ContactSectionProps {
@@ -11,39 +9,39 @@ interface ContactSectionProps {
 }
 
 /**
- * Contact Section with Interactive Character and Form
- *
- * Layout:
- * - Left: Animated character with eye tracking and expressions
- * - Right: Contact form with name, email, message + schedule call button
- *
- * The character's expression changes based on cursor proximity to the form:
- * - Closer to form = happier expression (encouraging engagement)
- * - Further away = neutral/expectant expression
+ * Contact Section Layout
+ * 
+ * New Design:
+ * - Left Column: Title & Subtitle (Text)
+ * - Right Column: Form Inputs (Glass Card)
+ * - Height: 100vh
  */
 export function ContactSection({ className }: ContactSectionProps) {
-  const characterContainerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [interactionRefs, setInteractionRefs] = useState<React.RefObject<HTMLElement | null>[]>([]);
 
-  // Track mouse position and calculate character animation state
-  const characterState = useCharacterTracking({
-    characterRef: characterContainerRef,
-    formRef: formRef,
-    enabled: true,
-    smoothing: 0.1,
-  });
+  const handleRegisterInteractables = useCallback((refs: React.RefObject<HTMLElement | null>[]) => {
+    setInteractionRefs(refs);
+  }, []);
 
   return (
     <div className={`${styles.container} ${className || ''}`}>
       <div className={styles.content}>
-        {/* Character Illustration */}
-        <div ref={characterContainerRef} className={styles.characterWrapper}>
-          <InteractiveCharacter characterState={characterState} />
+        {/* Left Column: Text Content */}
+        <div className={styles.textWrapper}>
+          <h2 className={styles.title}>Get in Touch</h2>
+          <p className={styles.subtitle}>
+            Have a project in mind? Let&apos;s build something great together.
+          </p>
         </div>
 
-        {/* Contact Form */}
+        {/* Right Column: Contact Form */}
         <div className={styles.formWrapper}>
-          <ContactForm ref={formRef} />
+          <ContactForm
+            ref={formRef}
+            onRegisterInteractables={handleRegisterInteractables}
+          />
         </div>
       </div>
     </div>

@@ -1,118 +1,131 @@
-/* Contact Form Styles */
+/* Contact Form Styles - Glassmorphism */
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: clamp(1rem, 2vw, 1.5rem);
+  gap: clamp(1.5rem, 3vw, 2rem);
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;
+
+  /* Glass Card Effect */
+  background: rgba(30, 30, 35, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: clamp(2rem, 4vw, 3rem);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .title {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2rem, 3vw, 2.5rem);
   font-weight: 700;
   color: var(--creative-text-primary);
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
   color: var(--creative-text-secondary);
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: clamp(1rem, 2vw, 1.25rem);
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  position: relative;
 }
 
 .label {
-  font-size: clamp(0.8rem, 1vw, 0.9rem);
-  font-weight: 500;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--creative-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  margin-left: 0.25rem;
 }
 
 .input,
 .textarea {
   width: 100%;
-  padding: clamp(0.75rem, 1.5vw, 1rem);
-  font-size: clamp(0.9rem, 1vw, 1rem);
+  padding: 1rem;
+  font-size: 1rem;
   font-family: inherit;
   color: var(--creative-text-primary);
-  background: var(--creative-bg-secondary);
-  border: 1px solid var(--creative-text-secondary);
-  border-radius: 6px;
-  transition:
-    border-color var(--creative-transition-fast),
-    box-shadow var(--creative-transition-fast);
+  /* Darker input background */
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all var(--creative-transition-fast);
 }
 
 .input:focus,
 .textarea:focus {
   outline: none;
+  background: rgba(0, 0, 0, 0.5);
   border-color: var(--creative-accent);
-  box-shadow: 0 0 0 3px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+  box-shadow: 0 0 0 4px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
 }
 
 .input::placeholder,
 .textarea::placeholder {
   color: var(--creative-text-secondary);
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 120px;
 }
 
 .status {
   padding: 0.75rem 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.9rem;
   text-align: center;
+  font-weight: 500;
 }
 
 .success {
   background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.2);
 }
 
 .error {
   background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .submitButton {
-  padding: clamp(0.875rem, 1.5vw, 1.125rem);
-  font-size: clamp(0.9rem, 1vw, 1rem);
+  padding: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: var(--creative-bg-primary);
+  color: #000;
+  /* Black text on Gold */
   background: var(--creative-accent);
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
-  transition:
-    background var(--creative-transition-fast),
-    transform var(--creative-transition-fast),
-    box-shadow var(--creative-transition-fast);
+  transition: all var(--creative-transition-fast);
+  margin-top: 0.5rem;
 }
 
 .submitButton:hover:not(:disabled) {
-  background: var(--creative-accent-dark, var(--creative-accent));
+  filter: brightness(1.1);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+  box-shadow: 0 8px 20px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.25);
 }
 
 .submitButton:active:not(:disabled) {
@@ -120,14 +133,15 @@
 }
 
 .submitButton:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
+  filter: grayscale(1);
 }
 
 .divider {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   margin: 0.5rem 0;
 }
 
@@ -136,36 +150,33 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--creative-text-secondary);
-  opacity: 0.3;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
 }
 
 .dividerText {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--creative-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  opacity: 0.6;
 }
 
 .scheduleButton {
-  padding: clamp(0.875rem, 1.5vw, 1.125rem);
-  font-size: clamp(0.9rem, 1vw, 1rem);
+  padding: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--creative-accent);
-  background: transparent;
-  border: 2px solid var(--creative-accent);
-  border-radius: 6px;
+  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.05);
+  border: 1px solid var(--creative-accent);
+  border-radius: 12px;
   cursor: pointer;
-  transition:
-    background var(--creative-transition-fast),
-    color var(--creative-transition-fast),
-    transform var(--creative-transition-fast);
+  transition: all var(--creative-transition-fast);
 }
 
 .scheduleButton:hover {
-  background: var(--creative-accent);
-  color: var(--creative-bg-primary);
+  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .scheduleButton:active {
@@ -175,6 +186,7 @@
 /* Responsive */
 @media (max-width: 600px) {
   .container {
-    max-width: 100%;
+    padding: 1.5rem;
+    border-radius: 16px;
   }
 }

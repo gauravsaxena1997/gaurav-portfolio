@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useState, useCallback, forwardRef } from 'react';
+import { memo, useState, useCallback, forwardRef, useRef, useEffect } from 'react';
 import styles from './ContactForm.module.css';
 
 interface ContactFormProps {
   className?: string;
+  onRegisterInteractables?: (refs: React.RefObject<HTMLElement | null>[]) => void;
 }
 
 interface FormState {
@@ -24,9 +25,18 @@ interface FormStatus {
  */
 export const ContactForm = memo(
   forwardRef<HTMLFormElement, ContactFormProps>(function ContactForm(
-    { className },
+    { className, onRegisterInteractables },
     ref
   ) {
+    const sendButtonRef = useRef<HTMLButtonElement>(null);
+    const scheduleButtonRef = useRef<HTMLButtonElement>(null);
+
+    // Register interactive elements for character tracking
+    useEffect(() => {
+      if (onRegisterInteractables) {
+        onRegisterInteractables([sendButtonRef, scheduleButtonRef]);
+      }
+    }, [onRegisterInteractables]);
     const [formState, setFormState] = useState<FormState>({
       name: '',
       email: '',
@@ -80,11 +90,6 @@ export const ContactForm = memo(
 
     return (
       <div className={`${styles.container} ${className || ''}`}>
-        <h2 className={styles.title}>Get in Touch</h2>
-        <p className={styles.subtitle}>
-          Have a project in mind? Let&apos;s build something great together.
-        </p>
-
         <form ref={ref} className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.fieldGroup}>
             <label htmlFor="contact-name" className={styles.label}>
@@ -138,19 +143,19 @@ export const ContactForm = memo(
 
           {status.type !== 'idle' && (
             <div
-              className={`${styles.status} ${
-                status.type === 'success'
-                  ? styles.success
-                  : status.type === 'error'
-                    ? styles.error
-                    : ''
-              }`}
+              className={`${styles.status} ${status.type === 'success'
+                ? styles.success
+                : status.type === 'error'
+                  ? styles.error
+                  : ''
+                }`}
             >
               {status.type === 'loading' ? 'Sending...' : status.message}
             </div>
           )}
 
           <button
+            ref={sendButtonRef}
             type="submit"
             className={styles.submitButton}
             disabled={status.type === 'loading'}
@@ -164,6 +169,7 @@ export const ContactForm = memo(
         </div>
 
         <button
+          ref={scheduleButtonRef}
           type="button"
           className={styles.scheduleButton}
           onClick={handleScheduleCall}

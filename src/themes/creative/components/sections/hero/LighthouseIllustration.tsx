@@ -81,44 +81,22 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
 
       {/* Rocky cliff/land - tapers to a point on the left, full height on right */}
       {/* Main land mass - diagonal shoreline tapering left */}
+      {/* Rocky cliff/land - tapers to a point on the left, full height on right */}
+      {/* Main land mass - diagonal shoreline tapering left */}
       <path
-        d="M0 230
-           L 35 175
-           C 45 172, 50 170, 60 172
-           L 60 175
-           L 80 175
-           L 80 172
-           C 95 170, 110 168, 140 165
-           L 140 230
-           Z"
+        d="M0 230 L 35 175 C 45 172, 50 170, 60 172 L 60 175 L 80 175 L 80 172 C 95 170, 110 168, 140 165 L 140 230 Z"
         fill={colors.cliffDark}
         opacity="0.5"
       />
       {/* Middle layer - follows the taper */}
       <path
-        d="M15 230
-           L 40 180
-           C 50 177, 55 176, 62 177
-           L 62 175
-           L 78 175
-           L 78 177
-           C 100 174, 120 172, 140 175
-           L 140 230
-           Z"
+        d="M15 230 L 40 180 C 50 177, 55 176, 62 177 L 62 175 L 78 175 L 78 177 C 100 174, 120 172, 140 175 L 140 230 Z"
         fill={colors.cliffMid}
         opacity="0.35"
       />
       {/* Top surface layer - closest to lighthouse */}
       <path
-        d="M30 230
-           L 48 188
-           C 55 185, 60 184, 65 185
-           L 65 175
-           L 75 175
-           L 75 185
-           C 95 182, 115 180, 140 185
-           L 140 230
-           Z"
+        d="M30 230 L 48 188 C 55 185, 60 184, 65 185 L 65 175 L 75 175 L 75 185 C 95 182, 115 180, 140 185 L 140 230 Z"
         fill={colors.cliffLight}
         opacity="0.25"
       />
@@ -133,57 +111,57 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
         {/* Base/foundation */}
         <rect x="20" y="165" width="60" height="15" rx="2" fill={colors.base} />
 
-      {/* Tower body - single unified path to prevent seam flickering */}
-      <path
-        d="M30 165 L25 90 L75 90 L70 165 Z"
-        fill={colors.tower}
-      />
+        {/* Tower body - single unified path to prevent seam flickering */}
+        <path
+          d="M30 165 L25 90 L75 90 L70 165 Z"
+          fill={colors.tower}
+        />
 
-      {/* Horizontal stripes */}
-      <rect x="27" y="105" width="46" height="8" fill={colors.towerStripe} opacity="0.3" />
-      <rect x="28" y="125" width="44" height="8" fill={colors.towerStripe} opacity="0.3" />
-      <rect x="29" y="145" width="42" height="8" fill={colors.towerStripe} opacity="0.3" />
+        {/* Horizontal stripes */}
+        <rect x="27" y="105" width="46" height="8" fill={colors.towerStripe} opacity="0.3" />
+        <rect x="28" y="125" width="44" height="8" fill={colors.towerStripe} opacity="0.3" />
+        <rect x="29" y="145" width="42" height="8" fill={colors.towerStripe} opacity="0.3" />
 
-      {/* Windows */}
-      <rect x="42" y="110" width="6" height="10" rx="1" fill={colors.window} />
-      <rect x="52" y="110" width="6" height="10" rx="1" fill={colors.window} />
-      <rect x="42" y="130" width="6" height="10" rx="1" fill={colors.window} />
-      <rect x="52" y="130" width="6" height="10" rx="1" fill={colors.window} />
-      <rect x="47" y="150" width="6" height="12" rx="1" fill={colors.window} />
+        {/* Windows */}
+        <rect x="42" y="110" width="6" height="10" rx="1" fill={colors.window} />
+        <rect x="52" y="110" width="6" height="10" rx="1" fill={colors.window} />
+        <rect x="42" y="130" width="6" height="10" rx="1" fill={colors.window} />
+        <rect x="52" y="130" width="6" height="10" rx="1" fill={colors.window} />
+        <rect x="47" y="150" width="6" height="12" rx="1" fill={colors.window} />
 
-      {/* Lamp house gallery (balcony) */}
-      <rect x="20" y="85" width="60" height="5" rx="1" fill={colors.base} />
+        {/* Lamp house gallery (balcony) */}
+        <rect x="20" y="85" width="60" height="5" rx="1" fill={colors.base} />
 
-      {/* Lamp house structure */}
-      <rect x="30" y="50" width="40" height="35" rx="2" fill={colors.lampHouse} />
+        {/* Lamp house structure */}
+        <rect x="30" y="50" width="40" height="35" rx="2" fill={colors.lampHouse} />
 
-      {/* Lamp house windows (glass panels) */}
-      <rect x="33" y="53" width="8" height="29" rx="1" fill={colors.window} opacity="0.7" />
-      <rect x="43" y="53" width="14" height="29" rx="1" fill={colors.window} opacity="0.7" />
-      <rect x="59" y="53" width="8" height="29" rx="1" fill={colors.window} opacity="0.7" />
+        {/* Lamp house windows (glass panels) */}
+        <rect x="33" y="53" width="8" height="29" rx="1" fill={colors.window} opacity="0.7" />
+        <rect x="43" y="53" width="14" height="29" rx="1" fill={colors.window} opacity="0.7" />
+        <rect x="59" y="53" width="8" height="29" rx="1" fill={colors.window} opacity="0.7" />
 
-      {/* The lamp/light itself */}
-      <circle
-        cx="50"
-        cy="67"
-        r="12"
-        fill="url(#lampGlow)"
-        style={{ transition: 'fill 0.3s ease' }}
-      />
-      <circle
-        cx="50"
-        cy="67"
-        r="8"
-        fill={colors.lamp}
-        filter={isLampOn ? 'url(#glowFilter)' : undefined}
-        style={{ transition: 'fill 0.3s ease' }}
-      />
+        {/* The lamp/light itself */}
+        <circle
+          cx="50"
+          cy="67"
+          r="12"
+          fill="url(#lampGlow)"
+          style={{ transition: 'fill 0.3s ease' }}
+        />
+        <circle
+          cx="50"
+          cy="67"
+          r="8"
+          fill={colors.lamp}
+          filter={isLampOn ? 'url(#glowFilter)' : undefined}
+          style={{ transition: 'fill 0.3s ease' }}
+        />
 
-      {/* Roof */}
-      <path
-        d="M25 50 L50 20 L75 50 Z"
-        fill={colors.roof}
-      />
+        {/* Roof */}
+        <path
+          d="M25 50 L50 20 L75 50 Z"
+          fill={colors.roof}
+        />
 
         {/* Roof finial (top piece) */}
         <rect x="48" y="12" width="4" height="10" rx="1" fill={colors.roof} />

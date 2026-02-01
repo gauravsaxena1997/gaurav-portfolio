@@ -21,7 +21,9 @@ interface UseCharacterTrackingOptions {
   /** Reference to the character container element */
   characterRef: React.RefObject<HTMLElement | null>;
   /** Reference to the form element for proximity-based expressions */
-  formRef: React.RefObject<HTMLElement | null>;
+  formRef?: React.RefObject<HTMLElement | null>;
+  /** References to interactive elements (buttons) that trigger smiles */
+  interactionRefs?: React.RefObject<HTMLElement | null>[];
   /** Whether tracking is enabled */
   enabled?: boolean;
   /** Smoothing factor (0-1, lower = smoother) */
@@ -54,6 +56,7 @@ function clamp(value: number, min: number, max: number): number {
 export function useCharacterTracking({
   characterRef,
   formRef,
+  interactionRefs = [],
   enabled = true,
   smoothing = 0.12,
 }: UseCharacterTrackingOptions) {
@@ -74,34 +77,56 @@ export function useCharacterTracking({
   const isActive = useRef(false);
   const inactivityTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Calculate expression based on distance from form
+  // Calculate expression based on distance from interactive elements
   const calculateExpression = useCallback((mouseX: number, mouseY: number) => {
-    if (!formRef.current) return 50;
+    let targetExpression = 40; // Default neutral state
+    let minDistance = Infinity;
 
-    const formRect = formRef.current.getBoundingClientRect();
-    const formCenterX = formRect.left + formRect.width / 2;
-    const formCenterY = formRect.top + formRect.height / 2;
+    // 1. Check proximity to interaction targets (Buttons)
+    if (interactionRefs.length > 0) {
+      for (const ref of interactionRefs) {
+        if (ref.current) {
+          const rect = ref.current.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const dist = Math.sqrt(
+            Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2)
+          );
 
-    // Calculate distance from mouse to form center
-    const distance = Math.sqrt(
-      Math.pow(mouseX - formCenterX, 2) + Math.pow(mouseY - formCenterY, 2)
-    );
+          if (dist < minDistance) {
+            minDistance = dist;
+          }
+        }
+      }
 
-    // Map distance to expression (closer = happier)
-    // 0-100px: 90-100 (big smile)
-    // 100-300px: 60-90 (happy)
-    // 300-500px: 40-60 (neutral)
-    // 500px+: 10-40 (slightly expectant)
-    if (distance < 100) {
-      return lerp(90, 100, 1 - distance / 100);
-    } else if (distance < 300) {
-      return lerp(60, 90, 1 - (distance - 100) / 200);
-    } else if (distance < 500) {
-      return lerp(40, 60, 1 - (distance - 300) / 200);
-    } else {
-      return Math.max(10, 40 - (distance - 500) / 50);
+      // Map proximity to smile intensity (0-100)
+      if (minDistance < 100) {
+        // Very close: Big Smile (80-100)
+        targetExpression = lerp(80, 100, 1 - minDistance / 100);
+      } else if (minDistance < 300) {
+        // Approaching: Growing Smile (40-80)
+        targetExpression = lerp(40, 80, 1 - (minDistance - 100) / 200);
+      }
     }
-  }, [formRef]);
+
+    // 2. Fallback: Form Center Proximity (General Engagement)
+    if (minDistance === Infinity && formRef?.current) {
+      const formRect = formRef.current.getBoundingClientRect();
+      const formCenterX = formRect.left + formRect.width / 2;
+      const formCenterY = formRect.top + formRect.height / 2;
+      const distance = Math.sqrt(
+        Math.pow(mouseX - formCenterX, 2) + Math.pow(mouseY - formCenterY, 2)
+      );
+
+      if (distance < 400) {
+        targetExpression = 50; // Neutral/Pleasant
+      } else {
+        targetExpression = 30; // Slightly aloof/bored
+      }
+    }
+
+    return targetExpression;
+  }, [interactionRefs, formRef]);
 
   // Animation loop for smooth updates
   const animate = useCallback(() => {
