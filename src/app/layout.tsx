@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Fira_Code, Inter } from 'next/font/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { ThemeProvider } from '@/components/shared';
 import { PersonSchema, ServiceSchema, WebSiteSchema } from '@/components/seo';
 import './globals.css';
@@ -139,6 +140,7 @@ export default function RootLayout({
       </head>
       <body className={`${firaCode.variable} ${inter.variable}`}>
         <ThemeProvider>{children}</ThemeProvider>
+        <GoogleAnalytics gaId="G-ZVFENY0XPB" />
       </body>
     </html>
   );
