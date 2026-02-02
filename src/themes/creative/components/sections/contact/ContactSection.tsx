@@ -1,6 +1,8 @@
 'use client';
 
 import { useRef, useCallback, useState } from 'react';
+import { MapPin, Mail, Clock, Compass } from 'lucide-react';
+import { CONTACT_INFO } from '@/config';
 import { ContactForm } from './ContactForm';
 import styles from './ContactSection.module.css';
 
@@ -30,10 +32,46 @@ export function ContactSection({ className }: ContactSectionProps) {
       <div className={styles.content}>
         {/* Left Column: Text Content */}
         <div className={styles.textWrapper}>
+          <div className={styles.compassWrapper}>
+            <Compass className={styles.compassIcon} strokeWidth={1} />
+          </div>
+
           <h2 className={styles.title}>Get in Touch</h2>
           <p className={styles.subtitle}>
             Have a project in mind? Let&apos;s build something great together.
           </p>
+
+          <div className={styles.statusGrid}>
+            <div className={styles.statusItem}>
+              <div className={styles.iconBox}>
+                <MapPin size={20} />
+              </div>
+              <div className={styles.statusText}>
+                <span className={styles.statusLabel}>Location</span>
+                <span className={styles.statusValue}>{CONTACT_INFO.location}</span>
+              </div>
+            </div>
+
+            <div className={styles.statusItem}>
+              <div className={styles.iconBox}>
+                <Mail size={20} />
+              </div>
+              <div className={styles.statusText}>
+                <span className={styles.statusLabel}>Email</span>
+                <span className={styles.statusValue}>{CONTACT_INFO.email}</span>
+              </div>
+            </div>
+
+            <div className={styles.statusItem}>
+              <div className={styles.iconBox}>
+                <Clock size={20} />
+              </div>
+              <div className={styles.statusText}>
+                <span className={styles.statusLabel}>Availability</span>
+                <span className={styles.statusValue}>{CONTACT_INFO.availability}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Right Column: Contact Form */}

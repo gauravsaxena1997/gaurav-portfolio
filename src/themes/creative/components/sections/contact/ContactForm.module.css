@@ -8,10 +8,11 @@
   max-width: 520px;
 
   /* Glass Card Effect */
-  background: rgba(30, 30, 35, 0.6);
+  /* Glass Card Effect */
+  background: rgba(var(--creative-bg-secondary-rgb), 0.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--creative-border-color);
   border-radius: 20px;
   padding: clamp(2rem, 4vw, 3rem);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -63,8 +64,9 @@
   font-family: inherit;
   color: var(--creative-text-primary);
   /* Darker input background */
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Adaptive input background */
+  background: rgba(var(--creative-bg-primary-rgb), 0.3);
+  border: 1px solid var(--creative-border-color);
   border-radius: 12px;
   transition: all var(--creative-transition-fast);
 }
@@ -72,7 +74,7 @@
 .input:focus,
 .textarea:focus {
   outline: none;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(var(--creative-bg-primary-rgb), 0.5);
   border-color: var(--creative-accent);
   box-shadow: 0 0 0 4px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
 }
@@ -112,8 +114,8 @@
   padding: 1rem;
   font-size: 1.05rem;
   font-weight: 600;
-  color: #000;
-  /* Black text on Gold */
+  color: var(--creative-bg-primary);
+  /* Contrast text on Gold */
   background: var(--creative-accent);
   border: none;
   border-radius: 12px;

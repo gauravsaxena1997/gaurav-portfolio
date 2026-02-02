@@ -51,6 +51,34 @@
   align-items: flex-start;
   gap: 1.5rem;
   padding-right: 2rem;
+  position: relative;
+}
+
+/* Compass Animation */
+@keyframes rotateSlow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.compassWrapper {
+  position: absolute;
+  top: -120px;
+  left: -80px;
+  opacity: 0.06;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.compassIcon {
+  width: 400px;
+  height: 400px;
+  color: var(--creative-accent);
+  animation: rotateSlow 60s linear infinite;
 }
 
 .title {
@@ -69,6 +97,52 @@
   line-height: 1.6;
   max-width: 480px;
   margin: 0;
+}
+
+/* Status Grid */
+.statusGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(var(--creative-bg-secondary-rgb), 0.5);
+  border: 1px solid var(--creative-border-color);
+  color: var(--creative-accent);
+}
+
+.statusText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statusLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--creative-text-secondary);
+  opacity: 0.8;
+}
+
+.statusValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--creative-text-primary);
 }
 
 .formWrapper {
@@ -92,6 +166,21 @@
     padding-right: 0;
   }
 
+  .statusGrid {
+    align-items: flex-start;
+    /* Correct checking: Status items look better left aligned or grid */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .compassWrapper {
+    left: 50%;
+    transform: translateX(-50%);
+    top: -60px;
+  }
+
   .subtitle {
     margin: 0 auto;
   }
@@ -103,5 +192,15 @@
     /* Ensure height allows scrolling on very short screens if stack is tall */
     min-height: 100vh;
     height: auto;
+  }
+
+  .statusGrid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .compassIcon {
+    width: 250px;
+    height: 250px;
   }
 }

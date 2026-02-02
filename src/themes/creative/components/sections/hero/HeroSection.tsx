@@ -4,6 +4,7 @@ import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { useScrollContext } from '../../../context/ScrollContext';
 import { useDeviceCapabilities } from '../../../hooks/useDeviceCapabilities';
+import { HERO_CONTENT } from '@/config';
 import { SpotlightEffect, SpotlightMode } from './SpotlightEffect';
 import { LighthouseIllustration } from './LighthouseIllustration';
 import { SocialLinks } from './SocialLinks';
@@ -36,22 +37,22 @@ function HeroContent({ animate, className }: HeroContentProps) {
   return (
     <div className={contentClassName}>
       <p className={`${styles.greeting} ${animClass} greeting`}>
-        Freelancer &middot; Creative <span className={styles.greetingAccent}>Technologist</span>
+        {HERO_CONTENT.greeting.text} <span className={styles.greetingAccent}>{HERO_CONTENT.greeting.accent}</span>
       </p>
 
       {/* Hero Name - dominant, 70% visual weight */}
       <h1 className={`${styles.heroName} ${animClass} heroName`}>
-        GAURAV SAXENA
+        {HERO_CONTENT.name}
       </h1>
 
       {/* Positioning Line - memorable tagline (Client Benefit) */}
       <p className={`${styles.heroTagline} ${animClass} heroTagline`}>
-        Building immersive, high-performance web platforms that drive growth.
+        {HERO_CONTENT.tagline}
       </p>
 
       {/* Supporting Text - value-focused description (SEO Keywords retained) */}
       <p className={`${styles.heroSubtitle} ${animClass} heroSubtitle`}>
-        Full Stack Architect specializing in scalable systems, 3D experiences, and AI-driven engineering.
+        {HERO_CONTENT.subtitle}
       </p>
 
       <div className={`${styles.socialDivider} ${animClass} socialDivider`} aria-hidden="true" />
