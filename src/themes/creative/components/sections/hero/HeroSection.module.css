@@ -187,7 +187,7 @@
 /* Hero Name - dominant, 70% visual weight (increased from clamp(3rem, 12vw, 9rem) to clamp(4rem, 14vw, 11rem) = +22%) */
 .heroName {
   font-family: var(--font-display);
-  font-size: clamp(3.6rem, 12.5vw, 10rem);
+  font-size: clamp(3.5rem, 10.5vw, 9rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: 0;
@@ -404,6 +404,33 @@
 }
 
 /* ===== Responsive Styles ===== */
+
+/* Short screens (laptops) - reduce vertical spacing */
+@media (max-height: 850px) and (min-width: 900px) {
+  .heroContent {
+    --hero-vertical-padding: clamp(1.5rem, 4vh, 3rem);
+    padding-top: calc(var(--header-height) + 1.5rem);
+  }
+
+  .heroName {
+    margin: 0.5rem 0 1rem;
+    font-size: clamp(3rem, 9vw, 6rem);
+    /* Smaller on short screens */
+  }
+
+  .greeting {
+    margin-bottom: 0.25rem;
+  }
+
+  .heroTagline {
+    margin-bottom: 1rem;
+    font-size: clamp(1.25rem, 3.5vw, 2.25rem);
+  }
+
+  .socialLinks {
+    margin-top: 1.5rem;
+  }
+}
 
 /* Tablet and below */
 @media (max-width: 900px) {

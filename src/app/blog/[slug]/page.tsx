@@ -35,6 +35,9 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       authors: [post.author],
       tags: post.tags,
     },
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+    },
   };
 }
 

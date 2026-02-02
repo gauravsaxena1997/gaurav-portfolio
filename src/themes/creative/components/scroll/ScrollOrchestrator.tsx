@@ -170,12 +170,12 @@ export function ScrollOrchestrator() {
         {/* Panel 2: AI-Supported Workflow (50/50 Split, Center Aligned Robot) */}
         <div className={styles.statRow} data-stat-panel>
           <StatPanel
-            title="Modern Workflow, AI-Accelerated"
-            description="In 2026, working without AI is like leaving half your toolkit at home. I leverage AI from ideation through testing. AI handles the repetitive heavy lifting so I can focus on strategy, craft, and your business goals. The result? Faster timelines and fewer revisions."
+            title="AI-Accelerated Development"
+            description="Working without AI is like leaving half your toolkit at home. I leverage custom AI pipelines to automate testing and scaffolding. This means I spend my time solving your complex business problems, not writing boilerplate code."
             highlights={[
-              '50% faster delivery',
-              'Human strategy, AI execution',
-              'Enterprise speed, freelance agility',
+              'Automated Testing Pipelines',
+              'Faster Feature Delivery',
+              'Enterprise-Grade Quality',
             ]}
             illustration={
               <ErrorBoundary fallback={<div className="p-4 text-center">3D model unavailable</div>}>
@@ -192,12 +192,12 @@ export function ScrollOrchestrator() {
         {/* Panel 3: Global Availability (50/50 Split, Center Aligned Globe) */}
         <div className={styles.statRow} data-stat-panel>
           <StatPanel
-            title="Timezone Flexible Collaboration"
-            description="Based in India, working globally. I work with clients across US, EU, and APAC timezones. My workflow is async-friendly, with clear communication and predictable response windows."
+            title="Global Remote Architecture"
+            description="Based in India, architecting for the world. My Async-First workflow eliminates timezone friction. I deliver self-contained updates that let your US/EU team wake up to progress, not blockers."
             highlights={[
-              'US, EU, APAC clients',
-              '<12hr response windows',
-              'Flexible meeting times',
+              'Global Remote Experience',
+              'Async Communication-First',
+              'Zero-Blocker Handoffs',
             ]}
             illustration={
               <ErrorBoundary fallback={<div className="p-4 text-center">Globe visualization unavailable</div>}>

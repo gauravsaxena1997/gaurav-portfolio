@@ -237,7 +237,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
       ],
     },
 
-    highlights: ['3 Tour Categories', 'Full Admin Panel', 'Booking System', '10+ Admin Modules'],
+    highlights: ['Secure Admin Roles', 'Payment Integration', 'Real-time Itinerary', '10+ Admin Modules'],
     techStack: ['React', 'TypeScript', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS', 'ShadCN UI', 'Vite'],
     features: [
       'Group Tour Bookings',
@@ -300,9 +300,9 @@ export const CASE_STUDIES: ICaseStudy[] = [
     },
 
     highlights: [
-      'Power BI Inspired UI',
-      'Workflow Diagrams',
-      'SQL Skills Display',
+      'Power BI UI System',
+      'Workflow Automation',
+      'Live Data Visualization',
       'Interactive Animations',
     ],
     techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
@@ -370,10 +370,10 @@ export const CASE_STUDIES: ICaseStudy[] = [
     },
 
     highlights: [
-      '100% Free Forever',
-      'Music & Sounds',
-      'Task Management',
-      'Works Offline',
+      'Works Offline (PWA)',
+      'Immersive Sound',
+      'Local Data Sync',
+      'No Login Required',
     ],
     techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'PWA'],
     features: [

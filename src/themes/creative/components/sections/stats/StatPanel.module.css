@@ -57,7 +57,8 @@
   /* Same as Hero - full coverage */
   z-index: 3;
   pointer-events: none;
-  clip-path: polygon(0 0, 0 0, 0 0);
+  clip-path: inset(0 100% 0 0);
+  /* ✅ FIXED: Changed from polygon to inset to match GSAP animation */
   /* Controlled by JS */
   opacity: 1;
 

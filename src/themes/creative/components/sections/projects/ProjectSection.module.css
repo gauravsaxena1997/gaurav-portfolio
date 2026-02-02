@@ -29,13 +29,14 @@
 
 .stickyContent {
   position: sticky;
-  top: 0;
-  height: 100vh;
-  /* Take full viewport height for centering */
+  top: calc(var(--header-height) + 1.5rem);
+  height: calc(100vh - var(--header-height) - 1.5rem);
+  /* Take calculated viewport height to prevent overflow */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  /* Center text block vertically */
+  justify-content: flex-start;
+  /* Anchor content to top */
+  /* Center text block vertically: Removed to standardize alignment */
   gap: clamp(1.5rem, 3vh, 2.5rem);
   max-width: 640px;
   /* Wider for filler look */
@@ -204,7 +205,10 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: auto;
+  /* Push to bottom of sticky container */
+  padding-top: 2rem;
+  /* Ensure Visual separation */
 }
 
 /* Primary CTA Button - INCREASED SIZE */

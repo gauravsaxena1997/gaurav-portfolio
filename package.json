@@ -25,7 +25,8 @@
     "resend": "^6.7.0",
     "tailwind-merge": "^3.4.0",
     "three": "^0.182.0",
-    "typed.js": "^2.1.0"
+    "typed.js": "^2.1.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.1.2",

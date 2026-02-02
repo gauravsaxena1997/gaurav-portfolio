@@ -18,49 +18,52 @@ const LaptopScene = dynamic(
     { ssr: false, loading: () => <div className={styles.laptopLoading}>Loading...</div> }
 );
 
+
+
+
 export function ServicesSection() {
     const [activeServiceIndex, setActiveServiceIndex] = useState(0);
-    const containerRef = useRef<HTMLElement>(null);
-    const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const visibleIndices = useRef(new Set<number>());
 
-    // Scroll-based service switching (Progress Calculation like Demo)
+    // ✅ Intersection Observer for Active State (Laptop Updates)
     useEffect(() => {
-        const handleScroll = () => {
-            if (!containerRef.current) return;
-
-            const container = containerRef.current;
-            const rect = container.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-
-            // Check if we're intersecting or inside the section
-            // We want to calculate progress as we scroll through the component
-            if (rect.top <= windowHeight && rect.bottom >= 0) {
-                // Calculate acceptable scroll range
-                // We add windowHeight to make sure it tracks as soon as it enters
-                const scrolled = Math.abs(Math.min(0, rect.top));
-                const totalScrollableHeight = rect.height - windowHeight;
-
-                // Avoid division by zero
-                if (totalScrollableHeight <= 0) return;
-
-                const scrollProgress = Math.min(1, Math.max(0, scrolled / totalScrollableHeight));
-
-                // Map scroll progress to service index (0-4)
-                const newIndex = Math.min(4, Math.floor(scrollProgress * 5));
-
-                if (newIndex !== activeServiceIndex) {
-                    setActiveServiceIndex(newIndex);
-                }
-            }
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 // Trigger when item is 50% visible (dominant on screen)
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll(); // Initial check
+        const observerCallback = (entries: IntersectionObserverEntry[]) => {
+            entries.forEach((entry) => {
+                const index = Number(entry.target.getAttribute('data-index'));
+                if (!isNaN(index)) {
+                    if (entry.isIntersecting) {
+                        visibleIndices.current.add(index);
+                    } else {
+                        visibleIndices.current.delete(index);
+                    }
+                }
+            });
 
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [activeServiceIndex]);
+            // Active Service = The highest index currently visible (top of the sticky stack)
+            const indices = Array.from(visibleIndices.current);
+            const maxIndex = indices.length > 0 ? Math.max(...indices) : 0;
 
-    // Get current illustration based on active service
+            setActiveServiceIndex(prev => prev !== maxIndex ? maxIndex : prev);
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Wait for render
+        setTimeout(() => {
+            const items = document.querySelectorAll(`.${styles.serviceItem}`);
+            items.forEach((item) => observer.observe(item));
+        }, 100);
+
+        return () => observer.disconnect();
+    }, []);
+
+    // Get current illustration
     const renderIllustration = () => {
         switch (activeServiceIndex) {
             case 0: return <MvpIllustration />;
@@ -73,9 +76,9 @@ export function ServicesSection() {
     };
 
     return (
-        <section ref={containerRef} className={styles.servicesSection}>
-            <div className={styles.stickyContainer}>
-                {/* Left Column: Pinned Laptop */}
+        <section id="services-section" className={styles.servicesSection}>
+            <div className={styles.contentWrapper}>
+                {/* Left Column: Sticky Laptop Animation */}
                 <div className={styles.leftColumn}>
                     <div className={styles.laptopContainer}>
                         <LaptopScene
@@ -90,13 +93,13 @@ export function ServicesSection() {
                     </div>
                 </div>
 
-                {/* Right Column: Stacked Service Details */}
+                {/* Right Column: Scrolling Sticky Stack */}
                 <div className={styles.rightColumn}>
                     {SERVICES.map((service, index) => (
                         <div
                             key={service.id}
-                            ref={(el) => { serviceRefs.current[index] = el; }}
-                            className={`${styles.serviceItem} ${index === activeServiceIndex ? styles.active : ''}`}
+                            className={styles.serviceItem}
+                            data-index={index}
                         >
                             <div className={styles.serviceContent}>
                                 <div className={styles.headerWrapper}>

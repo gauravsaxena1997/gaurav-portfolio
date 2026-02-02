@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Fira_Code, Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/shared';
+import { PersonSchema, ServiceSchema, WebSiteSchema } from '@/components/seo';
 import './globals.css';
 
 const firaCode = Fira_Code({
@@ -33,27 +34,31 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'Gaurav Saxena | Full Stack Developer & Freelancer',
+    default: 'Gaurav Saxena | Creative Technologist & Full Stack Architect',
     template: '%s | Gaurav Saxena',
   },
   description:
-    'Freelance Full Stack Developer with 5+ years of experience building scalable web applications. Specializing in React, Next.js, Angular, Node.js, and cloud technologies. Available for hire.',
+    'Building immersive, high-performance web platforms that drive growth. Full Stack Architect specializing in scalable systems and AI-driven engineering.',
   keywords: [
+    'Creative Technologist',
+    'Creative Engineer',
+    'Full Stack Architect',
+    'Next.js 15',
+    'Three.js',
+    'WebGL',
+    'React Three Fiber',
+    'System Architecture',
     'Gaurav Saxena',
     'Full Stack Developer',
     'Freelancer',
     'Web Developer',
     'React Developer',
-    'Next.js Developer',
-    'Angular Developer',
     'Node.js Developer',
     'TypeScript',
-    'JavaScript',
     'Jaipur',
     'India',
     'Hire Developer',
     'Web Application Development',
-    'Startup Developer',
   ],
   authors: [{ name: 'Gaurav Saxena', url: BASE_URL }],
   creator: 'Gaurav Saxena',
@@ -67,25 +72,25 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: BASE_URL,
-    title: 'Gaurav Saxena | Full Stack Developer & Freelancer',
+    title: 'Gaurav Saxena | Creative Technologist & Full Stack Architect',
     description:
-      'Freelance Full Stack Developer with 5+ years of experience. Building scalable web applications for startups and businesses.',
+      'Building immersive, high-performance web platforms that drive growth.',
     siteName: 'Gaurav Saxena Portfolio',
     images: [
       {
-        url: '/og-image.png',
+        url: '/api/og',
         width: 1200,
         height: 630,
-        alt: 'Gaurav Saxena - Full Stack Developer',
+        alt: 'Gaurav Saxena - Creative Technologist',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Gaurav Saxena | Full Stack Developer & Freelancer',
+    title: 'Gaurav Saxena | Creative Technologist',
     description:
-      'Freelance Full Stack Developer with 5+ years of experience. Building scalable web applications.',
-    images: ['/og-image.png'],
+      'Building immersive, high-performance web platforms that drive growth.',
+    images: ['/api/og'],
     creator: '@gauravsaxena',
   },
   robots: {
@@ -100,7 +105,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: BASE_URL,
+    canonical: './',
   },
   category: 'technology',
   verification: {
@@ -128,6 +133,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@700;800&display=swap"
           rel="stylesheet"
         />
+        <PersonSchema />
+        <ServiceSchema />
+        <WebSiteSchema />
       </head>
       <body className={`${firaCode.variable} ${inter.variable}`}>
         <ThemeProvider>{children}</ThemeProvider>

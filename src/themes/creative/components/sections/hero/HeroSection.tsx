@@ -35,9 +35,8 @@ function HeroContent({ animate, className }: HeroContentProps) {
 
   return (
     <div className={contentClassName}>
-      {/* Eyebrow - de-emphasized label */}
       <p className={`${styles.greeting} ${animClass} greeting`}>
-        Freelancer &middot; Creative <span className={styles.greetingAccent}>Engineer</span>
+        Freelancer &middot; Creative <span className={styles.greetingAccent}>Technologist</span>
       </p>
 
       {/* Hero Name - dominant, 70% visual weight */}
@@ -45,16 +44,14 @@ function HeroContent({ animate, className }: HeroContentProps) {
         GAURAV SAXENA
       </h1>
 
-      {/* Positioning Line - memorable tagline */}
+      {/* Positioning Line - memorable tagline (Client Benefit) */}
       <p className={`${styles.heroTagline} ${animClass} heroTagline`}>
-        Design systems that scale.
-        <br />
-        Interfaces that feel right.
+        Building immersive, high-performance web platforms that drive growth.
       </p>
 
-      {/* Supporting Text - value-focused description */}
+      {/* Supporting Text - value-focused description (SEO Keywords retained) */}
       <p className={`${styles.heroSubtitle} ${animClass} heroSubtitle`}>
-        Full-stack engineer specializing in design systems, performance, and delightful user experiences.
+        Full Stack Architect specializing in scalable systems, 3D experiences, and AI-driven engineering.
       </p>
 
       <div className={`${styles.socialDivider} ${animClass} socialDivider`} aria-hidden="true" />

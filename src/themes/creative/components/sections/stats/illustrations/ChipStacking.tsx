@@ -24,13 +24,13 @@ interface ChipStackingProps {
 }
 
 const RAW_CHIPS = [
-  '25+ PROJECTS DELIVERED', // Longest (22)
-  '6+ YEARS EXPERIENCE',    // (19)
-  'RAPID PROTOTYPING',      // (17)
-  'SCALABLE SYSTEMS',       // (16)
-  'HIGH CONVERSION',        // (15)
-  'GLOBAL CLIENTS',         // (14)
-  'MARKET READY',           // (12)
+  'MODERN WEB APPS',        // (Was Next.js 15)
+  'SCALABLE SYSTEMS',       // (Retained - Good Hybrid)
+  'INTERACTIVE 3D',         // (Was WebGL)
+  'INSTANT LOAD SPEED',     // (Was 99 Performance)
+  'AI ENGINEERING',         // (Retained - High Value)
+  'GLOBAL REMOTE',          // (Retained)
+  'SEO OPTIMIZED',          // (Added for Analyst signal)
 ];
 
 const CHIP_HEIGHT = 58;

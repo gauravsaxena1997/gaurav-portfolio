@@ -14,70 +14,70 @@ export const SERVICES: ServiceData[] = [
     {
         id: 'mvp-generation',
         number: 1,
-        title: 'MVP Generation',
-        description: 'Rapid prototyping for startups',
-        fullDescription: 'Transform your idea into a working prototype. I help you identify core features, build a functional MVP, and validate your concept with real users.',
+        title: 'MVP Engineering',
+        description: '0 to 1 Architecture',
+        fullDescription: 'Transform abstract concepts into investable MVPs. I build scalable foundations using Next.js and Supabase that are ready for rapid iteration and user validation.',
         features: [
-            'Rapid prototyping',
-            'Core feature implementation',
-            'User testing setup',
-            'Market validation'
+            'Rapid Component Scaffolding',
+            'Scalable DB Schema Design',
+            'Auth & User Management',
+            'CI/CD Pipeline Setup'
         ],
         icon: Rocket
     },
     {
         id: 'ui-ux-design',
         number: 2,
-        title: 'UI/UX Design',
-        description: 'User-centered design',
-        fullDescription: 'Craft beautiful, intuitive interfaces that users love. From wireframes to pixel-perfect designs, I ensure your product is both functional and delightful.',
+        title: 'Design Engineering',
+        description: 'Systems & Interactions',
+        fullDescription: 'Bridge the gap between design and code. I adhere to pixel-perfect implementation of Figma files while enhancing them with fluid micro-interactions and accessible patterns.',
         features: [
-            'Wireframing & prototyping',
-            'Visual design system',
-            'Responsive layouts',
-            'Accessibility compliance'
+            'Figma to React Implementation',
+            'Design Token Architecture',
+            'Framer Motion Animations',
+            'WCAG 2.1 AA Accessibility'
         ],
         icon: Palette
     },
     {
         id: 'development',
         number: 3,
-        title: 'Development',
-        description: 'Frontend + Backend',
-        fullDescription: 'Build robust, scalable applications with modern technologies. Clean code, best practices, and maintainable architecture are my standards.',
+        title: 'Full Stack Architecture',
+        description: 'Scalable Systems',
+        fullDescription: 'Build robust, scalable applications that grow with your business. I architect distributed systems using Next.js and Node.js that handle high traffic and complex logic without breaking.',
         features: [
-            'Modern tech stack (React, Next.js, Node.js)',
-            'Scalable architecture',
-            'Clean, maintainable code',
-            'API development'
+            'Next.js 15 / React 19 Ecosystem',
+            'Type-Safe Backend Systems',
+            'Scalable Database Design',
+            'Cloud-Ready Infrastructure'
         ],
         icon: Code
     },
     {
         id: 'integrations',
         number: 4,
-        title: 'Integrations',
-        description: 'APIs, payments, auth',
-        fullDescription: 'Connect your application to the services you need. Seamless integrations with third-party APIs, payment gateways, and authentication providers.',
+        title: 'API & Payment Systems',
+        description: 'Seamless Connectivity',
+        fullDescription: 'Connect your application to the global economy. I specialize in secure implementation of Payment Gateways (Stripe/Razorpay), Auth Providers, and connecting your tools (CRM/Email) for automation.',
         features: [
-            'Third-party API integration',
-            'Payment gateways (Stripe, PayPal)',
-            'Authentication (OAuth, JWT)',
-            'CRM & analytics tools'
+            'Stripe & Razorpay Payments',
+            'Secure User Authentication',
+            'Real-time Updates',
+            'CMS Integration'
         ],
         icon: Link
     },
     {
         id: 'seo-performance',
         number: 5,
-        title: 'SEO & Performance',
-        description: 'Optimization',
-        fullDescription: 'Maximize your reach and speed. I optimize your application for search engines and ensure lightning-fast performance across all devices.',
+        title: 'Performance & Growth',
+        description: 'Speed & SEO',
+        fullDescription: 'Speed is a feature. I optimize applications for instant load times and Google ranking. A faster site means better user retention and higher conversion rates.',
         features: [
-            'Technical SEO optimization',
-            'Performance audits',
-            'Core Web Vitals',
-            'Analytics setup'
+            'Instant Load Speeds',
+            'Google SEO Optimization',
+            'Mobile Performance Tuning',
+            'Analytics & Growth Tracking'
         ],
         icon: TrendingUp
     }

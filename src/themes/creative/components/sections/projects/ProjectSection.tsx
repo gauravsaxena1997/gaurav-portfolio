@@ -104,7 +104,7 @@ export const ProjectSection = memo(function ProjectSection() {
                   <div className={styles.highlights}>
                     {project.highlights.map((highlight) => (
                       <div key={highlight} className={styles.highlightItem}>
-                        <span className={styles.pointCheck}>✓</span>
+                        <span className={styles.pointCheck} aria-hidden="true">✓</span>
                         <span className={styles.highlightText}>{highlight}</span>
                       </div>
                     ))}
@@ -122,14 +122,11 @@ export const ProjectSection = memo(function ProjectSection() {
                     className={styles.ctaButton}
                   >
                     View Live
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                       <path d="M7 17L17 7M17 7H7M17 7V17" />
                     </svg>
                   </a>
                 )}
-                <button className={styles.secondaryButton}>
-                  Explore More
-                </button>
               </div>
 
             </div>
