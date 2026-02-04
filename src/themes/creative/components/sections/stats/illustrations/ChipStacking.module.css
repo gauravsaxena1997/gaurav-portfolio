@@ -47,15 +47,15 @@
 /* === VARIANT: GOLD (Primary) === */
 /* Gold uses centralized accent gradient */
 .chip.gold {
-  background: var(--creative-accent-gradient);
-  color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--chip-accent-bg);
+  color: var(--chip-text-on-accent);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   box-shadow:
-    0 2px 0 rgba(255, 255, 255, 0.3) inset,
-    0 -2px 0 rgba(0, 0, 0, 0.1) inset,
-    0 10px 20px var(--creative-accent-shadow),
-    0 4px 8px rgba(0, 0, 0, 0.2);
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.05) inset,
+    0 8px 16px color-mix(in srgb, var(--creative-accent), transparent 70%),
+    0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .chip.gold .chipContent {
@@ -65,56 +65,24 @@
 
 /* === VARIANT: SECONDARY (Theme Adaptive) === */
 .chip.secondary {
-  border: 2px solid var(--creative-accent);
-  /* Accent Border */
+  border: 1.5px solid color-mix(in srgb, var(--creative-accent), transparent 60%);
+  background: var(--chip-neutral-bg);
+  color: var(--chip-text-on-neutral);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* Dark Mode: White Box, Black Text */
-:global([data-theme="dark"]) .chip.secondary {
-  background: #ffffff;
-  color: #000000;
-}
-
-:global([data-theme="dark"]) .chip.secondary .chipContent {
-  color: #000000;
-  text-shadow: none;
-}
-
-/* Light Mode: Black Box, White Text (User Request: "Live mode... block become black") */
+/* Theme overrides removed in favor of semantic tokens */
+:global([data-theme="dark"]) .chip.secondary,
 :global([data-theme="light"]) .chip.secondary {
-  background: #000000;
-  color: #ffffff;
+  background: var(--chip-neutral-bg);
+  color: var(--chip-text-on-neutral);
 }
 
-:global([data-theme="light"]) .chip.secondary .chipContent {
-  color: #ffffff;
+.chip.secondary .chipContent {
+  color: inherit;
   text-shadow: none;
-}
-
-/* Fallback / Default (if no theme attr, assume Dark/System) */
-@media (prefers-color-scheme: dark) {
-  .chip.secondary {
-    background: #ffffff;
-    color: #000000;
-  }
-
-  .chip.secondary .chipContent {
-    color: #000000;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  .chip.secondary {
-    background: #000000;
-    color: #ffffff;
-  }
-
-  .chip.secondary .chipContent {
-    color: #ffffff;
-  }
 }
 
 /* Hover Effects */

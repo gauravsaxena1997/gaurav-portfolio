@@ -68,7 +68,7 @@
   position: absolute;
   top: -120px;
   left: -80px;
-  opacity: 0.06;
+  opacity: 0.12;
   z-index: -1;
   pointer-events: none;
 }

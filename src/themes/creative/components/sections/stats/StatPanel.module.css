@@ -175,7 +175,7 @@
 .description {
   font-size: var(--font-size-body);
   font-family: var(--font-body);
-  color: var(--creative-text-secondary);
+  color: var(--stats-body-text);
   line-height: 1.6;
   margin: 0;
   text-align: left;

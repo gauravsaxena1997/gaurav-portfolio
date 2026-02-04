@@ -93,6 +93,13 @@ body {
   --creative-stats-text-revealed: #1A1816;
   --creative-stats-divider-revealed: rgba(255, 242, 199, 0.32);
 
+  /* Stats Refinement Tokens (Dynamic) */
+  --stats-body-text: color-mix(in srgb, var(--creative-text-primary), transparent 25%);
+  --chip-accent-bg: color-mix(in srgb, var(--creative-accent), #000 15%);
+  --chip-neutral-bg: var(--creative-bg-secondary);
+  --chip-text-on-accent: #1a1a1a;
+  --chip-text-on-neutral: var(--creative-text-primary);
+
   /* Progress bar */
   --creative-progress-bg: rgba(255, 255, 255, 0.1);
   --creative-progress-fill: var(--creative-accent);
@@ -232,6 +239,14 @@ body {
   --creative-stats-title-revealed: #FFF2C7;
   --creative-stats-text-revealed: #FFFFFF;
   --creative-stats-divider-revealed: rgba(255, 242, 199, 0.32);
+
+  /* Stats Refinement Tokens (Light Mode - More Muted Gray) */
+  --stats-body-text: #76716B;
+  --chip-accent-bg: color-mix(in srgb, var(--creative-accent), #fff 20%);
+  --chip-neutral-bg: #EAE9E4;
+  /* Muted gray-cream */
+  --chip-text-on-accent: #1A1816;
+  --chip-text-on-neutral: #33312E;
 
   --creative-progress-bg: rgba(0, 0, 0, 0.1);
   --creative-progress-fill: var(--creative-accent);
