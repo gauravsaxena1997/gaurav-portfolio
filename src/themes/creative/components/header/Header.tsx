@@ -64,7 +64,8 @@ export function Header({ currentTheme, onThemeChange, themeMode, onModeToggle }:
 
         {/* Right: Toggles */}
         <div className={styles.toggles}>
-          {/* Theme Switcher (Creative/GitHub) - LEFT */}
+          {/* Theme Switcher (Creative/GitHub) - Commenting out until GitHub theme is ready */}
+          {/* 
           <button
             className={styles.iconButton}
             onClick={() => setIsThemeModalOpen(true)}
@@ -72,6 +73,7 @@ export function Header({ currentTheme, onThemeChange, themeMode, onModeToggle }:
           >
             <Palette size={20} />
           </button>
+          */}
 
           {/* Mode Toggle (Dark/Light) - RIGHT */}
           <button
@@ -113,13 +115,15 @@ export function Header({ currentTheme, onThemeChange, themeMode, onModeToggle }:
         </div>
       )}
 
-      {/* Theme Info Modal */}
+      {/* Theme Info Modal - Commented out until GitHub theme is ready */}
+      {/* 
       <ThemeInfoModal
         isOpen={isThemeModalOpen}
         onClose={() => setIsThemeModalOpen(false)}
         currentTheme={currentTheme}
         onThemeSwitch={onThemeChange}
       />
+      */}
     </>
   );
 }
