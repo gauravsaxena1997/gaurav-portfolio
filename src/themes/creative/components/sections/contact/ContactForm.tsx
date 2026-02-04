@@ -49,6 +49,9 @@ export const ContactForm = memo(
     const [status, setStatus] = useState<FormStatus>({ type: 'idle' });
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
+    // Client-side validation for disabling the submit button
+    const isValid = contactFormSchema.safeParse(formState).success;
+
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -202,7 +205,7 @@ export const ContactForm = memo(
             ref={sendButtonRef}
             type="submit"
             className={styles.submitButton}
-            disabled={status.type === 'loading'}
+            disabled={status.type === 'loading' || !isValid}
           >
             {status.type === 'loading' ? 'Sending...' : 'Send Message'}
           </button>

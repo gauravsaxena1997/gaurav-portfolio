@@ -5,7 +5,8 @@
   right: 0;
   top: 0;
   height: 100vh;
-  z-index: 1000;
+  z-index: 200000;
+  /* Must be > Header's 99999 */
   pointer-events: none;
 }
 

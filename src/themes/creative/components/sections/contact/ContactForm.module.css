@@ -138,9 +138,10 @@
 }
 
 .submitButton:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
-  filter: grayscale(1);
+  background: color-mix(in srgb, var(--creative-accent), transparent 60%);
+  color: var(--creative-text-primary);
 }
 
 /* Styles removed: .divider, .dividerText, .scheduleButton - Moved to ContactSection */

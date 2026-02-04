@@ -5,7 +5,8 @@
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%) translateY(0);
-  z-index: 9000;
+  z-index: 900;
+  /* Should be behind navigation overlay (999) */
 
   /* Glass-morphism styling */
   background: rgba(var(--creative-bg-secondary-rgb), 0.92);
