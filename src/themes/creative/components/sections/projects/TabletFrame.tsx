@@ -37,6 +37,16 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
   const [isInView, setIsInView] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  const handleTimeUpdate = useCallback(() => {
+    if (fullscreenVideoRef.current) {
+      const { currentTime, duration } = fullscreenVideoRef.current;
+      if (duration) {
+        setProgress((currentTime / duration) * 100);
+      }
+    }
+  }, []);
 
   // Expose fullscreen control to parent
   useImperativeHandle(ref, () => ({

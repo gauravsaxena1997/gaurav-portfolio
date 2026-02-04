@@ -34,7 +34,7 @@ export function UnifiedProjectViewer({
     // Video State
     const videoRef = useRef<HTMLVideoElement>(null);
     const progressBarRef = useRef<HTMLDivElement>(null); // Direct DOM Ref
-    const requestRef = useRef<number>();
+    const requestRef = useRef<number | null>(null);
     const [isPlaying, setIsPlaying] = useState(true);
 
     // Reset index when opening
@@ -199,7 +199,6 @@ export function UnifiedProjectViewer({
                                 ref={videoRef}
                                 src={videoSrc}
                                 autoPlay
-                                muted={false}
                                 id="fullscreen-video-player"
                                 muted // Start muted for autoplay
                                 loop
