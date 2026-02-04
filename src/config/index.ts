@@ -2,6 +2,7 @@ export const CONTACT_INFO = {
     email: 'gauravsaxena.jaipur@gmail.com',
     location: 'Remote / Jaipur, IN',
     availability: 'Open for Projects',
+    schedulingUrl: 'https://calendly.com/gauravsaxena/30min',
     get mailto() {
         return `mailto:${this.email}`;
     }

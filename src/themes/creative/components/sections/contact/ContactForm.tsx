@@ -5,6 +5,7 @@ import { validate } from '@/lib/validation';
 import { contactFormSchema } from '@/lib/validation/schemas';
 import { AppError } from '@/lib/errors/AppError';
 import { errorHandler } from '@/lib/errors/ErrorHandler';
+import { GuideBar } from '../../ui/GuideBar';
 import styles from './ContactForm.module.css';
 
 interface ContactFormProps {
@@ -103,7 +104,7 @@ export const ContactForm = memo(
 
           setStatus({
             type: 'success',
-            message: "Message sent! I'll get back to you soon.",
+            message: "Thanks for reaching out! I've received your message and will get back to you shortly.",
           });
           setFormState({ name: '', email: '', message: '', subject: '' });
         } catch (err: unknown) {
@@ -188,15 +189,8 @@ export const ContactForm = memo(
             {fieldErrors.message && <span className={styles.errorMessage}>{fieldErrors.message}</span>}
           </div>
 
-          {status.type !== 'idle' && status.type !== 'loading' && (
-            <div
-              className={`${styles.status} ${status.type === 'success'
-                ? styles.success
-                : status.type === 'error'
-                  ? styles.error
-                  : ''
-                }`}
-            >
+          {status.type === 'error' && (
+            <div className={`${styles.status} ${styles.error}`}>
               {status.message}
             </div>
           )}
@@ -210,6 +204,14 @@ export const ContactForm = memo(
             {status.type === 'loading' ? 'Sending...' : 'Send Message'}
           </button>
         </form>
+
+        {/* Success GuideBar notification */}
+        <GuideBar
+          forceVisible={status.type === 'success'}
+          message={status.message}
+          autoDismissAfter={5000}
+          showGreeting={false}
+        />
       </div>
     );
   })

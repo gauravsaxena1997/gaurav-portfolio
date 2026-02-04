@@ -51,12 +51,16 @@ export interface GuideBarProps {
   forceVisible?: boolean;
   /** If true, shows the greeting text (Hero mode). Default: true */
   showGreeting?: boolean;
+  /** Auto-dismiss duration in ms for custom messages. */
+  autoDismissAfter?: number;
 }
 
 /**
  * Guide Bar - Premium onboarding component & Interaction Guide
  * Shows welcome message (Hero) or contextual hints (Projects)
  */
+const AUTO_DISMISS_DEFAULT_MS = 9000;
+
 export const GuideBar = memo(function GuideBar({
   message,
   actionLabel,
@@ -64,6 +68,7 @@ export const GuideBar = memo(function GuideBar({
   isPersistent = false,
   forceVisible = false,
   showGreeting = true,
+  autoDismissAfter,
 }: GuideBarProps) {
   const [isVisible, setIsVisible] = useState(forceVisible);
   const [isDismissing, setIsDismissing] = useState(false);
@@ -82,14 +87,18 @@ export const GuideBar = memo(function GuideBar({
     }
   }, [forceVisible, isPersistent, message]);
 
-  // Start auto-dismiss timer (Basic Hero Mode only)
-  const startDismissTimer = useCallback(() => {
+  // Start auto-dismiss timer
+  const startDismissTimer = useCallback((duration?: number) => {
     if (isPersistent) return;
+
+    const timeout = duration || autoDismissAfter || AUTO_DISMISS_DEFAULT_MS;
+
+    if (timerRef.current) clearTimeout(timerRef.current);
 
     timerRef.current = setTimeout(() => {
       handleDismiss();
-    }, AUTO_DISMISS_MS);
-  }, [isPersistent]);
+    }, timeout);
+  }, [isPersistent, autoDismissAfter]);
 
   // Clear dismiss timer
   const clearDismissTimer = useCallback(() => {
@@ -112,9 +121,25 @@ export const GuideBar = memo(function GuideBar({
     }, 350);
   }, [isDismissing, clearDismissTimer, isPersistent]);
 
+  // Handle visibility and timer for custom messages or forceVisible
+  useEffect(() => {
+    if (forceVisible) {
+      setIsVisible(true);
+      setIsDismissing(false);
+
+      if (autoDismissAfter) {
+        startDismissTimer(autoDismissAfter);
+      } else {
+        clearDismissTimer();
+      }
+    } else if (isPersistent) {
+      setIsVisible(false);
+    }
+  }, [forceVisible, isPersistent, autoDismissAfter, startDismissTimer, clearDismissTimer]);
+
   // Hero Mode: Show when entrance animation completes
   useEffect(() => {
-    if (message || isPersistent) return; // Skip for custom modes
+    if (message || isPersistent || forceVisible || !showGreeting) return; // Skip for custom/disabled modes
 
     const handleEntranceComplete = () => {
       // If user has already scrolled down, don't show the guide bar

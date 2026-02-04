@@ -78,7 +78,7 @@ export function ContactSection({ className }: ContactSectionProps) {
           <button
             type="button"
             className={styles.scheduleButton}
-            onClick={() => window.open('https://cal.com/gaurav', '_blank', 'noopener,noreferrer')}
+            onClick={() => window.open(CONTACT_INFO.schedulingUrl, '_blank', 'noopener,noreferrer')}
           >
             <Calendar size={20} />
             <span>Schedule a Call</span>

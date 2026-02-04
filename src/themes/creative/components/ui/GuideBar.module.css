@@ -24,7 +24,7 @@
   gap: 12px;
   padding: 16px 20px;
   width: fit-content;
-  max-width: calc(100% - 4rem);
+  max-width: min(calc(100% - 4rem), 600px);
 
   /* Enter animation */
   animation: guideBarSlideUp 500ms cubic-bezier(0.16, 1, 0.3, 1) 100ms backwards;
