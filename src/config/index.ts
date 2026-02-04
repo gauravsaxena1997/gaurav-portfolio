@@ -11,19 +11,14 @@ export const CONTACT_INFO = {
 export const SOCIAL_LINKS = [
     {
         name: 'linkedin',
-        href: 'https://linkedin.com/in/gauravsaxena27',
+        href: 'https://linkedin.com/in/gauravsaxena1997',
         label: 'Connect on LinkedIn',
     },
     {
         name: 'github',
-        href: 'https://github.com/itsgsaxena',
+        href: 'https://github.com/gauravsaxena1997',
         label: 'View GitHub profile',
-    },
-    {
-        name: 'email',
-        href: CONTACT_INFO.mailto,
-        label: 'Send an email',
-    },
+    }
 ];
 
 export const HERO_CONTENT = {

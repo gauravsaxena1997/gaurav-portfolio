@@ -309,6 +309,7 @@
 /* Social Links */
 .socialLinks {
   display: flex;
+  align-items: center;
   gap: var(--space-md);
 }
 
@@ -497,7 +498,7 @@
     max-width: 600px;
   }
 
-  .socialLinks {
+  .actionRow {
     margin-top: 2vh;
   }
 }
