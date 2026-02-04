@@ -34,7 +34,7 @@ export function Header({ currentTheme, onThemeChange, themeMode, onModeToggle }:
   const scrollToSection = (sectionId: string) => {
     // Map navigation IDs to actual section IDs
     const sectionIdMap: Record<string, string> = {
-      hero: 'hero-stats-section',
+      hero: 'hero-section',
       projects: 'projects-section',
       services: 'services-section',
       contact: 'contact-section',

@@ -297,11 +297,62 @@
   width: clamp(60px, 15vw, 100px);
 }
 
+/* Action Row - clusters Social and CTA */
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+  margin-top: var(--space-md);
+  flex-wrap: wrap;
+}
+
 /* Social Links */
 .socialLinks {
   display: flex;
   gap: var(--space-md);
-  margin-top: 0;
+}
+
+/* Hero CTA Button */
+.heroCTA {
+  background: transparent;
+  border: 2px solid var(--creative-accent);
+  color: var(--creative-accent);
+  padding: 0.75rem 2rem;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all var(--creative-transition-normal);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.heroCTA:hover {
+  background: var(--creative-accent);
+  color: var(--creative-bg-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(var(--creative-spotlight-rgb), 0.2);
+}
+
+.heroCTA:active {
+  transform: translateY(0);
+}
+
+.litLayer .heroCTA {
+  border-color: var(--creative-beam-accent-inverted);
+  color: var(--creative-beam-accent-inverted);
+}
+
+.litLayer .heroCTA:hover {
+  background: var(--creative-beam-accent-inverted);
+  color: var(--creative-bg-primary);
 }
 
 
@@ -527,8 +578,20 @@
 
   .socialLinks {
     justify-content: flex-start;
-    margin-top: 2rem;
     gap: 1.5rem;
+  }
+
+  .actionRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .heroCTA {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
   }
 
   /* Lighthouse - anchored to bottom-right, visible on mobile */

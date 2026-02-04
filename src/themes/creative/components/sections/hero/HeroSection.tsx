@@ -58,8 +58,21 @@ function HeroContent({ animate, className }: HeroContentProps) {
 
       <AccentSeparator className={`${animClass} socialDivider`} />
 
-      {/* Social Links */}
-      <SocialLinks className={`${animClass} socialLinks`} />
+      {/* Action Row: Social Links + CTA */}
+      <div className={`${styles.actionRow} ${animClass} actionRow`}>
+        <SocialLinks className={styles.socialLinks} />
+        <button
+          className={styles.heroCTA}
+          onClick={() => {
+            const element = document.getElementById('contact-section');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }}
+        >
+          Let's Talk
+        </button>
+      </div>
     </div>
   );
 }
