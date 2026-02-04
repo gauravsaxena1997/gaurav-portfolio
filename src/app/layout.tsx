@@ -1,22 +1,25 @@
 import type { Metadata, Viewport } from 'next';
-import { Fira_Code, Inter } from 'next/font/google';
+import { Sora, Manrope, JetBrains_Mono } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { ThemeProvider } from '@/components/shared';
 import { PersonSchema, ServiceSchema, WebSiteSchema } from '@/components/seo';
 import './globals.css';
 
-const firaCode = Fira_Code({
-  variable: '--font-fira-code',
+const sora = Sora({
+  variable: '--font-sora',
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
-// Creative Theme Typography - Inter for body (clean, readable)
-const inter = Inter({
-  variable: '--font-body',
+const manrope = Manrope({
+  variable: '--font-manrope',
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-jetbrains',
+  subsets: ['latin'],
   display: 'swap',
 });
 
@@ -127,18 +130,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Load Archivo Expanded via Google Fonts CDN */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@700;800&display=swap"
-          rel="stylesheet"
-        />
         <PersonSchema />
         <ServiceSchema />
         <WebSiteSchema />
       </head>
-      <body className={`${firaCode.variable} ${inter.variable}`}>
+      <body className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} font-sans`}>
         <ThemeProvider>{children}</ThemeProvider>
         <GoogleAnalytics gaId="G-ZVFENY0XPB" />
       </body>

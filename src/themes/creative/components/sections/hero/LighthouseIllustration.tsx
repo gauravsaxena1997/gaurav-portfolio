@@ -82,29 +82,29 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
       {/* Rocky cliff/land - tapers to a point on the left, full height on right */}
       {/* Main land mass - diagonal shoreline tapering left */}
       {/* Rocky cliff/land - tapers to a point on the left, full height on right */}
-      {/* Main land mass - diagonal shoreline tapering left */}
+      {/* Main land mass - diagonal shoreline tapering left. Opaque for visibility */}
       <path
         d="M0 230 L 35 175 C 45 172, 50 170, 60 172 L 60 175 L 80 175 L 80 172 C 95 170, 110 168, 140 165 L 140 230 Z"
         fill={colors.cliffDark}
-        opacity="0.5"
+        opacity="0.9" // Increased from 0.5
       />
       {/* Middle layer - follows the taper */}
       <path
         d="M15 230 L 40 180 C 50 177, 55 176, 62 177 L 62 175 L 78 175 L 78 177 C 100 174, 120 172, 140 175 L 140 230 Z"
         fill={colors.cliffMid}
-        opacity="0.35"
+        opacity="0.7" // Increased from 0.35
       />
       {/* Top surface layer - closest to lighthouse */}
       <path
         d="M30 230 L 48 188 C 55 185, 60 184, 65 185 L 65 175 L 75 175 L 75 185 C 95 182, 115 180, 140 185 L 140 230 Z"
         fill={colors.cliffLight}
-        opacity="0.25"
+        opacity="0.5" // Increased from 0.25
       />
       {/* Rock texture details along the slope */}
-      <ellipse cx="50" cy="200" rx="6" ry="3" fill={colors.cliffMid} opacity="0.15" />
-      <ellipse cx="110" cy="195" rx="8" ry="4" fill={colors.cliffMid} opacity="0.15" />
-      <ellipse cx="70" cy="210" rx="5" ry="2" fill={colors.cliffDark} opacity="0.1" />
-      <ellipse cx="125" cy="215" rx="7" ry="3" fill={colors.cliffDark} opacity="0.1" />
+      <ellipse cx="50" cy="200" rx="6" ry="3" fill={colors.cliffMid} opacity="0.4" />
+      <ellipse cx="110" cy="195" rx="8" ry="4" fill={colors.cliffMid} opacity="0.4" />
+      <ellipse cx="70" cy="210" rx="5" ry="2" fill={colors.cliffDark} opacity="0.3" />
+      <ellipse cx="125" cy="215" rx="7" ry="3" fill={colors.cliffDark} opacity="0.3" />
 
       {/* Lighthouse group - centered on the land */}
       <g transform="translate(20, 0)">

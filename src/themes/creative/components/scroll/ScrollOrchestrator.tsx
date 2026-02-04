@@ -11,9 +11,9 @@ import { HeroSection } from '../sections/hero';
 import { ProjectSection } from '../sections/projects';
 import { ContactSection } from '../sections/contact';
 import { ServicesSection } from '../sections/services';
-import { StatPanel } from '../sections/stats';
+import { StatPanel, ChipFallAnimation } from '../sections/stats';
 import { ErrorBoundary } from '@/components/shared';
-import { LoadingSkeleton } from '../ui';
+import { LoadingSkeleton, SectionDivider } from '../ui';
 import styles from './ScrollOrchestrator.module.css';
 
 // Lazy load heavy 3D/physics components
@@ -103,40 +103,14 @@ export function ScrollOrchestrator() {
           clipPath: endClip,
           webkitClipPath: endClip,
           ease: 'none',
-          overwrite: 'auto', // Prevent conflict on potential refresh
           scrollTrigger: {
             trigger: panel,
-            start: 'top 75%', // REVERTED: Standard scroll trigger for wipe
-            end: 'center center',
-            scrub: 0.5, // 0.5s lag for smoothness
+            start: 'top 75%', // Start when panel enters viewport from bottom
+            end: 'center center', // Complete when panel is fully visible
+            scrub: 0.3,
+            toggleActions: 'play none none none', // Only play forward, never reverse
           }
         });
-
-        // Highlight Entrance Animation (Relocated) - SEQUENCED
-        const highlightItems = panel.querySelectorAll('[data-highlight-item]');
-        if (highlightItems.length > 0) {
-          gsap.fromTo(highlightItems,
-            {
-              y: 30,
-              autoAlpha: 0,
-              scale: 0.9
-            },
-            {
-              y: 0,
-              autoAlpha: 1,
-              scale: 1,
-              duration: 0.6,
-              stagger: 0.15,
-              delay: 0.2, // Short delay after wipe
-              ease: 'back.out(1.7)',
-              scrollTrigger: {
-                trigger: panel,
-                start: 'top 25%', // Wait for 75-80% visibility
-                toggleActions: 'play reverse play reverse',
-              }
-            }
-          );
-        }
       });
     },
     { scope: containerRef }
@@ -151,72 +125,84 @@ export function ScrollOrchestrator() {
 
       {/* ===== STATS SECTION (Alternating Layout) ===== */}
       <section id="stats-section" className={styles.statsContainer}>
-        {/* Panel 1: Experience (50/50 Split, Bottom Aligned Chips) */}
-        <div className={styles.statRow} data-stat-panel>
-          <StatPanel
-            title="6+ Years Building Digital Products"
-            description="I've spent 5+ years at product companies and service agencies, shipping for B2B and B2C audiences. Now I bring that same rigor directly to your project. I bring tested frameworks that actually work."
-            illustration={
-              <ErrorBoundary fallback={<div className="p-4 text-center">Chip stacking unavailable</div>}>
-                <ChipStacking />
-              </ErrorBoundary>
-            }
-            desktopLayout="text-left"
-            illustAlign="bottom"
-            icon={Briefcase}
-          />
-        </div>
 
-        {/* Panel 2: AI-Supported Workflow (50/50 Split, Center Aligned Robot) */}
-        <div className={styles.statRow} data-stat-panel>
-          <StatPanel
-            title="AI-Accelerated Development"
-            description="Working without AI is like leaving half your toolkit at home. I leverage custom AI pipelines to automate testing and scaffolding. This means I spend my time solving your complex business problems, not writing boilerplate code."
-            highlights={[
-              'Automated Testing Pipelines',
-              'Faster Feature Delivery',
-              'Enterprise-Grade Quality',
-            ]}
-            illustration={
-              <ErrorBoundary fallback={<div className="p-4 text-center">3D model unavailable</div>}>
-                <AIBrainIllustration />
-              </ErrorBoundary>
-            }
-            desktopLayout="text-right"
-            highlightsLocation="illustration"
-            illustAlign="center"
-            icon={Cpu}
-          />
-        </div>
 
-        {/* Panel 3: Global Availability (50/50 Split, Center Aligned Globe) */}
-        <div className={styles.statRow} data-stat-panel>
-          <StatPanel
-            title="Global Remote Architecture"
-            description="Based in India, architecting for the world. My Async-First workflow eliminates timezone friction. I deliver self-contained updates that let your US/EU team wake up to progress, not blockers."
-            highlights={[
-              'Global Remote Experience',
-              'Async Communication-First',
-              'Zero-Blocker Handoffs',
-            ]}
-            illustration={
-              <ErrorBoundary fallback={<div className="p-4 text-center">Globe visualization unavailable</div>}>
-                <GlobeVisualization />
-              </ErrorBoundary>
-            }
-            desktopLayout="text-left"
-            highlightsLocation="illustration"
-            illustAlign="center"
-            icon={Globe}
-          />
+
+        {/* DESKTOP LAYOUT (CSS Toggle) */}
+        <div className={styles.desktopStats}>
+          {/* Panel 1: Experience (50/50 Split, Bottom Aligned Chips) */}
+          <div className={styles.statRow} data-stat-panel>
+            <StatPanel
+              title="6+ Years Building Digital Products"
+              description="I've spent 5+ years at product companies and service agencies, shipping for B2B and B2C audiences. Now I bring that same rigor directly to your project. I bring tested frameworks that actually work."
+              illustration={
+                <ErrorBoundary fallback={<div className="p-4 text-center">Chip stacking unavailable</div>}>
+                  <ChipStacking />
+                </ErrorBoundary>
+              }
+              // Mobile props ignored by desktop wrapper
+              desktopLayout="text-left"
+              illustAlign="bottom"
+              icon={Briefcase}
+            />
+          </div>
+
+          {/* Panel 2: AI-Supported Workflow (50/50 Split, Center Aligned Robot) */}
+          <div className={styles.statRow} data-stat-panel>
+            <StatPanel
+              title="AI-Accelerated Development"
+              description="Working without AI is like leaving half your toolkit at home. I leverage custom AI pipelines to automate testing and scaffolding. This means I spend my time solving your complex business problems, not writing boilerplate code."
+              highlights={[
+                'Automated Testing Pipelines',
+                'Faster Feature Delivery',
+                'Enterprise-Grade Quality',
+              ]}
+              illustration={
+                <ErrorBoundary fallback={<div className="p-4 text-center">3D model unavailable</div>}>
+                  <AIBrainIllustration />
+                </ErrorBoundary>
+              }
+              desktopLayout="text-right"
+              highlightsLocation="illustration"
+              illustAlign="center"
+              icon={Cpu}
+            />
+          </div>
+
+          {/* Panel 3: Global Availability (50/50 Split, Center Aligned Globe) */}
+          <div className={styles.statRow} data-stat-panel>
+            <StatPanel
+              title="Global Remote Architecture"
+              description="Based in India, architecting for the world. My Async-First workflow eliminates timezone friction. I deliver self-contained updates that let your US/EU team wake up to progress, not blockers."
+              highlights={[
+                'Global Remote Experience',
+                'Async Communication-First',
+                'Zero-Blocker Handoffs',
+              ]}
+              illustration={
+                <ErrorBoundary fallback={<div className="p-4 text-center">Globe visualization unavailable</div>}>
+                  <GlobeVisualization />
+                </ErrorBoundary>
+              }
+              desktopLayout="text-left"
+              highlightsLocation="illustration"
+              illustAlign="center"
+              icon={Globe}
+            />
+          </div>
         </div>
       </section>
+
+      {/* ===== SECTION DIVIDER: Stats → Projects ===== */}
+      <SectionDivider title="SELECTED PROJECTS" />
 
       {/* ===== PROJECTS SECTION ===== */}
       <section id="projects-section" className={styles.projectsSection}>
         <ProjectSection />
       </section>
 
+      {/* ===== SECTION DIVIDER: Projects → Services ===== */}
+      <SectionDivider title="WHAT I OFFER" />
 
       {/* ===== SERVICES SECTION ===== */}
       <section id="services-section">

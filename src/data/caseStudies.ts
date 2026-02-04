@@ -81,7 +81,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
   {
     id: 'lumore',
     slug: 'lumore',
-    title: 'Lumore: Cosmetic E-comm Demo',
+    title: 'Lumore: Cosmetic E-comm',
     category: 'case-study',
     featured: true,
     shortDescription:
@@ -202,7 +202,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
   {
     id: 'roamonn',
     slug: 'roamonn',
-    title: 'Roamonn - Group & Corporate Travel Platform',
+    title: 'Roamonn - Travel Platform',
     client: 'Bunkdays Outdoor Recreation Pvt. Ltd.',
     category: 'client',
     featured: true,
@@ -256,7 +256,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
       'WhatsApp Integration',
       'Responsive Mobile Design',
     ],
-    liveUrl: 'https://roamonn.com',
+    liveUrl: 'https://roamonn.vercel.app/',
     images: [
       '/projects/roamonn-hero.webp',
       '/projects/roamonn-screenshot-1.webp',

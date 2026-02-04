@@ -97,6 +97,20 @@ export const GlobeVisualization = memo(function GlobeVisualization({
         glowColor: [0.85, 0.80, 0.72] as [number, number, number],  // Warm beige glow
       };
 
+    // Get accent color from CSS variable (normalized to 0-1 range)
+    const getAccentColor = (): [number, number, number] => {
+      const root = document.documentElement;
+      const accentRgb = getComputedStyle(root).getPropertyValue('--creative-accent-rgb').trim();
+      if (accentRgb) {
+        const [r, g, b] = accentRgb.split(',').map(v => parseFloat(v.trim()) / 255);
+        return [r, g, b];
+      }
+      // Fallback: champagne gold #C9A961
+      return [0.79, 0.66, 0.38];
+    };
+
+    const accentColor = getAccentColor();
+
     globeRef.current = createGlobe(canvasRef.current, {
       devicePixelRatio: 2,
       width: size * 2,
@@ -108,7 +122,7 @@ export const GlobeVisualization = memo(function GlobeVisualization({
       mapSamples: 16000,
       mapBrightness: 6,
       baseColor: themeColors.baseColor,
-      markerColor: [0.72, 0.52, 0.04],  // Golden yellow markers
+      markerColor: accentColor, // Uses centralized accent color
       glowColor: themeColors.glowColor,
       markers: [
         { location: [28.6139, 77.209], size: 0.08 },      // India (New Delhi)
@@ -145,10 +159,11 @@ export const GlobeVisualization = memo(function GlobeVisualization({
       style={{
         position: 'relative',
         width: '100%',
-        height: '100%',
+        height: '300px', // Precise half-height for 605px globe
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start', // Align to top
         justifyContent: 'center',
+        overflow: 'hidden', // Hide bottom half
       }}
     >
       <canvas
@@ -159,7 +174,7 @@ export const GlobeVisualization = memo(function GlobeVisualization({
         onPointerMove={handlePointerMove}
         style={{
           width: '100%',
-          height: '100%',
+          height: 'auto',
           maxWidth: '660px',  // Preserve max visual size but allow full height
           maxHeight: '660px',
           touchAction: 'none',

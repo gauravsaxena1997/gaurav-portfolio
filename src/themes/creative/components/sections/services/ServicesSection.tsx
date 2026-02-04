@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { SERVICES } from './servicesData';
+import { BackgroundDecor } from '../../common/BackgroundDecor';
+import { Highlights, AccentSeparator } from '../../ui';
 import styles from './ServicesSection.module.css';
 
 // Lazy load illustrations
@@ -30,7 +32,7 @@ export function ServicesSection() {
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.5 // Trigger when item is 50% visible (dominant on screen)
+            threshold: 0.1 // Trigger early to catch the stacking arrival
         };
 
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -101,26 +103,27 @@ export function ServicesSection() {
                             className={styles.serviceItem}
                             data-index={index}
                         >
+                            {/* Background Decorative Icon - Moved outside content wrapper for proper positioning */}
+                            <BackgroundDecor
+                                position={{ bottom: '5%', right: '5%' }}
+                                size="240px"
+                                parallaxSpeed={0.15}
+                                className={styles.serviceIconDecor}
+                            >
+                                <service.icon size={240} strokeWidth={1} />
+                            </BackgroundDecor>
+
                             <div className={styles.serviceContent}>
+
                                 <div className={styles.headerWrapper}>
                                     <div className={styles.serviceHeader}>
-                                        <div className={styles.serviceIcon}>
-                                            <service.icon size={32} strokeWidth={2} />
-                                        </div>
                                         <h3 className={styles.serviceTitle}>{service.title}</h3>
                                     </div>
-                                    <div className={styles.separator} />
+                                    <AccentSeparator />
                                 </div>
 
                                 <p className={styles.serviceDescription}>{service.fullDescription}</p>
-                                <ul className={styles.featureList}>
-                                    {service.features.map((feature, idx) => (
-                                        <li key={idx} className={styles.featureItem}>
-                                            <span className={styles.checkmark}>✓</span>
-                                            <span>{feature}</span>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <Highlights items={service.features} />
                             </div>
                         </div>
                     ))}

@@ -1,0 +1,66 @@
+/* BackgroundDecor Component Styles */
+/* Large, low-opacity decorative elements with parallax effect */
+
+.wrapper {
+    position: absolute;
+    opacity: 0.08;
+    /* Increased from 0.06 for better visibility */
+    z-index: -1;
+    pointer-events: none;
+    will-change: transform;
+    /* Positioning (top, bottom, left, right) set via inline styles */
+}
+
+.element {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--creative-accent);
+}
+
+/* Inverted variant - for lit-layer (gold background) states */
+.invertedVariant .element {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+/* Slow rotation animation (60 seconds per full rotation) */
+@keyframes rotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animateRotate .element {
+    animation: rotateSlow 60s linear infinite;
+}
+
+/* Reduced motion - disable parallax and rotation */
+@media (prefers-reduced-motion: reduce) {
+    .wrapper {
+        will-change: auto;
+    }
+
+    .animateRotate .element {
+        animation: none;
+    }
+}
+
+/* Mobile - reduce opacity for subtler effect */
+@media (max-width: 900px) {
+    .wrapper {
+        opacity: 0.03;
+    }
+}
+
+/* Very small screens - hide completely to avoid clutter */
+@media (max-width: 480px) {
+    .wrapper {
+        display: none;
+    }
+}

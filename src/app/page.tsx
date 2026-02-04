@@ -7,9 +7,7 @@ import { CreativeTheme } from '@/themes/creative';
 export default function Home() {
   // Initialize activeTheme with lazy initialization (prevents hydration mismatch)
   const [activeTheme, setActiveTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'creative';
-    const saved = localStorage.getItem('portfolio-theme');
-    if (saved === 'github' || saved === 'creative') return saved;
+    // Always default to 'creative' theme on initial load/refresh
     return 'creative';
   });
 

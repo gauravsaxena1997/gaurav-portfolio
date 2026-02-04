@@ -4,7 +4,6 @@ import { ReactNode } from 'react';
 import { type LucideIcon } from 'lucide-react';
 import styles from './StatPanel.module.css';
 import { StatPanelDesktop } from './StatPanelDesktop';
-import { StatPanelMobile } from './StatPanelMobile';
 
 interface StatPanelProps {
   /** Panel title */
@@ -15,6 +14,8 @@ interface StatPanelProps {
   highlights?: string[];
   illustration?: ReactNode;
   icon?: LucideIcon;
+  /** Mobile-specific illustration (simpler, CSS-based) */
+  mobileIllustration?: ReactNode;
 
   // Layout Config
   desktopLayout?: 'text-left' | 'text-right';
@@ -31,9 +32,6 @@ export function StatPanel(props: StatPanelProps) {
     <>
       <div className={styles.desktopWrapper}>
         <StatPanelDesktop {...props} />
-      </div>
-      <div className={styles.mobileWrapper}>
-        <StatPanelMobile />
       </div>
     </>
   );

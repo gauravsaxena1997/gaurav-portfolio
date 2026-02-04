@@ -2,15 +2,15 @@
 
 .container {
   width: 100%;
-  height: 100vh;
-  /* Strict 100vh as requested */
-  max-height: 100vh;
+  min-height: var(--viewport-height);
+  /* Fallback for content overflow */
+  /* Desktop strict height applied in media query */
   display: flex;
   align-items: center;
   /* Vertical Center */
   justify-content: center;
   /* Horizontal Center */
-  padding: 0 clamp(2rem, 4vw, 4rem);
+  padding: calc(var(--header-height) + var(--section-padding-y)) var(--section-padding-x) var(--section-padding-y);
   /* Remove vertical padding to let Flexbox handle centering */
   /* Enforce Dark Background */
   background: var(--creative-bg-primary, #0a0a0a);
@@ -35,8 +35,8 @@
 .content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(4rem, 8vw, 10rem);
-  max-width: 1400px;
+  gap: var(--grid-gap-lg);
+  max-width: var(--container-lg);
   width: 100%;
   align-items: center;
   position: relative;
@@ -49,8 +49,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 1.5rem;
-  padding-right: 2rem;
+  padding-right: var(--space-lg);
   position: relative;
 }
 
@@ -82,7 +81,7 @@
 }
 
 .title {
-  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-size: var(--font-size-h1);
   font-weight: 700;
   color: var(--creative-text-primary);
   /* Gold/White */
@@ -91,8 +90,10 @@
   margin: 0;
 }
 
+/* Separator now uses shared AccentSeparator component */
+
 .subtitle {
-  font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+  font-size: var(--font-size-body-md);
   color: var(--creative-text-secondary);
   line-height: 1.6;
   max-width: 480px;
@@ -103,14 +104,14 @@
 .statusGrid {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 2rem;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
 }
 
 .statusItem {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 .iconBox {
@@ -119,7 +120,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: rgba(var(--creative-bg-secondary-rgb), 0.5);
   border: 1px solid var(--creative-border-color);
   color: var(--creative-accent);
@@ -132,7 +133,7 @@
 }
 
 .statusLabel {
-  font-size: 0.75rem;
+  font-size: var(--font-size-body-xs);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--creative-text-secondary);
@@ -140,9 +141,38 @@
 }
 
 .statusValue {
-  font-size: 1rem;
+  font-size: var(--font-size-body-md);
   font-weight: 600;
   color: var(--creative-text-primary);
+}
+
+.scheduleButton {
+  margin-top: var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--creative-accent);
+  border-radius: var(--radius-md);
+  color: var(--creative-accent);
+  font-size: var(--font-size-body-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--creative-transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: fit-content;
+}
+
+.scheduleButton:hover {
+  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+}
+
+.scheduleButton:active {
+  transform: translateY(0);
 }
 
 .formWrapper {
@@ -157,7 +187,7 @@
 @media (max-width: 1024px) {
   .content {
     grid-template-columns: 1fr;
-    gap: 4rem;
+    gap: var(--space-2xl);
     text-align: center;
   }
 
@@ -172,7 +202,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
+    gap: var(--space-lg);
   }
 
   .compassWrapper {
@@ -188,7 +218,7 @@
 
 @media (max-width: 600px) {
   .container {
-    padding: 2rem 1rem;
+    padding: var(--section-padding-y) var(--section-padding-x);
     /* Ensure height allows scrolling on very short screens if stack is tall */
     min-height: 100vh;
     height: auto;
@@ -202,5 +232,16 @@
   .compassIcon {
     width: 250px;
     height: 250px;
+  }
+}
+
+/* Desktop Strict Viewport Compliance */
+@media (min-width: 1025px) {
+  .container {
+    height: var(--viewport-height);
+    /* Force exact height */
+    min-height: unset;
+    overflow: hidden;
+    /* Clean cut */
   }
 }

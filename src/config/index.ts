@@ -1,5 +1,5 @@
 export const CONTACT_INFO = {
-    email: 'goreofaxana.jokur@gmail.com',
+    email: 'gauravsaxena.jaipur@gmail.com',
     location: 'Remote / Jaipur, IN',
     availability: 'Open for Projects',
     get mailto() {

@@ -1,0 +1,15 @@
+.separator {
+    height: 4px;
+    background: var(--creative-accent);
+    border-radius: 2px;
+    margin: 1.5rem 0;
+    flex-shrink: 0;
+    /* Prevent collapse in flex containers */
+    transition: background-color 0.3s ease;
+}
+
+/* Lit Layer Override (Stats wipe animation) */
+/* When inside Stats litLayer, use dark separator on gold background */
+:global([data-lit-layer]) .separator {
+    background: rgba(0, 0, 0, 0.4);
+}

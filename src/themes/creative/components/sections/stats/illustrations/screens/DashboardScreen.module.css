@@ -21,9 +21,9 @@
 .headerDot {
   width: 8px;
   height: 8px;
-  background: #B8860B;
+  background: var(--creative-accent);
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(184, 134, 11, 0.5);
+  box-shadow: 0 0 8px var(--creative-accent-shadow);
 }
 
 .headerTitle {
@@ -56,7 +56,7 @@
 
 .statCard:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(184, 134, 11, 0.3);
+  border-color: rgba(var(--creative-accent-rgb), 0.3);
   transform: translateY(-2px);
 }
 
@@ -68,7 +68,7 @@
 .statValue {
   font-size: 20px;
   font-weight: 700;
-  color: #B8860B;
+  color: var(--creative-accent);
   line-height: 1;
 }
 
@@ -105,9 +105,12 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.4;
   }

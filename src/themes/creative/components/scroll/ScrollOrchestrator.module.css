@@ -12,6 +12,27 @@
   /* Default behaviors for sections */
 }
 
+.desktopStats {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mobileStats {
+  display: none;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .desktopStats {
+    display: none;
+  }
+
+  .mobileStats {
+    display: block;
+  }
+}
+
 /* ===== STATS SECTION ===== */
 .statsContainer {
   display: flex;
@@ -19,9 +40,50 @@
   width: 100%;
 }
 
+/* 
+   MOBILE STACKING EFFECT 
+   - Removes nested scrollbars (overflow-y: auto removed)
+   - Uses position: sticky to create the "covering" effect
+*/
+@media (max-width: 900px) {
+
+  /* Stat Rows need to be sticky to stack on top of each other */
+  .statRow {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    min-height: 100vh;
+    /* Ensure background is opaque so it actually covers the previous section */
+    background: var(--creative-bg-primary);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    /* Shadow to show depth/stacking */
+  }
+
+  /* Z-Index Stacking Order */
+  .statRow:nth-child(1) {
+    z-index: 20;
+  }
+
+  /* Covers Hero (Hero is usually z-index 10 or lower) */
+  .statRow:nth-child(2) {
+    z-index: 25;
+  }
+
+  /* Covers Stat 1 */
+  .statRow:nth-child(3) {
+    z-index: 30;
+  }
+
+  /* Covers Stat 2 */
+}
+
+/* Base style for desktop/default */
 .statRow {
   width: 100%;
-  min-height: 100vh;
+  min-height: auto;
+  /* Allow compact stacking */
+  padding-bottom: clamp(4rem, 8vh, 6rem);
+  /* Consistent minimal gap between stats */
   position: relative;
   /* Ensure it takes full viewport height for each stat panel */
   display: flex;

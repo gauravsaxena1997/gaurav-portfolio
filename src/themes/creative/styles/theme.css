@@ -1,24 +1,52 @@
 /* Creative Theme - Design Tokens */
 /* Design System: Warm Bronze & Cream - v1.0.0 */
 
-:root {
+body {
   /* ===== DARK THEME (DEFAULT) ===== */
 
   /* Backgrounds */
-  --creative-bg-primary: #0F0E0D;           /* Deep warm black */
-  --creative-bg-secondary: #1A1816;         /* Elevated warm charcoal */
-  --creative-bg-primary-rgb: 15, 14, 13;    /* For rgba() usage */
-  --creative-bg-secondary-rgb: 26, 24, 22;  /* For rgba() usage */
+  --creative-bg-primary: #0F0E0D;
+  /* Deep warm black */
+  --creative-bg-secondary: #1A1816;
+  /* Elevated warm charcoal */
+  --creative-bg-primary-rgb: 15, 14, 13;
+  /* For rgba() usage */
+  --creative-bg-secondary-rgb: 26, 24, 22;
+  /* For rgba() usage */
 
   /* Text */
-  --creative-text-primary: #F5F4F0;         /* Warm white */
-  --creative-text-secondary: #9B9490;       /* Warm mid-gray */
+  --creative-text-primary: #F5F4F0;
+  /* Warm white */
+  --creative-text-secondary: #9B9490;
+  /* Warm mid-gray */
 
   /* Accents */
-  --creative-accent: #C9A961;               /* Champagne gold */
-  --creative-accent-secondary: #B8935C;     /* Deeper bronze */
-  --creative-accent-hover: #D4AF6A;         /* Brighter champagne */
-  --creative-accent-rgb: 201, 169, 97;      /* RGB for champagne gold */
+  --creative-accent: #C9A961;
+  /* Champagne gold */
+  --creative-accent-secondary: #B8935C;
+  /* Deeper bronze */
+  --creative-accent-hover: #D4AF6A;
+  /* Brighter champagne */
+  --creative-accent-rgb: 201, 169, 97;
+  /* RGB for champagne gold */
+
+  /* Accent Gradient (for chips, buttons, etc.) */
+  --creative-accent-gradient: linear-gradient(135deg, #E6B87A 0%, #C29550 100%);
+  --creative-accent-shadow: rgba(194, 149, 80, 0.3);
+
+  /* Border Radius System */
+  --radius-xs: 2px;
+  /* Subtle elements, separators */
+  --radius-sm: 4px;
+  /* Buttons, small UI elements */
+  --radius-md: 8px;
+  /* Cards, panels, medium containers */
+  --radius-lg: 12px;
+  /* Large containers, modals */
+  --radius-xl: 16px;
+  /* Hero elements,special features */
+  --radius-full: 50%;
+  /* Circular elements */
 
   /* Hero-specific accents */
   --creative-hero-name-color: #B8935C;
@@ -27,7 +55,8 @@
 
   /* Stats section */
   --creative-stats-overlay: #C4A15B;
-  --creative-stats-title: #B8935C;  /* Bronze accent - matches hero name */
+  --creative-stats-title: #B8935C;
+  /* Bronze accent - matches hero name */
   --creative-stats-body: #2F2418;
   --creative-stats-highlight: #3F2E1B;
   --creative-stats-check: #1A1208;
@@ -36,18 +65,33 @@
   --creative-border-color: rgba(201, 169, 97, 0.2);
 
   /* Spotlight beam colors */
-  --creative-spotlight-color: #C89C4A;      /* Darker golden beam */
-  --creative-spotlight-rgb: 200, 156, 74;   /* RGB for spotlight */
+  --creative-spotlight-color: #C89C4A;
+  /* Darker golden beam */
+  --creative-spotlight-rgb: 200, 156, 74;
+  /* RGB for spotlight */
+
+  /* Typography - Font families */
+  --font-display: var(--font-sora), system-ui, sans-serif;
+  --font-body: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+
+  /* ===== SEMANTIC TEXT TOKENS (NEW SYSTEM) ===== */
+  --text-title: var(--creative-text-primary);
+  --text-body: var(--creative-text-secondary);
+  --text-muted: rgba(155, 148, 144, 0.8);
+  /* Derived from text-secondary */
+  --text-highlight: var(--creative-accent);
+  --text-on-accent: #0a0a0a;
 
   /* Beam-on-text colors (when beam crosses text) */
-  --creative-beam-text-inverted: #1A1816;   /* Text becomes warm black */
+  --creative-beam-text-inverted: var(--text-on-accent);
   --creative-beam-text-muted: rgba(26, 24, 22, 0.82);
-  --creative-beam-accent-inverted: #FFF2C7; /* Name becomes warm ivory */
+  --creative-beam-accent-inverted: #FFF2C7;
 
-  /* Stats section revealed colors (when overlay passes through) */
-  --creative-stats-title-revealed: #FFF2C7;     /* Title becomes warm ivory (same as hero name) */
-  --creative-stats-text-revealed: #1A1816;      /* Description/highlights become dark black */
-  --creative-stats-divider-revealed: rgba(255, 242, 199, 0.32); /* Divider becomes light */
+  /* Stats section revealed colors */
+  --creative-stats-title-revealed: #FFF2C7;
+  --creative-stats-text-revealed: #1A1816;
+  --creative-stats-divider-revealed: rgba(255, 242, 199, 0.32);
 
   /* Progress bar */
   --creative-progress-bg: rgba(255, 255, 255, 0.1);
@@ -58,76 +102,137 @@
   --creative-transition-normal: 300ms ease;
   --creative-transition-slow: 500ms ease;
 
-  /* Responsive spacing */
-  --header-height: 64px;  /* Desktop default - overridden in mobile media query */
-  --container-padding: clamp(1rem, 4vw, 3rem);
-  --section-gap: clamp(3rem, 10vh, 8rem);
+  /* ===== VIEWPORT SYSTEM ===== */
+  /* Header height - fixed navigation bar */
+  --header-height: 64px;
+  /* Viewport calculations accounting for fixed header */
+  --viewport-height: calc(100vh - var(--header-height));
+  --viewport-height-safe: calc(100vh - var(--header-height) - 2rem);
 
-  /* Typography */
-  --font-display: 'Archivo Expanded', system-ui, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* ===== RESPONSIVE SPACING SYSTEM ===== */
+  --space-xs: clamp(0.25rem, 0.5vw, 0.5rem);
+  --space-sm: clamp(0.5rem, 1vw, 1rem);
+  --space-md: clamp(1rem, 2vw, 2rem);
+  --space-lg: clamp(1.5rem, 3vw, 3rem);
+  --space-xl: clamp(2rem, 4vw, 4rem);
+  --space-2xl: clamp(3rem, 6vw, 6rem);
+  --space-3xl: clamp(4rem, 8vw, 8rem);
+
+  /* Section-specific spacing */
+  --section-padding-x: clamp(1.5rem, 4vw, 4rem);
+  --section-padding-y: clamp(2rem, 4vw, 4rem);
+  --section-gap: clamp(3rem, 6vw, 6rem);
+  --container-padding: clamp(1rem, 4vw, 3rem);
+
+  /* ===== RESPONSIVE TYPOGRAPHY SYSTEM (PRAHAN SCALE) ===== */
+  /* Hero Display (H1 Variant) */
+  --font-size-display-xl: clamp(4rem, 12vw, 8rem);
+
+  /* Major Section Titles (H2) */
+  --font-size-display-lg: 3.5rem;
+  --font-size-h1: 3.5rem;
+  /* Alias for H2 size in this context */
+
+  /* Block Titles (H3) */
+  --font-size-display-md: 2rem;
+  --font-size-h2: 2rem;
+  /* Alias */
+  --font-size-h3: 2rem;
+  /* Alias */
+
+  /* Subtitles / Lead */
+  --font-size-h4: 1.25rem;
+  --font-size-body-lg: 1.25rem;
+
+  /* Body Text */
+  --font-size-body-md: 1.7rem;
+  --font-size-body: 1.7rem;
+
+  /* Small / Highlights */
+  --font-size-body-sm: 1rem;
+  /* For bullets/features */
+  --font-size-body-xs: 0.875rem;
+  /* Meta/Labels */
+
+  /* ===== RESPONSIVE LAYOUT SYSTEM ===== */
+  --grid-gap-sm: clamp(1rem, 2vw, 2rem);
+  --grid-gap-md: clamp(2rem, 4vw, 4rem);
+  --grid-gap-lg: clamp(3rem, 6vw, 6rem);
+
+  --container-sm: clamp(320px, 90vw, 640px);
+  --container-md: clamp(640px, 85vw, 1024px);
+  --container-lg: clamp(1024px, 80vw, 1400px);
+  --container-xl: clamp(1400px, 75vw, 1920px);
+
+  --radius-sm: clamp(4px, 0.5vw, 6px);
+  --radius-md: clamp(6px, 0.75vw, 8px);
+  --radius-lg: clamp(8px, 1vw, 12px);
+  --radius-xl: clamp(12px, 1.5vw, 16px);
 }
 
 /* Mobile header height override */
 @media (max-width: 768px) {
-  :root {
+  body {
     --header-height: 56px;
-  }
+    --viewport-height: calc(100vh - 56px);
 
-  [data-theme="light"] {
-    --header-height: 56px;
+    /* Mobile Type Scale Adjustments */
+    --font-size-display-xl: clamp(2.5rem, 12vw, 4rem);
+    --font-size-h1: 2rem;
+    --font-size-h2: 1.5rem;
+    --font-size-h3: 1.25rem;
   }
 }
 
 [data-theme="light"] {
   /* ===== LIGHT THEME ===== */
+  --creative-bg-primary: #FAFAF8;
+  --creative-bg-secondary: #F5F4F0;
+  --creative-bg-primary-rgb: 250, 250, 248;
+  --creative-bg-secondary-rgb: 245, 244, 240;
 
-  /* Backgrounds */
-  --creative-bg-primary: #FAFAF8;           /* Warm off-white */
-  --creative-bg-secondary: #F5F4F0;         /* Subtle warmth */
-  --creative-bg-primary-rgb: 250, 250, 248; /* For rgba() usage */
-  --creative-bg-secondary-rgb: 245, 244, 240; /* For rgba() usage */
+  --creative-text-primary: #1A1816;
+  --creative-text-secondary: #6B6560;
 
-  /* Text */
-  --creative-text-primary: #1A1816;         /* Warm black */
-  --creative-text-secondary: #6B6560;       /* Warm gray */
+  --text-title: #1A1816;
+  --text-body: #6B6560;
+  --text-muted: rgba(107, 101, 96, 0.8);
+  --text-highlight: #C9A961;
+  --text-on-accent: #ffffff;
+  /* White text on Gold in Light Mode? Or keep black? Used for inverted */
 
-  /* Accents */
-  --creative-accent: #C9A961;               /* Same champagne gold */
-  --creative-accent-secondary: #B8935C;     /* Same bronze */
-  --creative-accent-hover: #B8935C;         /* Deeper for contrast */
-  --creative-accent-rgb: 201, 169, 97;      /* Same RGB */
+  --creative-accent: #C9A961;
+  --creative-accent-secondary: #B8935C;
+  --creative-accent-hover: #B8935C;
+  --creative-accent-rgb: 201, 169, 97;
 
-  /* Hero-specific accents */
+  /* Accent Gradient (same as dark mode - gold chips remain consistent) */
+  --creative-accent-gradient: linear-gradient(135deg, #E6B87A 0%, #C29550 100%);
+  --creative-accent-shadow: rgba(194, 149, 80, 0.3);
+
   --creative-hero-name-color: #B8935C;
   --creative-hero-social-color: #B8935C;
   --creative-hero-divider-color: rgba(26, 24, 22, 0.18);
 
-  /* Stats section */
   --creative-stats-overlay: #D6BD7A;
-  --creative-stats-title: #B8935C;  /* Bronze accent - matches hero name */
+  --creative-stats-title: #B8935C;
   --creative-stats-body: #33271B;
   --creative-stats-highlight: #3F2E1B;
   --creative-stats-check: #1A1208;
 
-  /* Borders */
   --creative-border-color: rgba(201, 169, 97, 0.15);
 
-  /* Spotlight beam colors */
-  --creative-spotlight-color: #C89C4A;      /* Darker golden beam (same as dark mode) */
-  --creative-spotlight-rgb: 200, 156, 74;   /* RGB for spotlight */
+  --creative-spotlight-color: #C89C4A;
+  --creative-spotlight-rgb: 200, 156, 74;
 
-  /* Beam-on-text colors (when beam crosses text) */
-  --creative-beam-text-inverted: #FFFFFF;   /* Text becomes white */
+  --creative-beam-text-inverted: #FFFFFF;
   --creative-beam-text-muted: rgba(255, 255, 255, 0.82);
-  --creative-beam-accent-inverted: #FFF2C7; /* Name becomes warm ivory */
+  --creative-beam-accent-inverted: #FFF2C7;
 
-  /* Stats section revealed colors (when overlay passes through) */
-  --creative-stats-title-revealed: #FFF2C7;     /* Title becomes warm ivory (same as hero name) */
-  --creative-stats-text-revealed: #FFFFFF;      /* Description/highlights become white */
-  --creative-stats-divider-revealed: rgba(255, 242, 199, 0.32); /* Divider becomes light */
+  --creative-stats-title-revealed: #FFF2C7;
+  --creative-stats-text-revealed: #FFFFFF;
+  --creative-stats-divider-revealed: rgba(255, 242, 199, 0.32);
 
-  /* Progress bar */
   --creative-progress-bg: rgba(0, 0, 0, 0.1);
   --creative-progress-fill: var(--creative-accent);
 }

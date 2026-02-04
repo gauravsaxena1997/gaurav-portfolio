@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import * as Matter from 'matter-js';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { RotateCcw } from 'lucide-react';
 import { measureChipWidth, getResponsiveWidth } from '@/utils/measureText';
 import styles from './ChipStacking.module.css';
 
@@ -47,6 +48,7 @@ export function ChipStacking({
   const mouseConstraintRef = useRef<Matter.MouseConstraint | null>(null);
   const [chips, setChips] = useState<ChipData[]>([]);
   const [isPhysicsActive, setIsPhysicsActive] = useState(false);
+  const [hasMoved, setHasMoved] = useState(false);
   const animationFrameRef = useRef<number | null>(null);
   const chipBodiesRef = useRef<Map<string, Matter.Body>>(new Map());
 
@@ -103,8 +105,8 @@ export function ChipStacking({
     });
 
     // Set gravity
-    engine.gravity.y = 0.8;        // REDUCED from 1 (gentler fall)
-    engine.gravity.scale = 0.0008; // REDUCED from 0.001 (slower motion)
+    engine.gravity.y = 1.5;        // INCREASED from 0.8 (Faster drop)
+    engine.gravity.scale = 0.001; // INCREASED from 0.0008 (Faster simulation)
 
     const world = engine.world;
     engineRef.current = engine;
@@ -289,7 +291,7 @@ export function ChipStacking({
     // 2. Trigger Drop on Scroll
     const trigger = ScrollTrigger.create({
       trigger: container,
-      start: 'top 25%', // When top of stats hits 25% of viewport (75-80% visible)
+      start: 'top 70%', // Trigger earlier (when top hits 70% of viewport)
       once: true, // Play once
       onEnter: () => {
         // Activate Physics -> Gravity takes over
@@ -352,11 +354,11 @@ export function ChipStacking({
         element.classList.add(styles.dragging);
       }
 
+      // Mark that chips have been moved
+      setHasMoved(true);
+
       // ONLY wake the dragged body, not all bodies (prevents cascade flickering)
       Matter.Sleeping.set(body, false);
-
-      // REMOVED rotation reset - let chips maintain their natural rotation
-      // Previously forced horizontal with: body.angularVelocity = 0; Matter.Body.setAngle(body, 0);
     });
 
     // Drag end
@@ -412,6 +414,39 @@ export function ChipStacking({
     []
   );
 
+  // Reset chips to stacked formation
+  const resetChips = useCallback(() => {
+    if (!containerRef.current || chips.length === 0) return;
+
+    const containerWidth = containerRef.current.clientWidth;
+    const containerHeight = containerRef.current.clientHeight;
+
+    // Calculate stacked positions (pyramid from bottom)
+    chips.forEach((chip, index) => {
+      const body = chipBodiesRef.current.get(chip.id);
+      const element = document.getElementById(`chip-${chip.id}`);
+
+      if (body && element) {
+        // Position chips centered, stacked from bottom
+        const centerX = containerWidth / 2;
+        const stackY = containerHeight - 30 - (chips.length - 1 - index) * (CHIP_HEIGHT + 8);
+
+        // Animate to stacked position
+        Matter.Body.setPosition(body, {
+          x: centerX,
+          y: stackY,
+        });
+        Matter.Body.setAngle(body, 0);
+        Matter.Body.setVelocity(body, { x: 0, y: 0 });
+        Matter.Body.setAngularVelocity(body, 0);
+        Matter.Sleeping.set(body, false);
+      }
+    });
+
+    // Hide reset button after resetting
+    setHasMoved(false);
+  }, [chips]);
+
   return (
     <div
       ref={containerRef}
@@ -419,6 +454,16 @@ export function ChipStacking({
       role="application"
       aria-label="Interactive chip stacking with physics"
     >
+      {/* Reset Button - Icon Only */}
+      <button
+        className={`${styles.resetButton} ${hasMoved ? styles.visible : ''}`}
+        onClick={resetChips}
+        aria-label="Reset chip positions"
+        title="Reset chips"
+      >
+        <RotateCcw />
+      </button>
+
       {chips.map((chip) => (
         <div
           key={chip.id}

@@ -10,8 +10,8 @@
   grid-template-columns: 1fr 1fr;
   /* Extended height for scroll space (hero + screenshots) */
   min-height: 250vh;
-  padding: clamp(2rem, 4vw, 4rem);
-  gap: 2rem;
+  padding: 0 var(--section-padding-x);
+  gap: var(--grid-gap-lg);
   position: relative;
   overflow: visible;
   /* Allow sticky to work */
@@ -29,45 +29,64 @@
 
 .stickyContent {
   position: sticky;
-  top: calc(var(--header-height) + 1.5rem);
-  height: calc(100vh - var(--header-height) - 1.5rem);
-  /* Take calculated viewport height to prevent overflow */
+  top: var(--header-height);
+  height: calc(var(--viewport-height) - var(--header-height));
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* Anchor content to top */
-  /* Center text block vertically: Removed to standardize alignment */
-  gap: clamp(1.5rem, 3vh, 2.5rem);
+  /* Top align instead of center */
   max-width: 640px;
-  /* Wider for filler look */
-  padding: 2rem;
+  padding: var(--space-xl) 0;
+  /* Reduced padding top for immediate visibility */
   align-self: flex-start;
+  box-sizing: border-box;
 }
 
 .projectHeader {
   display: flex;
   align-items: center;
-  gap: clamp(1rem, 2vw, 1.5rem);
-  /* Reduced gap */
-  margin-bottom: 1rem;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
 }
 
+/* Legacy inline number - kept for reference */
 .projectNumber {
   font-family: var(--font-display);
-  font-size: clamp(4rem, 8vw, 7rem);
-  /* Double size */
+  font-size: var(--font-size-display-lg);
   font-weight: 800;
   color: var(--creative-accent);
   line-height: 1;
   letter-spacing: -0.02em;
 }
 
-.headerSeparator {
-  width: 2px;
-  height: clamp(3rem, 6vw, 5rem);
-  background: var(--creative-text-secondary);
-  opacity: 0.3;
+/* Background decorative number - large, low-opacity */
+.projectNumberWrapper {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
 }
+
+.decorNumber {
+  font-family: var(--font-display);
+  font-size: 180px;
+  font-weight: 800;
+  color: inherit;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.decorHash {
+  font-family: var(--font-display);
+  font-size: 80px;
+  /* ~45% of number size */
+  font-weight: 800;
+  color: inherit;
+  margin-right: 4px;
+  transform: translateY(-10px);
+  /* Visual adjustment for baseline */
+}
+
+/* Separators now use shared AccentSeparator component */
 
 .titleStack {
   display: flex;
@@ -76,49 +95,70 @@
   /* Increased gap between title and tag */
 }
 
+/* About Section */
 .projectName {
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2.2vw, 2rem);
-  /* Slightly reduced to give more space */
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  /* Unified responsive size */
   font-weight: 700;
   color: var(--creative-text-primary);
+  /* Keep white */
   line-height: 1.15;
-  letter-spacing: 0.03em;
+  letter-spacing: -0.02em;
+  /* Match Stats */
   margin: 0;
-  max-width: 420px;
-  /* Constrain width to prevent overflow */
 }
 
 /* RIGHT COLUMN - Scrolls with media content */
 .rightColumn {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
-  /* Gap before screenshots section */
-  padding-top: 4rem;
+  gap: 0;
+  padding-top: 0;
+  /* Remove start gap */
 }
 
 /* Hero video section - HERO PATTERN: Centered */
+/* Hero video section - HERO PATTERN: Top Aligned */
 .heroMedia {
   width: 100%;
   max-width: 840px;
-  height: 100vh;
-  /* Take full height for vertical centering */
+  height: auto;
+  /* Remove 100vh constraint */
+  min-height: auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  /* Top align */
   justify-content: center;
+  /* Center horizontally */
+  padding-top: var(--space-xl);
+  /* Match Left Column padding for visual alignment */
+  margin-bottom: var(--space-xl);
+  /* Gap before screenshots */
+  position: relative;
+  /* Revert to relative flow */
 }
 
-/* Category Badge - Now sits under Title */
+/* Meta Row: Tag + CTA */
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Category Badge - Now sits inside Meta Row */
 .categoryBadge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
   background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
   color: var(--creative-accent);
   border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
-  font-size: clamp(0.7rem, 0.9vw, 0.8rem);
-  font-family: var(--font-body);
-  font-weight: 700;
+  font-size: var(--font-size-body-xs);
+  font-family: var(--font-mono);
+  /* Technical Tag */
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   border-radius: 4px;
@@ -159,43 +199,16 @@
 
 .description {
   font-family: var(--font-body);
-  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  font-size: var(--font-size-body);
   line-height: 1.5;
-  color: var(--creative-text-primary);
-  font-weight: 600;
+  color: var(--creative-text-secondary);
+  font-weight: 700;
   margin: 0;
 }
 
-/* Highlights - StatPanel style */
+/* Highlights - uses shared Highlights component */
 .highlightsSection {
-  margin-top: 1rem;
-}
-
-.highlights {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.highlightItem {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: var(--font-body);
-}
-
-.pointCheck {
-  color: var(--creative-accent);
-  font-weight: 700;
-  font-size: 1.25rem;
-  flex-shrink: 0;
-}
-
-.highlightText {
-  color: var(--creative-text-secondary);
-  font-size: clamp(1rem, 1.3vw, 1.15rem);
-  font-weight: 500;
-  line-height: 1.4;
+  margin-top: var(--space-md);
 }
 
 
@@ -220,11 +233,12 @@
   /* Increased padding */
   background: var(--creative-accent);
   color: var(--creative-bg-primary);
-  font-size: clamp(1rem, 1.2vw, 1.1rem);
-  /* Increased size */
+  font-family: var(--font-mono);
+  /* Technical Action */
+  font-size: var(--font-size-body-sm);
   font-weight: 700;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   transition: all 0.2s ease;
   width: fit-content;
 }
@@ -242,12 +256,14 @@
   /* Increased padding */
   background: transparent;
   color: var(--creative-text-primary);
-  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  font-family: var(--font-mono);
+  /* Technical Action */
+  font-size: var(--font-size-body-sm);
   /* Increased size */
   font-weight: 700;
   border: 1.5px solid var(--creative-text-secondary);
   /* Thicker border */
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -262,7 +278,7 @@
   .projectSlide {
     grid-template-columns: 1fr;
     min-height: auto;
-    padding: 2rem 1rem;
+    padding: var(--section-padding-y) var(--section-padding-x);
   }
 
   .stickyContent {

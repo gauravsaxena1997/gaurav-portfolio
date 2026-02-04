@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@theme {
+  --font-display: var(--font-sora), system-ui, sans-serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+
+  /* Alias for backward compatibility if needed, or prefer font-sans */
+  --font-body: var(--font-manrope), system-ui, sans-serif;
+}
+
 /* Reset and Base Styles */
 *,
 *::before,
@@ -16,7 +25,9 @@ html {
 }
 
 body {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-size: var(--font-size-body);
+  font-weight: 700;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -25,17 +36,22 @@ body {
   -webkit-overflow-scrolling: auto;
   /* Consistent background color for entire page */
   background-color: #0d1117;
+  /* Prevent horizontal scroll on mobile - using max-width approach instead */
+  max-width: 100vw;
+  color: #A1A1AA;
+  /* Default muted text color */
 }
 
 /* Light theme body background */
 body.light-theme,
 .light-theme body {
   background-color: #ffffff;
+  color: #52525B;
 }
 
-/* Fira Code font variable */
+/* Mono font variable */
 .code-font {
-  font-family: var(--font-fira-code), 'Fira Code', 'Consolas', monospace;
+  font-family: var(--font-jetbrains), monospace;
 }
 
 /* Links */
@@ -97,7 +113,7 @@ button {
 /* Prism.js Theme Overrides */
 pre[class*="language-"],
 code[class*="language-"] {
-  font-family: var(--font-fira-code), 'Fira Code', 'Consolas', monospace !important;
+  font-family: var(--font-jetbrains), monospace !important;
   font-size: 0.9rem;
   line-height: 1.5;
 }

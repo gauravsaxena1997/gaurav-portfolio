@@ -72,10 +72,11 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
     <svg
       ref={svgRef}
       viewBox="0 0 200 200"
+      preserveAspectRatio="xMidYMid meet"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: '100%', height: '100%', maxHeight: '42vh' }}
+      style={{ width: '100%', height: '100%', maxWidth: '100%', maxHeight: '45vh', overflow: 'visible' }}
       aria-hidden="true"
     >
       <defs>

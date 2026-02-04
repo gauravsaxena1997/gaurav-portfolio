@@ -1,19 +1,13 @@
 'use client';
 
-import { memo, useRef, useEffect, useMemo, useState, useCallback } from 'react';
+import { memo, useRef, useEffect, useMemo } from 'react';
 import Image from 'next/image';
-import { RotateCcw, Move } from 'lucide-react';
 import styles from './InteractiveGallery.module.css';
 
 interface InteractiveGalleryProps {
   images: string[];
   projectName: string;
   className?: string;
-}
-
-interface DragPosition {
-  x: number;
-  y: number;
 }
 
 // Seeded random generator for consistent results
@@ -69,15 +63,6 @@ export const InteractiveGallery = memo(function InteractiveGallery({
   const containerRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Drag state
-  const [dragPositions, setDragPositions] = useState<Record<number, DragPosition>>({});
-  const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
-  const [hasInteracted, setHasInteracted] = useState(false);
-  // Track z-index order: last dragged stays on top
-  const [zIndexOrder, setZIndexOrder] = useState<number[]>([]);
-  // Track if screenshots are in view for the fixed bar
-  const [isBarVisible, setIsBarVisible] = useState(false);
-  const dragStartRef = useRef<{ x: number; y: number; initialX: number; initialY: number } | null>(null);
   // Track current parallax offsets for each image (updated by scroll handler)
   const parallaxOffsetsRef = useRef<number[]>([]);
 
@@ -90,193 +75,6 @@ export const InteractiveGallery = memo(function InteractiveGallery({
     [images.length, projectName]
   );
 
-  // Reset all positions and z-index order
-  const handleReset = useCallback(() => {
-    setDragPositions({});
-    setZIndexOrder([]);
-    setHasInteracted(false);
-  }, []);
-
-  // Handle drag start
-  const handleMouseDown = useCallback((index: number, e: React.MouseEvent) => {
-    e.preventDefault();
-    setHasInteracted(true);
-    // Capture current parallax offset so image doesn't jump when drag starts
-    const currentParallaxY = parallaxOffsetsRef.current[index] ?? 0;
-    const currentPos = dragPositions[index] || { x: 0, y: 0 };
-    dragStartRef.current = {
-      x: e.clientX,
-      y: e.clientY,
-      initialX: currentPos.x,
-      initialY: currentPos.y + currentParallaxY,  // Include parallax offset
-    };
-    setDraggingIndex(index);
-  }, [dragPositions]);
-
-  // Handle drag move and end
-  useEffect(() => {
-    if (draggingIndex === null) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!dragStartRef.current) return;
-
-      const deltaX = e.clientX - dragStartRef.current.x;
-      const deltaY = e.clientY - dragStartRef.current.y;
-
-      const newPos = {
-        x: dragStartRef.current.initialX + deltaX,
-        y: dragStartRef.current.initialY + deltaY,
-      };
-
-      setDragPositions(prev => ({
-        ...prev,
-        [draggingIndex]: newPos,
-      }));
-
-      // REAL-TIME update during drag (no transition delay)
-      const img = imagesRef.current[draggingIndex];
-      if (img) {
-        const xOffset = xOffsets[draggingIndex] ?? 0;
-        const scale = scales[draggingIndex] ?? 1;
-        img.style.transition = 'none';
-        img.style.transform = `translate(calc(-50% + ${xOffset}% + ${newPos.x}px), calc(${newPos.y}px)) scale(${scale})`;
-      }
-    };
-
-    const handleMouseUp = () => {
-      const img = imagesRef.current[draggingIndex];
-      if (img) {
-        // Subtle release effect - very quick transition for a slight "settle" feel
-        img.style.transition = 'transform 50ms ease-out';
-        // Clear transition after it completes to let parallax take over smoothly
-        setTimeout(() => {
-          if (img) img.style.transition = '';
-        }, 60);
-      }
-
-      // Adjust drag position to account for parallax offset
-      // When parallax resumes, it will add yOffset, so we subtract it now
-      // to keep the image at the same visual position
-      const currentParallaxY = parallaxOffsetsRef.current[draggingIndex] ?? 0;
-      setDragPositions(prev => {
-        const currentPos = prev[draggingIndex] || { x: 0, y: 0 };
-        return {
-          ...prev,
-          [draggingIndex]: {
-            x: currentPos.x,
-            y: currentPos.y - currentParallaxY,
-          },
-        };
-      });
-
-      setZIndexOrder(prev => {
-        const newOrder = prev.filter(i => i !== draggingIndex);
-        newOrder.push(draggingIndex);
-        return newOrder;
-      });
-      setDraggingIndex(null);
-      dragStartRef.current = null;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [draggingIndex, xOffsets, scales]);
-
-  // Touch support for mobile
-  const handleTouchStart = useCallback((index: number, e: React.TouchEvent) => {
-    setHasInteracted(true);
-    const touch = e.touches[0];
-    // Capture current parallax offset so image doesn't jump when drag starts
-    const currentParallaxY = parallaxOffsetsRef.current[index] ?? 0;
-    const currentPos = dragPositions[index] || { x: 0, y: 0 };
-    dragStartRef.current = {
-      x: touch.clientX,
-      y: touch.clientY,
-      initialX: currentPos.x,
-      initialY: currentPos.y + currentParallaxY,  // Include parallax offset
-    };
-    setDraggingIndex(index);
-  }, [dragPositions]);
-
-  useEffect(() => {
-    if (draggingIndex === null) return;
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!dragStartRef.current) return;
-      e.preventDefault();
-      const touch = e.touches[0];
-
-      const deltaX = touch.clientX - dragStartRef.current.x;
-      const deltaY = touch.clientY - dragStartRef.current.y;
-
-      const newPos = {
-        x: dragStartRef.current.initialX + deltaX,
-        y: dragStartRef.current.initialY + deltaY,
-      };
-
-      setDragPositions(prev => ({
-        ...prev,
-        [draggingIndex]: newPos,
-      }));
-
-      const img = imagesRef.current[draggingIndex];
-      if (img) {
-        const xOffset = xOffsets[draggingIndex] ?? 0;
-        const scale = scales[draggingIndex] ?? 1;
-        img.style.transition = 'none';
-        img.style.transform = `translate(calc(-50% + ${xOffset}% + ${newPos.x}px), calc(${newPos.y}px)) scale(${scale})`;
-      }
-    };
-
-    const handleTouchEnd = () => {
-      const img = imagesRef.current[draggingIndex];
-      if (img) {
-        // Subtle release effect - very quick transition for a slight "settle" feel
-        img.style.transition = 'transform 50ms ease-out';
-        // Clear transition after it completes to let parallax take over smoothly
-        setTimeout(() => {
-          if (img) img.style.transition = '';
-        }, 60);
-      }
-
-      // Adjust drag position to account for parallax offset
-      // When parallax resumes, it will add yOffset, so we subtract it now
-      // to keep the image at the same visual position
-      const currentParallaxY = parallaxOffsetsRef.current[draggingIndex] ?? 0;
-      setDragPositions(prev => {
-        const currentPos = prev[draggingIndex] || { x: 0, y: 0 };
-        return {
-          ...prev,
-          [draggingIndex]: {
-            x: currentPos.x,
-            y: currentPos.y - currentParallaxY,
-          },
-        };
-      });
-
-      setZIndexOrder(prev => {
-        const newOrder = prev.filter(i => i !== draggingIndex);
-        newOrder.push(draggingIndex);
-        return newOrder;
-      });
-      setDraggingIndex(null);
-      dragStartRef.current = null;
-    };
-
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd);
-
-    return () => {
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [draggingIndex, xOffsets, scales]);
-
   // Sequential staggered reveal scroll effect
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -288,8 +86,8 @@ export const InteractiveGallery = memo(function InteractiveGallery({
       const windowHeight = window.innerHeight;
 
       // Check if screenshots section is in view
-      const isInView = rect.top < windowHeight * 0.7 && rect.bottom > windowHeight * 0.3;
-      setIsBarVisible(isInView);
+      // const isInView = rect.top < windowHeight * 0.7 && rect.bottom > windowHeight * 0.3;
+      // setIsBarVisible(isInView); // Removed logic
 
       if (prefersReducedMotion) return;
 
@@ -300,14 +98,13 @@ export const InteractiveGallery = memo(function InteractiveGallery({
       ));
 
       imagesRef.current.forEach((img, index) => {
-        if (!img || draggingIndex === index) return;
+        if (!img) return;
 
         const threshold = REVEAL_THRESHOLDS[index] ?? 0;
         const speed = RISE_SPEEDS[index] ?? 0.5;
         const startOffset = START_OFFSETS[index] ?? 600;
         const xOffset = xOffsets[index] ?? 0;
         const scale = scales[index] ?? 1;
-        const dragPos = dragPositions[index] || { x: 0, y: 0 };
 
         // Calculate this image's local progress (0 = not started, 1 = done)
         // Each image starts at its threshold and completes by end
@@ -328,7 +125,7 @@ export const InteractiveGallery = memo(function InteractiveGallery({
 
         // Apply transform and opacity
         img.style.opacity = String(opacity);
-        img.style.transform = `translate(calc(-50% + ${xOffset}% + ${dragPos.x}px), calc(${yOffset}px + ${dragPos.y}px)) scale(${scale})`;
+        img.style.transform = `translate(calc(-50% + ${xOffset}%), calc(${yOffset}px)) scale(${scale})`;
       });
     };
 
@@ -336,17 +133,13 @@ export const InteractiveGallery = memo(function InteractiveGallery({
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [images, xOffsets, scales, dragPositions, draggingIndex]);
+  }, [images, xOffsets, scales]);
 
   const displayImages = images.slice(0, 4);
-  const hasDraggedAny = Object.keys(dragPositions).length > 0;
 
-  // Calculate z-index for each screenshot
+  // Calculate z-index for each screenshot (simple stacked order)
   const getZIndex = (index: number): number => {
-    if (draggingIndex === index) return 100;
-    const orderIndex = zIndexOrder.indexOf(index);
-    if (orderIndex === -1) return index + 1;
-    return 10 + orderIndex;
+    return index + 1;
   };
 
   return (
@@ -355,13 +148,11 @@ export const InteractiveGallery = memo(function InteractiveGallery({
         <div
           key={image}
           ref={(el) => { imagesRef.current[index] = el; }}
-          className={`${styles.screenshot} ${draggingIndex === index ? styles.dragging : ''}`}
+          className={styles.screenshot}
           style={{
             zIndex: getZIndex(index),
             top: 0, // Images start at top, positioned via transform
           }}
-          onMouseDown={(e) => handleMouseDown(index, e)}
-          onTouchStart={(e) => handleTouchStart(index, e)}
         >
           <Image
             src={image}
@@ -371,32 +162,9 @@ export const InteractiveGallery = memo(function InteractiveGallery({
             sizes="50vw"
             className={styles.image}
             style={{ width: '100%', height: 'auto' }}
-            draggable={false}
           />
         </div>
       ))}
-
-      {/* Fixed interaction bar - fades in/out based on screenshot visibility */}
-      <div className={`${styles.interactionBar} ${isBarVisible ? styles.barVisible : ''}`}>
-        <div className={styles.hintContent}>
-          <Move size={18} className={styles.hintIcon} />
-          <span className={styles.hintText}>
-            {hasInteracted
-              ? 'Nice! Keep dragging to rearrange'
-              : 'Drag screenshots to move them around'}
-          </span>
-        </div>
-        {hasDraggedAny && (
-          <button
-            className={styles.resetButton}
-            onClick={handleReset}
-            aria-label="Reset positions"
-          >
-            <RotateCcw size={16} />
-            <span>Reset</span>
-          </button>
-        )}
-      </div>
     </div>
   );
 });

@@ -8,6 +8,7 @@ import { HERO_CONTENT } from '@/config';
 import { SpotlightEffect, SpotlightMode } from './SpotlightEffect';
 import { LighthouseIllustration } from './LighthouseIllustration';
 import { SocialLinks } from './SocialLinks';
+import { AccentSeparator } from '../../ui';
 import styles from './HeroSection.module.css';
 
 // SVG lamp position: cy="67" in 230-height SVG, with lighthouse group translated by 20
@@ -55,7 +56,7 @@ function HeroContent({ animate, className }: HeroContentProps) {
         {HERO_CONTENT.subtitle}
       </p>
 
-      <div className={`${styles.socialDivider} ${animClass} socialDivider`} aria-hidden="true" />
+      <AccentSeparator className={`${animClass} socialDivider`} />
 
       {/* Social Links */}
       <SocialLinks className={`${animClass} socialLinks`} />
@@ -82,18 +83,19 @@ function calculateLampPosition(
   let bottomOffset: number;
 
   if (isTouchDevice) {
-    // Mobile: clamp(100px, 30vw, 150px), anchored to bottom-right corner
-    lighthouseWidth = Math.min(150, Math.max(100, 30 * vw));
+    // Mobile: clamp(120px, 40vw, 180px), anchored to bottom-right corner
+    // MATCHING CSS CHANGE: .lighthouseMobile width
+    lighthouseWidth = Math.min(180, Math.max(120, 40 * vw));
     rightOffset = 0;
     bottomOffset = 0;
 
     const lighthouseHeight = lighthouseWidth / SVG_ASPECT_RATIO;
-    // Lighthouse positioned at the corner, lamp is at 50% of width (centered in SVG)
-    const lighthouseX = containerWidth - lighthouseWidth / 2;
+    // Lighthouse positioned at the bottom-right corner
+    const lighthouseX = containerWidth - lighthouseWidth;
     const lighthouseY = containerHeight - lighthouseHeight;
 
     // Lamp position within the SVG
-    const lampX = lighthouseX;
+    const lampX = lighthouseX + (lighthouseWidth * 0.5); // Lamp is at horizontal center of SVG
     const lampY = lighthouseY + lighthouseHeight * SVG_LAMP_Y_RATIO;
 
     return {
@@ -159,25 +161,11 @@ export function HeroSection() {
     // GSAP staggered entrance animation
     const tl = gsap.timeline();
 
-    // Set initial state (redundant safety in case CSS doesn't load)
-    gsap.set(['.greeting', '.heroName', '.heroTagline', '.heroSubtitle', '.socialDivider', '.socialLinks'], {
-      opacity: 0,
-      // Removed x: -30 to avoid horizontal overflow/gaps
-    });
+    // Text is now visible by default (CSS opacity: 1).
+    // We only animate the spotlight/guide bar here.
 
-    // Staggered animation sequence (fade-in only)
-    tl.to(
-      ['.greeting', '.heroName', '.heroTagline', '.heroSubtitle', '.socialDivider', '.socialLinks'],
-      {
-        opacity: 1,
-        // Removed x: 0
-        duration: 0.375, // 25% faster than 0.5s
-        ease: 'power2.out',
-        stagger: 0.09, // 25% faster than 0.12s (90ms delay between each element)
-        // Total time: 0.375s + (5 × 0.09s) = 0.825s
-      }
-    )
-      // Enable spotlight after all text finishes
+    tl.to({}, { duration: 0.5 }) // Brief delay before spotlight turns on
+      // Enable spotlight after delay
       .call(() => {
         setIsSpotlightEnabled(true);
         // Wait a moment after lighthouse lights up, then emit event for GuideBar
@@ -190,6 +178,48 @@ export function HeroSection() {
       tl.kill(); // Cleanup on unmount
     };
   }, [prefersReducedMotion]);
+
+  // Scroll-based lighthouse control - turn off when scrolling past 50% of Hero section
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Track previous state to avoid unnecessary toggles
+    let wasLightOn = isSpotlightEnabled;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        const visibilityRatio = entry.intersectionRatio;
+
+        // Toggle lighthouse based on 50% threshold
+        if (visibilityRatio > 0.5) {
+          // More than 50% visible - turn light ON (if it was off)
+          if (!wasLightOn) {
+            setIsSpotlightEnabled(true);
+            wasLightOn = true;
+          }
+        } else if (visibilityRatio <= 0.5 && visibilityRatio > 0) {
+          // Less than 50% visible - turn light OFF (if it was on)
+          if (wasLightOn) {
+            setIsSpotlightEnabled(false);
+            wasLightOn = false;
+          }
+        }
+      },
+      {
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], // Fine-grained tracking
+        rootMargin: '0px',
+      }
+    );
+
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []); // Run once on mount
+
 
   // Track container dimensions with ResizeObserver
   useEffect(() => {

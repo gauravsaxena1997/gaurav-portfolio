@@ -1,0 +1,374 @@
+/* === GLOBAL === */
+.protoRoot {
+    /* Define base variables mapping to global theme variables */
+    --bg-base: var(--creative-bg-primary);
+    --bg-secondary: var(--creative-bg-secondary);
+    --text-primary: var(--creative-text-primary);
+    --text-secondary: var(--creative-text-secondary);
+    --accent: var(--creative-accent);
+    --border-color: var(--creative-border-color);
+
+    /* Layout */
+    --header-height: 80px;
+    /* Match updated user value */
+    --panel-padding: calc(var(--header-height) + 1rem);
+
+    /* Base Colors - Dark Default */
+    --bg-base: #0F0E0D;
+    /* Updated to match theme.css dark bg */
+    --bg-secondary: #1A1816;
+
+    /* Creative Theme Tokens (Required for HeroSection) */
+    --creative-bg-primary: #0F0E0D;
+    --creative-bg-secondary: #1A1816;
+    --creative-bg-primary-rgb: 15, 14, 13;
+
+    --creative-text-primary: #F5F4F0;
+    --creative-text-secondary: #9B9490;
+
+    --creative-accent: #C9A961;
+    --creative-accent-rgb: 201, 169, 97;
+    --creative-accent-secondary: #B8935C;
+    --creative-border-color: rgba(201, 169, 97, 0.2);
+
+    /* Hero Specific Tokens */
+    --creative-hero-name-color: #B8935C;
+    --creative-hero-social-color: #B8935C;
+    --creative-hero-divider-color: rgba(184, 147, 92, 0.32);
+
+    /* Spotlight Tokens */
+    --creative-spotlight-color: #C89C4A;
+    --creative-spotlight-rgb: 200, 156, 74;
+
+    /* Beam Interaction Tokens */
+    --creative-beam-text-inverted: #1A1816;
+    --creative-beam-text-muted: rgba(26, 24, 22, 0.82);
+    --creative-beam-accent-inverted: #FFF2C7;
+
+    /* Transitions */
+    --creative-transition-fast: 150ms ease;
+
+    background: var(--bg-base);
+    min-height: 100vh;
+    color: var(--creative-text-primary);
+    /* Updated from var(--text-primary) which was undefined/generic */
+    font-family: var(--font-body, monospace);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* === HEADER (Handled by React Component, but ensure spacing is correct) === */
+/* The Reat Header component handles its own styles via its module.css */
+
+.sectionLabel {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    background: var(--bg-base);
+    font-family: var(--font-display, monospace);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* === HERO === */
+/* HeroSection handles its own internal structure, but this wrapper ensures positioning */
+/* The direct HeroSection usage in page.tsx removes need for .hero class here */
+
+/* === STATS === */
+.statsContainer {
+    position: relative;
+    z-index: 20;
+    background: var(--bg-base);
+}
+
+.statPanel {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    padding-top: var(--header-height);
+    background: var(--bg-secondary);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    /* Prevent scrolling within panel */
+}
+
+/* Grid Layouts - Using same CSS Logic for consistency */
+.grid5050 {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    height: 100%;
+    width: 100%;
+}
+
+.grid402040 {
+    display: grid;
+    grid-template-rows: 4fr 1.5fr 4.5fr;
+    /* Tuned for mobile proportions */
+    height: 100%;
+    width: 100%;
+}
+
+/* Content Zones */
+.placeholderBox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.textZone {
+    /* Main stat text */
+    color: var(--text-primary);
+}
+
+.listZone {
+    /* Highlights list */
+    background: rgba(0, 0, 0, 0.05);
+    /* Subtle distinction */
+}
+
+.illustrationZone {
+    /* Illustration container */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Illustration Config */
+.illustrationWrapper50 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 2rem;
+}
+
+.illustrationWrapper40 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 1rem;
+}
+
+/* Globe specific */
+.globeClip {
+    position: absolute;
+    top: -60%;
+    /* Adjusted for better clipping on mobile */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300%;
+    height: 300%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    pointer-events: none;
+}
+
+/* === PROJECTS === */
+.projectsWrapper {
+    position: relative;
+    z-index: 30;
+    background: var(--bg-base);
+}
+
+.projectContainer {
+    width: 100%;
+    height: 100vh;
+    padding-top: var(--header-height);
+    background: var(--bg-secondary);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+    /* Lighter shadow in light mode */
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    /* Text auto height, Media fill rest */
+    gap: 1rem;
+    padding-bottom: 2rem;
+}
+
+.projectTextArea {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    padding: 1.5rem;
+    color: var(--text-primary);
+    background: var(--bg-base);
+}
+
+.projectTextArea h2 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+}
+
+.projectTextArea h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    line-height: 1.1;
+}
+
+.projectDescription {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.projectHighlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.projectBadge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    background: rgba(var(--creative-accent-rgb), 0.1);
+    color: var(--accent);
+    border-radius: 4px;
+    font-family: var(--font-code);
+}
+
+.projectCTA {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--accent);
+}
+
+.projectMediaContainer {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    /* Ensure media is always dark bg for contrast */
+    border-radius: 8px;
+    margin: 0 1rem;
+    /* Inset slightly */
+    border: 1px solid var(--border-color);
+}
+
+.mediaLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* === SERVICES === */
+.servicesContainer {
+    position: relative;
+    z-index: 40;
+    width: 100%;
+    height: 100vh;
+    padding-top: var(--header-height);
+    background: var(--bg-secondary);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+    display: grid;
+    grid-template-rows: 1fr 1.2fr;
+    /* More space for tablet */
+    grid-template-areas: "text" "laptop";
+}
+
+.servicesTextArea {
+    grid-area: text;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-base);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.serviceTextLayer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-primary);
+}
+
+.serviceTextLayer h2 {
+    font-size: 1.75rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+}
+
+.serviceTextLayer p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.hint {
+    margin-top: auto;
+    font-size: 0.75rem;
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 1rem;
+}
+
+.servicesLaptopArea {
+    grid-area: laptop;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    /* Keep dark for consistent tablet frame look */
+    position: relative;
+}
+
+/* Service Frame styles remain consistent, managed by js component */
+
+/* === CONTACT === */
+.contactSection {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    padding-top: var(--header-height);
+    z-index: 50;
+    background: var(--bg-base);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+}

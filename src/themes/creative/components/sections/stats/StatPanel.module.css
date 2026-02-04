@@ -5,8 +5,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  /* Strict full screen height */
+
+  /* ✅ FIX: Use viewport-aware height accounting for 64px header */
+  min-height: auto;
+  padding-top: 0;
+
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
@@ -28,11 +31,6 @@
   position: relative;
 }
 
-/* Reversed logic handled via inline 'order' and 'grid-template-columns' var */
-.statContentReversed {
-  /* Legacy/Fallback */
-}
-
 /* Text block wrapper - HERO PATTERN: Full coverage + flex center */
 .textBlock {
   position: relative;
@@ -42,12 +40,8 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: clamp(2rem, 4vw, 4rem);
+  padding: var(--section-padding-x);
   box-sizing: border-box;
-}
-
-.statContentReversed .textBlock {
-  /* No specific override */
 }
 
 /* Lit layer - HERO PATTERN: inset:0 for identical coverage */
@@ -69,16 +63,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(2rem, 4vw, 4rem);
+  padding: var(--section-padding-x);
   /* SAME as .textBlock */
   box-sizing: border-box;
 }
 
 /* High Contrast Colors for Text on Gold Background (Revealed) */
 /* This view is identical in both Light and Dark modes */
+/* Use semantic token for revealed title */
 .litLayer .title {
-  color: #0a0a0a !important;
-  /* Solid Black for max contrast on Gold */
+  color: var(--creative-stats-text-revealed) !important;
 }
 
 .litLayer .statIcon {
@@ -92,8 +86,8 @@
 
 .litLayer .description,
 .litLayer .point {
-  color: #ffffff !important;
-  /* Solid White on Gold (Pop effect) */
+  color: var(--creative-text-primary) !important;
+  /* Dark text on Gold for readability */
   opacity: 1 !important;
 }
 
@@ -107,7 +101,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: clamp(0.4rem, 1.1vh, 0.8rem);
+  gap: var(--space-sm);
   padding: 0;
   position: relative;
   z-index: 2;
@@ -127,7 +121,7 @@
 .statHeader {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: var(--space-lg);
   width: 100%;
   margin-bottom: 0;
   /* ← ZERO margin, let separator handle spacing */
@@ -136,25 +130,11 @@
 /* Lit layer statHeader - IDENTICAL to base (no overrides) */
 .litLayer .statHeader {
   /* Gap and margin must be IDENTICAL to prevent shift */
-  gap: 1.25rem;
+  gap: var(--space-lg);
   margin-bottom: 0;
 }
 
-/* Subtle separator line between Title and Body */
-.sectionSeparator {
-  width: 100%;
-  height: 1px;
-  background: var(--creative-border-subtle, rgba(255, 255, 255, 0.15));
-  margin: 1.5rem 0;
-  /* Generous spacing above and below */
-}
-
-/* Update separator color when in Lit Layer (Gold BG) */
-.litLayer .sectionSeparator {
-  background: #000000;
-  opacity: 0.6;
-  /* Clear dark line */
-}
+/* Separator now uses shared AccentSeparator component with auto lit-layer support */
 
 .statIcon {
   color: var(--creative-accent);
@@ -173,72 +153,51 @@
 
 /* Title - Always Gold in Normal state */
 .title {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-family: var(--font-display);
+  /* Explicit Sora */
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  /* Unified responsive size */
   font-weight: 700;
   color: var(--creative-accent) !important;
+  /* Keep golden */
   margin: 0;
-  line-height: 1.1;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   text-align: left;
   width: 100%;
 }
 
-/* Visual separator after title */
-.titleDivider {
-  width: clamp(120px, 30vw, 240px);
-  height: 1px;
-  background: var(--creative-hero-divider-color);
-  margin: clamp(0.75rem, 2vh, 1.25rem) 0 clamp(0.75rem, 2vh, 1.25rem);
-  opacity: 0.8;
-}
+
 
 /* Description & Points - Normal Readable state */
 /* Description & Points - BOLD & HUGE (V4.4) - Reduced 30% (V4.5) */
-.description,
-.point {
-  font-size: clamp(1.5rem, 2.5vw, 1.9rem);
-  /* Reduced by ~30% */
+/* Description - Standard Body Text */
+.description {
+  font-size: var(--font-size-body);
   font-family: var(--font-body);
   color: var(--creative-text-secondary);
-  line-height: 1.5;
-  /* Increased line-height slightly for readability */
+  line-height: 1.6;
   margin: 0;
   text-align: left;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  /* Kept Bold */
-}
-
-/* Dark Mode Normal Layer Overrides - 80% opacity for headroom to 'lit' jump */
-:global([data-theme="dark"]) .description,
-:global([data-theme="dark"]) .point {
-  color: rgba(255, 255, 255, 0.82) !important;
-}
-
-/* Highlights - vertical stacked layout */
-.pointsList {
-  list-style: none;
-  padding: 0;
-  margin: clamp(0.3rem, 0.6vh, 0.6rem) 0 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: clamp(0.5rem, 0.9vh, 0.8rem);
-}
-
-.point {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-}
-
-.pointCheck {
-  color: var(--creative-accent);
+  letter-spacing: -0.01em;
   font-weight: 700;
-  font-size: 1.1em;
-  flex-shrink: 0;
 }
+
+/* Points - Golden Accent (Standardized) */
+.point {
+  font-size: var(--font-size-body);
+  font-family: var(--font-body);
+  color: var(--creative-accent);
+  line-height: 1.6;
+  margin: 0;
+  text-align: left;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+
+/* Dark Mode override removed to enforce standard secondary color */
+
+/* Highlights now use shared Highlights component from ui/ */
 
 /* Illustration container - Default center aligned */
 .illustrationContainer {
@@ -261,33 +220,40 @@
 }
 
 
-/* Split Layout for Illustration Column (65/35) */
+/* Split Layout for Illustration Column - Adjusted for clipped globe */
 .illustrationSplitContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
+  justify-content: center;
+  /* Vertically center the whole block */
 }
 
 .illustrationSplitTop {
-  height: 65%;
+  height: auto;
+  flex: 0 0 auto;
+  /* Don't grow, size to content */
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: visible;
+  /* Let child clip itself */
 }
 
 .illustrationSplitBottom {
-  height: 35%;
+  height: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  /* Align to top instead of center */
   align-items: center;
-  /* Center the block horizontally */
   padding: 0 10%;
-  /* Inner padding for highlights */
+  margin-top: var(--space-xl);
+  /* Explicit gap from globe */
 }
 
 /* Staggered Highlights in Bottom Section */
@@ -306,14 +272,14 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  /* Appropriate size for highlights */
+  /* Standardized Font & Color */
+  font-size: var(--font-size-body);
+  font-family: var(--font-body);
   color: var(--creative-accent);
-  font-weight: 600;
-  opacity: 0;
-  /* Initial state for animation */
-  transform: translateY(20px);
-  /* Initial offset */
+  font-weight: 700;
+  opacity: 1;
+  /* Always visible - Animation removed (Rev 10) */
+  transform: none;
 }
 
 /* Tilt wrapper */
@@ -351,29 +317,7 @@
   height: 100%;
 }
 
-.statPanelMobile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 50vh;
-  width: 100%;
-  background: transparent;
-  color: var(--creative-text-primary);
-  text-align: center;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-.mobilePlaceholder h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--creative-accent);
-}
-
-.mobilePlaceholder p {
-  color: var(--creative-text-secondary);
-  font-family: var(--font-body);
-}
+/* Legacy mobile styles removed - now in StatPanelMobile.module.css */
 
 /* Visibility Toggle */
 @media (max-width: 900px) {

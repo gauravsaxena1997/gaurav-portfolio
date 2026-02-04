@@ -19,11 +19,11 @@ interface CreativeThemeProps {
 export function CreativeTheme({ currentTheme, onThemeChange }: CreativeThemeProps) {
   // Initialize theme from localStorage with lazy initialization (prevents hydration mismatch)
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    if (typeof window === 'undefined') return 'dark';
+    if (typeof window === 'undefined') return 'light';
     const saved = localStorage.getItem('creative-theme');
     if (saved === 'light' || saved === 'dark') return saved;
-    if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
-    return 'dark';
+    // Default to light mode if no preference saved
+    return 'light';
   });
 
   // Apply theme to document root for global access (e.g., portaled modals)

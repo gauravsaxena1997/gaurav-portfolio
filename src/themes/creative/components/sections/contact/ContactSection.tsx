@@ -1,9 +1,10 @@
 'use client';
 
 import { useRef, useCallback, useState } from 'react';
-import { MapPin, Mail, Clock, Compass } from 'lucide-react';
+import { MapPin, Mail, Clock, Compass, Calendar } from 'lucide-react';
 import { CONTACT_INFO } from '@/config';
 import { ContactForm } from './ContactForm';
+import { AccentSeparator } from '../../ui';
 import styles from './ContactSection.module.css';
 
 interface ContactSectionProps {
@@ -37,6 +38,7 @@ export function ContactSection({ className }: ContactSectionProps) {
           </div>
 
           <h2 className={styles.title}>Get in Touch</h2>
+          <AccentSeparator />
           <p className={styles.subtitle}>
             Have a project in mind? Let&apos;s build something great together.
           </p>
@@ -72,6 +74,15 @@ export function ContactSection({ className }: ContactSectionProps) {
               </div>
             </div>
           </div>
+
+          <button
+            type="button"
+            className={styles.scheduleButton}
+            onClick={() => window.open('https://cal.com/gaurav', '_blank', 'noopener,noreferrer')}
+          >
+            <Calendar size={20} />
+            <span>Schedule a Call</span>
+          </button>
         </div>
 
         {/* Right Column: Contact Form */}

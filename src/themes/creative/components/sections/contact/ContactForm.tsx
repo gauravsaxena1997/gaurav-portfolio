@@ -34,12 +34,11 @@ export const ContactForm = memo(
     ref
   ) {
     const sendButtonRef = useRef<HTMLButtonElement>(null);
-    const scheduleButtonRef = useRef<HTMLButtonElement>(null);
 
     // Register interactive elements for character tracking
     useEffect(() => {
       if (onRegisterInteractables) {
-        onRegisterInteractables([sendButtonRef, scheduleButtonRef]);
+        onRegisterInteractables([sendButtonRef]);
       }
     }, [onRegisterInteractables]);
     const [formState, setFormState] = useState<FormState>({
@@ -130,11 +129,6 @@ export const ContactForm = memo(
       [formState]
     );
 
-    const handleScheduleCall = useCallback(() => {
-      // Replace with your actual Calendly/Cal.com link
-      window.open('https://cal.com/gaurav', '_blank', 'noopener,noreferrer');
-    }, []);
-
     return (
       <div className={`${styles.container} ${className || ''}`}>
         <form ref={ref} className={styles.form} onSubmit={handleSubmit}>
@@ -213,19 +207,6 @@ export const ContactForm = memo(
             {status.type === 'loading' ? 'Sending...' : 'Send Message'}
           </button>
         </form>
-
-        <div className={styles.divider}>
-          <span className={styles.dividerText}>or</span>
-        </div>
-
-        <button
-          ref={scheduleButtonRef}
-          type="button"
-          className={styles.scheduleButton}
-          onClick={handleScheduleCall}
-        >
-          Schedule a Call
-        </button>
       </div>
     );
   })

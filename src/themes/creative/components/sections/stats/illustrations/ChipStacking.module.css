@@ -45,16 +45,16 @@
 }
 
 /* === VARIANT: GOLD (Primary) === */
-/* Gold remains consistent across themes */
+/* Gold uses centralized accent gradient */
 .chip.gold {
-  background: linear-gradient(135deg, #E6B87A 0%, #C29550 100%);
+  background: var(--creative-accent-gradient);
   color: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.2);
 
   box-shadow:
     0 2px 0 rgba(255, 255, 255, 0.3) inset,
     0 -2px 0 rgba(0, 0, 0, 0.1) inset,
-    0 10px 20px rgba(194, 149, 80, 0.3),
+    0 10px 20px var(--creative-accent-shadow),
     0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -157,4 +157,49 @@
     padding: 10px 18px;
     border-radius: 10px;
   }
+}
+
+/* Reset Button - Icon Only */
+.resetButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--creative-accent);
+  cursor: pointer;
+  opacity: 0;
+  transform: rotate(-90deg);
+  transition: opacity 0.4s ease 2s, transform 0.4s ease 2s, color 0.2s ease;
+  /* 2s delay before appearing */
+  pointer-events: none;
+}
+
+.resetButton.visible {
+  opacity: 0.7;
+  transform: rotate(0deg);
+  pointer-events: auto;
+}
+
+.resetButton:hover {
+  opacity: 1;
+  color: var(--creative-accent);
+}
+
+.resetButton:active {
+  transform: scale(0.9);
+  transition: transform 0.1s ease;
+}
+
+.resetButton svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
 }
