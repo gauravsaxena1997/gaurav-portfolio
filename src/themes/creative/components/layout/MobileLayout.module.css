@@ -260,6 +260,109 @@
     overflow: hidden;
 }
 
+/* Action Row */
+.projectActionRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* Reduced gap */
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: nowrap;
+    /* Force single row */
+    overflow-x: auto;
+    /* Safety scroll if extremely tight */
+}
+
+/* Matches Desktop .categoryBadge */
+.caseStudyTag {
+    display: inline-block;
+    padding: 0.2rem 0.4rem;
+    /* Reduced padding */
+    background: rgba(var(--creative-accent-rgb), 0.15);
+    color: var(--creative-accent);
+    border: 1px solid rgba(var(--creative-accent-rgb), 0.3);
+    font-size: 0.65rem;
+    /* Smaller font */
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    /* Reduced tracking */
+    border-radius: 4px;
+    width: fit-content;
+    white-space: nowrap;
+    /* Prevent text wrap inside tag */
+}
+
+/* Matches Desktop .ctaButton but scaled for mobile */
+.viewLiveButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    /* Compact padding */
+    background: var(--creative-accent);
+    color: var(--creative-bg-primary);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    /* Smaller font */
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition: all 0.2s ease;
+    width: fit-content;
+    white-space: nowrap;
+}
+
+/* Background Number - Matching Desktop Structure */
+.projectNumberWrapper {
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+}
+
+.decorNumber {
+    font-family: var(--font-display);
+    font-size: 150px;
+    /* Adapted for mobile */
+    font-weight: 800;
+    color: var(--creative-text-primary);
+    opacity: 0.1;
+    /* Explicit opacity as per previous context */
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.decorHash {
+    font-family: var(--font-display);
+    font-size: 60px;
+    font-weight: 800;
+    color: var(--creative-text-primary);
+    opacity: 0.1;
+    margin-right: 4px;
+    transform: translateY(-5px);
+}
+
+.projectHighlightsList {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+/* Override Highlights component color to muted white */
+.projectHighlightsList :global(div),
+.projectHighlightsList :global(span),
+.projectHighlightsList :global(li) {
+    color: var(--creative-text-secondary) !important;
+}
+
+/* Override Highlights alignment for Projects (force left instead of center) */
+.projectHighlightsOverride {
+    margin: 0 !important;
+    width: 100% !important;
+    align-items: flex-start !important;
+}
+
 .projectHighlights {
     display: flex;
     flex-wrap: wrap;

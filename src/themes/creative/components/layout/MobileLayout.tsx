@@ -186,30 +186,57 @@ const ProtoProject = ({ project, index, zIndex }: { project: any; index: number;
 
     return (
         <div ref={containerRef} className={styles.projectContainer} style={{ zIndex }}>
+            {/* Background Decor - Number with Parallax */}
+            <BackgroundDecor
+                position={{ top: '45%', right: '0%' }}
+                size="300px" // Large container for the number
+                parallaxSpeed={0.15}
+                className={styles.backgroundIcon}
+            >
+                <div className={styles.projectNumberWrapper}>
+                    <span className={styles.decorHash}>#</span>
+                    <span className={styles.decorNumber}>
+                        {String(index + 1).padStart(2, '0')}
+                    </span>
+                </div>
+            </BackgroundDecor>
+
             <div className={styles.projectTextArea}>
-                <h2>PROJECT {index + 1}</h2>
-                <h3>{project.title.toUpperCase()}</h3>
-                <p className={styles.projectDescription}>{project.shortDescription}</p>
+                {/* Title */}
+                <h3 className={styles.statTitle} style={{ marginBottom: '0.25rem' }}>
+                    {project.title.toUpperCase()}
+                </h3>
+
+                {/* Actions Row: Tag & Link */}
+                <div className={styles.projectActionRow}>
+                    <span className={styles.caseStudyTag}>
+                        {project.category === 'case-study' && 'CASE STUDY'}
+                        {project.category === 'venture' && 'PERSONAL VENTURE'}
+                        {project.category === 'client' && 'CLIENT WORK'}
+                        {!['case-study', 'venture', 'client'].includes(project.category) && 'PROJECT'}
+                    </span>
+                    {project.liveUrl && (
+                        <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.viewLiveButton}
+                        >
+                            View Live →
+                        </a>
+                    )}
+                </div>
+
+                <AccentSeparator width="100%" />
 
                 {project.highlights && project.highlights.length > 0 && (
-                    <div className={styles.projectHighlights}>
-                        {project.highlights.map((highlight: string) => (
-                            <span key={highlight} className={styles.projectBadge}>
-                                {highlight}
-                            </span>
-                        ))}
+                    <div className={styles.projectHighlightsList}>
+                        <Highlights
+                            items={project.highlights}
+                            mono
+                            className={styles.projectHighlightsOverride}
+                        />
                     </div>
-                )}
-
-                {project.liveUrl && (
-                    <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.projectCTA}
-                    >
-                        View Live →
-                    </a>
                 )}
             </div>
 
