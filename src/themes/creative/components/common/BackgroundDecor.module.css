@@ -59,8 +59,11 @@
 }
 
 /* Very small screens - hide completely to avoid clutter */
+/* Very small screens - hide completely to avoid clutter */
 @media (max-width: 480px) {
     .wrapper {
-        display: none;
+        /* display: none; - Enabling for mobile stats as requested */
+        opacity: 0.05;
+        /* Matches default */
     }
 }

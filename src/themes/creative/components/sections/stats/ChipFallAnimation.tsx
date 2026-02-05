@@ -4,7 +4,7 @@ import styles from './ChipFallAnimation.module.css';
 
 /**
  * CSS-only chip fall animation for mobile Stats section.
- * Chips animate falling and stacking.
+ * Chips animate falling and stacking with alternating gold/secondary colors.
  */
 interface ChipFallAnimationProps {
     items?: string[];
@@ -17,8 +17,6 @@ export function ChipFallAnimation({ items }: ChipFallAnimationProps) {
         'Modern Web Apps',
         'SEO Optimized',
         'Scalable Systems',
-        'Interactive 3D',
-        'Global Remote'
     ];
 
     return (
@@ -26,14 +24,12 @@ export function ChipFallAnimation({ items }: ChipFallAnimationProps) {
             {chipItems.map((item, index) => (
                 <div
                     key={index}
-                    className={styles.chip}
-                    style={{ animationDelay: `${index * 0.15}s` }}
+                    className={`${styles.chip} ${index % 2 === 0 ? styles.gold : styles.secondary}`}
+                    style={{ animationDelay: `${index * 0.12}s` }}
                 >
                     <span className={styles.chipLabel}>{item}</span>
                 </div>
             ))}
-            {/* Stack base */}
-            <div className={styles.stackBase} />
         </div>
     );
 }

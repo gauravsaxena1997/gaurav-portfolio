@@ -1,0 +1,94 @@
+/* MobileChipStack - Static Vertical Stack */
+/* Matches desktop ChipStacking appearance exactly */
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0.5rem;
+    overflow: hidden;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+}
+
+/* Base chip styling - optimized for mobile */
+.chip {
+    width: fit-content;
+    min-width: 120px;
+    max-width: 90%;
+    padding: 0 1rem;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: center;
+
+    /* Font sizing - prevent inheritance from root */
+    font-size: clamp(18px, 2vw, 14px);
+    font-family: var(--font-body);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+
+    /* Entry animation */
+    animation: fadeSlideIn 0.4s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+
+    /* Smooth theme transitions */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === GOLD VARIANT (accent) - matches desktop .chip.gold === */
+.chip.gold {
+    background: var(--chip-accent-bg);
+    color: var(--chip-text-on-accent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.15) inset,
+        0 -1px 0 rgba(0, 0, 0, 0.05) inset,
+        0 4px 12px color-mix(in srgb, var(--creative-accent), transparent 70%);
+}
+
+/* === SECONDARY VARIANT (neutral) - matches desktop .chip.secondary === */
+.chip.secondary {
+    background: var(--chip-neutral-bg);
+    color: var(--chip-text-on-neutral);
+    border: 1.5px solid color-mix(in srgb, var(--creative-accent), transparent 60%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Chip label text - inherits from chip */
+.chipLabel {
+    white-space: nowrap;
+}
+
+.chip.gold .chipLabel {
+    color: var(--chip-text-on-accent);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.chip.secondary .chipLabel {
+    color: var(--chip-text-on-neutral);
+}

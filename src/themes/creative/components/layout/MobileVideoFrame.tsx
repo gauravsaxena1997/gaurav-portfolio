@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
-import styles from './proto.module.css';
+import styles from './MobileLayout.module.css';
 
 interface MobileVideoFrameProps {
     videoSrc?: string;

@@ -8,6 +8,14 @@
     transition: background-color 0.3s ease;
 }
 
+/* Mobile: Reduced height and margins */
+@media (max-width: 900px) {
+    .separator {
+        height: 3px;
+        margin: 0.5rem 0;
+    }
+}
+
 /* Lit Layer Override (Stats wipe animation) */
 /* When inside Stats litLayer, use dark separator on gold background */
 :global([data-lit-layer]) .separator {

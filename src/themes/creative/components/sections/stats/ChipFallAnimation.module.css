@@ -1,3 +1,6 @@
+/* ChipFallAnimation - Mobile Static Version */
+/* Redesigned to match desktop alternating gold/secondary pattern */
+
 .chipContainer {
     position: relative;
     width: 100%;
@@ -8,24 +11,53 @@
     justify-content: flex-end;
     overflow: hidden;
     background: transparent;
+    /* Chips sit at bottom, no extra padding */
 }
 
+/* Base chip styling */
 .chip {
     position: absolute;
-    min-width: 120px;
+    min-width: 100px;
     padding: 8px 16px;
-    background: linear-gradient(135deg, #FF5500 0%, #FF7733 100%);
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(255, 85, 0, 0.3);
-    animation: chipFall 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    border-radius: 10px;
+    box-sizing: border-box;
+
+    /* Animation */
+    animation: chipFall 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     opacity: 0;
-    transform: translateY(-100px) rotate(0deg);
+    transform: translateY(-80px) rotate(0deg);
+
+    /* Smooth transitions for theme changes */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* === GOLD VARIANT (accent) === */
+.chip.gold {
+    background: var(--chip-accent-bg);
+    color: var(--chip-text-on-accent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.15) inset,
+        0 -1px 0 rgba(0, 0, 0, 0.05) inset,
+        0 3px 8px color-mix(in srgb, var(--creative-accent), transparent 75%);
+}
+
+/* === SECONDARY VARIANT (neutral/white) === */
+.chip.secondary {
+    background: var(--chip-neutral-bg);
+    color: var(--chip-text-on-neutral);
+    border: 1.5px solid color-mix(in srgb, var(--creative-accent), transparent 60%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes chipFall {
     0% {
         opacity: 0;
-        transform: translateY(-100px) rotate(-15deg);
+        transform: translateY(-80px) rotate(-8deg);
     }
 
     60% {
@@ -38,69 +70,57 @@
     }
 }
 
+/* Chip label text */
 .chipLabel {
-    font-size: 12px;
-    font-weight: 600;
-    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: var(--font-display);
     text-align: center;
     white-space: nowrap;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
 }
 
+.chip.gold .chipLabel {
+    color: var(--chip-text-on-accent);
+}
+
+.chip.secondary .chipLabel {
+    color: var(--chip-text-on-neutral);
+}
+
+/* Compact stacked layout - chips sit at bottom with tight spacing */
 .chip:nth-child(1) {
-    bottom: 10px;
+    bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
     animation-delay: 0s;
 }
 
 .chip:nth-child(2) {
-    bottom: 38px;
-    left: calc(50% - 20px);
+    bottom: 42px;
+    left: calc(50% - 25px);
     transform: translateX(-50%);
-    animation-delay: 0.15s;
+    animation-delay: 0.12s;
 }
 
 .chip:nth-child(3) {
-    bottom: 66px;
-    left: calc(50% + 15px);
+    bottom: 76px;
+    left: calc(50% + 20px);
     transform: translateX(-50%);
-    animation-delay: 0.3s;
+    animation-delay: 0.24s;
 }
 
 .chip:nth-child(4) {
-    bottom: 94px;
-    left: calc(50% - 25px);
+    bottom: 110px;
+    left: calc(50% - 15px);
     transform: translateX(-50%);
-    animation-delay: 0.45s;
+    animation-delay: 0.36s;
 }
 
 .chip:nth-child(5) {
-    bottom: 122px;
+    bottom: 144px;
     left: calc(50% + 10px);
     transform: translateX(-50%);
-    animation-delay: 0.6s;
-}
-
-.chip:nth-child(6) {
-    bottom: 150px;
-    left: calc(50% - 15px);
-    transform: translateX(-50%);
-    animation-delay: 0.75s;
-}
-
-.chip:nth-child(7) {
-    bottom: 178px;
-    left: calc(50% + 5px);
-    transform: translateX(-50%);
-    animation-delay: 0.9s;
-}
-
-.stackBase {
-    position: absolute;
-    bottom: 0;
-    width: 80%;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, rgba(255, 85, 0, 0.2), transparent);
-    border-radius: 2px;
+    animation-delay: 0.48s;
 }

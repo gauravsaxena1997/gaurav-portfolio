@@ -3,51 +3,125 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Briefcase } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import styles from './proto.module.css';
-import './proto-projects.css';
-import { ChipFallAnimation } from '@/themes/creative/components/sections/stats/ChipFallAnimation';
+import styles from './MobileLayout.module.css';
+import { MobileChipStack } from '@/themes/creative/components/sections/stats/MobileChipStack';
 import { AIBrainIllustration } from '@/themes/creative/components/sections/stats/illustrations/AIBrainIllustration';
 import { GlobeVisualization } from '@/themes/creative/components/sections/stats/illustrations/GlobeVisualization';
 import { getProjectsForDisplay } from '@/themes/creative/components/sections/projects/config';
 import { ProjectCarousel } from '@/themes/creative/components/sections/projects/ProjectCarousel';
 import { MobileVideoFrame } from './MobileVideoFrame';
+import { Header } from '@/themes/creative/components/header/Header';
+import { HeroSection } from '@/themes/creative/components/sections/hero/HeroSection';
+import { ScrollProvider } from '@/themes/creative/context/ScrollContext';
+import { useScrollProgress } from '@/themes/creative/hooks/useScrollProgress';
+import { ProgressScrollbar } from '@/themes/creative/components/scroll/ProgressScrollbar';
+import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
+import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
+import { STATS_DATA } from '@/config/stats';
 
-gsap.registerPlugin(ScrollTrigger);
+import '../../styles/theme.css';
+import '../../styles/scrollbar.css';
 
-const ProtoHeader = () => (
-    <header className={styles.header}>FIXED HEADER (80px)</header>
-);
+// Re-register ScrollTrigger in this scope to be safe
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
-const ProtoHero = () => (
-    <section className={styles.hero}>
-        <div className={styles.placeholderBox}>
-            <h1>HERO SECTION</h1>
-            <p>Sticky Z:10</p>
+// Helper to track scroll progress for navigation state
+const TrackedSection = ({
+    logicalId,
+    domId,
+    children,
+    className,
+    style,
+    zIndex
+}: {
+    logicalId: string;
+    domId: string;
+    children: React.ReactNode;
+    className?: string;
+    style?: React.CSSProperties;
+    zIndex?: number;
+}) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { updateProgress } = useScrollProgress({ sectionId: logicalId });
+
+    useLayoutEffect(() => {
+        const element = containerRef.current;
+        if (!element) return;
+
+        // Register ScrollTrigger for this section
+        const trigger = ScrollTrigger.create({
+            trigger: element,
+            start: 'top bottom', // Start when top of section hits bottom of viewport
+            end: 'bottom top',   // End when bottom of section hits top of viewport
+            onUpdate: (self) => {
+                // Calculate progress: 0 (just entered) -> 1 (just left)
+                // We want robust "active" state when it covers the viewport
+                updateProgress(self.progress);
+            }
+        });
+
+        return () => {
+            trigger.kill();
+        };
+    }, [updateProgress]); // updateProgress is stable from hook
+
+    return (
+        <div
+            ref={containerRef} // Attach ref for ScrollTrigger
+            id={domId}
+            className={className}
+            style={{ ...style, zIndex }}
+            data-section={logicalId}
+        >
+            {children}
         </div>
-    </section>
-);
+    );
+};
 
-const ProtoStatPanel = ({ index }: { index: number }) => {
+const MobileStatPanel = ({ index }: { index: number }) => {
     const is5050 = index === 0;
-    const layoutClass = is5050 ? styles.grid5050 : styles.grid402040;
+    const layoutClass = is5050 ? styles.grid4555 : styles.grid502030;
     const zIndex = 20 + index;
+    const stat = STATS_DATA[index];
+    const Icon = stat?.icon;
 
     return (
         <div className={styles.statPanel} style={{ zIndex }}>
             <div className={layoutClass}>
-                <div className={`${styles.placeholderBox} ${styles.textZone}`}>
-                    STAT {index + 1}: TEXT {is5050 ? '(50%)' : '(40%)'}
+                {/* Text Zone with BackgroundDecor */}
+                <div className={styles.textZone}>
+                    {/* Background Parallax Icon */}
+                    {Icon && (
+                        <BackgroundDecor
+                            position={{ top: '45%', right: '0%' }}
+                            size="200px"
+                            parallaxSpeed={0.15}
+                            className={styles.backgroundIcon}
+                        >
+                            <Icon size={200} strokeWidth={1} />
+                        </BackgroundDecor>
+                    )}
+                    <div className={styles.statTextContent}>
+                        <h3 className={styles.statTitle}>{stat?.title}</h3>
+                        <AccentSeparator width="40%" />
+                        <p className={styles.statDescription}>{stat?.description}</p>
+                    </div>
                 </div>
-                {!is5050 && (
-                    <div className={`${styles.placeholderBox} ${styles.listZone}`}>
-                        HIGHLIGHTS (20%)
+                {/* Highlights Zone - only for non-5050 layouts */}
+                {!is5050 && stat?.highlights && (
+                    <div className={styles.listZone}>
+                        <Highlights items={stat.highlights} mono />
                     </div>
                 )}
+                {/* Illustration Zone */}
                 <div className={styles.illustrationZone}>
                     {index === 0 && (
                         <div className={styles.illustrationWrapper50}>
-                            <ChipFallAnimation />
+                            <MobileChipStack />
                         </div>
                     )}
                     {index === 1 && (
@@ -160,6 +234,13 @@ const ProtoProject = ({ project, index, zIndex }: { project: any; index: number;
     );
 };
 
+// Lazy load illustrations
+const MvpIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/MvpIllustration').then(mod => ({ default: mod.MvpIllustration })), { ssr: false });
+const UiUxIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/UiUxIllustration').then(mod => ({ default: mod.UiUxIllustration })), { ssr: false });
+const DevelopmentIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/DevelopmentIllustration').then(mod => ({ default: mod.DevelopmentIllustration })), { ssr: false });
+const IntegrationsIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/IntegrationsIllustration').then(mod => ({ default: mod.IntegrationsIllustration })), { ssr: false });
+const SeoIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/SeoIllustration').then(mod => ({ default: mod.SeoIllustration })), { ssr: false });
+
 const ProtoServices = ({ zIndex }: { zIndex: number }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const service1Ref = useRef<HTMLDivElement>(null);
@@ -171,15 +252,8 @@ const ProtoServices = ({ zIndex }: { zIndex: number }) => {
     // Track active illustration index
     const [activeIndex, setActiveIndex] = React.useState(0);
 
-    // Lazy load illustrations
-    const MvpIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/MvpIllustration').then(mod => ({ default: mod.MvpIllustration })), { ssr: false });
-    const UiUxIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/UiUxIllustration').then(mod => ({ default: mod.UiUxIllustration })), { ssr: false });
-    const DevelopmentIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/DevelopmentIllustration').then(mod => ({ default: mod.DevelopmentIllustration })), { ssr: false });
-    const IntegrationsIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/IntegrationsIllustration').then(mod => ({ default: mod.IntegrationsIllustration })), { ssr: false });
-    const SeoIllustration = dynamic(() => import('@/themes/creative/components/sections/services/illustrations/SeoIllustration').then(mod => ({ default: mod.SeoIllustration })), { ssr: false });
-
     // Import ServiceFrame
-    const { ServiceFrame } = require('./ServiceFrame');
+    const ServiceFrame = dynamic(() => import('./ServiceFrame').then(m => m.ServiceFrame), { ssr: false });
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
@@ -303,16 +377,12 @@ const ProtoContact = () => (
     </div>
 );
 
-// Import Real Header and ScrollProvider
-import { Header } from '@/themes/creative/components/header/Header';
-import { HeroSection } from '@/themes/creative/components/sections/hero/HeroSection';
-import { ScrollProvider } from '@/themes/creative/context/ScrollContext';
-
-export default function MobileTestPage() {
+export default function MobileLayout() {
     const projects = getProjectsForDisplay();
 
     // Theme State for Header
     const [currentTheme, setCurrentTheme] = React.useState<'creative' | 'github'>('creative');
+    // Default to dark, but should respect system/local storage if possible eventually
     const [themeMode, setThemeMode] = React.useState<'dark' | 'light'>('dark');
 
     const handleThemeChange = (theme: 'creative' | 'github') => {
@@ -320,9 +390,10 @@ export default function MobileTestPage() {
     };
 
     const handleModeToggle = () => {
-        setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
+        const newMode = themeMode === 'dark' ? 'light' : 'dark';
+        setThemeMode(newMode);
         if (typeof document !== 'undefined') {
-            document.documentElement.setAttribute('data-theme', themeMode === 'dark' ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', newMode);
         }
     };
 
@@ -331,12 +402,12 @@ export default function MobileTestPage() {
         if (typeof document !== 'undefined') {
             document.documentElement.setAttribute('data-theme', themeMode);
         }
-    }, []);
+    }, [themeMode]);
 
     return (
         <ScrollProvider>
-            <div className={styles.protoRoot}>
-                {/* Real Header replacing ProtoHeader */}
+            <ProgressScrollbar />
+            <div className={styles.mobileLayoutRoot}>
                 <Header
                     currentTheme={currentTheme}
                     onThemeChange={handleThemeChange}
@@ -344,18 +415,31 @@ export default function MobileTestPage() {
                     onModeToggle={handleModeToggle}
                 />
 
-                {/* Real Hero Section - sticky by default on mobile via CSS */}
-                <div style={{ position: 'relative', zIndex: 0 }}>
+                <TrackedSection
+                    logicalId="hero"
+                    domId="hero-section"
+                    style={{ position: 'relative' }}
+                    zIndex={0}
+                >
                     <HeroSection />
-                </div>
+                </TrackedSection>
 
-                <div className={styles.statsContainer}>
-                    {[0, 1, 2].map((i) => (
-                        <ProtoStatPanel key={i} index={i} />
-                    ))}
-                </div>
+                <TrackedSection
+                    logicalId="stats"
+                    domId="stats-section"
+                >
+                    <div className={styles.statsContainer}>
+                        {[0, 1, 2].map((i) => (
+                            <MobileStatPanel key={i} index={i} />
+                        ))}
+                    </div>
+                </TrackedSection>
 
-                <div className={styles.projectsWrapper}>
+                <TrackedSection
+                    logicalId="projects"
+                    domId="projects-section"
+                    className={styles.projectsWrapper}
+                >
                     <div className={styles.sectionLabel}>PROJECTS</div>
                     {projects.map((project, index) => (
                         <ProtoProject
@@ -365,12 +449,22 @@ export default function MobileTestPage() {
                             zIndex={30 + index}
                         />
                     ))}
-                </div>
+                </TrackedSection>
 
-                <div className={styles.sectionLabel}>SERVICES</div>
-                <ProtoServices zIndex={40} />
+                <TrackedSection
+                    logicalId="services"
+                    domId="services-section"
+                >
+                    <div className={styles.sectionLabel}>SERVICES</div>
+                    <ProtoServices zIndex={40} />
+                </TrackedSection>
 
-                <ProtoContact />
+                <TrackedSection
+                    logicalId="contact"
+                    domId="contact-section"
+                >
+                    <ProtoContact />
+                </TrackedSection>
             </div>
         </ScrollProvider>
     );

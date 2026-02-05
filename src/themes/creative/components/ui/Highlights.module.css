@@ -9,6 +9,13 @@
     /* Tight bullet spacing */
 }
 
+@media (max-width: 768px) {
+    .highlightsList {
+        margin: 0 auto;
+        width: fit-content;
+    }
+}
+
 .highlightItem {
     display: flex;
     align-items: center;

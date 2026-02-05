@@ -1,7 +1,7 @@
 /* Creative Theme - Design Tokens */
 /* Design System: Warm Bronze & Cream - v1.0.0 */
 
-body {
+:root {
   /* ===== DARK THEME (DEFAULT) ===== */
 
   /* Backgrounds */
@@ -179,7 +179,7 @@ body {
 
 /* Mobile header height override */
 @media (max-width: 768px) {
-  body {
+  :root {
     --header-height: 56px;
     --viewport-height: calc(100vh - 56px);
 
