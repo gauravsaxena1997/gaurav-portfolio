@@ -1,0 +1,203 @@
+.contactSection {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100dvh;
+    padding-top: calc(var(--header-height) + 1.5rem);
+    padding-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    z-index: 50;
+    background: var(--creative-bg-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center content horizontally */
+    justify-content: flex-start;
+    color: var(--creative-text-primary);
+    overflow-y: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+
+.contactSection::-webkit-scrollbar {
+    display: none;
+}
+
+.contactTitle {
+    font-size: clamp(1.4rem, 4vw, 1.75rem);
+    font-weight: 700;
+    color: var(--creative-text-primary);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.25rem 0;
+    font-family: var(--font-display);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.contactCompassWrapper {
+    position: absolute;
+    top: calc(var(--header-height) - 1rem);
+    right: -2rem;
+    opacity: 0.08;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes compassRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.contactCompassIcon {
+    width: clamp(180px, 40vw, 280px);
+    height: clamp(180px, 40vw, 280px);
+    color: var(--creative-accent);
+    animation: compassRotate 60s linear infinite;
+}
+
+.contactSubtitle {
+    font-size: var(--font-size-body-sm);
+    color: var(--creative-text-secondary);
+    line-height: 1.6;
+    margin: 0.5rem 0 0.75rem 0;
+    max-width: 90%;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.contactStatusRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    /* More spacing to prevent overlap */
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    justify-content: center;
+    /* Center chips */
+}
+
+.contactChip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    background: rgba(var(--creative-bg-secondary-rgb), 0.4);
+    border: 1px solid var(--creative-border-color);
+    border-radius: 100px;
+    font-size: var(--font-size-body-xs);
+    color: var(--creative-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.contactChip svg {
+    color: var(--creative-accent);
+    flex-shrink: 0;
+}
+
+.contactFormArea {
+    width: 100%;
+    /* No flex: 1 here, let it flow naturally in scroll */
+    margin-top: 1rem;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ContactForm Overrides - target ONLY the top-level container */
+.contactFormArea> :global(div) {
+    width: 100% !important;
+    max-width: 500px !important;
+    background: rgba(var(--creative-bg-secondary-rgb), 0.5) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid var(--creative-border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: clamp(1rem, 3dvh, 1.25rem) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+    box-sizing: border-box !important;
+}
+
+/* Ensure children DIVs (field groups) do NOT inherit the card style */
+.contactFormArea :global(form div) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+.contactFormArea :global(form) {
+    gap: clamp(0.4rem, 1.2dvh, 0.6rem) !important;
+    margin-top: 0 !important;
+}
+
+.contactFormArea :global(form > div) {
+    gap: 0.2rem !important;
+}
+
+.contactFormArea :global(label) {
+    font-size: var(--font-size-body-xs) !important;
+    margin-left: 0.1rem !important;
+    letter-spacing: 0.05em !important;
+}
+
+.contactFormArea :global(input),
+.contactFormArea :global(textarea) {
+    padding: 0.6rem 0.75rem !important;
+    font-size: var(--font-size-body-sm) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+.contactFormArea :global(input::placeholder),
+.contactFormArea :global(textarea::placeholder) {
+    font-size: inherit !important;
+}
+
+.contactFormArea :global(textarea) {
+    min-height: clamp(40px, 8dvh, 70px) !important;
+    resize: none !important;
+}
+
+.contactFormArea :global(button[type="submit"]) {
+    padding: 0.6rem 1rem !important;
+    /* Reduced height */
+    font-size: var(--font-size-body-sm) !important;
+    margin-top: 0.25rem !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+.contactScheduleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: clamp(0.5rem, 1.5dvh, 0.75rem) 1rem;
+    margin-top: clamp(0.5rem, 1dvh, 0.75rem);
+    background: transparent;
+    border: 1px solid var(--creative-accent);
+    border-radius: 8px;
+    color: var(--creative-accent);
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    font-weight: 600;
+    font-family: var(--font-mono);
+}

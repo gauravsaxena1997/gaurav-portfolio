@@ -4,7 +4,7 @@ import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import dynamic from 'next/dynamic';
-import styles from '../../layout/MobileLayout.module.css';
+import styles from './MobileServicesSection.module.css';
 import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
 import { SERVICES as SERVICES_DATA } from './servicesData';
@@ -87,7 +87,7 @@ export const MobileServicesSection = ({ zIndex }: MobileServicesSectionProps) =>
                         >
                             {/* Background Parallax Icon */}
                             <BackgroundDecor
-                                position={{ top: '5%', right: '-5%' }}
+                                position={{ top: '5%', right: '5%' }}
                                 size="140px"
                                 parallaxSpeed={0}
                                 className={styles.floatingIcon}

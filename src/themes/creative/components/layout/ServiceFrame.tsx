@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import styles from './MobileLayout.module.css';
+import styles from './ServiceFrame.module.css';
 
 interface ServiceFrameProps {
     illustration: ReactNode;

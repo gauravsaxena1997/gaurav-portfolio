@@ -580,7 +580,7 @@
   }
 
   .heroSubtitle {
-    font-size: 1.05rem !important;
+    font-size: var(--font-size-body-sm) !important;
     font-weight: 500 !important;
     max-width: 90%;
     line-height: 1.6;
@@ -601,10 +601,8 @@
   .heroCTA {
     width: auto;
     /* Changed from 100% to auto for compact size */
-    padding: 0.65rem 1.5rem;
-    /* Reduced from 1rem to 0.65rem vertical padding */
-    font-size: 0.95rem;
-    /* Slightly smaller font */
+    padding: 0.6rem 1.75rem;
+    font-size: var(--font-size-body-sm);
   }
 
   /* Lighthouse - anchored to bottom-right, visible on mobile */
@@ -685,9 +683,9 @@
   }
 
   .heroSubtitle {
-    font-size: 0.95rem !important;
+    font-size: var(--font-size-body-sm) !important;
     max-width: 98%;
-    line-height: 1.4;
+    line-height: 1.5;
     margin-bottom: 0;
   }
 
@@ -708,8 +706,8 @@
   }
 
   .heroCTA {
-    padding: 0.5rem 1.25rem;
-    font-size: 0.9rem;
+    padding: 0.5rem 1.5rem;
+    font-size: var(--font-size-body-sm);
   }
 
   .lighthouseMobile {

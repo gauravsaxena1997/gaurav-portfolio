@@ -1,0 +1,175 @@
+/* ==================== MOBILE SERVICES SECTION ==================== */
+
+.servicesContainer {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    width: 100%;
+    height: 100dvh;
+    padding-top: var(--header-height);
+    background: var(--creative-bg-secondary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Better distribution */
+    overflow: hidden;
+}
+
+.servicesTextArea {
+    position: relative;
+    width: 100%;
+    /* Occupy 60% of viewport minus header */
+    flex: 0 0 calc(60dvh - var(--header-height));
+    min-height: 0;
+    z-index: 2;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.servicesTextArea::-webkit-scrollbar {
+    display: none;
+}
+
+.serviceTextLayer {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 1rem 1.75rem;
+    /* Slightly more side padding */
+    color: var(--creative-text-primary);
+    overflow: visible;
+    /* NO CLIPPING */
+}
+
+.serviceTextLayer.activeService {
+    display: flex;
+    position: relative;
+    z-index: 10;
+}
+
+.statTitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 5vw, 1.85rem);
+    /* Proactive font scaling */
+    font-weight: 700;
+    color: var(--creative-accent);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.statDescription {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-sm);
+    color: var(--creative-text-secondary);
+    font-weight: 500;
+    line-height: 1.5;
+    /* Slightly tighter for mobile */
+    margin: 0.5rem 0 1rem 0;
+}
+
+.serviceSeparator {
+    margin: 0.75rem 0;
+    opacity: 0.8;
+}
+
+.serviceHighlights {
+    margin-top: 0.5rem;
+    width: 100%;
+    align-items: flex-start !important;
+}
+
+.serviceHighlights :global(li) {
+    justify-content: flex-start;
+    font-size: var(--font-size-body-sm);
+    padding: 0.2rem 0;
+    width: 100%;
+    white-space: normal;
+    /* Fix horizontal clipping */
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.servicesLaptopArea {
+    width: 100%;
+    /* 
+     * STABLE HEIGHT: Occupies remaining 40% of viewport 
+     */
+    flex: 0 0 40dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    position: relative;
+    padding: 0 1.5rem 2.5rem 1.5rem;
+    /* Sided spacing */
+    overflow: visible;
+}
+
+/* Decoration icons */
+.floatingIcon {
+    animation: floatIcon 6s ease-in-out infinite;
+    opacity: 0.08;
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes floatIcon {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(2deg);
+    }
+}
+
+/* Illustration transition */
+.illustrationFadeWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInService 0.4s ease-out;
+}
+
+@keyframes fadeInService {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive Overrides for very short screens */
+@media (max-height: 700px) {
+    .servicesContainer {
+        padding-top: calc(var(--header-height) - 10px);
+    }
+
+    .statTitle {
+        font-size: 1.3rem;
+    }
+
+    .statDescription {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .servicesLaptopArea {
+        flex-basis: 200px;
+        padding-bottom: 1rem;
+    }
+}

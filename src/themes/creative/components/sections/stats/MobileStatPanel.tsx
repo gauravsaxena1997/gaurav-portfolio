@@ -3,7 +3,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import styles from '../../layout/MobileLayout.module.css';
+import styles from './MobileStatPanel.module.css';
 import { MobileChipStack } from './MobileChipStack';
 import { AIBrainIllustration } from './illustrations/AIBrainIllustration';
 import { GlobeVisualization } from './illustrations/GlobeVisualization';
@@ -66,7 +66,7 @@ export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
                     {/* Background Parallax Icon */}
                     {Icon && (
                         <BackgroundDecor
-                            position={{ top: '45%', right: '0%' }}
+                            position={{ top: '45%', right: '5%' }}
                             size="200px"
                             parallaxSpeed={0.15}
                             className={styles.backgroundIcon}

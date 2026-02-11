@@ -182,7 +182,7 @@ export const ProjectSection = memo(function ProjectSection() {
               {/* Row 1: Header (Title / Tag) */}
               <div className={styles.projectHeader}>
                 <div className={styles.titleStack}>
-                  <h2 className={styles.projectName}>{project.title.toUpperCase()}</h2>
+                  <h2 className={styles.projectName}>{project.title}</h2>
                   <div className={styles.metaRow}>
                     <span className={styles.categoryBadge}>
                       {project.category === 'case-study' && 'Case Study'}

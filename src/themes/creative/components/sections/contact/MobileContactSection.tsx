@@ -2,7 +2,7 @@
 
 import React, { useRef, useCallback } from 'react';
 import { MapPin, Mail, Clock, Calendar, Compass } from 'lucide-react';
-import styles from '../../layout/MobileLayout.module.css';
+import styles from './MobileContactSection.module.css';
 import { AccentSeparator } from '@/themes/creative/components/ui';
 import { ContactForm } from './ContactForm';
 import { CONTACT_INFO } from '@/config';

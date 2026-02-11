@@ -50,20 +50,3 @@
         animation: none;
     }
 }
-
-/* Mobile - reduce opacity for subtler effect */
-@media (max-width: 900px) {
-    .wrapper {
-        opacity: 0.03;
-    }
-}
-
-/* Very small screens - hide completely to avoid clutter */
-/* Very small screens - hide completely to avoid clutter */
-@media (max-width: 480px) {
-    .wrapper {
-        /* display: none; - Enabling for mobile stats as requested */
-        opacity: 0.05;
-        /* Matches default */
-    }
-}

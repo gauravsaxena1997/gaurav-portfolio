@@ -18,11 +18,8 @@
 }
 
 .title {
-  font-size: var(--font-size-h2);
-  font-weight: 700;
-  color: var(--creative-text-primary);
-  margin: 0;
-  letter-spacing: -0.02em;
+  text-transform: none;
+  /* Ensure no forced uppercase */
 }
 
 .subtitle {
@@ -50,11 +47,11 @@
   font-size: var(--font-size-body-xs);
   font-weight: 600;
   color: var(--creative-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-left: 0.25rem;
+  text-transform: none;
+  /* Changed from uppercase to follow project standards */
+  letter-spacing: 0.02em;
+  margin-left: 0.1rem;
   font-family: var(--font-mono);
-  /* Technical Label */
 }
 
 .input,

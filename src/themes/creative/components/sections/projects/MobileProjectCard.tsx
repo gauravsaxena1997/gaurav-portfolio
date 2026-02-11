@@ -3,7 +3,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import styles from '../../layout/MobileLayout.module.css';
+import styles from './MobileProjectCard.module.css';
 import { MobileProjectCarousel } from '../../layout/MobileProjectCarousel';
 import { UnifiedProjectViewer } from '@/components/shared/UnifiedProjectViewer';
 import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
@@ -58,7 +58,7 @@ export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardP
                 <StackingBlurOverlay />
                 {/* Background Decor - Number with Parallax */}
                 <BackgroundDecor
-                    position={{ top: '15%', right: '0%' }}
+                    position={{ top: '15%', right: '5%' }}
                     size="300px"
                     parallaxSpeed={0.15}
                     className={styles.backgroundIcon}
@@ -75,7 +75,7 @@ export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardP
                 <div className={styles.projectTopSection}>
                     {/* Title */}
                     <h3 className={styles.projectTitle}>
-                        {project.title.toUpperCase()}
+                        {project.title}
                     </h3>
 
                     {/* Tag */}
