@@ -18,6 +18,13 @@
   position: relative;
 }
 
+@media (max-width: 768px) {
+  .track {
+    width: 3px;
+    /* Thinner on mobile per user request */
+  }
+}
+
 .fill {
   position: absolute;
   top: 0;

@@ -46,6 +46,13 @@
   align-items: center;
 }
 
+/* Mobile: unified canvas color to match rest of mobile layout */
+@media (max-width: 900px) {
+  .baseLayer {
+    background: var(--creative-bg-secondary);
+  }
+}
+
 /* Lit layer - deterministic text colors clipped to spotlight */
 .litLayer {
   position: absolute;

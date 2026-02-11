@@ -11,7 +11,8 @@
   padding: 0 clamp(1.5rem, 4vw, 3rem);
   background: var(--creative-bg-primary);
   border-bottom: 1px solid var(--creative-border-color);
-  z-index: 99999;
+  z-index: 1000;
+  /* Reduced from 99999 to allow modals/viewers to appear on top */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -157,6 +158,8 @@
 @media (max-width: 768px) {
   .header {
     padding: 0 1.5rem;
+    background: var(--creative-bg-secondary);
+    /* Unified canvas color */
   }
 
   .navItem {

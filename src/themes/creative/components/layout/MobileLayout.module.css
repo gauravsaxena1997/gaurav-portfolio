@@ -8,8 +8,8 @@
     /* Transitions */
     --creative-transition-fast: 150ms ease;
 
-    /* Base Styling - Inheriting Global Theme Variables */
-    background: var(--creative-bg-primary);
+    /* Base Styling - Unified background */
+    background: var(--creative-bg-secondary);
     min-height: 100vh;
     color: var(--creative-text-primary);
     font-family: var(--font-body, monospace);
@@ -38,22 +38,34 @@
 
 /* === HEADER (Handled by React Component, but ensure spacing is correct) === */
 .sectionLabel {
-    padding: 1rem;
+    padding: 1.5rem 1rem;
     text-align: center;
-    color: var(--creative-text-secondary);
-    background: var(--creative-bg-primary);
-    font-family: var(--font-display, monospace);
-    font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
+    color: var(--creative-accent);
+    background: var(--creative-bg-secondary);
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    letter-spacing: -0.02em;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sectionLabel::after {
+    content: '';
+    width: clamp(40px, 12vw, 80px);
+    height: 2px;
+    background: var(--creative-accent);
+    border-radius: 2px;
 }
 
 /* === STATS === */
 .statsContainer {
     position: relative;
     z-index: 20;
-    background: var(--creative-bg-primary);
+    background: var(--creative-bg-secondary);
 }
 
 .statPanel {
@@ -62,11 +74,50 @@
     width: 100%;
     height: calc(100vh - var(--header-height));
     background: var(--creative-bg-secondary);
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    /* Prevent scrolling within panel */
+    /* No shadow/border on first panel - seamless transition from hero */
+}
+
+/* Only stacking panels get the card-depth effect */
+.statPanel:nth-child(n+2) {
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
     border-top: 1px solid var(--creative-border-color);
 }
+
+/* Blur/shadow gradient effect ONLY for stacking cards (not the first in each section) */
+.statPanel:nth-child(n+2)::before,
+.projectContainer+.projectContainer::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+    backdrop-filter: blur(4px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Stacking Shadow & Blur intensity */
+/* Stacking Shadow & Blur intensity - Handled by class assignments above */
+
+/* 
+   To achieve "layer behind that get a subtle blur... starting from scroll":
+   This requires scroll-linked animations (ScrollTrigger) we already have.
+   We can update the MobileLayout.tsx to animate filter: blur() on the *leaving* panel.
+   
+   But for now, let's stick to the requested CSS changes:
+   "when we are stacking they are adding... border... shadow" -> DONE.
+   
+   "content behind... mudded... subtle blur... scroll based" -> This is a JS animation change in MobileLayout.tsx.
+   I can't do it purely in CSS reliably for "scroll based intensity".
+   
+   I will add the CSS class for the blur effect that we can toggle/animate in JS later if needed, 
+   OR simply add a static gradient overlay to the Top of the layout to simulate it? 
+   
+   Let's simply fully implement the border/shadow parity requested first.
+*/
 
 /* Grid Layouts - Using same CSS Logic for consistency */
 .grid4555 {
@@ -188,91 +239,126 @@
 /* Globe specific - shows top 50% touching bottom edge */
 .globeClip {
     position: absolute;
-    bottom: 0;
+    bottom: auto;
+    /* Unset bottom */
+    top: 14%;
+    /* Push down from top */
     left: 50%;
     transform: translateX(-50%);
     width: 300%;
-    height: 200%;
+    height: 150%;
+    /* Large height to accommodate full globe */
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
+    /* Start rendering from the pushed-down top */
     justify-content: center;
     pointer-events: none;
     overflow: hidden;
+    /* Add specific breathing room at the very top */
 }
 
 /* === PROJECTS === */
 .projectsWrapper {
     position: relative;
     z-index: 30;
-    background: var(--creative-bg-primary);
+    background: var(--creative-bg-secondary);
 }
 
 .projectContainer {
+    position: sticky;
+    top: var(--header-height);
     width: 100%;
-    height: 100vh;
-    padding-top: var(--header-height);
+    height: calc(100vh - var(--header-height));
     background: var(--creative-bg-secondary);
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
-    /* Lighter shadow in light mode */
-    display: grid;
-    grid-template-rows: min-content 1fr;
-    /* Text auto height, Media fill rest */
-    gap: 1rem;
-    padding-bottom: 2rem;
+    /* No shadow/border on first project - seamless from section label */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    padding-bottom: 0;
+    /* Button sits at bottom */
 }
 
-.projectTextArea {
+/* Only stacking project cards get depth effect */
+.projectContainer+.projectContainer {
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    border-top: 1px solid var(--creative-border-color);
+}
+
+/* === PROJECT TOP SECTION === */
+.projectTopSection {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
-    text-align: left;
-    padding: 1.5rem;
-    color: var(--creative-text-primary);
-    background: var(--creative-bg-primary);
+    /* Left aligned as per previous image, or center? Highlights are left. */
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+    position: relative;
+    z-index: 5;
 }
 
-.projectTextArea h2 {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: var(--creative-text-secondary);
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.1em;
-}
-
-.projectTextArea h3 {
-    font-size: 1.75rem;
+.projectTitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
     font-weight: 800;
     color: var(--creative-accent);
-    margin-bottom: 0.75rem;
-    font-family: var(--font-display);
-    line-height: 1.1;
+    line-height: 1;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
 }
 
-.projectDescription {
-    font-size: 0.95rem;
-    color: var(--creative-text-secondary);
-    margin-bottom: 1rem;
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.projectSeparator {
+    margin: 1rem 0;
+    align-self: flex-start;
 }
 
-/* Action Row */
-.projectActionRow {
+/* === PROJECT BOTTOM SECTION === */
+.projectSpacer {
+    flex: 1;
+    /* Takes up remaining space */
+}
+
+.projectBottomSection {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: transparent;
+    padding-bottom: 2rem;
+    /* Safe area from bottom */
+    gap: 1.5rem;
+}
+
+.viewLiveBlockButton {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    /* Reduced gap */
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-    flex-wrap: nowrap;
-    /* Force single row */
-    overflow-x: auto;
-    /* Safety scroll if extremely tight */
+    justify-content: center;
+    width: calc(100% - 3rem);
+    /* Full width minus padding */
+    margin: 0 auto;
+    /* Center it */
+    padding: 1rem;
+    background: var(--creative-accent);
+    color: var(--creative-bg-primary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb), 0.3);
 }
+
+.viewLiveBlockButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(var(--creative-accent-rgb), 0.4);
+    background: #ffaa44;
+    /* Slightly lighter accent */
+}
+
+/* Clean up removed classes */
+/* projectTextArea, projectActionRow removed */
 
 /* Matches Desktop .categoryBadge */
 .caseStudyTag {
@@ -295,25 +381,7 @@
     /* Prevent text wrap inside tag */
 }
 
-/* Matches Desktop .ctaButton but scaled for mobile */
-.viewLiveButton {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0.8rem;
-    /* Compact padding */
-    background: var(--creative-accent);
-    color: var(--creative-bg-primary);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    /* Smaller font */
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: var(--radius-lg);
-    transition: all 0.2s ease;
-    width: fit-content;
-    white-space: nowrap;
-}
+/* viewLiveButton removed */
 
 /* Background Number - Matching Desktop Structure */
 .projectNumberWrapper {
@@ -392,92 +460,187 @@
 
 .projectMediaContainer {
     position: relative;
-    overflow: hidden;
-    background: var(--creative-bg-secondary);
-    /* Theme-aware background */
-    border-radius: 8px;
+    overflow: visible;
+    /* Allow dots to be seen if outside */
+    /* Removed background and border for single frame look */
+    background: transparent;
+    border: none;
+    border-radius: 0;
     margin: 0 1rem;
-    /* Inset slightly */
-    border: 1px solid var(--creative-border-color);
-}
-
-.mediaLayer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: auto;
 }
 
 /* === SERVICES === */
 .servicesContainer {
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 40;
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
+    /* Dynamic viewport height for perfect fit */
     padding-top: var(--header-height);
     background: var(--creative-bg-secondary);
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
-    display: grid;
-    grid-template-rows: 1fr 1.2fr;
-    /* More space for tablet */
-    grid-template-areas: "text" "laptop";
+    /* No shadow - seamless from section label */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Top align */
+    overflow: hidden;
 }
 
 .servicesTextArea {
-    grid-area: text;
     position: relative;
-    overflow: hidden;
-    background: var(--creative-bg-primary);
-    border-bottom: 1px solid var(--creative-border-color);
+    width: 100%;
+    /* Fixed proportion to prevent jumping */
+    flex: 0 0 45%;
+    height: 45%;
+    z-index: 2;
+    padding-bottom: 0.5rem;
 }
 
 .serviceTextLayer {
-    position: absolute;
-    inset: 0;
-    display: flex;
+    display: none;
+    width: 100%;
+    height: 100%;
+    /* Fill the fixed text area */
+
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    text-align: left;
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    /* Compact padding */
     color: var(--creative-text-primary);
 }
 
-.serviceTextLayer h2 {
-    font-size: 1.75rem;
-    color: var(--creative-accent);
-    margin-bottom: 0.5rem;
-    font-family: var(--font-display);
-    font-weight: 700;
+.serviceTextLayer.activeService {
+    display: flex;
+    position: relative;
+    z-index: 10;
+    /* Instant switch - no animation */
 }
 
-.serviceTextLayer p {
-    font-size: 1rem;
-    color: var(--creative-text-secondary);
-    line-height: 1.4;
+/* Optional: Slight pop-in to mask the "jump" but kept very minimal */
+@keyframes fadeInService {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.serviceSeparator {
+    margin: 0.75rem 0;
+    /* Reduced margin */
+    opacity: 0.8;
+}
+
+.serviceHighlights {
+    margin-top: 0.5rem;
+    width: 100%;
+    align-items: flex-start !important;
+}
+
+/* Force Highlight items to align left */
+.serviceHighlights :global(li) {
+    justify-content: flex-start;
+    font-size: 0.75rem;
+    /* Slightly smaller text */
+    padding: 0.15rem 0;
 }
 
 .hint {
-    margin-top: auto;
-    font-size: 0.75rem;
-    opacity: 0.5;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding-top: 1rem;
+    display: none;
 }
 
 .servicesLaptopArea {
-    grid-area: laptop;
+    flex: 1;
+    /* Fills remaining 55% */
+    /* Removed min-height hard constraint if flex handles it well, but keep it safe */
+    min-height: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    background: var(--creative-bg-secondary);
-    /* Theme-aware background */
+    background: transparent;
     position: relative;
+    padding-bottom: 1.5rem;
+    width: 100%;
+    overflow: visible;
+    /* Ensure shadows/decor don't clip */
+}
+
+
+
+/* Floating Animation for static icons */
+@keyframes floatIcon {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(2deg);
+    }
+}
+
+.floatingIcon {
+    /* Apply float animation - override parallax transform if needed */
+    animation: floatIcon 6s ease-in-out infinite;
+    opacity: 0.1;
+    /* Ensure opacity is maintained */
+}
+
+/* Compact layout for shorter screens (iPhone SE, etc.) */
+@media (max-height: 750px) {
+    .servicesTextArea {
+        flex: 0 0 44%;
+        /* Slightly more space */
+        height: 44%;
+    }
+
+    .serviceTextLayer {
+        padding: 0.85rem 1.25rem 0.25rem 1.25rem;
+        /* Increased side padding for better readability */
+    }
+
+    .serviceTextLayer .statTitle {
+        font-size: 1.55rem;
+        /* Larger title */
+        margin-bottom: 0.25rem;
+    }
+
+    .serviceTextLayer .statDescription {
+        font-size: 0.92rem;
+        /* Larger description */
+        line-height: 1.35;
+        margin-bottom: 0.75rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        /* Standard property */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .serviceSeparator {
+        margin: 0.6rem 0;
+    }
+
+    .serviceHighlights {
+        margin-top: 0.4rem;
+    }
+
+    /* Force Highlights compaction but slightly larger */
+    .serviceHighlights :global(li) {
+        font-size: 0.78rem !important;
+        padding: 0.12rem 0 !important;
+        line-height: 1.3 !important;
+        gap: 0.4rem !important;
+    }
 }
 
 /* === CONTACT === */
@@ -485,13 +648,368 @@
     position: sticky;
     top: 0;
     width: 100%;
-    height: 100vh;
-    padding-top: var(--header-height);
+    height: 100dvh;
+    /* Strict viewport fit */
+    padding-top: calc(var(--header-height) + 1.5rem);
+    padding-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     z-index: 50;
-    background: var(--creative-bg-primary);
+    background: var(--creative-bg-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: var(--creative-text-primary);
+    overflow: hidden;
+    /* No scroll - must fit */
+    box-sizing: border-box;
+}
+
+/* Contact Title */
+.contactTitle {
+    font-size: clamp(1.4rem, 4vw, 1.75rem);
+    font-weight: 700;
+    color: var(--creative-text-primary);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.25rem 0;
+    font-family: var(--font-display);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Rotating Compass Background */
+.contactCompassWrapper {
+    position: absolute;
+    top: calc(var(--header-height) - 1rem);
+    right: -2rem;
+    opacity: 0.08;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes compassRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.contactCompassIcon {
+    width: clamp(180px, 40vw, 280px);
+    height: clamp(180px, 40vw, 280px);
+    color: var(--creative-accent);
+    animation: compassRotate 60s linear infinite;
+}
+
+/* Subtitle */
+.contactSubtitle {
+    font-size: clamp(0.75rem, 2.2vw, 0.88rem);
+    color: var(--creative-text-secondary);
+    line-height: 1.4;
+    margin: 0.35rem 0 0.5rem 0;
+    max-width: 80%;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Status Chips - compact horizontal row */
+.contactStatusRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.contactChip {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.6rem;
+    background: rgba(var(--creative-bg-primary-rgb), 0.4);
+    border: 1px solid var(--creative-border-color);
+    border-radius: 100px;
+    /* Pill shape */
+    font-size: clamp(0.6rem, 1.8vw, 0.7rem);
+    color: var(--creative-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.contactChip svg {
+    color: var(--creative-accent);
+    flex-shrink: 0;
+}
+
+/* Contact Form Area - fills available space */
+.contactFormArea {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* 
+ * Mobile overrides for ContactForm.
+ * Using element selectors because CSS Modules hashes class names.
+ */
+
+/* Remove glass card wrapper */
+.contactFormArea>div {
+    max-width: 100% !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Tighter form gap */
+.contactFormArea form {
+    gap: clamp(0.4rem, 1.2dvh, 0.6rem) !important;
+    margin-top: 0 !important;
+}
+
+/* Field groups - tighter */
+.contactFormArea form>div {
+    gap: 0.2rem !important;
+}
+
+/* Smaller labels */
+.contactFormArea label {
+    font-size: 0.6rem !important;
+    margin-left: 0.1rem !important;
+    letter-spacing: 0.06em !important;
+}
+
+/* Compact inputs - much smaller */
+.contactFormArea input,
+.contactFormArea textarea {
+    padding: clamp(0.35rem, 1dvh, 0.5rem) 0.65rem !important;
+    font-size: clamp(0.78rem, 2.2vw, 0.88rem) !important;
+    border-radius: 6px !important;
+}
+
+/* Placeholder matches input font size */
+.contactFormArea input::placeholder,
+.contactFormArea textarea::placeholder {
+    font-size: inherit !important;
+}
+
+/* Shorter textarea */
+.contactFormArea textarea {
+    min-height: clamp(50px, 10dvh, 80px) !important;
+    resize: none !important;
+}
+
+/* Compact submit button */
+.contactFormArea button[type="submit"] {
+    padding: clamp(0.4rem, 1.2dvh, 0.6rem) 0.75rem !important;
+    font-size: clamp(0.7rem, 2vw, 0.8rem) !important;
+    margin-top: clamp(0.15rem, 0.5dvh, 0.35rem) !important;
+    border-radius: 6px !important;
+}
+
+/* Schedule Button */
+.contactScheduleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: clamp(0.5rem, 1.5dvh, 0.75rem) 1rem;
+    margin-top: clamp(0.5rem, 1dvh, 0.75rem);
+    background: transparent;
+    border: 1px solid var(--creative-accent);
+    border-radius: 8px;
+    color: var(--creative-accent);
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    font-weight: 600;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.contactScheduleButton:active {
+    background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+    transform: scale(0.98);
+}
+
+/* Short screens extra compaction */
+@media (max-height: 700px) {
+    .contactSection {
+        padding-top: calc(var(--header-height) + 0.5rem);
+        padding-bottom: 0.75rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .contactTitle {
+        font-size: 1.3rem;
+        margin-bottom: 0.15rem;
+    }
+
+    .contactSubtitle {
+        font-size: 0.7rem;
+        margin: 0.2rem 0 0.35rem 0;
+    }
+
+    .contactStatusRow {
+        gap: 0.25rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .contactChip {
+        padding: 0.15rem 0.45rem;
+        font-size: 0.55rem;
+    }
+
+    .contactCompassWrapper {
+        opacity: 0.05;
+        /* Fade more on small screens */
+    }
+
+    .contactFormArea {
+        margin-top: 0.25rem;
+    }
+}
+
+/* === SERVICE TABLET FRAME === */
+.tabletWrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.tabletBezel {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: var(--creative-text-secondary);
+    border-radius: clamp(16px, 3vw, 24px);
+    padding: clamp(8px, 1.5vw, 12px);
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.1),
+        0 10px 20px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s ease;
+}
+
+:global([data-theme='dark']) .tabletBezel {
+    background: #2a2a2a;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.3),
+        0 10px 20px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+:global([data-theme='light']) .tabletBezel {
+    background: #e0e0e0;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.08),
+        0 10px 20px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.topBezel {
+    display: flex;
     justify-content: center;
-    color: var(--creative-accent);
+    align-items: center;
+    height: clamp(12px, 2vw, 18px);
+    width: 100%;
+    margin-bottom: clamp(4px, 0.8vw, 8px);
+}
+
+.camera {
+    width: clamp(6px, 1vw, 8px);
+    height: clamp(6px, 1vw, 8px);
+    background: #1a1a1a;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+:global([data-theme='light']) .camera {
+    background: #4a4a4a;
+}
+
+.screenArea {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    background: var(--creative-bg-primary);
+    border-radius: clamp(8px, 1.5vw, 12px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.illustrationContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    /* Removed padding to fill screen */
+}
+
+/* Ensure SVG fills space */
+.illustrationContent svg {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+}
+
+/* Smooth fade for illustration swap */
+.illustrationFadeWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.bottomBezel {
+    display: none;
 }
