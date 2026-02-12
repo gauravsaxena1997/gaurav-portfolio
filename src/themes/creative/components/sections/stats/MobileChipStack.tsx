@@ -12,10 +12,14 @@ import styles from './MobileChipStack.module.css';
  */
 
 export function MobileChipStack() {
+    // Sort chips by length (shortest to longest) to create a pyramid stack
+    // Shortest at top, Longest at bottom
+    const sortedChips = [...CHIP_LABELS].sort((a, b) => a.length - b.length);
+
     return (
         <div className={styles.container}>
             <div className={styles.stack}>
-                {CHIP_LABELS.map((label, index) => (
+                {sortedChips.map((label, index) => (
                     <div
                         key={label}
                         className={`${styles.chip} ${index % 2 === 0 ? styles.gold : styles.secondary}`}
