@@ -135,6 +135,12 @@ export default function RootLayout({
         <WebSiteSchema />
       </head>
       <body className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} font-sans`}>
+        <a
+          href="#main-content"
+          className="fixed top-0 left-0 z-[9999] -translate-y-full bg-[#007acc] px-4 py-2 text-white text-sm font-semibold transition-transform duration-200 focus:translate-y-0"
+        >
+          Skip to main content
+        </a>
         <ThemeProvider>{children}</ThemeProvider>
         <GoogleAnalytics gaId="G-ZVFENY0XPB" />
       </body>

@@ -5,8 +5,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+  reactStrictMode: true,
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);

@@ -161,121 +161,104 @@ module.exports = nextConfig
 }
 ```
 
-### Styling: Tailwind CSS
+### Styling: CSS Modules + Tailwind CSS (Hybrid)
 
-**Why Tailwind:**
-- ✅ Utility-first approach = rapid development
-- ✅ Consistent design system (spacing, colors, typography)
-- ✅ Purges unused CSS = small bundle sizes
-- ✅ Responsive design built-in
-- ✅ Dark mode support
-- ✅ Great with component-based architecture
+**Architecture Decision:** This portfolio uses a hybrid approach — **CSS Modules** for component-scoped styles and **Tailwind CSS v4** for utility classes and global design tokens.
 
-**Tailwind Configuration:**
-```javascript
-// tailwind.config.js baseline
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {
-      colors: {
-        // Define project-specific color palette here
-      },
-      fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'monospace'],
-      },
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.5s ease-out',
-        'scale-in': 'scaleIn 0.3s ease-out',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        scaleIn: {
-          '0%': { transform: 'scale(0.9)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
-        },
-      },
-    },
-  },
-  plugins: [],
+**Why CSS Modules + Tailwind:**
+- ✅ CSS Modules provide strong scoping — no class name collisions in a large component tree
+- ✅ Complex animations and keyframes are cleaner in dedicated CSS files
+- ✅ Tailwind v4 handles global tokens (fonts, spacing) via `@theme` in `globals.css`
+- ✅ Tailwind utility classes used in layout and simple components
+- ✅ Each component owns its styles — easy to find and maintain
+
+**Tailwind v4 Setup:**
+```css
+/* globals.css */
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-sora), system-ui, sans-serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
 }
 ```
 
-### Animation Libraries (Decision Matrix)
+**CSS Module Pattern:**
+```tsx
+// Component.tsx
+import styles from './Component.module.css';
 
-**Choose based on project requirements:**
-
-| Library | Use When | Pros | Cons | Bundle Size |
-|---------|----------|------|------|-------------|
-| **Framer Motion** | React components, layout animations, gestures | Declarative API, great for React, layout animations | React-only, larger bundle | ~50-60KB |
-| **GSAP** | Complex timelines, scroll-triggered, precise control | Most powerful, cross-browser, performance | Imperative, steeper learning curve, paid plugins | ~50KB (core) |
-| **Lenis** | Smooth scrolling foundation | Smooth scroll feel, lightweight, modern | Only handles scroll, needs pairing | ~8KB |
-| **Three.js** | 3D graphics, WebGL effects | Industry standard for 3D, powerful | Large bundle, complexity | ~150KB+ |
-| **Lottie** | Illustrative animations from After Effects | Designer-friendly, small file sizes | Limited interactivity | ~30KB |
-
-**Recommended Combinations:**
-
-**For SaaS/Corporate Landing Pages:**
-```
-Framer Motion (UI transitions) + Lenis (smooth scroll)
-Rationale: Clean, professional, React-friendly
+export const Component = () => (
+  <div className={styles.container}>
+    <h2 className={styles.title}>Title</h2>
+  </div>
+);
 ```
 
-**For Creative/Interactive Showcases:**
-```
-GSAP (complex animations) + Lenis (smooth scroll) + Three.js (3D elements)
-Rationale: Maximum creative control and impact
-```
+### Animation Libraries
 
-**For E-commerce Product Pages:**
-```
-Framer Motion (product interactions) + Three.js (3D product viewer)
-Rationale: Interactive product experience
-```
+**This Portfolio's Stack:**
 
-**For High-Performance/Mobile-First:**
-```
-CSS animations + Framer Motion (minimal use) + Lottie (illustrations)
-Rationale: Smallest bundle, best performance
-```
+| Library | Role | Bundle Size |
+|---------|------|-------------|
+| **GSAP + @gsap/react** | All animations — scroll-triggered, timelines, entrance effects | ~50KB (core) |
+| **Three.js + React Three Fiber** | 3D graphics, WebGL effects, interactive illustrations | ~150KB+ |
+| **CSS Animations** | Simple hover effects, loading states, reduced-motion fallbacks | 0KB |
+
+**Why GSAP-Only (No Framer Motion):**
+- ✅ Single animation system = simpler mental model and no library conflicts
+- ✅ GSAP handles everything from simple fades to complex scroll timelines
+- ✅ Already bundled for ScrollTrigger — adding Framer Motion would be ~50-60KB redundant weight
+- ✅ Better performance for heavy 3D + animation workloads
+
+**Why No Lenis:**
+- ✅ Native scroll with `overscroll-behavior: none` provides clean scrolling
+- ✅ Avoids potential conflicts with Three.js canvas events and GSAP ScrollTrigger
+- ✅ Better mobile performance without scroll hijacking
+
+**For Other Project Types (Reference):**
+
+| Project Type | Recommended Stack |
+|---|---|
+| SaaS Landing Pages | Framer Motion + CSS animations |
+| Creative Showcases (like this portfolio) | GSAP + Three.js + CSS |
+| E-commerce Product Pages | Framer Motion + Three.js |
+| Mobile-First / Performance-Critical | CSS animations only |
 
 ### Font Loading
 
-**Strategy:** Local fonts with next/font for optimal performance
+**Strategy:** Google Fonts via `next/font/google` (self-hosted by Next.js)
 
 ```typescript
 // app/layout.tsx
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
+import { Sora, Manrope, JetBrains_Mono } from 'next/font/google';
+
+const sora = Sora({ variable: '--font-sora', subsets: ['latin'], display: 'swap' });
+const manrope = Manrope({ variable: '--font-manrope', subsets: ['latin'], display: 'swap' });
+const jetbrainsMono = JetBrains_Mono({ variable: '--font-jetbrains', subsets: ['latin'], display: 'swap' });
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <body>{children}</body>
+    <html lang="en">
+      <body className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} font-sans`}>
+        {children}
+      </body>
     </html>
   )
 }
 ```
 
-**Why local fonts:**
-- ✅ No external requests (faster)
-- ✅ No FOUT/FOIT (flash of unstyled/invisible text)
-- ✅ Privacy-friendly (no Google Fonts tracking)
-- ✅ Works offline
+**Font Roles:**
+- **Sora** (`--font-sora`): Display/heading font — bold, distinctive personality
+- **Manrope** (`--font-manrope`): Body/UI font — readable, clean
+- **JetBrains Mono** (`--font-jetbrains`): Code/technical content
+
+**Why `next/font/google`:**
+- ✅ Self-hosted by Next.js (no external requests at runtime)
+- ✅ No FOUT/FOIT (display: 'swap' + font subsetting)
+- ✅ Privacy-friendly (fonts served from your domain)
+- ✅ Automatic optimization and caching
 
 ---
 
@@ -285,29 +268,45 @@ export default function RootLayout({ children }) {
 
 ```
 project-root/
-├── public/
-│   ├── images/           # Static images
-│   ├── videos/           # Static videos
-│   └── favicon.ico
+├── public/                  # Static assets (images, videos, favicons)
 ├── src/
-│   ├── app/              # Next.js App Router
-│   │   ├── layout.tsx    # Root layout
-│   │   ├── page.tsx      # Homepage
-│   │   └── globals.css   # Global styles
-│   ├── components/
-│   │   ├── ui/           # Reusable UI components
-│   │   ├── sections/     # Page sections (Hero, Features, etc.)
-│   │   └── animations/   # Animation wrappers
-│   ├── lib/
-│   │   ├── utils.ts      # Utility functions
-│   │   └── constants.ts  # Constants
-│   ├── hooks/            # Custom React hooks
-│   └── types/            # TypeScript types
-├── .env.local            # Environment variables (gitignored)
-├── .eslintrc.json        # ESLint config
-├── .prettierrc           # Prettier config
-├── next.config.js
-├── tailwind.config.js
+│   ├── app/                 # Next.js App Router
+│   │   ├── layout.tsx       # Root layout (fonts, SEO, skip-nav)
+│   │   ├── page.tsx         # Homepage (device detection → mobile/desktop)
+│   │   ├── not-found.tsx    # Branded 404 page
+│   │   ├── globals.css      # Tailwind v4 + global resets
+│   │   ├── robots.ts        # Robots.txt (allows AI bots)
+│   │   ├── sitemap.ts       # Dynamic XML sitemap
+│   │   ├── api/             # API routes (OG image, contact form)
+│   │   └── blog/            # Blog pages
+│   ├── components/          # Shared components (cross-theme)
+│   │   ├── seo/             # Schema.org structured data
+│   │   ├── shared/          # Modal, VideoPlayer, ImageViewer
+│   │   ├── blog/            # Blog components
+│   │   └── demos/           # Demo/showcase components
+│   ├── themes/              # Theme-based architecture
+│   │   ├── creative/        # Primary creative theme
+│   │   │   ├── components/  # Theme-specific components
+│   │   │   │   ├── sections/  # Hero, Projects, Stats, Services, Contact
+│   │   │   │   ├── layout/    # MobileLayout, MobileProjectCarousel
+│   │   │   │   ├── header/    # Scroll-aware Header
+│   │   │   │   ├── ui/        # GuideBar, Snackbar, Highlights
+│   │   │   │   ├── scroll/    # ProgressScrollbar, ScrollOrchestrator
+│   │   │   │   └── entrance/  # EntranceAnimation
+│   │   │   ├── hooks/       # Theme-specific hooks
+│   │   │   └── styles/      # Theme-level styles
+│   │   └── github/          # Alternative GitHub-style theme
+│   ├── config/              # Centralized configuration
+│   ├── data/                # Static data (projects, blog posts)
+│   ├── hooks/               # Shared custom hooks
+│   ├── lib/                 # Utilities and helpers
+│   ├── types/               # TypeScript type definitions
+│   └── utils/               # Utility functions
+├── docs/dev-guide/          # Development guidelines (this file)
+├── .env.local               # Environment variables (gitignored)
+├── .prettierrc              # Prettier config
+├── eslint.config.mjs        # ESLint flat config
+├── next.config.ts           # Next.js configuration
 ├── tsconfig.json
 └── package.json
 ```

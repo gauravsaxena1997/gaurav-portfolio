@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { CreativeTheme } from '@/themes/creative/CreativeTheme';
 import { LoadingScreen } from '@/themes/creative/components/shared/LoadingScreen';
@@ -17,20 +17,30 @@ export default function Home() {
   // Default to 'creative' as that's the main theme
   const [activeTheme, setActiveTheme] = useState<'creative' | 'github'>('creative');
 
-  useEffect(() => {
-    const checkDevice = () => {
-      // Check if viewport width is mobile (standard breakpoint < 768px)
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-    };
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Check on mount
+  const checkDevice = useCallback(() => {
+    // Check if viewport width is mobile (standard breakpoint < 768px)
+    const mobile = window.innerWidth < 768;
+    setIsMobile(mobile);
+  }, []);
+
+  useEffect(() => {
+    // Check on mount (immediate, no debounce)
     checkDevice();
 
-    // Listen for resize
-    window.addEventListener('resize', checkDevice);
-    return () => window.removeEventListener('resize', checkDevice);
-  }, []);
+    // Debounced resize handler to prevent layout thrashing
+    const handleResize = () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+      debounceTimer.current = setTimeout(checkDevice, 150);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
+  }, [checkDevice]);
 
   const handleThemeChange = (theme: 'creative' | 'github') => {
     setActiveTheme(theme);
@@ -43,7 +53,11 @@ export default function Home() {
 
   // Render Mobile Layout
   if (isMobile) {
-    return <MobileLayout />;
+    return (
+      <div id="main-content">
+        <MobileLayout />
+      </div>
+    );
   }
 
   // Render Desktop Layout (Default)
@@ -51,9 +65,11 @@ export default function Home() {
   // NOTE: This currently forces CreativeTheme. If GitHub theme support is needed in the future,
   // the switch logic from the original file should be restored here.
   return (
-    <CreativeTheme
-      currentTheme={activeTheme}
-      onThemeChange={handleThemeChange}
-    />
+    <div id="main-content">
+      <CreativeTheme
+        currentTheme={activeTheme}
+        onThemeChange={handleThemeChange}
+      />
+    </div>
   );
 }
