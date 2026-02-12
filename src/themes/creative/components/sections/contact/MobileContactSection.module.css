@@ -201,3 +201,27 @@
     font-weight: 600;
     font-family: var(--font-mono);
 }
+
+.floatingFAQ {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(var(--creative-bg-secondary-rgb), 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--creative-accent);
+    color: var(--creative-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.floatingFAQ:active {
+    transform: scale(0.95);
+}

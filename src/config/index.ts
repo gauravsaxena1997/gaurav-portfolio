@@ -3,6 +3,8 @@ export const CONTACT_INFO = {
     location: 'Remote / Jaipur, IN',
     availability: 'Open for Projects',
     schedulingUrl: 'https://calendly.com/gauravsaxena/30min',
+    github: 'https://github.com/gauravsaxena1997',
+    linkedin: 'https://linkedin.com/in/gauravsaxena1997',
     get mailto() {
         return `mailto:${this.email}`;
     }

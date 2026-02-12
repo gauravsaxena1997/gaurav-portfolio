@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState, useCallback, forwardRef, useRef, useEffect } from 'react';
+import { memo, useState, useCallback, forwardRef, useRef, useEffect, useImperativeHandle } from 'react';
 import { validate } from '@/lib/validation';
 import { contactFormSchema } from '@/lib/validation/schemas';
 import { AppError } from '@/lib/errors/AppError';
@@ -25,16 +25,21 @@ interface FormStatus {
   message?: string;
 }
 
+export interface ContactFormHandle {
+  focusName: () => void;
+}
+
 /**
  * Contact form with name, email, message fields
  * Includes a "Schedule a Call" button for direct booking
  */
 export const ContactForm = memo(
-  forwardRef<HTMLFormElement, ContactFormProps>(function ContactForm(
+  forwardRef<ContactFormHandle, ContactFormProps>(function ContactForm(
     { className, onRegisterInteractables },
     ref
   ) {
     const sendButtonRef = useRef<HTMLButtonElement>(null);
+    const nameInputRef = useRef<HTMLInputElement>(null);
 
     // Register interactive elements for character tracking
     useEffect(() => {
@@ -42,6 +47,16 @@ export const ContactForm = memo(
         onRegisterInteractables([sendButtonRef]);
       }
     }, [onRegisterInteractables]);
+
+    // Expose focus method to parent
+    useImperativeHandle(ref, () => ({
+      focusName: () => {
+        if (nameInputRef.current) {
+          nameInputRef.current.focus();
+        }
+      }
+    }), []);
+
     const [formState, setFormState] = useState<FormState>({
       name: '',
       email: '',
@@ -135,13 +150,14 @@ export const ContactForm = memo(
 
     return (
       <div className={`${styles.container} ${className || ''}`}>
-        <form ref={ref} className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.fieldGroup}>
             <label htmlFor="contact-name" className={styles.label}>
               Name
             </label>
             <input
               id="contact-name"
+              ref={nameInputRef}
               type="text"
               name="name"
               value={formState.name}
@@ -216,3 +232,4 @@ export const ContactForm = memo(
     );
   })
 );
+

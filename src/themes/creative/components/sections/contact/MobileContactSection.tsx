@@ -1,17 +1,23 @@
-'use client';
-
-import React, { useRef, useCallback } from 'react';
-import { MapPin, Mail, Clock, Calendar, Compass } from 'lucide-react';
+import React, { useRef, useCallback, useState } from 'react';
+import { MapPin, Mail, Clock, Calendar, Compass, Github, Linkedin, HelpCircle } from 'lucide-react';
 import styles from './MobileContactSection.module.css';
-import { AccentSeparator } from '@/themes/creative/components/ui';
-import { ContactForm } from './ContactForm';
+import { AccentSeparator, FAQModal } from '@/themes/creative/components/ui';
+import { ContactForm, type ContactFormHandle } from './ContactForm';
 import { CONTACT_INFO } from '@/config';
 
 export const MobileContactSection = () => {
-    const formRef = useRef<HTMLFormElement>(null);
+    const formRef = useRef<ContactFormHandle>(null);
+    const [isFAQOpen, setIsFAQOpen] = useState(false);
 
     const handleRegisterInteractables = useCallback((refs: React.RefObject<HTMLElement | null>[]) => {
         // No-op for mobile
+    }, []);
+
+    const handleContactClick = useCallback(() => {
+        setIsFAQOpen(false);
+        setTimeout(() => {
+            formRef.current?.focusName();
+        }, 100);
     }, []);
 
     return (
@@ -61,6 +67,21 @@ export const MobileContactSection = () => {
                 <Calendar size={16} />
                 <span>Schedule a Call</span>
             </button>
+
+            {/* Floating FAQ Button */}
+            <button
+                className={styles.floatingFAQ}
+                onClick={() => setIsFAQOpen(true)}
+                aria-label="Frequently Asked Questions"
+            >
+                <HelpCircle size={24} />
+            </button>
+
+            <FAQModal
+                isOpen={isFAQOpen}
+                onClose={() => setIsFAQOpen(false)}
+                onContactClick={handleContactClick}
+            />
         </div>
     );
 };
