@@ -3,17 +3,32 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import dynamic from 'next/dynamic';
 import styles from './MobileLayout.module.css';
 import { getProjectsForDisplay } from '@/themes/creative/components/sections/projects/config';
 import { Header } from '@/themes/creative/components/header/Header';
 import { HeroSection } from '@/themes/creative/components/sections/hero/HeroSection';
-import { MobileStatPanel } from '@/themes/creative/components/sections/stats/MobileStatPanel';
-import { MobileProjectCard } from '@/themes/creative/components/sections/projects/MobileProjectCard';
-import { MobileServicesSection } from '@/themes/creative/components/sections/services/MobileServicesSection';
-import { MobileContactSection } from '@/themes/creative/components/sections/contact/MobileContactSection';
 import { ScrollProvider } from '@/themes/creative/context/ScrollContext';
 import { useScrollProgress } from '@/themes/creative/hooks/useScrollProgress';
 import { ProgressScrollbar } from '@/themes/creative/components/scroll/ProgressScrollbar';
+
+// Dynamic imports for heavy below-fold sections
+const MobileStatPanel = dynamic(
+    () => import('@/themes/creative/components/sections/stats/MobileStatPanel').then(mod => mod.MobileStatPanel),
+    { ssr: false }
+);
+const MobileProjectCard = dynamic(
+    () => import('@/themes/creative/components/sections/projects/MobileProjectCard').then(mod => mod.MobileProjectCard),
+    { ssr: false }
+);
+const MobileServicesSection = dynamic(
+    () => import('@/themes/creative/components/sections/services/MobileServicesSection').then(mod => mod.MobileServicesSection),
+    { ssr: false }
+);
+const MobileContactSection = dynamic(
+    () => import('@/themes/creative/components/sections/contact/MobileContactSection').then(mod => mod.MobileContactSection),
+    { ssr: false }
+);
 
 import '../../styles/theme.css';
 import '../../styles/scrollbar.css';

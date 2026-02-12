@@ -8,10 +8,23 @@ import { useGSAP } from '@gsap/react';
 import { Briefcase, Cpu, Globe } from 'lucide-react';
 import { useScrollContext } from '../../context/ScrollContext';
 import { HeroSection } from '../sections/hero';
-import { ProjectSection } from '../sections/projects';
-import { ContactSection } from '../sections/contact';
-import { ServicesSection } from '../sections/services';
-import { StatPanel } from '../sections/stats';
+// Dynamic imports for heavy below-fold sections
+const ProjectSection = dynamic(
+  () => import('../sections/projects').then((mod) => mod.ProjectSection),
+  { ssr: false }
+);
+const ContactSection = dynamic(
+  () => import('../sections/contact').then((mod) => mod.ContactSection),
+  { ssr: false }
+);
+const ServicesSection = dynamic(
+  () => import('../sections/services').then((mod) => mod.ServicesSection),
+  { ssr: false }
+);
+const StatPanel = dynamic(
+  () => import('../sections/stats').then((mod) => mod.StatPanel),
+  { ssr: false }
+);
 import { ErrorBoundary } from '@/components/shared';
 import { LoadingSkeleton, SectionDivider } from '../ui';
 import styles from './ScrollOrchestrator.module.css';

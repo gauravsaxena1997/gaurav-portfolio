@@ -75,7 +75,7 @@ export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
                         </BackgroundDecor>
                     )}
                     <div className={styles.statTextContent}>
-                        <h3 className={styles.statTitle}>{stat?.title}</h3>
+                        <h2 className={styles.statTitle}>{stat?.title}</h2>
                         <AccentSeparator width="40%" />
                         <p className={styles.statDescription}>{stat?.description}</p>
                     </div>
