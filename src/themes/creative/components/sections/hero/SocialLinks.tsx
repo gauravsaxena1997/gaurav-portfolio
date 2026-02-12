@@ -2,6 +2,7 @@
 
 import { memo } from 'react';
 import { SOCIAL_LINKS } from '@/config';
+import { AnalyticsService } from '@/services/AnalyticsService';
 import styles from './HeroSection.module.css';
 
 // SVG Icons map
@@ -43,6 +44,7 @@ export const SocialLinks = memo(function SocialLinks({ className = '' }: SocialL
           className={styles.socialLink}
           target={link.name !== 'email' ? '_blank' : undefined}
           rel={link.name !== 'email' ? 'noopener noreferrer' : undefined}
+          onClick={() => AnalyticsService.trackSocialClick(link.name)}
         >
           {ICONS[link.name as keyof typeof ICONS]}
         </a>

@@ -8,6 +8,7 @@ import { BackgroundDecor } from '../../common/BackgroundDecor';
 import { Highlights, AccentSeparator, GuideBar } from '../../ui';
 import { UnifiedProjectViewer } from '@/components/shared/UnifiedProjectViewer';
 import { ProjectSchema } from '@/components/seo';
+import { AnalyticsService } from '@/services/AnalyticsService';
 import styles from './ProjectSection.module.css';
 
 /**
@@ -199,6 +200,7 @@ export const ProjectSection = memo(function ProjectSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.ctaButton}
+                        onClick={() => AnalyticsService.trackProjectInteraction('click_live_demo', project.title)}
                       >
                         View Live
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -243,6 +245,7 @@ export const ProjectSection = memo(function ProjectSection() {
                   setUnifiedTargetProject(index);
                   setUnifiedStartType('video');
                   setIsUnifiedOpen(true);
+                  AnalyticsService.trackProjectInteraction('view_project', project.title);
                 }}
               />
             </div>

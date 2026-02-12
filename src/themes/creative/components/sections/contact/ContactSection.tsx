@@ -1,6 +1,7 @@
 import { useRef, useCallback, useState } from 'react';
 import { MapPin, Mail, Clock, Compass, Calendar, Github, Linkedin, HelpCircle } from 'lucide-react';
 import { CONTACT_INFO } from '@/config';
+import { AnalyticsService } from '@/services/AnalyticsService';
 import { ContactForm, type ContactFormHandle } from './ContactForm';
 import { AccentSeparator, FAQModal } from '../../ui';
 import styles from './ContactSection.module.css';
@@ -85,7 +86,10 @@ export function ContactSection({ className }: ContactSectionProps) {
           <button
             type="button"
             className={styles.scheduleButton}
-            onClick={() => window.open(CONTACT_INFO.schedulingUrl, '_blank', 'noopener,noreferrer')}
+            onClick={() => {
+              AnalyticsService.trackCallScheduled();
+              window.open(CONTACT_INFO.schedulingUrl, '_blank', 'noopener,noreferrer');
+            }}
           >
             <Calendar size={20} />
             <span>Schedule a Call</span>

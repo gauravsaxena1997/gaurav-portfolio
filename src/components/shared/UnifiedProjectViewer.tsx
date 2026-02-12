@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { AnalyticsService } from '@/services/AnalyticsService';
 
 interface UnifiedProjectViewerProps {
     isOpen: boolean;
@@ -221,7 +222,9 @@ export function UnifiedProjectViewer({
                             target="_blank"
                             rel="noopener noreferrer"
                             style={styles.liveButton}
+                            style={styles.liveButton}
                             className="view-live-btn"
+                            onClick={() => title && AnalyticsService.trackProjectInteraction('click_live_demo', title)}
                         >
                             View Live
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: 6 }}>

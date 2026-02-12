@@ -6,6 +6,7 @@ import { contactFormSchema } from '@/lib/validation/schemas';
 import { AppError } from '@/lib/errors/AppError';
 import { errorHandler } from '@/lib/errors/ErrorHandler';
 import { GuideBar } from '../../ui/GuideBar';
+import { AnalyticsService } from '@/services/AnalyticsService';
 import styles from './ContactForm.module.css';
 
 interface ContactFormProps {
@@ -121,6 +122,7 @@ export const ContactForm = memo(
             type: 'success',
             message: "Thanks for reaching out! I've received your message and will get back to you shortly.",
           });
+          AnalyticsService.trackFormSubmission(true);
           setFormState({ name: '', email: '', message: '', subject: '' });
         } catch (err: unknown) {
           // Check for local Validation Error
