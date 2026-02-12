@@ -1,0 +1,331 @@
+/* Testimonials.module.css */
+
+/* Section Layout */
+.sectionContainer {
+    position: relative;
+    width: 100%;
+    height: var(--viewport-height);
+    /* Enforce viewport height */
+    overflow: hidden;
+    padding: 2rem 0;
+    /* Balanced padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--creative-bg-secondary);
+    /* Fix scroll alignment behind fixed header */
+    scroll-margin-top: var(--header-height);
+}
+
+.sectionHeader {
+    text-align: center;
+    padding: 0 1.5rem;
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--creative-text-primary);
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--creative-accent);
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+/* --- Card Styles (Glassmorphism) --- */
+.card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 2.5rem;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    /* Smart Height Logic */
+    min-height: 450px;
+    /* Ensure enough space for longer quotes */
+    height: auto;
+
+    justify-content: space-between;
+    /* Ensure content distribution */
+}
+
+/* Light Mode Overrides */
+[data-theme='light'] .card {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .title {
+    background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-theme='light'] .quoteText {
+    color: #4a4a4a;
+    font-weight: 400;
+}
+
+[data-theme='light'] .authorName {
+    color: #1a1a1a;
+}
+
+[data-theme='light'] .projectLink {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: var(--creative-accent);
+}
+
+[data-theme='light'] .projectLink:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Only apply hover scale on devices that support hover */
+@media (hover: hover) {
+    .card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 215, 0, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme='light'] .card:hover {
+        background: rgba(255, 255, 255, 0.8);
+        border-color: rgba(0, 0, 0, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Quote */
+.quoteContainer {
+    position: relative;
+    z-index: 2;
+}
+
+.quoteIcon {
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    font-size: 6rem;
+    line-height: 1;
+    font-family: serif;
+    color: var(--creative-accent);
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.quoteText {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--creative-text-secondary);
+    font-weight: 300;
+    margin-top: 1rem;
+    /* Safety for long quotes in fixed height */
+    display: block;
+    /* Remove line-clamp box */
+    overflow: visible;
+}
+
+/* Author Info */
+.authorMeta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: auto;
+    /* Push to bottom */
+}
+
+/* Avatar / Initials */
+.avatarWrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 215, 0, 0.2);
+    position: relative;
+}
+
+.initialsFallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    color: var(--creative-accent);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+/* Text Meta */
+.infoColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.authorName {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--creative-text-primary);
+}
+
+.designation {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--creative-accent);
+    opacity: 0.9;
+}
+
+.projectWrapper {
+    margin-left: auto;
+    /* Push to far right */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.2rem;
+}
+
+.workedOnLabel {
+    /* Hidden/Removed from DOM usually, but style kept if needed */
+    display: none;
+}
+
+.projectLink {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--creative-accent);
+    text-decoration: none;
+    transition: opacity 0.3s;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.projectLink:hover {
+    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* --- Desktop Marquee Specifics --- */
+.marqueeContainer {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marqueeTrack {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem 0;
+    animation: scroll 40s linear infinite;
+    width: max-content;
+}
+
+/* Pause on hover */
+.marqueeContainer:hover .marqueeTrack {
+    animation-play-state: paused;
+}
+
+.desktopCard {
+    width: 500px;
+    /* Fixed width for consistent marquee */
+    flex-shrink: 0;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+
+    /* Assumes track is duplicated once */
+}
+
+/* --- Mobile Specifics --- */
+.mobileContainer {
+    padding: 4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.mobileCard {
+    width: 100%;
+    /* Stack vertically on mobile, simpler than scroll */
+}
+
+/* Adjustments for Mobile */
+@media (max-width: 768px) {
+    .quoteText {
+        font-size: 1rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+        /* Revert height to auto for mobile since no line-clamp */
+        height: auto;
+        min-height: auto;
+    }
+
+    .authorMeta {
+        flex-wrap: wrap;
+        /* Force wrap */
+        align-items: flex-start;
+    }
+
+    .infoColumn {
+        flex: 1;
+        /* Take remaining space on row 1 */
+        margin-right: 0;
+    }
+
+    .projectWrapper {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 1rem;
+        align-items: flex-start;
+        /* Left align button */
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .desktopCard {
+        width: 85vw;
+        /* Allow horizontal scroll on tablet/mobile if reused */
+    }
+}

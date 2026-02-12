@@ -34,19 +34,7 @@ export function FAQModal({ isOpen, onClose, onContactClick }: FAQModalProps) {
 
     if (!mounted || !isOpen) return null;
 
-    // JSON-LD for SEO (embedded in modal, read by crawlers)
-    const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": FAQ_ITEMS.map(item => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": item.answer
-            }
-        }))
-    };
+    if (!mounted || !isOpen) return null;
 
     return createPortal(
         <div className={styles.overlay} onClick={onClose}>
@@ -57,10 +45,6 @@ export function FAQModal({ isOpen, onClose, onContactClick }: FAQModalProps) {
                 aria-modal="true"
                 aria-labelledby="faq-title"
             >
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-                />
 
                 <div className={styles.header}>
                     <h2 id="faq-title" className={styles.title}>Frequently Asked Questions</h2>

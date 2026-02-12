@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Sora, Manrope, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
 import { ThemeProvider } from '@/components/shared';
-import { PersonSchema, ServiceSchema, WebSiteSchema, BreadcrumbSchema } from '@/components/seo';
+import { PersonSchema, ServiceSchema, WebSiteSchema, BreadcrumbSchema, FAQSchema, TestimonialSchema } from '@/components/seo';
+import { AnalyticsService } from '@/services/AnalyticsService';
 import './globals.css';
 
 const sora = Sora({
@@ -136,6 +137,8 @@ export default function RootLayout({
         <ServiceSchema />
         <WebSiteSchema />
         <BreadcrumbSchema />
+        <FAQSchema />
+        <TestimonialSchema />
       </head>
       <body className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} font-sans`}>
         <a
@@ -146,21 +149,25 @@ export default function RootLayout({
           Skip to main content
         </a>
         <ThemeProvider>{children}</ThemeProvider>
-        {/* Defer Analytics to reduce initial blocking time */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-ZVFENY0XPB"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-ZVFENY0XPB', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
+        {/* Google Analytics - Production Only */}
+        {process.env.NODE_ENV === 'production' && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${AnalyticsService.GA_MEASUREMENT_ID}`}
+              strategy="lazyOnload"
+            />
+            <Script id="google-analytics" strategy="lazyOnload">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${AnalyticsService.GA_MEASUREMENT_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );

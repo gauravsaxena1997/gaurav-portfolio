@@ -1,0 +1,91 @@
+/* MobileTestimonials.module.css */
+
+.mobileSection {
+    position: sticky;
+    top: var(--header-height);
+    width: 100%;
+    /* Exact fit for remaining space */
+    height: calc(var(--mobile-safe-height, 100vh) - var(--header-height));
+    background: var(--creative-bg-secondary);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0;
+    /* Let flex children handle spacing */
+    z-index: 30;
+    overflow-y: hidden;
+    /* Main container fixed, internal scroll if needed */
+    padding: 0;
+}
+
+.header {
+    flex: 0 0 auto;
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    /* Reduced top/bottom padding */
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    /* Reduced gap */
+}
+
+/* ... title keep ... */
+
+/* Scroll Snap Carousel */
+.carouselContainer {
+    flex: 1 1 auto;
+    /* Fill remaining space */
+    width: 100%;
+    overflow-x: auto;
+    /* Create scroll container */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 3rem;
+    /* Increased padding to prevent clipping by next section */
+    /* Consolidate padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center cards vertically in the available space */
+
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.carouselContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.carouselTrack {
+    display: flex;
+    gap: 1rem;
+    padding: 0 1.5rem;
+    /* Horizontal padding ensures first card allows seeing edge */
+    width: max-content;
+    /* Ensure track expands */
+}
+
+.cardSnapWrapper {
+    scroll-snap-align: center;
+    width: 85vw;
+    /* Show part of next card */
+    max-width: 400px;
+    flex-shrink: 0;
+}
+
+/* Reusing generic card styles via prop, but ensure specific overrides here if needed */
+.mobileCard {
+    height: 100%;
+    /* Fill wrapper */
+    min-height: 300px;
+    /* Ensure visual weight */
+}
+
+.scrollHint {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--creative-text-secondary);
+    opacity: 0.6;
+    margin-top: -1rem;
+}

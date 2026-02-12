@@ -4,5 +4,7 @@ export * from './WebSiteSchema';
 export * from './BreadcrumbSchema';
 export * from './ProjectSchema';
 export * from './BlogPostingSchema';
+export * from './TestimonialSchema';
+export * from './FAQSchema';
 
 

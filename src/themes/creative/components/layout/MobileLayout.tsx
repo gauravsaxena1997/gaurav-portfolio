@@ -11,6 +11,7 @@ import { HeroSection } from '@/themes/creative/components/sections/hero/HeroSect
 import { ScrollProvider } from '@/themes/creative/context/ScrollContext';
 import { useScrollProgress } from '@/themes/creative/hooks/useScrollProgress';
 import { ProgressScrollbar } from '@/themes/creative/components/scroll/ProgressScrollbar';
+import { useCreativeTheme } from '@/themes/creative/hooks/useCreativeTheme';
 
 // Dynamic imports for heavy below-fold sections
 const MobileStatPanel = dynamic(
@@ -27,6 +28,11 @@ const MobileServicesSection = dynamic(
 );
 const MobileContactSection = dynamic(
     () => import('@/themes/creative/components/sections/contact/MobileContactSection').then(mod => mod.MobileContactSection),
+    { ssr: false }
+);
+
+const MobileTestimonialsSection = dynamic(
+    () => import('@/themes/creative/components/sections/testimonials/MobileTestimonialsSection').then(mod => mod.MobileTestimonialsSection),
     { ssr: false }
 );
 
@@ -93,26 +99,11 @@ export default function MobileLayout() {
 
     // Theme State for Header
     const [currentTheme, setCurrentTheme] = React.useState<'creative' | 'github'>('creative');
-    const [themeMode, setThemeMode] = React.useState<'dark' | 'light'>('dark');
+    const { theme, toggleTheme } = useCreativeTheme();
 
     const handleThemeChange = (theme: 'creative' | 'github') => {
         setCurrentTheme(theme);
     };
-
-    const handleModeToggle = () => {
-        const newMode = themeMode === 'dark' ? 'light' : 'dark';
-        setThemeMode(newMode);
-        if (typeof document !== 'undefined') {
-            document.documentElement.setAttribute('data-theme', newMode);
-        }
-    };
-
-    // Set initial theme
-    useLayoutEffect(() => {
-        if (typeof document !== 'undefined') {
-            document.documentElement.setAttribute('data-theme', themeMode);
-        }
-    }, [themeMode]);
 
     return (
         <ScrollProvider>
@@ -121,8 +112,8 @@ export default function MobileLayout() {
                 <Header
                     currentTheme={currentTheme}
                     onThemeChange={handleThemeChange}
-                    themeMode={themeMode}
-                    onModeToggle={handleModeToggle}
+                    themeMode={theme}
+                    onModeToggle={toggleTheme}
                 />
 
                 <TrackedSection
@@ -171,6 +162,16 @@ export default function MobileLayout() {
                 >
                     <div className={styles.sectionLabel}>What I Offer</div>
                     <MobileServicesSection zIndex={40} />
+                </TrackedSection>
+
+                <TrackedSection
+                    logicalId="testimonials"
+                    domId="testimonials-section"
+                    zIndex={45}
+                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
+                >
+                    <div className={styles.sectionLabel}>Client Stories</div>
+                    <MobileTestimonialsSection />
                 </TrackedSection>
 
                 <TrackedSection

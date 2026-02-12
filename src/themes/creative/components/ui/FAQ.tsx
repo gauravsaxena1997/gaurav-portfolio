@@ -10,29 +10,11 @@ export function FAQ() {
 
     const toggleFAQ = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
-    };
 
-    // Structured Data for SEO
-    const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": FAQ_ITEMS.map(item => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": item.answer
-            }
-        }))
     };
 
     return (
         <div className={styles.container}>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-            />
-
             <h3 className={styles.heading}>Common Questions</h3>
 
             <div className={styles.list}>
