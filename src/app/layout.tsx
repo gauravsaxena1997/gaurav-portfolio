@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Sora, Manrope, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
 import { ThemeProvider } from '@/components/shared';
-import { PersonSchema, ServiceSchema, WebSiteSchema, BreadcrumbSchema } from '@/components/seo';
+import { PersonSchema, ServiceSchema, WebSiteSchema, BreadcrumbSchema, FAQSchema, TestimonialSchema } from '@/components/seo';
 import { AnalyticsService } from '@/services/AnalyticsService';
 import './globals.css';
 
@@ -137,6 +137,8 @@ export default function RootLayout({
         <ServiceSchema />
         <WebSiteSchema />
         <BreadcrumbSchema />
+        <FAQSchema />
+        <TestimonialSchema />
       </head>
       <body className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} font-sans`}>
         <a
