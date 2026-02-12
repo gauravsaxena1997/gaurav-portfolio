@@ -2,6 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { BLOG_POSTS } from '@/data';
+import { BlogPostingSchema } from '@/components/seo';
 import styles from './page.module.css';
 
 interface BlogPostPageProps {
@@ -62,6 +63,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <article className={styles.container}>
+      <BlogPostingSchema post={post} />
       <Link href="/blog" className={styles.backLink}>
         <ArrowLeft size={16} />
         Back to Blog

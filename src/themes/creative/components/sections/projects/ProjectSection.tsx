@@ -6,7 +6,8 @@ import { InteractiveGallery } from './InteractiveGallery';
 import { ProjectCarousel } from './ProjectCarousel';
 import { BackgroundDecor } from '../../common/BackgroundDecor';
 import { Highlights, AccentSeparator, GuideBar } from '../../ui';
-import { UnifiedProjectViewer } from '@/components/shared/UnifiedProjectViewer'; // New Import
+import { UnifiedProjectViewer } from '@/components/shared/UnifiedProjectViewer';
+import { ProjectSchema } from '@/components/seo';
 import styles from './ProjectSection.module.css';
 
 /**
@@ -160,6 +161,7 @@ export const ProjectSection = memo(function ProjectSection() {
     <div ref={containerRef} className={styles.projectsContainer}>
       {projects.map((project, index) => (
         <div key={project.id} className={styles.projectSlide}>
+          <ProjectSchema project={project} />
           {/* Left Column - Becomes Sticky */}
           <div className={styles.leftColumn}>
             <div className={styles.stickyContent}>
