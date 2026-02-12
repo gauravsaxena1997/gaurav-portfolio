@@ -13,6 +13,8 @@
     flex-direction: column;
     justify-content: center;
     background: var(--creative-bg-secondary);
+    /* Fix scroll alignment behind fixed header */
+    scroll-margin-top: var(--header-height);
 }
 
 .sectionHeader {

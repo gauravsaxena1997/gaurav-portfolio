@@ -12,6 +12,13 @@
   /* Default behaviors for sections */
 }
 
+/* Generic class for sections that need scroll alignment */
+.scrollSection {
+  scroll-margin-top: var(--header-height);
+  position: relative;
+}
+
+
 .desktopStats {
   display: flex;
   flex-direction: column;
@@ -102,6 +109,8 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
+  /* Fix scroll alignment behind fixed header */
+  scroll-margin-top: var(--header-height);
 }
 
 /* ===== OTHER PROJECTS & CTA ===== */

@@ -81,7 +81,7 @@ export function ServicesSection() {
     };
 
     return (
-        <section id="services-section" className={styles.servicesSection}>
+        <section className={styles.servicesSection}>
             <div className={styles.contentWrapper}>
                 {/* Left Column: Sticky Laptop Animation */}
                 <div className={styles.leftColumn}>

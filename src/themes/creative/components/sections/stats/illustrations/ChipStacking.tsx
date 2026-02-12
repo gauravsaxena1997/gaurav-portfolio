@@ -230,9 +230,9 @@ export function ChipStacking({
 
         element.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${angle}rad)`;
 
-        // Update z-index based on y position
+        // Update z-index based on y position (local stacking context)
         if (!element.classList.contains(styles.dragging)) {
-          element.style.zIndex = String(Math.floor(1000 + body.position.y));
+          element.style.zIndex = String(Math.floor(10 + body.position.y));
         }
       }
     });
@@ -342,7 +342,7 @@ export function ChipStacking({
       const element = document.getElementById(`chip-${body.label}`);
 
       if (element) {
-        element.style.zIndex = '9999';
+        element.style.zIndex = '50';
         element.classList.add(styles.dragging);
       }
 
@@ -359,7 +359,7 @@ export function ChipStacking({
       const element = document.getElementById(`chip-${body.label}`);
 
       if (element) {
-        element.style.zIndex = String(Math.floor(1000 + body.position.y));
+        element.style.zIndex = String(Math.floor(10 + body.position.y));
         element.classList.remove(styles.dragging);
       }
     });

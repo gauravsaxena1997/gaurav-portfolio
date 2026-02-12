@@ -147,8 +147,60 @@ export function HeroSection() {
   const { activeSection } = useScrollContext();
   const { isTouchDevice, prefersReducedMotion } = useDeviceCapabilities();
 
-  // Container dimensions for lamp position calculation
-  const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
+  // Lamp position state - default to approximate centers before measurement
+  const [lighthouseOrigin, setLighthouseOrigin] = useState({ x: 0.92, y: 0.65 });
+
+  // Ref for the lighthouse element to measure its actual position
+  const lighthouseRef = useRef<HTMLDivElement>(null);
+
+  // Update lamp position based on actual DOM layout
+  const updateLampPosition = useCallback(() => {
+    if (!containerRef.current || !lighthouseRef.current) return;
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const lighthouseRect = lighthouseRef.current.getBoundingClientRect();
+
+    if (containerRect.width === 0 || containerRect.height === 0) return;
+
+    // Calculate lighthouse position relative to container
+    const lighthouseLeft = lighthouseRect.left - containerRect.left;
+    const lighthouseTop = lighthouseRect.top - containerRect.top;
+
+    // SVG lamp position logic:
+    // Lamp X is centered in the SVG width (70/140 = 0.5)
+    // Lamp Y is at ~29% of SVG height (67/230 = 0.2913)
+    const lampX = lighthouseLeft + (lighthouseRect.width * 0.5);
+    const lampY = lighthouseTop + (lighthouseRect.height * SVG_LAMP_Y_RATIO);
+
+    setLighthouseOrigin({
+      x: lampX / containerRect.width,
+      y: lampY / containerRect.height,
+    });
+  }, []);
+
+  // Track layout changes
+  useEffect(() => {
+    // Initial measurement
+    updateLampPosition();
+
+    // Resize observer for container
+    if (!containerRef.current) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      // Small delay to ensure layout has settled
+      requestAnimationFrame(updateLampPosition);
+    });
+
+    resizeObserver.observe(containerRef.current);
+
+    // Also window resize as backup (handles layout shifts not captured by container resize)
+    window.addEventListener('resize', updateLampPosition);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateLampPosition);
+    };
+  }, [updateLampPosition]);
 
   // Spotlight toggle state - disabled initially, enabled after entrance animation
   const [isSpotlightEnabled, setIsSpotlightEnabled] = useState(false);
@@ -233,41 +285,6 @@ export function HeroSection() {
     };
   }, []); // Run once on mount
 
-
-  // Track container dimensions with ResizeObserver
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const updateDimensions = () => {
-      setContainerDimensions({
-        width: container.offsetWidth,
-        height: container.offsetHeight,
-      });
-    };
-
-    // Initial measurement
-    updateDimensions();
-
-    const resizeObserver = new ResizeObserver(updateDimensions);
-    resizeObserver.observe(container);
-
-    return () => resizeObserver.disconnect();
-  }, []);
-
-  // Calculate lamp position dynamically
-  const lighthouseOrigin = useMemo(() => {
-    if (containerDimensions.width === 0 || containerDimensions.height === 0) {
-      // Fallback to approximate positions before measurement
-      return isTouchDevice ? { x: 0.5, y: 0.7 } : { x: 0.92, y: 0.65 };
-    }
-    return calculateLampPosition(
-      containerDimensions.width,
-      containerDimensions.height,
-      isTouchDevice
-    );
-  }, [containerDimensions.width, containerDimensions.height, isTouchDevice]);
-
   // Keyboard handler for 'L' key toggle
   const handleToggle = useCallback(() => {
     setIsSpotlightEnabled(prev => !prev);
@@ -323,6 +340,7 @@ export function HeroSection() {
       <div className={styles.nonBlendingLayer}>
         {/* Lighthouse - inside non-blending layer to prevent color inversion */}
         <div
+          ref={lighthouseRef}
           className={`
             ${styles.lighthouse}
             ${styles.lighthouseClickable}

@@ -92,13 +92,25 @@ export function ScrollOrchestrator() {
       ];
 
       sections.forEach(({ id, name }) => {
-        ScrollTrigger.create({
-          trigger: id,
-          start: 'top 50%',
-          end: 'bottom 50%',
-          onEnter: () => setActiveSection(name as any),
-          onEnterBack: () => setActiveSection(name as any),
-        });
+        // Special case for Contact: Only trigger when it's well into view
+        // to avoid stealing focus from Testimonials
+        if (name === 'contact') {
+          ScrollTrigger.create({
+            trigger: id,
+            start: 'top 80%', // Trigger only when top is near bottom of viewport
+            end: 'bottom bottom',
+            onEnter: () => setActiveSection(name as any),
+            onEnterBack: () => setActiveSection(name as any),
+          });
+        } else {
+          ScrollTrigger.create({
+            trigger: id,
+            start: 'top 60%', // Slightly relaxed from 50%
+            end: 'bottom 40%',
+            onEnter: () => setActiveSection(name as any),
+            onEnterBack: () => setActiveSection(name as any),
+          });
+        }
       });
     },
     { scope: containerRef }
@@ -163,23 +175,21 @@ export function ScrollOrchestrator() {
       </section>
 
       {/* ===== SECTION DIVIDER: Stats → Projects ===== */}
-      <SectionDivider title="SELECTED PROJECTS" />
-
       {/* ===== PROJECTS SECTION ===== */}
       <section id="projects-section" className={styles.projectsSection}>
+        <SectionDivider title="SELECTED PROJECTS" />
         <ProjectSection />
       </section>
 
       {/* ===== SECTION DIVIDER: Projects → Services ===== */}
-      <SectionDivider title="WHAT I OFFER" />
-
       {/* ===== SERVICES SECTION ===== */}
-      <section id="services-section">
+      <section id="services-section" className={styles.scrollSection}>
+        <SectionDivider title="WHAT I OFFER" />
         <ServicesSection />
       </section>
 
       {/* ===== TESTIMONIALS SECTION ===== */}
-      <section id="testimonials-section">
+      <section id="testimonials-section" className={styles.scrollSection}>
         <TestimonialsSection />
       </section>
 

@@ -1,9 +1,12 @@
 /* Main Section Wrapper */
+/* Main Section Wrapper */
 .servicesSection {
     position: relative;
     /* Auto height - grows with content */
     width: 100%;
     z-index: 10;
+    /* Fix scroll alignment behind fixed header */
+    scroll-margin-top: var(--header-height);
 }
 
 /* 2-Column Layout */

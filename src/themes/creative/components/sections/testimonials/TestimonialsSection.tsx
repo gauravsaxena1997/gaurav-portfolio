@@ -42,7 +42,7 @@ export function TestimonialsSection() {
     }, { scope: containerRef });
 
     return (
-        <section ref={containerRef} className={styles.sectionContainer} id="testimonials-section">
+        <section ref={containerRef} className={styles.sectionContainer}>
             <div className={styles.sectionHeader}>
                 <SectionDivider title="Client Stories" />
             </div>
