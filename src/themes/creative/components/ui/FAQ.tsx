@@ -2,26 +2,8 @@
 
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { FAQ_ITEMS } from '@/config/faq';
 import styles from './FAQ.module.css';
-
-const FAQ_ITEMS = [
-    {
-        question: "What services do you offer?",
-        answer: "I specialize in Full-Stack Web Development (React, Next.js, Node.js), High-Performance Interactive UIs (Creative Technology), and Scalable System Architecture. I help startups and businesses build products that are both technically robust and visually stunning."
-    },
-    {
-        question: "What is your typical process?",
-        answer: "My process is collaborative and transparent: Discovery & Strategy → Design & Prototyping → Agile Development → Testing & QA → Deployment & Handover. I focus on clear communication and delivering value at every stage."
-    },
-    {
-        question: "Do you work with agencies or startups?",
-        answer: "Yes, I work with both. I partner with digital agencies as a technical consultant/lead developer and help seed-stage startups build their MVPs and scale their engineering teams."
-    },
-    {
-        question: "What is your pricing model?",
-        answer: "I offer both project-based (fixed price) and retainer-based (monthly) engagement models depending on the project scope and long-term needs. Contact me to discuss a custom quote."
-    }
-];
 
 export function FAQ() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);

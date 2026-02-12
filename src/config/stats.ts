@@ -49,3 +49,17 @@ export const STATS_DATA: StatItem[] = [
         illustAlign: 'center'
     }
 ];
+
+/**
+ * Chip labels for the interactive chip stacking animation (Stat 1)
+ * Used by both desktop (ChipStacking.tsx) and mobile (MobileChipStack.tsx) components
+ */
+export const CHIP_LABELS = [
+    'PERFORMANCE OPTIMIZATION',
+    'PORTFOLIO WEBSITES',
+    'AI-POWERED APPLICATIONS',
+    'HIGH-CONVERSION LANDING PAGES',
+    'SEO / GEO / AIO READY',
+    'SCALABLE & SECURE',
+] as const;
+

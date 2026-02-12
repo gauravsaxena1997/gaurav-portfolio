@@ -6,10 +6,11 @@
   align-items: center;
   justify-content: center;
 
-  /* ✅ FIX: Use viewport-aware height accounting for 64px header */
-  min-height: auto;
-  padding-top: 0;
-
+  /* FLUSH CHECKERBOARD: No vertical padding at this level */
+  padding: 0;
+  /* min-height: 60vh; */
+  /* Reduced height per user feedback (was 85vh) */
+  /* Standardized tall premium feel per stat */
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
@@ -220,14 +221,16 @@
 }
 
 
-/* Split Layout for Illustration Column - Adjusted for clipped globe */
 .illustrationSplitContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  /* No fixed height 100% here - let the parent flex center it */
   justify-content: center;
-  /* Vertically center the whole block */
+  align-items: center;
+  padding: 2rem 0;
+  /* Internal safety padding */
+  box-sizing: border-box;
 }
 
 .illustrationSplitTop {
@@ -249,23 +252,20 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* Align to top instead of center */
   align-items: center;
   padding: 0 10%;
-  margin-top: var(--space-xl);
-  /* Explicit gap from globe */
+  margin-top: clamp(0.75rem, 1.5vh, 1rem);
+  /* RE-OPTIMIZED: Tighter gap between illustration and highlights */
 }
 
-/* Staggered Highlights in Bottom Section */
-/* Container for highlights in the 65/35 split */
+/* Highlights in illustration column */
 .relocatedHighlights {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
+  /* Tighter gap between highlight items */
   width: fit-content;
-  /* Tightly wrap content so it centers as a block */
   align-items: flex-start;
-  /* Ensure text inside aligns left relative to itself */
 }
 
 .highlightItem {

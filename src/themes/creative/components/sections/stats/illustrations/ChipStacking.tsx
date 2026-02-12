@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { RotateCcw } from 'lucide-react';
 import { measureChipWidth, getResponsiveWidth } from '@/utils/measureText';
+import { CHIP_LABELS } from '@/config/stats';
 import styles from './ChipStacking.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,21 +25,12 @@ interface ChipStackingProps {
   enableAnimations?: boolean;
 }
 
-const RAW_CHIPS = [
-  'MODERN WEB APPS',        // (Was Next.js 15)
-  'SCALABLE SYSTEMS',       // (Retained - Good Hybrid)
-  'INTERACTIVE 3D',         // (Was WebGL)
-  'INSTANT LOAD SPEED',     // (Was 99 Performance)
-  'AI ENGINEERING',         // (Retained - High Value)
-  'GLOBAL REMOTE',          // (Retained)
-  'SEO OPTIMIZED',          // (Added for Analyst signal)
-];
 
 const CHIP_HEIGHT = 58;
 
 export function ChipStacking({
   className,
-  // chips prop is now optional and we'll derive state from RAW_CHIPS by default
+  // chips prop is now optional and we'll derive state from CHIP_LABELS by default
   chips: userChips,
   enableAnimations = true,
 }: ChipStackingProps) {
@@ -62,7 +54,7 @@ export function ChipStacking({
   // Initialize and Sort Chips (Pyramid Logic)
   useEffect(() => {
     // 1. Measure all chips
-    const measured = RAW_CHIPS.map((text) => {
+    const measured = CHIP_LABELS.map((text) => {
       const baseWidth = measureChipWidth(text);
       const responsiveWidth = getResponsiveWidth(baseWidth);
       return {
@@ -429,7 +421,7 @@ export function ChipStacking({
       if (body && element) {
         // Position chips centered, stacked from bottom
         const centerX = containerWidth / 2;
-        const stackY = containerHeight - 30 - (chips.length - 1 - index) * (CHIP_HEIGHT + 8);
+        const stackY = containerHeight - 30 - index * (CHIP_HEIGHT + 8);
 
         // Animate to stacked position
         Matter.Body.setPosition(body, {

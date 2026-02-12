@@ -32,3 +32,8 @@ export const HERO_CONTENT = {
     tagline: 'Building immersive, high-performance web platforms that drive growth.',
     subtitle: 'Full Stack Architect specializing in scalable systems, 3D experiences, and AI-driven engineering.',
 };
+
+// Re-export FAQ data for convenience
+export { FAQ_ITEMS } from './faq';
+export type { FAQItem } from './faq';
+

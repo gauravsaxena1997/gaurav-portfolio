@@ -11,7 +11,7 @@ import { HeroSection } from '../sections/hero';
 import { ProjectSection } from '../sections/projects';
 import { ContactSection } from '../sections/contact';
 import { ServicesSection } from '../sections/services';
-import { StatPanel, ChipFallAnimation } from '../sections/stats';
+import { StatPanel } from '../sections/stats';
 import { ErrorBoundary } from '@/components/shared';
 import { LoadingSkeleton, SectionDivider } from '../ui';
 import styles from './ScrollOrchestrator.module.css';
@@ -81,10 +81,14 @@ export function ScrollOrchestrator() {
       });
 
       // Stat Panel Wipe Animation (Left-to-Right)
-      // Stat Panel Wipe Animation
+      // FIXED: Consistent behavior for all stats regardless of height
+      // Animation completes when bottom of stat is 10% from viewport bottom
       const statPanels = document.querySelectorAll('[data-stat-panel]');
       statPanels.forEach((panel) => {
         const litLayer = panel.querySelector('[data-lit-layer]') as HTMLElement;
+
+        if (!litLayer) return;
+
         // UNIFIED ANIMATION: All panels wipe Left-to-Right
         // Start: inset(0 100% 0 0) -> Hidden (Right edge at left side)
         // End: inset(0 0% 0 0) -> Revealed (Right edge at right side)
@@ -98,17 +102,18 @@ export function ScrollOrchestrator() {
           opacity: 1, // Ensure visible internally
         });
 
-        // Animation
+        // Clean scrubbed animation — works both forward and reverse
+        // Root cause of previous flicker was duplicate data-stat-panel attributes
+        // creating 2 ScrollTriggers per lit layer. Now fixed.
         gsap.to(litLayer, {
           clipPath: endClip,
           webkitClipPath: endClip,
           ease: 'none',
           scrollTrigger: {
             trigger: panel,
-            start: 'top 75%', // Start when panel enters viewport from bottom
-            end: 'center center', // Complete when panel is fully visible
-            scrub: 0.3,
-            toggleActions: 'play none none none', // Only play forward, never reverse
+            start: 'top bottom',
+            end: 'bottom 90%',
+            scrub: true,
           }
         });
       });
@@ -131,7 +136,7 @@ export function ScrollOrchestrator() {
         {/* DESKTOP LAYOUT (CSS Toggle) */}
         <div className={styles.desktopStats}>
           {/* Panel 1: Experience (50/50 Split, Bottom Aligned Chips) */}
-          <div className={styles.statRow} data-stat-panel>
+          <div className={styles.statRow}>
             <StatPanel
               title="6+ Years Building Digital Products"
               description="I've spent 5+ years at product companies and service agencies, shipping for B2B and B2C audiences. Now I bring that same rigor directly to your project. I bring tested frameworks that actually work."
@@ -148,7 +153,7 @@ export function ScrollOrchestrator() {
           </div>
 
           {/* Panel 2: AI-Supported Workflow (50/50 Split, Center Aligned Robot) */}
-          <div className={styles.statRow} data-stat-panel>
+          <div className={styles.statRow}>
             <StatPanel
               title="AI-Accelerated Development"
               description="Working without AI is like leaving half your toolkit at home. I leverage custom AI pipelines to automate testing and scaffolding. This means I spend my time solving your complex business problems, not writing boilerplate code."
@@ -170,7 +175,7 @@ export function ScrollOrchestrator() {
           </div>
 
           {/* Panel 3: Global Availability (50/50 Split, Center Aligned Globe) */}
-          <div className={styles.statRow} data-stat-panel>
+          <div className={styles.statRow}>
             <StatPanel
               title="Global Remote Architecture"
               description="Based in India, architecting for the world. My Async-First workflow eliminates timezone friction. I deliver self-contained updates that let your US/EU team wake up to progress, not blockers."
