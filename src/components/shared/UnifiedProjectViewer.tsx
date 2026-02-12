@@ -222,7 +222,7 @@ export function UnifiedProjectViewer({
                             target="_blank"
                             rel="noopener noreferrer"
                             style={styles.liveButton}
-                            style={styles.liveButton}
+
                             className="view-live-btn"
                             onClick={() => title && AnalyticsService.trackProjectInteraction('click_live_demo', title)}
                         >
@@ -362,7 +362,7 @@ export function UnifiedProjectViewer({
         }
 
         /* Mobile Header Logic */
-        .close-btn-mobile { display: none; }
+        .close-btn-mobile { display: none !important; }
         .mobile-controls { display: none; }
         .nav-btn-desktop { display: block; }
         .counter-desktop { display: block; }

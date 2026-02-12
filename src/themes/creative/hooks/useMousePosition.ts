@@ -65,6 +65,9 @@ export function useMousePosition({
     [lighthouseOrigin.x, lighthouseOrigin.y]
   );
 
+  // Store animate function in rely to avoid circular dependency during render
+  const animateRef = useRef<() => void>(null);
+
   // Animation loop
   const animate = useCallback(() => {
     // Apply smoothing
@@ -82,9 +85,16 @@ export function useMousePosition({
       isActive: isActive.current,
     });
 
-    // Continue loop
-    rafId.current = requestAnimationFrame(animate);
+    // Continue loop using ref
+    if (animateRef.current) {
+      rafId.current = requestAnimationFrame(animateRef.current);
+    }
   }, [smoothing, calculateBeamAngle, onUpdate]);
+
+  // Update ref whenever animate changes
+  useEffect(() => {
+    animateRef.current = animate;
+  }, [animate]);
 
   // Handle mouse move
   const handleMouseMove = useCallback(

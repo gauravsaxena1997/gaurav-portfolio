@@ -30,9 +30,7 @@ export const MobileContactSection = () => {
             {/* Title */}
             <h2 className={styles.contactTitle}>Get in Touch</h2>
             <AccentSeparator width="40%" />
-            <p className={styles.contactSubtitle}>
-                Have a project in mind? Let&apos;s build something great together.
-            </p>
+            {/* Subtitle removed for cleaner mobile look */}
 
             {/* Status Tags Row */}
             <div className={styles.contactStatusRow}>

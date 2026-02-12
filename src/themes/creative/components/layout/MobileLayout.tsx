@@ -30,6 +30,11 @@ const MobileContactSection = dynamic(
     { ssr: false }
 );
 
+const MobileTestimonialsSection = dynamic(
+    () => import('@/themes/creative/components/sections/testimonials/MobileTestimonialsSection').then(mod => mod.MobileTestimonialsSection),
+    { ssr: false }
+);
+
 import '../../styles/theme.css';
 import '../../styles/scrollbar.css';
 
@@ -171,6 +176,16 @@ export default function MobileLayout() {
                 >
                     <div className={styles.sectionLabel}>What I Offer</div>
                     <MobileServicesSection zIndex={40} />
+                </TrackedSection>
+
+                <TrackedSection
+                    logicalId="testimonials"
+                    domId="testimonials-section"
+                    zIndex={45}
+                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
+                >
+                    <div className={styles.sectionLabel}>Client Stories</div>
+                    <MobileTestimonialsSection />
                 </TrackedSection>
 
                 <TrackedSection

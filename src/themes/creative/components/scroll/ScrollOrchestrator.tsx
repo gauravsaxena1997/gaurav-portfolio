@@ -1,5 +1,7 @@
 'use client';
 
+import { useMediaQuery } from '@/hooks/use-media-query';
+
 import { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { gsap } from 'gsap';
@@ -22,6 +24,10 @@ const ServicesSection = dynamic(
 );
 const StatPanel = dynamic(
   () => import('../sections/stats').then((mod) => mod.StatPanel),
+  { ssr: false }
+);
+const TestimonialsSection = dynamic(
+  () => import('../sections/testimonials/TestimonialsSection').then((mod) => mod.TestimonialsSection),
   { ssr: false }
 );
 import { ErrorBoundary } from '@/components/shared';
@@ -62,6 +68,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function ScrollOrchestrator() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { setActiveSection, setTotalProgress } = useScrollContext();
+  const isDesktopStats = useMediaQuery('(min-width: 900px)');
 
 
   useGSAP(
@@ -80,14 +87,15 @@ export function ScrollOrchestrator() {
         { id: '#stats-section', name: 'stats' },
         { id: '#projects-section', name: 'projects' },
         { id: '#services-section', name: 'services' },
+        { id: '#testimonials-section', name: 'testimonials' },
         { id: '#contact-section', name: 'contact' },
       ];
 
       sections.forEach(({ id, name }) => {
         ScrollTrigger.create({
           trigger: id,
-          start: 'top 60%',
-          end: 'bottom 40%',
+          start: 'top 50%',
+          end: 'bottom 50%',
           onEnter: () => setActiveSection(name as any),
           onEnterBack: () => setActiveSection(name as any),
         });
@@ -106,52 +114,52 @@ export function ScrollOrchestrator() {
       {/* ===== STATS SECTION (Alternating Layout) ===== */}
       <section id="stats-section" className={styles.statsContainer}>
 
+        {/* DESKTOP LAYOUT (Only render if wide enough to prevent physics issues) */}
+        {isDesktopStats && (
+          <div className={styles.desktopStats}>
+            {STATS_DATA.map((stat, index) => {
+              const isLast = index === STATS_DATA.length - 1;
 
+              // Determine illustration based on index/ID
+              // Note: In a larger app, illustrations could be in the config mapping or a lookup object
+              let illustration = null;
+              if (index === 0) {
+                illustration = (
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Chip stacking unavailable</div>}>
+                    <ChipStacking />
+                  </ErrorBoundary>
+                );
+              } else if (index === 1) {
+                illustration = (
+                  <ErrorBoundary fallback={<div className="p-4 text-center">3D model unavailable</div>}>
+                    <AIBrainIllustration />
+                  </ErrorBoundary>
+                );
+              } else {
+                illustration = (
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Globe visualization unavailable</div>}>
+                    <GlobeVisualization />
+                  </ErrorBoundary>
+                );
+              }
 
-        {/* DESKTOP LAYOUT (CSS Toggle) */}
-        <div className={styles.desktopStats}>
-          {STATS_DATA.map((stat, index) => {
-            const isLast = index === STATS_DATA.length - 1;
-
-            // Determine illustration based on index/ID
-            // Note: In a larger app, illustrations could be in the config mapping or a lookup object
-            let illustration = null;
-            if (index === 0) {
-              illustration = (
-                <ErrorBoundary fallback={<div className="p-4 text-center">Chip stacking unavailable</div>}>
-                  <ChipStacking />
-                </ErrorBoundary>
+              return (
+                <div key={stat.id} className={styles.statRow}>
+                  <StatPanel
+                    title={stat.title}
+                    description={stat.description}
+                    highlights={stat.highlights}
+                    illustration={illustration}
+                    desktopLayout={stat.desktopLayout}
+                    highlightsLocation={index === 0 ? undefined : "text"} // Keep existing logic: ChipStack has bullets in illust, others in text
+                    illustAlign={stat.illustAlign}
+                    icon={stat.icon}
+                  />
+                </div>
               );
-            } else if (index === 1) {
-              illustration = (
-                <ErrorBoundary fallback={<div className="p-4 text-center">3D model unavailable</div>}>
-                  <AIBrainIllustration />
-                </ErrorBoundary>
-              );
-            } else {
-              illustration = (
-                <ErrorBoundary fallback={<div className="p-4 text-center">Globe visualization unavailable</div>}>
-                  <GlobeVisualization />
-                </ErrorBoundary>
-              );
-            }
-
-            return (
-              <div key={stat.id} className={styles.statRow}>
-                <StatPanel
-                  title={stat.title}
-                  description={stat.description}
-                  highlights={stat.highlights}
-                  illustration={illustration}
-                  desktopLayout={stat.desktopLayout}
-                  highlightsLocation={index === 0 ? undefined : "text"} // Keep existing logic: ChipStack has bullets in illust, others in text
-                  illustAlign={stat.illustAlign}
-                  icon={stat.icon}
-                />
-              </div>
-            );
-          })}
-        </div>
+            })}
+          </div>
+        )}
       </section>
 
       {/* ===== SECTION DIVIDER: Stats → Projects ===== */}
@@ -168,6 +176,11 @@ export function ScrollOrchestrator() {
       {/* ===== SERVICES SECTION ===== */}
       <section id="services-section">
         <ServicesSection />
+      </section>
+
+      {/* ===== TESTIMONIALS SECTION ===== */}
+      <section id="testimonials-section">
+        <TestimonialsSection />
       </section>
 
       {/* ===== CONTACT SECTION ===== */}

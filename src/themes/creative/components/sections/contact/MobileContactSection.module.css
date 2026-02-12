@@ -81,33 +81,42 @@
 
 .contactStatusRow {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
+    flex-direction: column;
+    /* Stack items vertically */
+    gap: 1.25rem;
+    /* Increased gap for breathing room */
     width: 100%;
-    margin-bottom: 1.5rem;
-    /* More spacing to prevent overlap */
+    margin-bottom: 2rem;
     flex-shrink: 0;
-    position: relative;
     position: relative;
     z-index: 1;
     justify-content: flex-start;
-    /* Changed from center */
-    /* Center chips */
+    align-items: flex-start;
+    /* Align contents to left */
+    padding-left: 0.5rem;
+    /* Slight indent */
 }
 
 .contactChip {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.35rem 0.75rem;
-    background: rgba(var(--creative-bg-secondary-rgb), 0.4);
-    border: 1px solid var(--creative-border-color);
-    border-radius: 100px;
-    font-size: var(--font-size-body-xs);
-    color: var(--creative-text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    gap: 0.75rem;
+    /* More internal spacing */
+    padding: 0;
+    /* Remove pill padding for cleaner text look, or keep it subtle */
+    background: transparent;
+    /* Remove background for cleaner list look */
+    border: none;
+    /* Remove border */
+    border-radius: 0;
+    font-size: var(--font-size-body-md);
+    /* Larger text */
+    color: var(--creative-text-primary);
+    /* Brighter text */
+    white-space: normal;
+    /* Allow wrap */
+    overflow: visible;
+    text-overflow: clip;
     max-width: 100%;
 }
 
@@ -197,15 +206,19 @@
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
-    padding: clamp(0.5rem, 1.5dvh, 0.75rem) 1rem;
-    margin-top: clamp(0.5rem, 1dvh, 0.75rem);
+    padding: 1rem;
+    /* Larger touch target */
+    margin-top: 1.5rem;
+    /* More separation from form */
     background: transparent;
     border: 1px solid var(--creative-accent);
-    border-radius: 8px;
+    border-radius: 12px;
     color: var(--creative-accent);
-    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    font-size: 1rem;
     font-weight: 600;
-    font-family: var(--font-mono);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .floatingFAQ {

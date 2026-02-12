@@ -24,10 +24,24 @@ export function Header({ currentTheme, onThemeChange, themeMode, onModeToggle }:
     setMounted(true);
   }, []);
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   const sections = [
     { id: 'hero', label: 'Home' },
     { id: 'projects', label: 'Projects' },
+
     { id: 'services', label: 'Services' },
+    { id: 'testimonials', label: 'Testimonials' },
     { id: 'contact', label: 'Contact' },
   ];
 
@@ -37,6 +51,7 @@ export function Header({ currentTheme, onThemeChange, themeMode, onModeToggle }:
       hero: 'hero-section',
       projects: 'projects-section',
       services: 'services-section',
+      testimonials: 'testimonials-section',
       contact: 'contact-section',
     };
 
