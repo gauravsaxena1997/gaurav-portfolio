@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { Briefcase, Cpu, Globe } from 'lucide-react';
 import { useScrollContext } from '../../context/ScrollContext';
 import { HeroSection } from '../sections/hero';
 // Dynamic imports for heavy below-fold sections
@@ -27,6 +26,7 @@ const StatPanel = dynamic(
 );
 import { ErrorBoundary } from '@/components/shared';
 import { LoadingSkeleton, SectionDivider } from '../ui';
+import { STATS_DATA } from '@/config/stats';
 import styles from './ScrollOrchestrator.module.css';
 
 // Lazy load heavy 3D/physics components
@@ -110,71 +110,47 @@ export function ScrollOrchestrator() {
 
         {/* DESKTOP LAYOUT (CSS Toggle) */}
         <div className={styles.desktopStats}>
-          {/* Panel 1: Experience (50/50 Split, Bottom Aligned Chips) */}
-          <div className={styles.statRow}>
-            <StatPanel
-              title="6+ Years Corporate Experience"
-              description="I bring professional-grade development standards to your project. I build systems that are secure, reliable, and designed to scale from day one."
-              highlights={[
-                'Enterprise-Grade Code',
-                'Scalable Systems',
-                'Reliable Delivery',
-              ]}
-              illustration={
+          {STATS_DATA.map((stat, index) => {
+            const isLast = index === STATS_DATA.length - 1;
+
+            // Determine illustration based on index/ID
+            // Note: In a larger app, illustrations could be in the config mapping or a lookup object
+            let illustration = null;
+            if (index === 0) {
+              illustration = (
                 <ErrorBoundary fallback={<div className="p-4 text-center">Chip stacking unavailable</div>}>
                   <ChipStacking />
                 </ErrorBoundary>
-              }
-              // Mobile props ignored by desktop wrapper
-              desktopLayout="text-left"
-              illustAlign="bottom"
-              icon={Briefcase}
-            />
-          </div>
-
-          {/* Panel 2: AI-Supported Workflow (50/50 Split, Center Aligned Robot) */}
-          <div className={styles.statRow}>
-            <StatPanel
-              title="AI-Driven Velocity"
-              description="I use custom AI pipelines to automate the boring stuff—ideation, testing, and boilerplate. You get your product to market 2x faster without sacrificing quality."
-              highlights={[
-                '50% Faster Delivery',
-                'Automated QA Testing',
-                'Rapid Prototyping',
-              ]}
-              illustration={
+              );
+            } else if (index === 1) {
+              illustration = (
                 <ErrorBoundary fallback={<div className="p-4 text-center">3D model unavailable</div>}>
                   <AIBrainIllustration />
                 </ErrorBoundary>
-              }
-              desktopLayout="text-right"
-              highlightsLocation="text"
-              illustAlign="center"
-              icon={Cpu}
-            />
-          </div>
-
-          {/* Panel 3: Global Availability (50/50 Split, Center Aligned Globe) */}
-          <div className={styles.statRow}>
-            <StatPanel
-              title="High-Conversion Experiences"
-              description="Visitors ignore boring sites. I build immersive, high-performance interfaces that capture attention instantly and convert casual visitors into loyal customers."
-              highlights={[
-                '3D Interactive Webs',
-                'Global Performance',
-                'Maximized Retention',
-              ]}
-              illustration={
+              );
+            } else {
+              illustration = (
                 <ErrorBoundary fallback={<div className="p-4 text-center">Globe visualization unavailable</div>}>
                   <GlobeVisualization />
                 </ErrorBoundary>
-              }
-              desktopLayout="text-left"
-              highlightsLocation="text"
-              illustAlign="center"
-              icon={Globe}
-            />
-          </div>
+              );
+            }
+
+            return (
+              <div key={stat.id} className={styles.statRow}>
+                <StatPanel
+                  title={stat.title}
+                  description={stat.description}
+                  highlights={stat.highlights}
+                  illustration={illustration}
+                  desktopLayout={stat.desktopLayout}
+                  highlightsLocation={index === 0 ? undefined : "text"} // Keep existing logic: ChipStack has bullets in illust, others in text
+                  illustAlign={stat.illustAlign}
+                  icon={stat.icon}
+                />
+              </div>
+            );
+          })}
         </div>
       </section>
 

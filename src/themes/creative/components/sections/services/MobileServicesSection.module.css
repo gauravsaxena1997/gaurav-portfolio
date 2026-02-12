@@ -5,30 +5,37 @@
     top: 0;
     z-index: 40;
     width: 100%;
-    height: 100dvh;
+    /* Use safe height from variable */
+    height: var(--mobile-safe-height, 100vh);
     padding-top: var(--header-height);
     background: var(--creative-bg-secondary);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* Better distribution */
     overflow: hidden;
 }
 
 .servicesTextArea {
     position: relative;
     width: 100%;
-    /* Occupy 60% of viewport minus header */
-    flex: 0 0 calc(60dvh - var(--header-height));
+    /* Flex 1 to take all available space */
+    flex: 1;
     min-height: 0;
     z-index: 2;
     overflow-y: auto;
-    scrollbar-width: none;
+    /* Re-enable scroll styling */
+    scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: 1rem;
 }
 
 .servicesTextArea::-webkit-scrollbar {
-    display: none;
+    width: 4px;
+}
+
+.servicesTextArea::-webkit-scrollbar-thumb {
+    background-color: var(--creative-border-color);
+    border-radius: 4px;
 }
 
 .serviceTextLayer {
@@ -39,10 +46,8 @@
     justify-content: flex-start;
     text-align: left;
     padding: 1rem 1.75rem;
-    /* Slightly more side padding */
     color: var(--creative-text-primary);
     overflow: visible;
-    /* NO CLIPPING */
 }
 
 .serviceTextLayer.activeService {
@@ -54,7 +59,6 @@
 .statTitle {
     font-family: var(--font-display);
     font-size: clamp(1.4rem, 5vw, 1.85rem);
-    /* Proactive font scaling */
     font-weight: 700;
     color: var(--creative-accent);
     line-height: 1.2;
@@ -68,7 +72,6 @@
     color: var(--creative-text-secondary);
     font-weight: 500;
     line-height: 1.5;
-    /* Slightly tighter for mobile */
     margin: 0.5rem 0 1rem 0;
 }
 
@@ -89,24 +92,21 @@
     padding: 0.2rem 0;
     width: 100%;
     white-space: normal;
-    /* Fix horizontal clipping */
     word-break: break-word;
     line-height: 1.4;
 }
 
 .servicesLaptopArea {
     width: 100%;
-    /* 
-     * STABLE HEIGHT: Occupies remaining 40% of viewport 
-     */
-    flex: 0 0 40dvh;
+    /* Clamped height: min 200px, preferred 35vh, max 350px */
+    height: clamp(200px, 35vh, 350px);
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
     position: relative;
-    padding: 0 1.5rem 2.5rem 1.5rem;
-    /* Sided spacing */
+    padding: 0 1.5rem calc(1rem + env(safe-area-inset-bottom)) 1.5rem;
     overflow: visible;
 }
 

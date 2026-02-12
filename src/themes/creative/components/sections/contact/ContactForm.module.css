@@ -14,7 +14,8 @@
   border: 1px solid var(--creative-border-color);
   border-radius: var(--radius-lg);
   padding: clamp(1.5rem, 3vw, 2.5rem);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  /* User requested flat look matching dark mode */
+  box-shadow: none;
 }
 
 .title {
@@ -63,7 +64,7 @@
   color: var(--creative-text-primary);
   /* Darker input background */
   /* Adaptive input background */
-  background: rgba(var(--creative-bg-primary-rgb), 0.3);
+  background: var(--creative-input-bg);
   border: 1px solid var(--creative-border-color);
   border-radius: var(--radius-md);
   transition: all var(--creative-transition-fast);

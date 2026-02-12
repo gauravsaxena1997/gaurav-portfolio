@@ -2,16 +2,20 @@
     position: sticky;
     top: 0;
     width: 100%;
-    height: 100dvh;
-    padding-top: calc(var(--header-height) + 1.5rem);
-    padding-bottom: 1.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    /* Use safe height */
+    height: var(--mobile-safe-height, 100vh);
+    /* Standardized padding */
+    padding-top: calc(var(--header-height) + var(--mobile-section-padding));
+    padding-bottom: var(--mobile-section-padding);
+    padding-left: var(--mobile-section-padding);
+    padding-right: var(--mobile-section-padding);
     z-index: 50;
     background: var(--creative-bg-secondary);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Changed from center */
     /* Center content horizontally */
     justify-content: flex-start;
     color: var(--creative-text-primary);
@@ -84,8 +88,10 @@
     /* More spacing to prevent overlap */
     flex-shrink: 0;
     position: relative;
+    position: relative;
     z-index: 1;
-    justify-content: center;
+    justify-content: flex-start;
+    /* Changed from center */
     /* Center chips */
 }
 
@@ -222,6 +228,75 @@
     transition: transform 0.2s ease;
 }
 
+
+
 .floatingFAQ:active {
     transform: scale(0.95);
+}
+
+/* Light Mode Card Fix - Cleaner look, remove shadow/heavy background */
+[data-theme="light"] .contactFormArea> :global(div) {
+    background: rgba(255, 255, 255, 0.5) !important;
+    box-shadow: none !important;
+    border: 1px solid var(--creative-border-color) !important;
+}
+
+/* Compact Layout for iPhone SE / Small Screens (< 700px height) */
+@media (max-height: 700px) {
+    .contactSection {
+        padding-top: calc(var(--header-height) + 0.5rem);
+        padding-bottom: 0.5rem;
+        justify-content: center;
+        /* Center vertically if possible */
+    }
+
+    .contactCompassWrapper {
+        display: none;
+        /* Hide decor to save visual noise */
+    }
+
+    .contactTitle {
+        font-size: 1.5rem;
+        margin-bottom: 0.1rem;
+    }
+
+    .contactSubtitle {
+        margin: 0.25rem 0 0.5rem 0;
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+
+    .contactStatusRow {
+        margin-bottom: 0.75rem;
+        gap: 0.25rem;
+    }
+
+    .contactChip {
+        padding: 0.2rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .contactFormArea {
+        margin-top: 0.25rem;
+    }
+
+    /* Tighter form spacing */
+    .contactFormArea> :global(div) {
+        padding: 0.75rem !important;
+    }
+
+    .contactFormArea :global(input),
+    .contactFormArea :global(textarea) {
+        padding: 0.4rem 0.5rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    .contactFormArea :global(textarea) {
+        min-height: 50px !important;
+    }
+
+    .contactScheduleButton {
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
 }
