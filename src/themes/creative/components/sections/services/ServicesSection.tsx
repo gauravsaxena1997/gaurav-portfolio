@@ -32,8 +32,10 @@ export function ServicesSection() {
     useEffect(() => {
         const observerOptions = {
             root: null,
-            rootMargin: '0px',
-            threshold: 0.1 // Trigger early to catch the stacking arrival
+            /* Only trigger when element is in the top 60% of screen, ignoring the bottom 40%
+               This delays the 'entry' event until the card has scrolled up significantly. */
+            rootMargin: '-10% 0px -40% 0px',
+            threshold: 0 // Trigger as soon as it crosses the restricted rootMargin
         };
 
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
