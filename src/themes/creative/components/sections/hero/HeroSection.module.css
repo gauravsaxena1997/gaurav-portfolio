@@ -533,12 +533,13 @@
     padding-bottom: calc(var(--hero-vertical-padding) * 1.1);
     max-width: 100%;
     display: flex;
-    /* Maintain flex for vertical centering logic if needed, but standard block might be safer for text */
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    min-height: 100%;
-    /* Avoid forcing overflow while still filling the panel */
+    min-height: 100vh;
+    /* Ensure full height */
+    min-height: var(--mobile-safe-height, 100vh);
+    /* Use safe height if available */
   }
 
   .greeting {
@@ -547,7 +548,6 @@
     margin-bottom: 0.5rem;
     letter-spacing: 0.02em;
     white-space: nowrap;
-    /* Ensure single line */
   }
 
   .tagline {
@@ -564,26 +564,26 @@
   }
 
   .heroName {
-    font-size: clamp(3rem, 13vw, 5.5rem) !important;
-    /* Force update */
-    line-height: 1.08;
+    /* Increased size to force split and be more prominent */
+    font-size: clamp(3.5rem, 15vw, 6rem) !important;
+    line-height: 0.9;
     margin-bottom: 1.1rem;
     max-width: 100%;
-    margin-left: -0.08em;
+    margin-left: -0.05em;
+    word-break: break-word;
+    /* Ensure it wraps if needed */
   }
 
   .heroTagline {
-    font-size: clamp(1.25rem, 6vw, 5rem) !important;
+    font-size: clamp(1.25rem, 6vw, 2rem) !important;
     font-weight: 700 !important;
     line-height: 1.35;
     max-width: 95%;
   }
 
+  /* HIDE "Light Sentence" (subtitle) on mobile as requested */
   .heroSubtitle {
-    font-size: var(--font-size-body-sm) !important;
-    font-weight: 500 !important;
-    max-width: 90%;
-    line-height: 1.6;
+    display: none !important;
   }
 
   .socialLinks {
@@ -595,24 +595,25 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 2rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
+    /* Reduced margin since subtitle is gone */
   }
 
   .heroCTA {
     width: auto;
-    /* Changed from 100% to auto for compact size */
-    padding: 0.6rem 1.75rem;
-    font-size: var(--font-size-body-sm);
+    padding: 0.8rem 2rem;
+    /* Larger touch target */
+    font-size: 1rem;
   }
 
   /* Lighthouse - anchored to bottom-right, visible on mobile */
-  /* MATCHING JS CHANGE: width clamp(120px, 40vw, 180px) */
   .lighthouseMobile {
     right: 0;
     transform: none;
-    bottom: -2px;
-    /* Slight tuck to blend with bottom edge */
-    width: clamp(120px, 40vw, 180px);
+    bottom: 0;
+    width: clamp(140px, 45vw, 220px);
+    /* Larger on mobile */
+    z-index: 10;
   }
 
   /* Staggered entrance animations */
@@ -628,9 +629,7 @@
     animation: fadeSlideLeft 0.7s ease-out 0.45s forwards;
   }
 
-  .heroSubtitle.animateIn {
-    animation: fadeSlideUp 0.6s ease-out 0.65s forwards;
-  }
+  /* Subtitle animation removed since element is hidden */
 
   .socialLinks.animateIn {
     animation: fadeSlideUp 0.5s ease-out 0.85s forwards;

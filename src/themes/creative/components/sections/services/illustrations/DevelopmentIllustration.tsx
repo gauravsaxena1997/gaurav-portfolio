@@ -1,46 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import styles from './DevelopmentIllustration.module.css';
 
-const CODE_LINES = [
-    { text: "function", color: "#C586C0", type: "keyword" },
-    { text: " createMagic", color: "#DCDCAA", type: "function" },
-    { text: "() {", color: "#D4D4D4", type: "syntax" },
-
-    { text: "  ", color: "#D4D4D4", type: "indent" },
-    { text: "const", color: "#569CD6", type: "keyword" },
-    { text: " idea ", color: "#9CDCFE", type: "variable" },
-    { text: "= transform();", color: "#D4D4D4", type: "syntax" },
-
-    { text: "  ", color: "#D4D4D4", type: "indent" },
-    { text: "const", color: "#569CD6", type: "keyword" },
-    { text: " code ", color: "#9CDCFE", type: "variable" },
-    { text: "= build(idea);", color: "#D4D4D4", type: "syntax" },
-
-    { text: "  ", color: "#D4D4D4", type: "indent" },
-    { text: "return", color: "#C586C0", type: "keyword" },
-    { text: " ", color: "#D4D4D4", type: "space" },
-    { text: "'Success'", color: "#CE9178", type: "string" },
-    { text: ";", color: "#D4D4D4", type: "syntax" },
-
-    { text: "}", color: "#D4D4D4", type: "syntax" },
-];
-
 export function DevelopmentIllustration() {
-    const [visibleTokens, setVisibleTokens] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setVisibleTokens((prev) => {
-                if (prev < CODE_LINES.length) return prev + 1;
-                return prev;
-            });
-        }, 100);
-
-        return () => clearInterval(interval);
-    }, []);
-
     return (
         <svg
             viewBox="0 0 334 216"
@@ -48,77 +10,64 @@ export function DevelopmentIllustration() {
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="xMidYMid meet"
         >
-            {/* Background */}
-            <rect width="334" height="216" fill="#0a0a0a" />
+            {/* Full Bleed Code Editor Background */}
+            <rect width="334" height="216" fill="#1e1e2e" />
 
-            {/* Code Editor */}
-            <g className={styles.codeEditor}>
-                <rect x="10" y="10" width="314" height="196" fill="#1e1e1e" rx="4" />
+            {/* Line Numbers Decoration */}
+            <rect x="0" y="0" width="40" height="216" fill="#181825" />
 
-                {/* Tab */}
-                <rect x="20" y="20" width="60" height="18" fill="#95E1D340" rx="3" />
-                <text x="50" y="32" className={styles.tabText} textAnchor="middle">App.tsx</text>
+            <g fill="#45475a" fontSize="10" fontFamily="monospace" textAnchor="end">
+                <text x="30" y="30">1</text>
+                <text x="30" y="50">2</text>
+                <text x="30" y="70">3</text>
+                <text x="30" y="90">4</text>
+                <text x="30" y="110">5</text>
+                <text x="30" y="130">6</text>
+                <text x="30" y="150">7</text>
+                <text x="30" y="170">8</text>
+                <text x="30" y="190">9</text>
+            </g>
 
-                {/* Line numbers */}
-                <rect x="10" y="45" width="28" height="161" fill="#ffffff05" />
-                <text x="24" y="70" className={styles.lineNumber} textAnchor="middle">1</text>
-                <text x="24" y="92" className={styles.lineNumber} textAnchor="middle">2</text>
-                <text x="24" y="114" className={styles.lineNumber} textAnchor="middle">3</text>
-                <text x="24" y="136" className={styles.lineNumber} textAnchor="middle">4</text>
-                <text x="24" y="158" className={styles.lineNumber} textAnchor="middle">5</text>
+            {/* Code Content - Syntax Highlighted Skeletons */}
+            <g transform="translate(50, 26)">
+                {/* Function Definition */}
+                <text x="0" y="0" fill="#cba6f7" fontSize="12" fontFamily="monospace" fontWeight="bold">function</text>
+                <text x="60" y="0" fill="#89b4fa" fontSize="12" fontFamily="monospace">EnterprisePortal()</text>
+                <text x="190" y="0" fill="#cdd6f4" fontSize="12" fontFamily="monospace">{`{`}</text>
 
-                {/* Code with proper syntax highlighting */}
-                <g className={styles.code}>
-                    {/* Line 1: function createMagic() { */}
-                    <text x="48" y="70" className={styles.codeLine}>
-                        {visibleTokens >= 1 && <tspan fill="#C586C0">function</tspan>}
-                        {visibleTokens >= 2 && <tspan fill="#DCDCAA"> createMagic</tspan>}
-                        {visibleTokens >= 3 && <tspan fill="#D4D4D4">{'() {'}</tspan>}
-                    </text>
+                {/* Variable 1 */}
+                <text x="20" y="25" fill="#f38ba8" fontSize="12" fontFamily="monospace">const</text>
+                <text x="60" y="25" fill="#f9e2af" fontSize="12" fontFamily="monospace">data</text>
+                <text x="95" y="25" fill="#cdd6f4" fontSize="12" fontFamily="monospace">=</text>
+                <text x="110" y="25" fill="#a6e3a1" fontSize="12" fontFamily="monospace">useSecureQuery();</text>
 
-                    {/* Line 2: const idea = transform(); */}
-                    <text x="48" y="92" className={styles.codeLine}>
-                        {visibleTokens >= 4 && <tspan fill="#D4D4D4">  </tspan>}
-                        {visibleTokens >= 5 && <tspan fill="#569CD6">const</tspan>}
-                        {visibleTokens >= 6 && <tspan fill="#9CDCFE"> idea </tspan>}
-                        {visibleTokens >= 7 && <tspan fill="#D4D4D4">= transform();</tspan>}
-                    </text>
+                {/* Variable 2 */}
+                <text x="20" y="50" fill="#f38ba8" fontSize="12" fontFamily="monospace">const</text>
+                <text x="60" y="50" fill="#f9e2af" fontSize="12" fontFamily="monospace">user</text>
+                <text x="95" y="50" fill="#cdd6f4" fontSize="12" fontFamily="monospace">=</text>
+                <text x="110" y="50" fill="#a6e3a1" fontSize="12" fontFamily="monospace">useAuth();</text>
 
-                    {/* Line 3: const code = build(idea); */}
-                    <text x="48" y="114" className={styles.codeLine}>
-                        {visibleTokens >= 8 && <tspan fill="#D4D4D4">  </tspan>}
-                        {visibleTokens >= 9 && <tspan fill="#569CD6">const</tspan>}
-                        {visibleTokens >= 10 && <tspan fill="#9CDCFE"> code </tspan>}
-                        {visibleTokens >= 11 && <tspan fill="#D4D4D4">= build(idea);</tspan>}
-                    </text>
+                {/* Return Statement */}
+                <text x="20" y="80" fill="#cba6f7" fontSize="12" fontFamily="monospace">return</text>
+                <text x="70" y="80" fill="#cdd6f4" fontSize="12" fontFamily="monospace">(</text>
 
-                    {/* Line 4: return 'Success'; */}
-                    <text x="48" y="136" className={styles.codeLine}>
-                        {visibleTokens >= 12 && <tspan fill="#D4D4D4">  </tspan>}
-                        {visibleTokens >= 13 && <tspan fill="#C586C0">return</tspan>}
-                        {visibleTokens >= 14 && <tspan fill="#D4D4D4"> </tspan>}
-                        {visibleTokens >= 15 && <tspan fill="#CE9178">'Success'</tspan>}
-                        {visibleTokens >= 16 && <tspan fill="#D4D4D4">;</tspan>}
-                    </text>
-
-                    {/* Line 5: } */}
-                    <text x="48" y="158" className={styles.codeLine}>
-                        {visibleTokens >= 17 && <tspan fill="#D4D4D4">{'}'}</tspan>}
-                    </text>
+                {/* JSX Structure */}
+                <g transform="translate(40, 100)">
+                    <text x="0" y="0" fill="#89b4fa" fontSize="12" fontFamily="monospace">{`<DashboardLayout>`}</text>
+                    <text x="20" y="20" fill="#89b4fa" fontSize="12" fontFamily="monospace">{`<AnalyticsChart`}</text>
+                    <text x="40" y="40" fill="#fab387" fontSize="12" fontFamily="monospace">data={'{'}data{'}'}</text>
+                    <text x="20" y="60" fill="#89b4fa" fontSize="12" fontFamily="monospace">{`/>`}</text>
+                    <text x="0" y="80" fill="#89b4fa" fontSize="12" fontFamily="monospace">{`</DashboardLayout>`}</text>
                 </g>
 
-                {/* Blinking cursor */}
-                {visibleTokens < CODE_LINES.length && (
-                    <rect
-                        x="48"
-                        y="58"
-                        width="2"
-                        height="14"
-                        fill="#95E1D3"
-                        className={styles.cursor}
-                    />
-                )}
+                <text x="20" y="190" fill="#cdd6f4" fontSize="12" fontFamily="monospace">);</text>
             </g>
+            <text x="50" y="210" fill="#cdd6f4" fontSize="12" fontFamily="monospace">{'}'}</text>
+
+            {/* Cursor Animation */}
+            <rect x="230" y="105" width="8" height="14" fill="#cdd6f4">
+                <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite" />
+            </rect>
         </svg>
     );
 }

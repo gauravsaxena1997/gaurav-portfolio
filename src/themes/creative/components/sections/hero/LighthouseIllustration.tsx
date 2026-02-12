@@ -33,10 +33,11 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
     roof: '#A89880',                   // Darker roof for contrast
     base: '#BFB09C',                   // Match lamp house
     window: '#4A4035',                 // Dark warm brown windows
-    // Land/cliff colors - keep theme-aware (work well)
-    cliffDark: 'var(--creative-text-primary)',
-    cliffMid: 'var(--creative-text-secondary)',
-    cliffLight: 'var(--creative-bg-secondary)',
+    // Land/cliff colors - Natural rock tones (neutral grays with slight warmth)
+    // Avoid using text-primary/secondary to prevent extreme contrast in light/dark modes
+    cliffDark: 'var(--creative-rock-dark)',   // #4a4a4a equivalent in theme
+    cliffMid: 'var(--creative-rock-mid)',     // #6b6b6b equivalent
+    cliffLight: 'var(--creative-rock-light)', // #8c8c8c equivalent
   };
 
   return (

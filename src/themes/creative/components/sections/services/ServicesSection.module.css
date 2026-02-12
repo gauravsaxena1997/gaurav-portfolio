@@ -102,6 +102,10 @@
     /* Default Dark Theme */
     /* Ensure stacking order preserves */
     /* z-index managed naturally via stacking context */
+
+    /* Discrete Top-Only Shadow for Stacking separation */
+    /* Negative spread (-5px) prevents it from bleeding to the sides */
+    box-shadow: 0 -10px 15px -5px rgba(0, 0, 0, 0.3);
 }
 
 /* Light Mode Overrides */

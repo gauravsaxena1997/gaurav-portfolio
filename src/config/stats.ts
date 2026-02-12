@@ -15,37 +15,55 @@ export interface StatItem {
 export const STATS_DATA: StatItem[] = [
     {
         id: 'experience',
-        title: '6+ Years Building Digital Products',
-        description: "I've spent 5+ years at product companies and service agencies, shipping for B2B and B2C audiences. Now I bring that same rigor directly to your project. I bring tested frameworks that actually work.",
+        title: '6+ Years Corporate Experience',
+        description: "I bring professional-grade development standards to your project. I build systems that are secure, reliable, and designed to scale from day one.",
         icon: Briefcase,
-        // Highlights shown in chip stacking animation, not as text
+        highlights: [
+            'Enterprise-Grade Code',
+            'Scalable Systems',
+            'Reliable Delivery',
+        ],
         desktopLayout: 'text-left',
         illustAlign: 'bottom'
     },
     {
         id: 'ai-workflow',
-        title: 'AI-Accelerated Development',
-        description: "Working without AI is like leaving half your toolkit at home. I leverage custom AI pipelines to automate testing and scaffolding. This means I spend my time solving your complex business problems, not writing boilerplate code.",
+        title: 'AI-Driven Velocity',
+        description: "I use custom AI pipelines to automate the boring stuff—ideation, testing, and boilerplate. You get your product to market 2x faster without sacrificing quality.",
         icon: Cpu,
         highlights: [
-            'Automated Testing Pipelines',
-            'Faster Feature Delivery',
-            'Enterprise-Grade Quality',
+            '50% Faster Delivery',
+            'Automated QA Testing',
+            'Rapid Prototyping',
         ],
         desktopLayout: 'text-right',
         illustAlign: 'center'
     },
     {
         id: 'global',
-        title: 'Global Remote Architecture',
-        description: "Based in India, architecting for the world. My Async-First workflow eliminates timezone friction. I deliver self-contained updates that let your US/EU team wake up to progress, not blockers.",
+        title: 'High-Conversion Experiences',
+        description: "Visitors ignore boring sites. I build immersive, high-performance interfaces that capture attention instantly and convert casual visitors into loyal customers.",
         icon: Globe,
         highlights: [
-            'Global Remote Experience',
-            'Async Communication-First',
-            'Zero-Blocker Handoffs',
+            '3D Interactive Webs',
+            'Global Performance',
+            'Maximized Retention',
         ],
         desktopLayout: 'text-left',
         illustAlign: 'center'
     }
 ];
+
+/**
+ * Chip labels for the interactive chip stacking animation (Stat 1)
+ * Used by both desktop (ChipStacking.tsx) and mobile (MobileChipStack.tsx) components
+ */
+export const CHIP_LABELS = [
+    'PERFORMANCE OPTIMIZATION',
+    'PORTFOLIO WEBSITES',
+    'AI-POWERED APPLICATIONS',
+    'HIGH-CONVERSION LANDING PAGES',
+    'SEO / GEO / AIO READY',
+    'SCALABLE & SECURE',
+] as const;
+

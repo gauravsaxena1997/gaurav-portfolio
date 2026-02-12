@@ -8,8 +8,9 @@ import { Highlights, AccentSeparator } from '../../ui';
 import styles from './ServicesSection.module.css';
 
 // Lazy load illustrations
-const MvpIllustration = dynamic(() => import('./illustrations/MvpIllustration').then(mod => ({ default: mod.MvpIllustration })), { ssr: false });
-const UiUxIllustration = dynamic(() => import('./illustrations/UiUxIllustration').then(mod => ({ default: mod.UiUxIllustration })), { ssr: false });
+// Lazy load illustrations
+const AiAppIllustration = dynamic(() => import('./illustrations/AiAppIllustration').then(mod => ({ default: mod.AiAppIllustration })), { ssr: false });
+const ImmersiveWebIllustration = dynamic(() => import('./illustrations/ImmersiveWebIllustration').then(mod => ({ default: mod.ImmersiveWebIllustration })), { ssr: false });
 const DevelopmentIllustration = dynamic(() => import('./illustrations/DevelopmentIllustration').then(mod => ({ default: mod.DevelopmentIllustration })), { ssr: false });
 const IntegrationsIllustration = dynamic(() => import('./illustrations/IntegrationsIllustration').then(mod => ({ default: mod.IntegrationsIllustration })), { ssr: false });
 const SeoIllustration = dynamic(() => import('./illustrations/SeoIllustration').then(mod => ({ default: mod.SeoIllustration })), { ssr: false });
@@ -31,8 +32,10 @@ export function ServicesSection() {
     useEffect(() => {
         const observerOptions = {
             root: null,
-            rootMargin: '0px',
-            threshold: 0.1 // Trigger early to catch the stacking arrival
+            /* Only trigger when element is in the top 60% of screen, ignoring the bottom 40%
+               This delays the 'entry' event until the card has scrolled up significantly. */
+            rootMargin: '-10% 0px -40% 0px',
+            threshold: 0 // Trigger as soon as it crosses the restricted rootMargin
         };
 
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -68,12 +71,12 @@ export function ServicesSection() {
     // Get current illustration
     const renderIllustration = () => {
         switch (activeServiceIndex) {
-            case 0: return <MvpIllustration />;
-            case 1: return <UiUxIllustration />;
+            case 0: return <AiAppIllustration />;
+            case 1: return <ImmersiveWebIllustration />;
             case 2: return <DevelopmentIllustration />;
             case 3: return <IntegrationsIllustration />;
             case 4: return <SeoIllustration />;
-            default: return <MvpIllustration />;
+            default: return <AiAppIllustration />;
         }
     };
 

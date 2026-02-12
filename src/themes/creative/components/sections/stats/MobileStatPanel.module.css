@@ -34,16 +34,10 @@
 }
 
 /* Grid Layouts */
-.grid4555 {
-    display: grid;
-    grid-template-rows: 4fr 6fr;
-    height: 100%;
-    width: 100%;
-}
-
-.grid502030 {
-    display: grid;
-    grid-template-rows: 5fr 2fr 3fr;
+/* Flex Layout - Replaces rigid Grids */
+.flexContainer {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
 }
@@ -55,8 +49,25 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding: 3rem 1.5rem 1.5rem 1.5rem;
-    overflow: hidden;
+    /* Flexible height logic */
+    flex: 0 0 auto;
+    max-height: 45%;
+    /* Ensure map/brain always has >50% space */
+    overflow-y: auto;
+    /* Enable scroll if text/highlights are too long */
+    padding: 3rem 1.5rem 1rem 1.5rem;
+    scrollbar-width: thin;
+    /* Firefox */
+}
+
+/* Hide scrollbar for cleaner look but allow functionality */
+.textZone::-webkit-scrollbar {
+    width: 4px;
+}
+
+.textZone::-webkit-scrollbar-thumb {
+    background-color: var(--creative-border-color);
+    border-radius: 4px;
 }
 
 .statTextContent {
@@ -97,7 +108,23 @@
     padding: 0 1rem 1.5rem 1rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    /* Changed from center */
+    flex: 0 0 auto;
+    width: 100%;
+    /* Ensure full width */
+}
+
+/* Ensure inner Highlights component takes full width and aligns left */
+.listZone :global(ul) {
+    width: 100%;
+    align-items: flex-start !important;
+}
+
+.listZone :global(li) {
+    justify-content: flex-start !important;
+    width: 100%;
+    text-align: left;
 }
 
 .illustrationZone {
@@ -106,6 +133,11 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    /* Flex logic */
+    flex: 1;
+    min-height: 0;
+    /* Crucial for shrinking */
+    width: 100%;
 }
 
 .illustrationWrapper50 {
@@ -140,15 +172,4 @@
     justify-content: center;
     pointer-events: none;
     overflow: hidden;
-}
-
-/* Stacking Blur Overlay - added for JS parity */
-.stackingBlurOverlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(var(--creative-bg-secondary-rgb), 0.3);
-    backdrop-filter: blur(8px);
-    opacity: 0;
-    z-index: 5;
-    pointer-events: none;
 }

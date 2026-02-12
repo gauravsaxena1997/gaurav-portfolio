@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Sora, Manrope, JetBrains_Mono } from 'next/font/google';
-import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from 'next/script';
 import { ThemeProvider } from '@/components/shared';
 import { PersonSchema, ServiceSchema, WebSiteSchema } from '@/components/seo';
 import './globals.css';
@@ -130,6 +130,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
         <PersonSchema />
         <ServiceSchema />
         <WebSiteSchema />
@@ -137,12 +139,27 @@ export default function RootLayout({
       <body className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} font-sans`}>
         <a
           href="#main-content"
-          className="fixed top-0 left-0 z-[9999] -translate-y-full bg-[#007acc] px-4 py-2 text-white text-sm font-semibold transition-transform duration-200 focus:translate-y-0"
+          className="fixed top-0 left-0 z-[9999] -translate-y-full bg-[#007acc] px-4 py-2 text-white !text-white text-sm font-semibold transition-transform duration-200 focus:translate-y-0"
+          style={{ color: '#ffffff' }}
         >
           Skip to main content
         </a>
         <ThemeProvider>{children}</ThemeProvider>
-        <GoogleAnalytics gaId="G-ZVFENY0XPB" />
+        {/* Defer Analytics to reduce initial blocking time */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-ZVFENY0XPB"
+          strategy="lazyOnload"
+        />
+        <Script id="google-analytics" strategy="lazyOnload">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ZVFENY0XPB', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
       </body>
     </html>
   );

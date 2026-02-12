@@ -13,9 +13,7 @@ if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-const StackingBlurOverlay = () => (
-    <div className={styles.stackingBlurOverlay} />
-);
+
 
 interface MobileProjectCardProps {
     project: any;
@@ -32,7 +30,7 @@ export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardP
             const el = cardRef.current;
             if (!el) return;
 
-            const overlay = el.querySelector(`.${styles.stackingBlurOverlay}`);
+            const overlay = el.querySelector('.creative-stacking-card-overlay');
             if (overlay) {
                 gsap.set(overlay, { opacity: 0 });
 
@@ -55,7 +53,7 @@ export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardP
     return (
         <>
             <div ref={cardRef} className={styles.projectContainer} style={{ zIndex }}>
-                <StackingBlurOverlay />
+                <div className="creative-stacking-card-overlay" />
                 {/* Background Decor - Number with Parallax */}
                 <BackgroundDecor
                     position={{ top: '15%', right: '5%' }}
@@ -89,6 +87,11 @@ export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardP
                     {/* Common Stats Separator (Standardized) */}
                     <AccentSeparator width="40%" className={styles.projectSeparator} />
 
+                    {/* Description - Re-enabled for Mobile consistency */}
+                    <p className={styles.projectDescription}>
+                        {project.shortDescription}
+                    </p>
+
                     {/* Highlights */}
                     {project.highlights && project.highlights.length > 0 && (
                         <div className={styles.projectHighlightsList}>
@@ -101,8 +104,8 @@ export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardP
                     )}
                 </div>
 
-                {/* Spacer to push content apart evenly */}
-                <div className={styles.projectSpacer} />
+
+
 
                 {/* Bottom Section: Media -> View Live Button */}
                 <div className={styles.projectBottomSection}>
@@ -127,10 +130,10 @@ export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardP
                         </a>
                     )}
                 </div>
-            </div>
+            </div >
 
             {/* Fullscreen Viewer */}
-            <UnifiedProjectViewer
+            < UnifiedProjectViewer
                 isOpen={isViewerOpen}
                 onClose={() => setIsViewerOpen(false)}
                 videoSrc={project.heroVideo}

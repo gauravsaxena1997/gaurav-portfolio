@@ -1,0 +1,83 @@
+/* FAQ Styles - Integrated into Contact Section */
+
+.container {
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.heading {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--creative-text-secondary);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.questionButton {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--creative-text-primary);
+    transition: color 0.2s ease;
+}
+
+.questionButton:hover {
+    color: var(--creative-accent);
+}
+
+.questionText {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+    padding-right: 1rem;
+}
+
+.icon {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    color: var(--creative-text-secondary);
+}
+
+.item.open .icon {
+    transform: rotate(180deg);
+    color: var(--creative-accent);
+}
+
+.answerWrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+}
+
+.item.open .answerWrapper {
+    max-height: 200px;
+    /* Adjust as needed */
+    opacity: 1;
+    padding-bottom: 0.75rem;
+}
+
+.answerText {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--creative-text-secondary);
+    margin: 0;
+}

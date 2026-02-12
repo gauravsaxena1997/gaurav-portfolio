@@ -81,14 +81,12 @@
 .statRow {
   width: 100%;
   min-height: auto;
-  /* Allow compact stacking */
-  padding-bottom: clamp(4rem, 8vh, 6rem);
-  /* Consistent minimal gap between stats */
+  /* Flush checkerboard: FORCE no padding/margin */
+  padding: 0 !important;
+  margin: 0 !important;
   position: relative;
-  /* Ensure it takes full viewport height for each stat panel */
   display: flex;
   align-items: stretch;
-  /* Stretch to fill */
   justify-content: center;
 }
 

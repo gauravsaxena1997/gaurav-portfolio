@@ -15,9 +15,7 @@ if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-const StackingBlurOverlay = () => (
-    <div className={styles.stackingBlurOverlay} />
-);
+
 
 interface MobileStatPanelProps {
     index: number;
@@ -25,7 +23,7 @@ interface MobileStatPanelProps {
 
 export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
     const is5050 = index === 0;
-    const layoutClass = is5050 ? styles.grid4555 : styles.grid502030;
+    // const layoutClass = is5050 ? styles.grid4555 : styles.grid502030; // Removed rigid grids
     const zIndex = 20 + index;
     const stat = STATS_DATA[index];
     const Icon = stat?.icon;
@@ -36,7 +34,7 @@ export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
             const el = panelRef.current;
             if (!el) return;
 
-            const overlay = el.querySelector(`.${styles.stackingBlurOverlay}`);
+            const overlay = el.querySelector('.creative-stacking-card-overlay');
 
             if (overlay) {
                 gsap.set(overlay, { opacity: 0 });
@@ -59,8 +57,8 @@ export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
 
     return (
         <div ref={panelRef} className={styles.statPanel} style={{ zIndex }}>
-            <StackingBlurOverlay />
-            <div className={layoutClass}>
+            <div className="creative-stacking-card-overlay" />
+            <div className={styles.flexContainer}>
                 {/* Text Zone with BackgroundDecor */}
                 <div className={styles.textZone}>
                     {/* Background Parallax Icon */}
@@ -75,13 +73,13 @@ export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
                         </BackgroundDecor>
                     )}
                     <div className={styles.statTextContent}>
-                        <h3 className={styles.statTitle}>{stat?.title}</h3>
+                        <h2 className={styles.statTitle}>{stat?.title}</h2>
                         <AccentSeparator width="40%" />
                         <p className={styles.statDescription}>{stat?.description}</p>
                     </div>
                 </div>
-                {/* Highlights Zone - only for non-5050 layouts */}
-                {!is5050 && stat?.highlights && (
+                {/* Highlights Zone - for ALL layouts now */}
+                {stat?.highlights && (
                     <div className={styles.listZone}>
                         <Highlights items={stat.highlights} mono />
                     </div>

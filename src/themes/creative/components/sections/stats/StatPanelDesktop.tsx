@@ -6,6 +6,9 @@ import styles from './StatPanel.module.css';
 import { ReactNode } from 'react';
 import { BackgroundDecor } from '../../common/BackgroundDecor';
 import { Highlights, AccentSeparator } from '../../ui';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 
 interface StatPanelProps {
     /** Panel title */
@@ -41,6 +44,34 @@ export function StatPanelDesktop({
     highlightsLocation = 'text',
 }: StatPanelProps) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const litLayerRef = useRef<HTMLDivElement>(null);
+
+    useGSAP(() => {
+        const litLayer = litLayerRef.current;
+        if (!litLayer) return;
+
+        // UNIFIED ANIMATION: Left-to-Right Wipe
+        const startClip = 'inset(0 100% 0 0)';
+        const endClip = 'inset(0 0% 0 0)';
+
+        gsap.set(litLayer, {
+            clipPath: startClip,
+            webkitClipPath: startClip,
+            opacity: 1,
+        });
+
+        gsap.to(litLayer, {
+            clipPath: endClip,
+            webkitClipPath: endClip,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: 'top bottom',
+                end: 'bottom 90%',
+                scrub: true,
+            }
+        });
+    }, { scope: containerRef });
 
     return (
         <div
@@ -78,7 +109,7 @@ export function StatPanelDesktop({
                     </div>
 
                     {/* Lit Layer (Gold BG + Dark Text) - Revealed by inset clip-path */}
-                    <div className={styles.litLayer} data-lit-layer>
+                    <div className={styles.litLayer} ref={litLayerRef} data-lit-layer>
                         {Icon && (
                             <BackgroundDecor
                                 position={{ bottom: '10%', right: '5%' }}

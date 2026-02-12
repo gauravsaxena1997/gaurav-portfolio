@@ -11,6 +11,7 @@
   /* Elevated warm charcoal */
   --creative-bg-primary-rgb: 15, 14, 13;
   /* For rgba() usage */
+  --creative-input-bg: rgba(var(--creative-bg-primary-rgb), 0.3);
   --creative-bg-secondary-rgb: 26, 24, 22;
   /* For rgba() usage */
 
@@ -44,9 +45,26 @@
   --radius-lg: 12px;
   /* Large containers, modals */
   --radius-xl: 16px;
+  /* Large containers, modals */
+  --radius-xl: 16px;
   /* Hero elements,special features */
   --radius-full: 50%;
   /* Circular elements */
+
+  /* Mobile Layout System Variables */
+  --mobile-header-height: 56px;
+  /* Dynamic via JS */
+  --mobile-safe-height: 100vh;
+  /* Dynamic via JS */
+  --mobile-100vh: 100vh;
+  /* Dynamic via JS */
+  --mobile-section-padding: 1.5rem;
+
+  /* Mobile Typography Scale */
+  --font-mobile-display: clamp(2.5rem, 10vw, 4rem);
+  --font-mobile-h1: clamp(1.75rem, 6vw, 2.5rem);
+  --font-mobile-h2: clamp(1.5rem, 5vw, 2rem);
+  --font-mobile-p: clamp(0.9rem, 1.5vw, 1rem);
 
   /* Hero-specific accents */
   --creative-hero-name-color: #B8935C;
@@ -69,6 +87,14 @@
   /* Darker golden beam */
   --creative-spotlight-rgb: 200, 156, 74;
   /* RGB for spotlight */
+
+  /* Natural Rock Colors (Neutral) */
+  --creative-rock-dark: #4A4035;
+  /* Dark brownish gray */
+  --creative-rock-mid: #786C5E;
+  /* Mid warm gray */
+  --creative-rock-light: #A89F91;
+  /* Light warm gray */
 
   /* Typography - Font families */
   --font-display: var(--font-sora), system-ui, sans-serif;
@@ -196,6 +222,8 @@
   --creative-bg-primary: #FAFAF8;
   --creative-bg-secondary: #F5F4F0;
   --creative-bg-primary-rgb: 250, 250, 248;
+  --creative-input-bg: #EAE9E4;
+  /* Darker than bg for contrast */
   --creative-bg-secondary-rgb: 245, 244, 240;
 
   --creative-text-primary: #1A1816;
@@ -227,7 +255,8 @@
   --creative-stats-highlight: #3F2E1B;
   --creative-stats-check: #1A1208;
 
-  --creative-border-color: rgba(201, 169, 97, 0.15);
+  --creative-border-color: rgba(201, 169, 97, 0.5);
+  /* Increased visibility for light mode */
 
   --creative-spotlight-color: #C89C4A;
   --creative-spotlight-rgb: 200, 156, 74;
@@ -235,6 +264,11 @@
   --creative-beam-text-inverted: #FFFFFF;
   --creative-beam-text-muted: rgba(255, 255, 255, 0.82);
   --creative-beam-accent-inverted: #FFF2C7;
+
+  /* Natural Rock Colors (Dark Mode - slightly cooler/darker) */
+  --creative-rock-dark: #2A2A2A;
+  --creative-rock-mid: #4A4A4A;
+  --creative-rock-light: #6A6A6A;
 
   --creative-stats-title-revealed: #FFF2C7;
   --creative-stats-text-revealed: #FFFFFF;
@@ -311,4 +345,19 @@ button:focus:not(:focus-visible),
 [role="button"]:focus:not(:focus-visible),
 a:focus:not(:focus-visible) {
   outline: none;
+}
+
+/* ===== GLOBAL UTILITIES ===== */
+
+/* Standardized Stacking Blur Overlay */
+.creative-stacking-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(var(--creative-bg-secondary-rgb), 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  z-index: 50;
+  pointer-events: none;
+  transition: opacity 0.1s linear;
 }

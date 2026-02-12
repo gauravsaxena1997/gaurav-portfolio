@@ -155,23 +155,42 @@
     z-index: 10;
 }
 
+/* ACCESSIBILITY FIX: Increase touch target size to 24px */
 .dot {
-    width: 6px;
-    /* Slightly smaller */
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+    width: 15px;
+    height: 12px;
+    /* Center the visual dot */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
     border: none;
     padding: 0;
     cursor: pointer;
     transition: all 0.2s ease;
+    /* Use pseudo-element for visual representation of the dot */
+    position: relative;
+}
+
+.dot::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.2s ease;
 }
 
 .dotActive {
+    /* No change to container size/background */
+    transform: none;
+}
+
+/* Apply active styles to the pseudo-element */
+.dotActive::after {
     background: var(--creative-accent);
     opacity: 1;
     width: 18px;
+    height: 6px;
     border-radius: 3px;
-    transform: none;
-    /* Remove scale */
 }

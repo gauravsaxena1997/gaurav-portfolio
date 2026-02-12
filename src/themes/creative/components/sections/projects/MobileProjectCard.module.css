@@ -8,7 +8,8 @@
     position: sticky;
     top: var(--header-height);
     width: 100%;
-    height: calc(100vh - var(--header-height));
+    /* Subtract header height to ensure it fits exactly in the remaining viewport */
+    height: calc(var(--mobile-safe-height, 100vh) - var(--header-height));
     background: var(--creative-bg-secondary);
     display: flex;
     flex-direction: column;
@@ -41,38 +42,68 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+    padding: 1.25rem 1.5rem 0.75rem 1.5rem;
     position: relative;
     z-index: 5;
+    /* This section takes all remaining space and scrolls if needed */
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 
 .projectTitle {
     font-family: var(--font-display);
-    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    font-size: clamp(1.6rem, 5vw, 2.25rem);
     font-weight: 800;
+    /* Keeping 800 for projects as they are main headings */
     color: var(--creative-accent);
-    line-height: 1;
-    margin: 0;
-    margin-bottom: 0.5rem;
+    line-height: 1.15;
+    /* Matched to Stats */
     letter-spacing: -0.02em;
+    margin: 0;
+    flex-shrink: 0;
 }
 
+.projectDescription {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-sm);
+    color: var(--creative-text-secondary);
+    /* Removed opacity: 0.8 to match Stats exactly */
+    font-weight: 500;
+    line-height: 1.6;
+    /* Matched to Stats */
+    margin: 0;
+    margin-bottom: 1.25rem;
+    /* Matched to Stats */
+    max-width: 100%;
+    /* Removed 95% constraint */
+}
+
+/* Updated Separator margin to match flow */
 .projectSeparator {
     margin: 1rem 0;
     align-self: flex-start;
+    flex-shrink: 0;
 }
 
 .projectSpacer {
-    flex: 1;
+    /* Deprecated but kept for compat with TSX for now, will remove in TSX next */
+    display: none;
 }
 
 .projectBottomSection {
     display: flex;
     flex-direction: column;
     width: 100%;
-    background: transparent;
-    padding-bottom: 2rem;
-    gap: 1.5rem;
+    background: var(--creative-bg-secondary);
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    padding-top: 0.5rem;
+    gap: 0.75rem;
+    /* Priority section: Always visible */
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 10;
 }
 
 .viewLiveBlockButton {
@@ -81,11 +112,11 @@
     justify-content: center;
     width: calc(100% - 3rem);
     margin: 0 auto;
-    padding: 1rem;
+    padding: 0.85rem;
     background: var(--creative-accent);
     color: var(--creative-bg-primary);
     font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
     text-decoration: none;
     border-radius: var(--radius-lg);
@@ -142,20 +173,37 @@
 }
 
 .projectHighlightsList {
-    margin-top: 1rem;
+    margin-top: 0;
     width: 100%;
+    /* Alignment logic matched to Services/Stats Left Align */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* Left aligned */
+    padding: 0 1rem;
+    padding-left: 0;
+    /* Align flush with text above */
 }
 
 .projectHighlightsList :global(div),
 .projectHighlightsList :global(span),
 .projectHighlightsList :global(li) {
-    color: var(--creative-text-secondary) !important;
+    color: var(--creative-accent) !important;
 }
 
 .projectHighlightsOverride {
-    margin: 0 !important;
+    /* Allow natural width for centering */
     width: 100% !important;
+    /* Full width */
+    margin: 0 !important;
+    /* Ensure bullets align left within the centered block */
     align-items: flex-start !important;
+}
+
+.projectHighlightsOverride :global(li) {
+    justify-content: flex-start !important;
+    width: 100%;
+    text-align: left;
 }
 
 .projectBadge {
@@ -179,22 +227,5 @@
 
 .backgroundIcon {
     opacity: 0.06;
-    pointer-events: none;
-}
-
-/* Stacking Blur Overlay */
-.stackingBlurOverlay {
-    position: absolute;
-    inset: 0;
-    /* Darker background for more pronounced fade-out effect */
-    background: rgba(var(--creative-bg-secondary-rgb), 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    opacity: 0;
-    /* 
-     * IMPORTANT: High z-index to cover all content 
-     * (including .projectTopSection which is z-index: 5)
-     */
-    z-index: 20;
     pointer-events: none;
 }

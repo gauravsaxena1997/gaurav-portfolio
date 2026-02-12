@@ -1,10 +1,8 @@
-'use client';
-
 import { useRef, useCallback, useState } from 'react';
-import { MapPin, Mail, Clock, Compass, Calendar } from 'lucide-react';
+import { MapPin, Mail, Clock, Compass, Calendar, Github, Linkedin, HelpCircle } from 'lucide-react';
 import { CONTACT_INFO } from '@/config';
-import { ContactForm } from './ContactForm';
-import { AccentSeparator } from '../../ui';
+import { ContactForm, type ContactFormHandle } from './ContactForm';
+import { AccentSeparator, FAQModal } from '../../ui';
 import styles from './ContactSection.module.css';
 
 interface ContactSectionProps {
@@ -14,18 +12,27 @@ interface ContactSectionProps {
 /**
  * Contact Section Layout
  * 
- * New Design:
- * - Left Column: Title & Subtitle (Text)
- * - Right Column: Form Inputs (Glass Card)
- * - Height: 100vh
+ * Updated:
+ * - Footer bar for Social Links + FAQ Modal Trigger
+ * - Removed inline FAQ to preserve layout
  */
 export function ContactSection({ className }: ContactSectionProps) {
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<ContactFormHandle>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [interactionRefs, setInteractionRefs] = useState<React.RefObject<HTMLElement | null>[]>([]);
+  const [isFAQOpen, setIsFAQOpen] = useState(false);
 
   const handleRegisterInteractables = useCallback((refs: React.RefObject<HTMLElement | null>[]) => {
     setInteractionRefs(refs);
+  }, []);
+
+  const handleContactClick = useCallback(() => {
+    setIsFAQOpen(false);
+    // Use a small timeout to ensure the modal's body.overflow: hidden is restored
+    // and layout shifts are settled.
+    setTimeout(() => {
+      formRef.current?.focusName();
+    }, 100);
   }, []);
 
   return (
@@ -93,6 +100,21 @@ export function ContactSection({ className }: ContactSectionProps) {
           />
         </div>
       </div>
+
+      {/* Floating FAQ Button */}
+      <button
+        className={styles.floatingFAQ}
+        onClick={() => setIsFAQOpen(true)}
+        aria-label="Frequently Asked Questions"
+      >
+        <HelpCircle size={24} />
+      </button>
+
+      <FAQModal
+        isOpen={isFAQOpen}
+        onClose={() => setIsFAQOpen(false)}
+        onContactClick={handleContactClick}
+      />
     </div>
   );
 }
