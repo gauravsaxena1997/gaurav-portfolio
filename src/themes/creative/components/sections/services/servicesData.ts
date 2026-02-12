@@ -12,71 +12,71 @@ export interface ServiceData {
 
 export const SERVICES: ServiceData[] = [
     {
-        id: 'mvp-generation',
+        id: 'ai-web-apps',
         number: 1,
-        title: 'MVP Engineering',
-        description: '0 to 1 Architecture',
-        fullDescription: 'Transform abstract concepts into investable MVPs. I build scalable foundations using Next.js and Supabase that are ready for rapid iteration and user validation.',
+        title: 'AI-Enhanced Web Apps',
+        description: 'Smart Automation',
+        fullDescription: 'Build smart applications that automate tasks and engage users. I integrate intelligent features directly into your product to save time and increase value.',
         features: [
-            'Rapid Component Scaffolding',
-            'Scalable DB Schema Design',
-            'Auth & User Management',
-            'CI/CD Pipeline Setup'
+            'Smart Customer Chat',
+            'Automated Data Entry',
+            'Personalized Content',
+            'Intelligent Search'
         ],
         icon: Rocket
     },
     {
-        id: 'ui-ux-design',
+        id: 'immersive-tech',
         number: 2,
-        title: 'Design Engineering',
-        description: 'Systems & Interactions',
-        fullDescription: 'Bridge the gap between design and code. I adhere to pixel-perfect implementation of Figma files while enhancing them with fluid micro-interactions and accessible patterns.',
+        title: '3D & Immersive Web',
+        description: 'Premium Design',
+        fullDescription: 'Stand out with a website that looks and feels premium. I build interactive experiences that tell your brand story and keep visitors engaged longer.',
         features: [
-            'Figma to React Implementation',
-            'Design Token Architecture',
-            'Framer Motion Animations',
-            'WCAG 2.1 AA Accessibility'
+            'Interactive Product Demos',
+            'Smooth Scroll Effects',
+            'Visual Storytelling',
+            'Modern 3D Graphics'
         ],
         icon: Palette
     },
     {
-        id: 'development',
+        id: 'enterprise-systems',
         number: 3,
-        title: 'Full Stack Architecture',
-        description: 'Scalable Systems',
-        fullDescription: 'Build robust, scalable applications that grow with your business. I architect distributed systems using Next.js and Node.js that handle high traffic and complex logic without breaking.',
+        title: 'Enterprise B2B/B2C Portals',
+        description: 'High-Scale Architecture',
+        fullDescription: 'Leverage my 6+ years of corporate experience. I build secure, role-based dashboards and customer portals designed to handle complex data and high user volume.',
         features: [
-            'Next.js 15 / React 19 Ecosystem',
-            'Type-Safe Backend Systems',
-            'Scalable Database Design',
-            'Cloud-Ready Infrastructure'
+            'Role-Based Access Control',
+            'Complex Data Dashboards',
+            'Secure Data Handling',
+            'High-Availability Systems'
         ],
         icon: Code
     },
     {
         id: 'integrations',
         number: 4,
-        title: 'API & Payment Systems',
+        title: 'FinTech & SaaS Infrastructure',
         description: 'Seamless Connectivity',
-        fullDescription: 'Connect your application to the global economy. I specialize in secure implementation of Payment Gateways (Stripe/Razorpay), Auth Providers, and connecting your tools (CRM/Email) for automation.',
+        fullDescription: 'Connect your application to the global economy. I specialize in secure implementation of Payment Gateways (Stripe/Razorpay), Auth Providers, and complex SaaS workflows.',
         features: [
             'Stripe & Razorpay Payments',
-            'Secure User Authentication',
-            'Real-time Updates',
-            'CMS Integration'
+            'Secure Authentication Flows',
+            'SaaS Subscription Models',
+            'Third-party Integrations'
         ],
         icon: Link
     },
     {
         id: 'seo-performance',
         number: 5,
-        title: 'Performance & Growth',
-        description: 'Speed & SEO',
+        title: 'Technical SEO & Performance',
+        description: 'Core Web Vitals',
         fullDescription: 'Speed is a feature. I optimize applications for instant load times and Google ranking. A faster site means better user retention and higher conversion rates.',
         features: [
             'Instant Load Speeds',
             'Google SEO Optimization',
-            'Mobile Performance Tuning',
+            'Core Web Vitals Tuning',
             'Analytics & Growth Tracking'
         ],
         icon: TrendingUp

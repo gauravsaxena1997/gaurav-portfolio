@@ -39,18 +39,11 @@ function generateScales(count: number, seed: string): number[] {
   });
 }
 
-// Movement speeds - how fast each image rises
-const RISE_SPEEDS = [1.0, 0.85, 0.7, 0.55];
-
-// Staggered reveal thresholds - when each image starts appearing (0-1 progress)
-// 1st: 0%, 2nd: 20%, 3rd: 40%, 4th: 60%
-const REVEAL_THRESHOLDS = [0, 0.2, 0.4, 0.6];
-
-// Base starting positions (pixels below viewport center) - Reduced gaps
-const START_OFFSETS = [600, 750, 900, 1050];
-
-// Final vertical gaps (cumulative) - Decreasing pattern for tighter fan
-const FINAL_GAPS = [0, 45, 80, 105]; // 0, +45, +35, +25
+// Dynamic constants for spacing calculation
+const CONSTANT_VERTICAL_GAP = 35; // Fixed pixel gap between stacked images
+const BASE_START_OFFSET = 600;    // Starting pixels below viewport
+const OFFSET_INCREMENT = 150;     // Additional offset per image index
+const MAX_DISPLAY_IMAGES = 6;     // Cap at 6 images for performance
 
 /**
  * InteractiveGallery - Scattered overlapping screenshot display with parallax + DRAG
@@ -63,16 +56,19 @@ export const InteractiveGallery = memo(function InteractiveGallery({
   const containerRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Slice images to max limit to prevent excessive DOM nodes
+  const displayImages = useMemo(() => images.slice(0, MAX_DISPLAY_IMAGES), [images]);
+
   // Track current parallax offsets for each image (updated by scroll handler)
   const parallaxOffsetsRef = useRef<number[]>([]);
 
   const xOffsets = useMemo(
-    () => generateXOffsets(images.length, projectName),
-    [images.length, projectName]
+    () => generateXOffsets(displayImages.length, projectName),
+    [displayImages.length, projectName]
   );
   const scales = useMemo(
-    () => generateScales(images.length, projectName),
-    [images.length, projectName]
+    () => generateScales(displayImages.length, projectName),
+    [displayImages.length, projectName]
   );
 
   // Sequential staggered reveal scroll effect
@@ -85,14 +81,9 @@ export const InteractiveGallery = memo(function InteractiveGallery({
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Check if screenshots section is in view
-      // const isInView = rect.top < windowHeight * 0.7 && rect.bottom > windowHeight * 0.3;
-      // setIsBarVisible(isInView); // Removed logic
-
       if (prefersReducedMotion) return;
 
       // Overall scroll progress (0 = just entered, 1 = fully scrolled through)
-      // Extended runway (0.75) to ensure 4th screenshot is fully visible before unpin
       const totalProgress = Math.max(0, Math.min(1,
         (windowHeight - rect.top) / (windowHeight + rect.height * 0.75)
       ));
@@ -100,14 +91,23 @@ export const InteractiveGallery = memo(function InteractiveGallery({
       imagesRef.current.forEach((img, index) => {
         if (!img) return;
 
-        const threshold = REVEAL_THRESHOLDS[index] ?? 0;
-        const speed = RISE_SPEEDS[index] ?? 0.5;
-        const startOffset = START_OFFSETS[index] ?? 600;
-        const xOffset = xOffsets[index] ?? 0;
-        const scale = scales[index] ?? 1;
+        // Dynamic Calculation Logic
+        // 1. Threshold: Distribute 0 to 0.6 range across all images
+        // This ensures the last image starts animating before the section ends
+        const threshold = index * (0.6 / Math.max(1, displayImages.length - 1));
 
-        // Calculate this image's local progress (0 = not started, 1 = done)
-        // Each image starts at its threshold and completes by end
+        // 2. Speed: Slightly faster for later images to catch up? 
+        // Actually, uniform speed or slight deceleration works best for stacking.
+        // Let's use a gentle gradient from 1.0 down to 0.6
+        const speed = 1.0 - (index * (0.4 / Math.max(1, displayImages.length - 1)));
+
+        // 3. Start Offset: Increase starting distance for later images
+        const startOffset = BASE_START_OFFSET + (index * OFFSET_INCREMENT);
+
+        // 4. Final Position: Consistent gap (e.g., 0, 35, 70, 105...)
+        const finalY = index * CONSTANT_VERTICAL_GAP;
+
+        // Calculate this image's local progress
         const localProgress = Math.max(0, Math.min(1,
           (totalProgress - threshold) / (1 - threshold)
         ));
@@ -115,16 +115,15 @@ export const InteractiveGallery = memo(function InteractiveGallery({
         // Opacity: fade in as localProgress goes from 0 to 0.3
         const opacity = Math.min(1, localProgress / 0.3);
 
-        // Vertical position: start below, rise to final stacked position
-        // Final position uses decreasing gaps for tighter fan formation
-        const finalY = FINAL_GAPS[index] ?? 0;
+        // Calculate current Y position
         const yOffset = startOffset * (1 - localProgress * speed) + finalY;
 
-        // Track current parallax offset for this image (used when drag starts)
-        parallaxOffsetsRef.current[index] = yOffset;
-
-        // Apply transform and opacity
+        // Apply transform
         img.style.opacity = String(opacity);
+        // Use fixed xOffsets array we generated earlier
+        const xOffset = xOffsets[index] ?? 0;
+        const scale = scales[index] ?? 1;
+
         img.style.transform = `translate(calc(-50% + ${xOffset}%), calc(${yOffset}px)) scale(${scale})`;
       });
     };
@@ -133,9 +132,8 @@ export const InteractiveGallery = memo(function InteractiveGallery({
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [images, xOffsets, scales]);
+  }, [displayImages, xOffsets, scales]);
 
-  const displayImages = images.slice(0, 4);
 
   // Calculate z-index for each screenshot (simple stacked order)
   const getZIndex = (index: number): number => {

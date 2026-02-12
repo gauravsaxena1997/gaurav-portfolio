@@ -8,8 +8,9 @@ import { Highlights, AccentSeparator } from '../../ui';
 import styles from './ServicesSection.module.css';
 
 // Lazy load illustrations
-const MvpIllustration = dynamic(() => import('./illustrations/MvpIllustration').then(mod => ({ default: mod.MvpIllustration })), { ssr: false });
-const UiUxIllustration = dynamic(() => import('./illustrations/UiUxIllustration').then(mod => ({ default: mod.UiUxIllustration })), { ssr: false });
+// Lazy load illustrations
+const AiAppIllustration = dynamic(() => import('./illustrations/AiAppIllustration').then(mod => ({ default: mod.AiAppIllustration })), { ssr: false });
+const ImmersiveWebIllustration = dynamic(() => import('./illustrations/ImmersiveWebIllustration').then(mod => ({ default: mod.ImmersiveWebIllustration })), { ssr: false });
 const DevelopmentIllustration = dynamic(() => import('./illustrations/DevelopmentIllustration').then(mod => ({ default: mod.DevelopmentIllustration })), { ssr: false });
 const IntegrationsIllustration = dynamic(() => import('./illustrations/IntegrationsIllustration').then(mod => ({ default: mod.IntegrationsIllustration })), { ssr: false });
 const SeoIllustration = dynamic(() => import('./illustrations/SeoIllustration').then(mod => ({ default: mod.SeoIllustration })), { ssr: false });
@@ -68,12 +69,12 @@ export function ServicesSection() {
     // Get current illustration
     const renderIllustration = () => {
         switch (activeServiceIndex) {
-            case 0: return <MvpIllustration />;
-            case 1: return <UiUxIllustration />;
+            case 0: return <AiAppIllustration />;
+            case 1: return <ImmersiveWebIllustration />;
             case 2: return <DevelopmentIllustration />;
             case 3: return <IntegrationsIllustration />;
             case 4: return <SeoIllustration />;
-            default: return <MvpIllustration />;
+            default: return <AiAppIllustration />;
         }
     };
 

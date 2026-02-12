@@ -10,61 +10,75 @@ export function IntegrationsIllustration() {
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="xMidYMid meet"
         >
+            {/* Background Gradient */}
             <defs>
-                <linearGradient id="intGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#F38181" />
-                    <stop offset="100%" stopColor="#AA5A9A" />
+                <linearGradient id="infraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#24243e" />
+                    <stop offset="100%" stopColor="#302b63" />
                 </linearGradient>
             </defs>
+            <rect width="334" height="216" fill="url(#infraGradient)" />
 
-            {/* STRIPE BOX - Top Left */}
-            <g className={styles.apiCard}>
-                <rect x="20" y="15" width="90" height="50" fill="#ffffff12" rx="6" stroke="url(#intGradient)" strokeWidth="2" />
-                <text x="65" y="38" className={styles.apiTitle} textAnchor="middle">Stripe</text>
-                <text x="65" y="52" className={styles.apiSubtext} textAnchor="middle">Payments</text>
+            {/* Central App Icon - Smaller & Pulsing */}
+            <g transform="translate(167, 108)">
+                {/* Pulse Ring */}
+                <circle r="30" fill="#ffffff10">
+                    <animate attributeName="r" values="22;35;22" dur="2s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2s" repeatCount="indefinite" />
+                </circle>
+
+                {/* Main Icon Background */}
+                <rect x="-15" y="-15" width="30" height="30" rx="8" fill="white" />
+
+                {/* Simple Check Mark Icon */}
+                <path d="M -8 2 L -2 8 L 8 -6" stroke="#302b63" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </g>
 
-            {/* AUTH0 BOX - Top Right */}
-            <g className={styles.apiCard}>
-                <rect x="224" y="15" width="90" height="50" fill="#ffffff12" rx="6" stroke="url(#intGradient)" strokeWidth="2" />
-                <text x="269" y="38" className={styles.apiTitle} textAnchor="middle">Auth0</text>
-                <text x="269" y="52" className={styles.apiSubtext} textAnchor="middle">Security</text>
+            {/* Connecting Lines - Improved Visibility */}
+            {/* Top Right (Auth) to Center */}
+            {/* Moved start point further right/up to match new card pos */}
+            <path d="M 230 68 L 180 96" stroke="#ffffff80" strokeWidth="2" strokeDasharray="4,4" />
+
+            {/* Top Left (Stripe) to Center */}
+            <path d="M 104 68 L 154 96" stroke="#ffffff80" strokeWidth="2" strokeDasharray="4,4" />
+
+            {/* Bottom (Maps) to Center */}
+            <path d="M 167 150 L 167 125" stroke="#ffffff80" strokeWidth="2" strokeDasharray="4,4" />
+
+            {/* Moving dots on lines */}
+            <circle r="3" fill="#4CAF50">
+                <animateMotion path="M 230 68 L 180 96" dur="2s" repeatCount="indefinite" />
+            </circle>
+            <circle r="3" fill="#FFC107">
+                <animateMotion path="M 104 68 L 154 96" dur="2s" repeatCount="indefinite" />
+            </circle>
+            <circle r="3" fill="#2196F3">
+                <animateMotion path="M 167 150 L 167 125" dur="2s" repeatCount="indefinite" />
+            </circle>
+
+            {/* Outer Nodes - Spaced Out to Corners */}
+
+            {/* Stripe (Top Left Corner) */}
+            <g transform="translate(40, 30)">
+                <rect width="80" height="50" rx="6" fill="#635bff" />
+                <text x="40" y="25" fill="white" fontSize="13" fontWeight="bold" textAnchor="middle">Stripe</text>
+                <text x="40" y="40" fill="white" fontSize="9" opacity="0.9" textAnchor="middle">Payments</text>
             </g>
 
-            {/* MAPS BOX - Bottom Center - MOVED DOWN for visible line */}
-            <g className={styles.apiCard}>
-                <rect x="122" y="165" width="90" height="50" fill="#ffffff12" rx="6" stroke="url(#intGradient)" strokeWidth="2" />
-                <text x="167" y="188" className={styles.apiTitle} textAnchor="middle">Maps API</text>
-                <text x="167" y="202" className={styles.apiSubtext} textAnchor="middle">Location</text>
+            {/* Auth0 (Top Right Corner) */}
+            <g transform="translate(214, 30)">
+                <rect width="80" height="50" rx="6" fill="#EB5424" />
+                <text x="40" y="25" fill="white" fontSize="13" fontWeight="bold" textAnchor="middle">Auth0</text>
+                <text x="40" y="40" fill="white" fontSize="9" opacity="0.9" textAnchor="middle">Security</text>
             </g>
 
-            {/* CENTER HUB */}
-            <g className={styles.centerHub}>
-                <circle cx="167" cy="100" r="20" fill="url(#intGradient)" />
-                <rect x="159" y="92" width="7" height="7" fill="#fff" rx="1" />
-                <rect x="168" y="92" width="7" height="7" fill="#fff" rx="1" />
-                <rect x="159" y="101" width="7" height="7" fill="#fff" rx="1" />
-                <rect x="168" y="101" width="7" height="7" fill="#fff" rx="1" />
+            {/* Maps (Bottom Center - Slightly lower) */}
+            <g transform="translate(127, 155)">
+                <rect width="80" height="35" rx="6" fill="#4285F4" />
+                <text x="40" y="18" fill="white" fontSize="11" fontWeight="bold" textAnchor="middle">Maps API</text>
+                <text x="40" y="29" fill="white" fontSize="8" opacity="0.9" textAnchor="middle">Location</text>
             </g>
 
-            {/* LINES DRAWN LAST - ON TOP OF EVERYTHING */}
-            <g className={styles.connections}>
-                {/* To Stripe */}
-                <line x1="152" y1="86" x2="110" y2="65" stroke="url(#intGradient)" strokeWidth="2" strokeDasharray="4 4" />
-
-                {/* To Auth0 */}
-                <line x1="182" y1="86" x2="224" y2="65" stroke="url(#intGradient)" strokeWidth="2" strokeDasharray="4 4" />
-
-                {/* To Maps - 45px gap now (hub bottom at 120, Maps top at 165) */}
-                <line x1="167" y1="120" x2="167" y2="165" stroke="url(#intGradient)" strokeWidth="2" strokeDasharray="4 4" />
-            </g>
-
-            {/* PARTICLES - ON TOP */}
-            <g className={styles.particles}>
-                <circle r="4" fill="#F38181" className={styles.particle1} />
-                <circle r="4" fill="#AA5A9A" className={styles.particle2} />
-                <circle r="4" fill="#F38181" className={styles.particle3} />
-            </g>
         </svg>
     );
 }

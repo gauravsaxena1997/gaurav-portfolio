@@ -85,7 +85,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
     category: 'case-study',
     featured: true,
     shortDescription:
-      'Luxury skincare e-commerce showcasing end-to-end AI-powered development - from branding to deployment',
+      'A production-ready E-commerce Case Study demonstrating how AI can accelerate development cycles by 10x.',
     thumbnail: '/projects/lumore-hero.webp',
 
     caseStudyContent: {
@@ -119,10 +119,10 @@ export const CASE_STUDIES: ICaseStudy[] = [
     },
 
     highlights: [
-      '100% AI-Generated Assets',
-      '~90% AI-Assisted Code',
-      'Built in 2 Days',
-      '13+ Homepage Sections',
+      'AI-Native Architecture',
+      '48h Build Time',
+      'E-comm Landing Page',
+      '100% AI Assets',
     ],
     techStack: [
       'Next.js',
@@ -167,7 +167,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
     title: 'Cultural Events Ticketing Platform',
     category: 'client',
     featured: true,
-    shortDescription: 'Ticketing platform with 30,000+ events across the US',
+    shortDescription: 'Scalable Event Discovery Engine handling 30k+ active listings with geo-spatial search.',
     thumbnail: '/projects/cultureticks-thumb.jpg',
 
     freelanceContent: {
@@ -189,7 +189,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
       ],
     },
 
-    highlights: ['30K+ Events', 'SEO Optimized', 'Multi-City'],
+    highlights: ['High-Scale Aggregator', 'Geo-Spatial Search', 'SEO Optimized', '30k+ Listings'],
     techStack: ['Next.js', 'React', 'Node.js', 'PostgreSQL'],
     features: [
       'Event Discovery',
@@ -207,7 +207,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
     category: 'client',
     featured: true,
     shortDescription:
-      'Full-stack travel platform with group tour bookings, corporate & educational tour portfolios, and a comprehensive admin panel for complete content management',
+      'Enterprise Travel Management System with unified admin for group, corporate, and educational tours.',
     thumbnail: '/projects/roamonn-hero.webp',
 
     freelanceContent: {
@@ -237,7 +237,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
       ],
     },
 
-    highlights: ['Secure Admin Roles', 'Payment Integration', 'Real-time Itinerary', '10+ Admin Modules'],
+    highlights: ['Enterprise RBAC', 'Multi-Tenant System', 'Payment Gateways', 'Complex Admin'],
     techStack: ['React', 'TypeScript', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS', 'ShadCN UI', 'Vite'],
     features: [
       'Group Tour Bookings',
@@ -274,7 +274,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
     category: 'client',
     featured: true,
     shortDescription:
-      'A unique portfolio for a Senior Data & Power BI Engineer with UI inspired by Power BI dashboards and Power Automate workflows',
+      'Interactive Data Engineering Portfolio featuring live SQL visualization and workflow automation.',
     thumbnail: '/projects/punit-hero.webp',
 
     freelanceContent: {
@@ -300,10 +300,10 @@ export const CASE_STUDIES: ICaseStudy[] = [
     },
 
     highlights: [
-      'Power BI UI System',
+      'Interactive Visualization',
       'Workflow Automation',
-      'Live Data Visualization',
-      'Interactive Animations',
+      'React + Framer',
+      'Data-Driven UX',
     ],
     techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     features: [
@@ -337,7 +337,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
     category: 'venture',
     featured: true,
     shortDescription:
-      'A productivity-focused brand helping users take control of their time and focus - starting with a feature-rich Pomodoro timer',
+      'Offline-First Productivity Suite (PWA) with local sync and focus analytics.',
     thumbnail: '/projects/superhumanflow-hero.webp',
 
     ventureContent: {
@@ -370,10 +370,10 @@ export const CASE_STUDIES: ICaseStudy[] = [
     },
 
     highlights: [
-      'Works Offline (PWA)',
-      'Immersive Sound',
-      'Local Data Sync',
-      'No Login Required',
+      'Offline-First PWA',
+      'LocalSync DB',
+      'Focus Analytics',
+      'Zero-Latency',
     ],
     techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'PWA'],
     features: [

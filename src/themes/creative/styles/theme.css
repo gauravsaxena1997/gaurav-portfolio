@@ -70,6 +70,14 @@
   --creative-spotlight-rgb: 200, 156, 74;
   /* RGB for spotlight */
 
+  /* Natural Rock Colors (Neutral) */
+  --creative-rock-dark: #4A4035;
+  /* Dark brownish gray */
+  --creative-rock-mid: #786C5E;
+  /* Mid warm gray */
+  --creative-rock-light: #A89F91;
+  /* Light warm gray */
+
   /* Typography - Font families */
   --font-display: var(--font-sora), system-ui, sans-serif;
   --font-body: var(--font-manrope), system-ui, sans-serif;
@@ -235,6 +243,11 @@
   --creative-beam-text-inverted: #FFFFFF;
   --creative-beam-text-muted: rgba(255, 255, 255, 0.82);
   --creative-beam-accent-inverted: #FFF2C7;
+
+  /* Natural Rock Colors (Dark Mode - slightly cooler/darker) */
+  --creative-rock-dark: #2A2A2A;
+  --creative-rock-mid: #4A4A4A;
+  --creative-rock-light: #6A6A6A;
 
   --creative-stats-title-revealed: #FFF2C7;
   --creative-stats-text-revealed: #FFFFFF;

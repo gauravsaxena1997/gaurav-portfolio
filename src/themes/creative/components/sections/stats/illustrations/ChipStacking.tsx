@@ -190,7 +190,7 @@ export function ChipStacking({
 
   // Physics render loop
   const updatePhysics = useCallback(() => {
-    if (!engineRef.current || !worldRef.current || !isPhysicsActive) return;
+    if (!engineRef.current || !worldRef.current || !isPhysicsActive || !containerRef.current) return;
 
     // Update physics
     Matter.Engine.update(engineRef.current, 1000 / 60);

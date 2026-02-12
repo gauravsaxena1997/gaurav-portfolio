@@ -92,44 +92,6 @@ export function ScrollOrchestrator() {
           onEnterBack: () => setActiveSection(name as any),
         });
       });
-
-      // Stat Panel Wipe Animation (Left-to-Right)
-      // FIXED: Consistent behavior for all stats regardless of height
-      // Animation completes when bottom of stat is 10% from viewport bottom
-      const statPanels = document.querySelectorAll('[data-stat-panel]');
-      statPanels.forEach((panel) => {
-        const litLayer = panel.querySelector('[data-lit-layer]') as HTMLElement;
-
-        if (!litLayer) return;
-
-        // UNIFIED ANIMATION: All panels wipe Left-to-Right
-        // Start: inset(0 100% 0 0) -> Hidden (Right edge at left side)
-        // End: inset(0 0% 0 0) -> Revealed (Right edge at right side)
-        const startClip = 'inset(0 100% 0 0)';
-        const endClip = 'inset(0 0% 0 0)';
-
-        // Initial State
-        gsap.set(litLayer, {
-          clipPath: startClip,
-          webkitClipPath: startClip,
-          opacity: 1, // Ensure visible internally
-        });
-
-        // Clean scrubbed animation — works both forward and reverse
-        // Root cause of previous flicker was duplicate data-stat-panel attributes
-        // creating 2 ScrollTriggers per lit layer. Now fixed.
-        gsap.to(litLayer, {
-          clipPath: endClip,
-          webkitClipPath: endClip,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: panel,
-            start: 'top bottom',
-            end: 'bottom 90%',
-            scrub: true,
-          }
-        });
-      });
     },
     { scope: containerRef }
   );
@@ -151,8 +113,13 @@ export function ScrollOrchestrator() {
           {/* Panel 1: Experience (50/50 Split, Bottom Aligned Chips) */}
           <div className={styles.statRow}>
             <StatPanel
-              title="6+ Years Building Digital Products"
-              description="I've spent 5+ years at product companies and service agencies, shipping for B2B and B2C audiences. Now I bring that same rigor directly to your project. I bring tested frameworks that actually work."
+              title="6+ Years Corporate Experience"
+              description="I bring professional-grade development standards to your project. I build systems that are secure, reliable, and designed to scale from day one."
+              highlights={[
+                'Enterprise-Grade Code',
+                'Scalable Systems',
+                'Reliable Delivery',
+              ]}
               illustration={
                 <ErrorBoundary fallback={<div className="p-4 text-center">Chip stacking unavailable</div>}>
                   <ChipStacking />
@@ -168,12 +135,12 @@ export function ScrollOrchestrator() {
           {/* Panel 2: AI-Supported Workflow (50/50 Split, Center Aligned Robot) */}
           <div className={styles.statRow}>
             <StatPanel
-              title="AI-Accelerated Development"
-              description="Working without AI is like leaving half your toolkit at home. I leverage custom AI pipelines to automate testing and scaffolding. This means I spend my time solving your complex business problems, not writing boilerplate code."
+              title="AI-Driven Velocity"
+              description="I use custom AI pipelines to automate the boring stuff—ideation, testing, and boilerplate. You get your product to market 2x faster without sacrificing quality."
               highlights={[
-                'Automated Testing Pipelines',
-                'Faster Feature Delivery',
-                'Enterprise-Grade Quality',
+                '50% Faster Delivery',
+                'Automated QA Testing',
+                'Rapid Prototyping',
               ]}
               illustration={
                 <ErrorBoundary fallback={<div className="p-4 text-center">3D model unavailable</div>}>
@@ -181,7 +148,7 @@ export function ScrollOrchestrator() {
                 </ErrorBoundary>
               }
               desktopLayout="text-right"
-              highlightsLocation="illustration"
+              highlightsLocation="text"
               illustAlign="center"
               icon={Cpu}
             />
@@ -190,12 +157,12 @@ export function ScrollOrchestrator() {
           {/* Panel 3: Global Availability (50/50 Split, Center Aligned Globe) */}
           <div className={styles.statRow}>
             <StatPanel
-              title="Global Remote Architecture"
-              description="Based in India, architecting for the world. My Async-First workflow eliminates timezone friction. I deliver self-contained updates that let your US/EU team wake up to progress, not blockers."
+              title="High-Conversion Experiences"
+              description="Visitors ignore boring sites. I build immersive, high-performance interfaces that capture attention instantly and convert casual visitors into loyal customers."
               highlights={[
-                'Global Remote Experience',
-                'Async Communication-First',
-                'Zero-Blocker Handoffs',
+                '3D Interactive Webs',
+                'Global Performance',
+                'Maximized Retention',
               ]}
               illustration={
                 <ErrorBoundary fallback={<div className="p-4 text-center">Globe visualization unavailable</div>}>
@@ -203,7 +170,7 @@ export function ScrollOrchestrator() {
                 </ErrorBoundary>
               }
               desktopLayout="text-left"
-              highlightsLocation="illustration"
+              highlightsLocation="text"
               illustAlign="center"
               icon={Globe}
             />
