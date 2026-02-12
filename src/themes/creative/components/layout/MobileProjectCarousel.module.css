@@ -1,0 +1,177 @@
+/* ==================== LAPTOP FRAME (Parity with Desktop TabletFrame) ==================== */
+
+.tabletWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    gap: 1rem;
+}
+
+.tabletBezel {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16/10;
+    /* Match Desktop */
+    background: var(--creative-text-secondary);
+    /* Default base */
+    border-radius: clamp(16px, 3vw, 24px);
+    padding: clamp(8px, 1.5vw, 12px);
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.1),
+        0 10px 20px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s ease;
+}
+
+/* Theme-aware bezel colors */
+[data-theme='dark'] .tabletBezel {
+    background: #2a2a2a;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.3),
+        0 10px 20px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='light'] .tabletBezel {
+    background: #e0e0e0;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.08),
+        0 10px 20px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.topBezel {
+    /* Renamed to cameraNotch in component to match, keeping old class name here but mapped to new styles if needed, 
+      but better to use new class names or map old ones to new styles. 
+      Let's stick to the current class names used in TSX for now, but update their styles. */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: clamp(12px, 2vw, 18px);
+    /* Dynamic height */
+    width: 100%;
+    /* Full width container for notch */
+    background: transparent;
+    /* Remove pill shape */
+    border-radius: 0;
+    position: static;
+    transform: none;
+    margin-bottom: clamp(4px, 0.8vw, 8px);
+    top: auto;
+    left: auto;
+}
+
+.camera {
+    width: clamp(6px, 1vw, 8px);
+    height: clamp(6px, 1vw, 8px);
+    background: #1a1a1a;
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: none;
+    /* Desktop style */
+}
+
+[data-theme='light'] .camera {
+    background: #4a4a4a;
+}
+
+.screenArea {
+    position: relative;
+    flex: 1;
+    /* Fill remaining space */
+    width: 100%;
+    height: auto;
+    /* Allow flex to control */
+    background: var(--creative-bg-primary);
+    border-radius: clamp(8px, 1.5vw, 12px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mediaContent {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Match desktop */
+    display: block;
+}
+
+.bottomBezel {
+    display: none;
+    /* Hide for desktop parity */
+}
+
+/* ==================== EXPAND BUTTON ==================== */
+
+.expandButton {
+    position: absolute;
+    bottom: 12px;
+    /* Bottom aligned */
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+    z-index: 10;
+}
+
+.expandButton:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.05);
+}
+
+/* ==================== DOTS INDICATOR ==================== */
+
+/* Dots Indicator - Inside frame */
+.dotsContainer {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    /* Tighter gap */
+    justify-content: center;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+    z-index: 10;
+}
+
+.dot {
+    width: 6px;
+    /* Slightly smaller */
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dotActive {
+    background: var(--creative-accent);
+    opacity: 1;
+    width: 18px;
+    border-radius: 3px;
+    transform: none;
+    /* Remove scale */
+}

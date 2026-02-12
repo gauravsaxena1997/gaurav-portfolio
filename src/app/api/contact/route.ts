@@ -1,23 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendContactEmail, ContactEmailData } from '@/lib/email';
+import { contactFormSchema } from '@/lib/validation/schemas';
 
 export async function POST(request: NextRequest) {
   try {
     const body: ContactEmailData = await request.json();
 
-    // Validate required fields
-    if (!body.name || !body.email || !body.message) {
+    // Validate using Zod
+    try {
+      await contactFormSchema.parseAsync(body);
+    } catch (error) {
+      // Return structured validation error
+      // We can manually format it or use ErrorHandler if desired, but for API responses we want pure JSON
+      // Currently using simple response.
       return NextResponse.json(
-        { success: false, error: 'Missing required fields' },
-        { status: 400 }
-      );
-    }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(body.email)) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid email format' },
+        { success: false, error: 'Validation failed', details: error },
         { status: 400 }
       );
     }
@@ -27,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     if (!result.success) {
       return NextResponse.json(
-        { success: false, error: result.error },
+        { success: false, error: { message: result.error || 'Failed to send email' } },
         { status: 500 }
       );
     }

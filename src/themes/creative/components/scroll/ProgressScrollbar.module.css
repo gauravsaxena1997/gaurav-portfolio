@@ -1,0 +1,40 @@
+/* Progress Scrollbar - Minimal smooth progress indicator */
+
+.progressContainer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  z-index: 200000;
+  /* Must be > Header's 99999 */
+  pointer-events: none;
+}
+
+/* Main progress track - attached to edge */
+.track {
+  width: 6px;
+  height: 100%;
+  background: var(--creative-progress-bg);
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .track {
+    width: 3px;
+    /* Thinner on mobile per user request */
+  }
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--creative-progress-fill);
+  /* Rounded ends for smoother look */
+  border-radius: 3px;
+  /* GPU acceleration to prevent flickering */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: height;
+}

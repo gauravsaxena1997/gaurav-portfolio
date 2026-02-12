@@ -1,0 +1,214 @@
+/* ==================== TABLET FRAME ==================== */
+
+.tabletWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.tabletBezel {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 4/3;
+    background: var(--creative-bg-secondary);
+    border-radius: 20px;
+    padding: 14px;
+    box-shadow:
+        0 4px 16px rgba(var(--creative-bg-primary-rgb), 0.6),
+        inset 0 1px 1px rgba(var(--creative-text-primary), 0.1),
+        inset 0 -1px 1px rgba(var(--creative-bg-primary-rgb), 0.5);
+    border: 1px solid var(--creative-border-color);
+}
+
+.topBezel {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 6px;
+    width: 80px;
+    background: rgba(var(--creative-bg-primary-rgb), 0.6);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.camera {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #2a2a3a, #0a0a0a);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.8),
+        0 0 2px rgba(100, 100, 255, 0.3);
+}
+
+.screenArea {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--creative-bg-primary);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mediaContent {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.noMediaPlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 85, 0, 0.05);
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.bottomBezel {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+/* ==================== PROGRESS BAR ==================== */
+
+.progressBarContainer {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.progressBarTrack {
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+}
+
+.progressBarFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent) 0%, #ff7733 100%);
+    border-radius: 2px;
+    transition: width 0.2s ease-out;
+    box-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
+}
+
+/* ==================== PROJECT TEXT ENHANCEMENTS ==================== */
+
+/* Project Text Area Enhanced */
+.projectTextArea h2 {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.5rem;
+}
+
+.projectTextArea h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.projectDescription {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1rem;
+    max-width: 90%;
+}
+
+.projectHighlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.projectBadge {
+    font-size: 11px;
+    padding: 4px 10px;
+    background: rgba(255, 85, 0, 0.15);
+    border: 1px solid rgba(255, 85, 0, 0.3);
+    border-radius: 12px;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.projectCTA {
+    display: inline-block;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.projectCTA:hover {
+    background: #ff6622;
+    transform: translateY(-2px);
+}
+
+/* Legacy - keeping for compatibility */
+.videoFrame {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    aspect-ratio: 16/10;
+    background: #1a1a1a;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    padding: 12px;
+}
+
+.videoFrameContent {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.videoPlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 85, 0, 0.1);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+}

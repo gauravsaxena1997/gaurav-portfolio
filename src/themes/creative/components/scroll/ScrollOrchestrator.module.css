@@ -1,0 +1,450 @@
+/* ScrollOrchestrator Styles */
+
+.orchestrator {
+  width: 100%;
+  position: relative;
+}
+
+/* ===== SECTIONS ===== */
+.verticalSection {
+  width: 100%;
+  position: relative;
+  /* Default behaviors for sections */
+}
+
+.desktopStats {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mobileStats {
+  display: none;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .desktopStats {
+    display: none;
+  }
+
+  .mobileStats {
+    display: block;
+  }
+}
+
+/* ===== STATS SECTION ===== */
+.statsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* 
+   MOBILE STACKING EFFECT 
+   - Removes nested scrollbars (overflow-y: auto removed)
+   - Uses position: sticky to create the "covering" effect
+*/
+@media (max-width: 900px) {
+
+  /* Stat Rows need to be sticky to stack on top of each other */
+  .statRow {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    min-height: 100vh;
+    /* Ensure background is opaque so it actually covers the previous section */
+    background: var(--creative-bg-primary);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    /* Shadow to show depth/stacking */
+  }
+
+  /* Z-Index Stacking Order */
+  .statRow:nth-child(1) {
+    z-index: 20;
+  }
+
+  /* Covers Hero (Hero is usually z-index 10 or lower) */
+  .statRow:nth-child(2) {
+    z-index: 25;
+  }
+
+  /* Covers Stat 1 */
+  .statRow:nth-child(3) {
+    z-index: 30;
+  }
+
+  /* Covers Stat 2 */
+}
+
+/* Base style for desktop/default */
+.statRow {
+  width: 100%;
+  min-height: auto;
+  /* Allow compact stacking */
+  padding-bottom: clamp(4rem, 8vh, 6rem);
+  /* Consistent minimal gap between stats */
+  position: relative;
+  /* Ensure it takes full viewport height for each stat panel */
+  display: flex;
+  align-items: stretch;
+  /* Stretch to fill */
+  justify-content: center;
+}
+
+/* Ensure child content fills the row */
+.statRow>* {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+/* ===== PROJECTS SECTION ===== */
+.projectsSection {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ===== OTHER PROJECTS & CTA ===== */
+.otherProjectsSection {
+  width: 100%;
+  position: relative;
+  background: var(--creative-bg-primary);
+}
+
+/* ===== OTHER PROJECTS IN TRANSITION PANEL ===== */
+.otherProjectsContent {
+  width: 100%;
+  max-width: 1200px;
+  padding: clamp(2rem, 4vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  position: relative;
+  background: linear-gradient(135deg,
+      var(--creative-bg-primary) 0%,
+      var(--creative-bg-secondary) 100%);
+}
+
+/* Decorative accent line at top */
+.otherProjectsContent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg,
+      transparent,
+      var(--creative-accent),
+      transparent);
+}
+
+.otherProjectsTitle {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--creative-accent);
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+/* Underline accent */
+.otherProjectsTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--creative-accent);
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.otherProjectsContent:hover .otherProjectsTitle::after {
+  transform: scaleX(1);
+}
+
+.projectCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.5rem, 3vw, 2rem);
+  width: 100%;
+  max-width: 900px;
+}
+
+.projectCard {
+  display: flex;
+  flex-direction: column;
+  background: var(--creative-bg-primary);
+  border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+/* Top accent bar on hover */
+.projectCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--creative-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.projectCard:hover {
+  transform: translateY(-6px);
+  border-color: var(--creative-accent);
+  box-shadow: 0 12px 32px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+}
+
+.projectCard:hover::before {
+  transform: scaleX(1);
+}
+
+.cardImage {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: var(--creative-bg-primary);
+}
+
+.cardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardImageFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--creative-accent);
+  background: var(--creative-bg-primary);
+}
+
+.cardContent {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cardTitle {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 600;
+  color: var(--creative-text-primary);
+}
+
+.cardDesc {
+  font-size: clamp(0.8rem, 1vw, 0.9rem);
+  color: var(--creative-text-secondary);
+  line-height: 1.5;
+  /* Limit to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardHighlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.cardBadge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--creative-accent);
+  color: var(--creative-bg-primary);
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* ===== CTA PANEL ===== */
+.ctaContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 3vw, 2rem);
+  text-align: center;
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.ctaTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--creative-text-primary);
+  line-height: 1.2;
+}
+
+.ctaSubtext {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--creative-text-secondary);
+  line-height: 1.6;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: var(--creative-accent);
+  color: var(--creative-bg-primary);
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 1rem;
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.35);
+}
+
+.ctaButton svg {
+  transition: transform 0.2s ease;
+}
+
+.ctaButton:hover svg {
+  transform: translateX(4px);
+}
+
+/* ===== SERVICES SECTION ===== */
+.servicesSection {
+  width: 100%;
+  min-height: 100vh;
+  padding: clamp(4rem, 8vw, 8rem) clamp(2rem, 4vw, 4rem);
+}
+
+.servicesHeader {
+  text-align: center;
+  margin-bottom: clamp(3rem, 6vw, 6rem);
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--creative-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sectionSubtitle {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--creative-text-secondary);
+  margin-top: 0.5rem;
+}
+
+.servicesContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.serviceItem {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: center;
+  padding: clamp(1.5rem, 3vw, 3rem);
+  border: 1px solid var(--creative-text-secondary);
+  border-radius: 8px;
+  background: var(--creative-bg-secondary);
+  transition: border-color var(--creative-transition-fast);
+}
+
+.serviceItem:hover {
+  border-color: var(--creative-accent);
+}
+
+.serviceNumber {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--creative-accent);
+  font-family: monospace;
+}
+
+.serviceInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.serviceTitle {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 600;
+  color: var(--creative-text-primary);
+}
+
+.serviceDesc {
+  font-size: clamp(0.875rem, 1.2vw, 1rem);
+  color: var(--creative-text-secondary);
+}
+
+.serviceIllustration {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--creative-bg-primary);
+  border: 1px dashed var(--creative-text-secondary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--creative-text-secondary);
+  font-size: clamp(0.75rem, 1vw, 0.875rem);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .statPanel {
+    width: 100vw;
+    padding: 0;
+    /* Remove side padding for edge-to-edge backgrounds */
+  }
+
+  .serviceItem {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .serviceNumber {
+    margin-bottom: -0.5rem;
+  }
+
+  .serviceIllustration {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+
+/* Responsive - Stack project cards on mobile */
+@media (max-width: 700px) {
+  .projectCards {
+    grid-template-columns: 1fr;
+  }
+}

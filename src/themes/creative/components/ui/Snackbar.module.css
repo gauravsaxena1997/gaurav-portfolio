@@ -1,0 +1,129 @@
+/* Snackbar - Generic notification component */
+
+.snackbar {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--creative-bg-secondary);
+  color: var(--creative-text-primary);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--creative-text-secondary);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    visibility 0.4s ease;
+  z-index: 1000;
+  max-width: min(90vw, 420px);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.snackbar.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Message content */
+.message {
+  flex: 1;
+}
+
+/* Keyboard key styling */
+.key {
+  display: inline-block;
+  background: var(--creative-bg-primary);
+  border: 1px solid var(--creative-text-secondary);
+  border-radius: 4px;
+  padding: 0.125rem 0.5rem;
+  margin: 0 0.25rem;
+  font-family: monospace;
+  font-weight: 600;
+  font-size: 0.85em;
+}
+
+/* Close button */
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--creative-text-secondary);
+  cursor: pointer;
+  border-radius: 50%;
+  transition:
+    color var(--creative-transition-fast),
+    background var(--creative-transition-fast);
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  color: var(--creative-text-primary);
+  background: var(--creative-bg-primary);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--creative-accent);
+  outline-offset: 2px;
+}
+
+.closeButton svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .snackbar {
+    bottom: 1.5rem;
+    left: 5%;
+    right: 5%;
+    transform: translateX(0) translateY(100px);
+    max-width: none;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    gap: 0.75rem;
+    text-align: left;
+    line-height: 1.4;
+  }
+
+  .snackbar.visible {
+    transform: translateX(0) translateY(0);
+  }
+
+  .closeButton {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .closeButton svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .snackbar {
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .snackbar.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+}

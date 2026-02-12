@@ -16,7 +16,12 @@ import {
 import './styles/theme.css';
 import styles from './GitHubTheme.module.css';
 
-export function GitHubTheme() {
+interface GitHubThemeProps {
+  currentTheme?: 'creative' | 'github';
+  onThemeChange?: (theme: 'creative' | 'github') => void;
+}
+
+export function GitHubTheme({ currentTheme = 'github', onThemeChange }: GitHubThemeProps = {}) {
   const { isDarkTheme } = useTheme();
   const { activeSection, navigateToSection } = useActiveSection();
 
@@ -26,6 +31,8 @@ export function GitHubTheme() {
       <GitHubHeader
         activeSection={activeSection}
         onNavigate={navigateToSection}
+        currentTheme={currentTheme}
+        onThemeChange={onThemeChange}
       />
       <main id="main-content" className={styles.mainContent}>
         {activeSection === 'home' && <Hero onNavigate={navigateToSection} />}

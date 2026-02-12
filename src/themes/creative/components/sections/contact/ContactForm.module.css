@@ -1,0 +1,146 @@
+/* Contact Form Styles - Glassmorphism */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+  max-width: 520px;
+
+  /* Glass Card Effect */
+  background: rgba(var(--creative-bg-secondary-rgb), 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--creative-border-color);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  text-transform: none;
+  /* Ensure no forced uppercase */
+}
+
+.subtitle {
+  font-size: var(--font-size-body-sm);
+  color: var(--creative-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.label {
+  font-size: var(--font-size-body-xs);
+  font-weight: 600;
+  color: var(--creative-text-secondary);
+  text-transform: none;
+  /* Changed from uppercase to follow project standards */
+  letter-spacing: 0.02em;
+  margin-left: 0.1rem;
+  font-family: var(--font-mono);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-body-md);
+  font-family: inherit;
+  color: var(--creative-text-primary);
+  /* Darker input background */
+  /* Adaptive input background */
+  background: rgba(var(--creative-bg-primary-rgb), 0.3);
+  border: 1px solid var(--creative-border-color);
+  border-radius: var(--radius-md);
+  transition: all var(--creative-transition-fast);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  background: rgba(var(--creative-bg-primary-rgb), 0.5);
+  border-color: var(--creative-accent);
+  box-shadow: 0 0 0 4px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--creative-text-secondary);
+  opacity: 0.4;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.status {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.submitButton {
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-body-sm);
+  font-family: var(--font-mono);
+  /* Technical Action */
+  font-weight: 700;
+  color: var(--creative-bg-primary);
+  /* Contrast text on Gold */
+  background: var(--creative-accent);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--creative-transition-fast);
+  margin-top: 0.5rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.25);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: color-mix(in srgb, var(--creative-accent), transparent 60%);
+  color: var(--creative-text-primary);
+}
+
+/* Styles removed: .divider, .dividerText, .scheduleButton - Moved to ContactSection */
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+}

@@ -1,0 +1,21 @@
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--creative-bg-primary);
+  will-change: transform;
+  z-index: 10000;
+}
+
+/* Reduced motion - instant removal */
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    display: none;
+  }
+}

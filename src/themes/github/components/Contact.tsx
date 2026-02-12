@@ -13,6 +13,10 @@ import {
   Loader2,
 } from 'lucide-react';
 import { SUBMIT_BTN_TEXT } from '@/data';
+import { validate } from '@/lib/validation';
+import { contactFormSchema } from '@/lib/validation/schemas';
+import { AppError } from '@/lib/errors/AppError';
+import { errorHandler } from '@/lib/errors/ErrorHandler';
 import type { SubmitStatus, ContactFormData } from '@/types';
 import styles from './Contact.module.css';
 
@@ -98,6 +102,10 @@ export function Contact() {
     setSubmitStatus('loading');
 
     try {
+      // 1. Client-Side Validation (Zod)
+      await validate(contactFormSchema, formData);
+
+      // 2. API Request
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -116,11 +124,18 @@ export function Contact() {
         setFormData({ name: '', email: '', message: '' });
         setSelectedTemplate(null);
       } else {
-        setSubmitStatus('error');
+        throw new Error(result.error?.message || 'Submission failed');
       }
     } catch (error) {
-      console.error('Error sending email:', error);
-      setSubmitStatus('error');
+      // Handle Zod Validation errors gracefully
+      if (error instanceof AppError && error.code === 'VALIDATION_ERROR') {
+        // Could show inline errors here if needed
+        setSubmitStatus('error');
+      } else {
+        // Log and report via centralized handler
+        errorHandler.handleError(error, { component: 'GithubContact', action: 'handleSubmit' });
+        setSubmitStatus('error');
+      }
     } finally {
       setTimeout(() => {
         setSubmitStatus('idle');
@@ -246,9 +261,8 @@ export function Contact() {
                   <div className={styles.messageTabs}>
                     <button
                       type="button"
-                      className={`${styles.messageTab} ${
-                        activeTab === 'write' ? styles.messageTabActive : ''
-                      }`}
+                      className={`${styles.messageTab} ${activeTab === 'write' ? styles.messageTabActive : ''
+                        }`}
                       onClick={() => setActiveTab('write')}
                     >
                       <FileText size={14} />
@@ -256,9 +270,8 @@ export function Contact() {
                     </button>
                     <button
                       type="button"
-                      className={`${styles.messageTab} ${
-                        activeTab === 'preview' ? styles.messageTabActive : ''
-                      }`}
+                      className={`${styles.messageTab} ${activeTab === 'preview' ? styles.messageTabActive : ''
+                        }`}
                       onClick={() => setActiveTab('preview')}
                     >
                       <Eye size={14} />
@@ -297,9 +310,8 @@ export function Contact() {
                   </p>
                   <button
                     type="submit"
-                    className={`${styles.submitButton} ${
-                      submitStatus === 'success' ? styles.submitSuccess : ''
-                    } ${submitStatus === 'error' ? styles.submitError : ''}`}
+                    className={`${styles.submitButton} ${submitStatus === 'success' ? styles.submitSuccess : ''
+                      } ${submitStatus === 'error' ? styles.submitError : ''}`}
                     disabled={!isFormValid || submitStatus === 'loading'}
                   >
                     {getButtonContent()}

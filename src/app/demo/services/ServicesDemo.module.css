@@ -1,0 +1,253 @@
+/* ===== PAGE CONTAINER ===== */
+.pageContainer {
+    min-height: 100vh;
+    background: var(--creative-bg-primary, #0a0a0a);
+    color: var(--creative-text-primary, #ffffff);
+}
+
+/* ===== INTRO SECTION ===== */
+.intro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.mainTitle {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    margin-top: 1rem;
+    opacity: 0.8;
+    max-width: 600px;
+}
+
+/* ===== PINNED SECTION ===== */
+.pinnedContainer {
+    min-height: 500vh;
+    /* 5 services × 100vh each */
+    position: relative;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    /* 60% laptop, 40% services */
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+/* Left Column: Laptop (Sticky) */
+.leftColumn {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.laptopWrapper {
+    width: 100%;
+    max-width: 800px;
+    /* Increased from 600px to prevent cutoff */
+}
+
+/* Laptop Screen Content */
+.laptopScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.serviceIndicator {
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: background-color 0.5s ease;
+}
+
+.serviceTitleOnScreen {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0.5rem 0 0;
+    color: white;
+}
+
+/* Right Column: Services */
+.rightColumn {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.serviceItem {
+    position: absolute;
+    /* Stack all services on top of each other */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+}
+
+.serviceItem.activeService {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.serviceContent {
+    max-width: 600px;
+}
+
+/* Wrapper to constrain separator width to content */
+.headerWrapper {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.serviceHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.serviceIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.serviceTitle {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Horizontal Separator */
+.separator {
+    width: 100%;
+    height: 2px;
+    opacity: 0.6;
+}
+
+
+.serviceDescription {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.featureList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.featureItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: clamp(0.9rem, 1.2vw, 1.125rem);
+}
+
+.checkmark {
+    font-size: 1.25rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ===== OUTRO SECTION ===== */
+.outro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    background: linear-gradient(180deg, var(--creative-bg-primary) 0%, #1a1a2e 100%);
+}
+
+.outroTitle {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin: 0 0 1rem;
+}
+
+.outroText {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    margin-bottom: 2rem;
+    opacity: 0.8;
+    max-width: 600px;
+}
+
+.ctaButton {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctaButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .pinnedContainer {
+        grid-template-columns: 1fr;
+        min-height: 600vh;
+    }
+
+    .leftColumn {
+        display: none;
+        /* Hide laptop on mobile */
+    }
+
+    .rightColumn {
+        padding: 1rem;
+    }
+
+    .serviceItem {
+        padding: 1rem;
+    }
+}

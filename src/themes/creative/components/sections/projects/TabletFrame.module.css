@@ -1,0 +1,254 @@
+.tabletFrame {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.frameBezel {
+  position: relative;
+  width: 100%;
+  max-width: 840px;
+  /* Was 700px, +20% */
+  aspect-ratio: 16 / 10;
+  background: var(--creative-text-secondary);
+  border-radius: clamp(16px, 3vw, 24px);
+  padding: clamp(8px, 1.5vw, 12px);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 10px 20px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Dark theme bezel */
+[data-theme='dark'] .frameBezel {
+  background: #2a2a2a;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 10px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Light theme bezel */
+[data-theme='light'] .frameBezel {
+  background: #e0e0e0;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.08),
+    0 10px 20px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.cameraNotch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: clamp(12px, 2vw, 18px);
+  margin-bottom: clamp(4px, 0.8vw, 8px);
+}
+
+.camera {
+  width: clamp(6px, 1vw, 8px);
+  height: clamp(6px, 1vw, 8px);
+  background: #1a1a1a;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+[data-theme='light'] .camera {
+  background: #4a4a4a;
+}
+
+.screenArea {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  border-radius: clamp(8px, 1.5vw, 12px);
+  overflow: hidden;
+  /* Theme-aware background for gaps - this is the key! */
+  background: var(--creative-bg-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.media {
+  width: 100%;
+  height: 100%;
+  /* CRITICAL: object-fit: contain preserves aspect ratio */
+  /* Gaps are filled by parent's background-color */
+  object-fit: contain;
+  display: block;
+}
+
+.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--creative-text-secondary);
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+}
+
+.bottomBezel {
+  display: none;
+}
+
+.homeIndicator {
+  display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .frameBezel {
+    max-width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 480px) {
+  .frameBezel {
+    padding: 6px;
+    border-radius: 12px;
+  }
+
+  .screenArea {
+    border-radius: 6px;
+  }
+}
+
+/* Fullscreen Button */
+.fullscreenButton {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  color: white;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screenArea:hover .fullscreenButton {
+  opacity: 1;
+}
+
+.fullscreenButton:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* Fullscreen Overlay */
+.fullscreenOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000000;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fullscreenContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  color: white;
+  z-index: 10;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.videoContainer {
+  position: relative;
+  width: 90vw;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fullscreenVideo {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.playPauseButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  padding: 20px;
+  cursor: pointer;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.videoContainer:hover .playPauseButton {
+  opacity: 1;
+}
+
+.instructions {
+  position: absolute;
+  bottom: 24px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.instructions kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 0 4px;
+}

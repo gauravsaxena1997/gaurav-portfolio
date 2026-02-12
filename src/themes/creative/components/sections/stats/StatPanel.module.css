@@ -1,0 +1,331 @@
+/* StatPanel Styles - Fixed Height Grid for Perfect Alignment */
+
+.statPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* ✅ FIX: Use viewport-aware height accounting for 64px header */
+  min-height: auto;
+  padding-top: 0;
+
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Grid layout - Desktop Zig-Zag (Configurable Split) */
+.statContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Strict 50-50 Split */
+  grid-template-rows: 100%;
+  gap: 0;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: left;
+  position: relative;
+}
+
+/* Text block wrapper - HERO PATTERN: Full coverage + flex center */
+.textBlock {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--section-padding-x);
+  box-sizing: border-box;
+}
+
+/* Lit layer - HERO PATTERN: inset:0 for identical coverage */
+.litLayer {
+  position: absolute;
+  inset: 0;
+  /* Same as Hero - full coverage */
+  z-index: 3;
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0);
+  /* ✅ FIXED: Changed from polygon to inset to match GSAP animation */
+  /* Controlled by JS */
+  opacity: 1;
+
+  /* Gold Background */
+  background: var(--creative-accent);
+
+  /* IDENTICAL to .textBlock for perfect alignment */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--section-padding-x);
+  /* SAME as .textBlock */
+  box-sizing: border-box;
+}
+
+/* High Contrast Colors for Text on Gold Background (Revealed) */
+/* This view is identical in both Light and Dark modes */
+/* Use semantic token for revealed title */
+.litLayer .title {
+  color: var(--creative-stats-text-revealed) !important;
+}
+
+.litLayer .statIcon {
+  color: #0a0a0a !important;
+}
+
+.litLayer .dividerLine {
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 1;
+}
+
+.litLayer .description,
+.litLayer .point {
+  color: var(--creative-text-primary) !important;
+  /* Dark text on Gold for readability */
+  opacity: 1 !important;
+}
+
+.litLayer .pointCheck {
+  color: #ffffff !important;
+}
+
+/* Text content section - NO PADDING, FULL HEIGHT */
+.textContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  /* ← FULL HEIGHT to match parent */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.statContentReversed .textContent {
+  justify-content: center;
+  /* No extra padding */
+}
+
+/* Header Layout - Flex Row */
+.statHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  width: 100%;
+  margin-bottom: 0;
+  /* ← ZERO margin, let separator handle spacing */
+}
+
+/* Lit layer statHeader - IDENTICAL to base (no overrides) */
+.litLayer .statHeader {
+  /* Gap and margin must be IDENTICAL to prevent shift */
+  gap: var(--space-lg);
+  margin-bottom: 0;
+}
+
+/* Separator now uses shared AccentSeparator component with auto lit-layer support */
+
+.statIcon {
+  color: var(--creative-accent);
+  width: clamp(28px, 5vw, 40px);
+  height: clamp(28px, 5vw, 40px);
+  flex-shrink: 0;
+  opacity: 0.95;
+}
+
+.dividerLine {
+  width: 2px;
+  height: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--creative-text-secondary);
+  opacity: 0.3;
+}
+
+/* Title - Always Gold in Normal state */
+.title {
+  font-family: var(--font-display);
+  /* Explicit Sora */
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  /* Unified responsive size */
+  font-weight: 700;
+  color: var(--creative-accent) !important;
+  /* Keep golden */
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-align: left;
+  width: 100%;
+}
+
+
+
+/* Description & Points - Normal Readable state */
+/* Description & Points - BOLD & HUGE (V4.4) - Reduced 30% (V4.5) */
+/* Description - Standard Body Text */
+.description {
+  font-size: var(--font-size-body);
+  font-family: var(--font-body);
+  color: var(--stats-body-text);
+  line-height: 1.6;
+  margin: 0;
+  text-align: left;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+
+/* Points - Golden Accent (Standardized) */
+.point {
+  font-size: var(--font-size-body);
+  font-family: var(--font-body);
+  color: var(--creative-accent);
+  line-height: 1.6;
+  margin: 0;
+  text-align: left;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+
+/* Dark Mode override removed to enforce standard secondary color */
+
+/* Highlights now use shared Highlights component from ui/ */
+
+/* Illustration container - Default center aligned */
+.illustrationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Alignment Utilities */
+.illustrationContainer.alignBottom {
+  align-items: flex-end;
+}
+
+.illustrationContainer.alignCenter {
+  align-items: center;
+}
+
+
+/* Split Layout for Illustration Column - Adjusted for clipped globe */
+.illustrationSplitContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  /* Vertically center the whole block */
+}
+
+.illustrationSplitTop {
+  height: auto;
+  flex: 0 0 auto;
+  /* Don't grow, size to content */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+  /* Let child clip itself */
+}
+
+.illustrationSplitBottom {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* Align to top instead of center */
+  align-items: center;
+  padding: 0 10%;
+  margin-top: var(--space-xl);
+  /* Explicit gap from globe */
+}
+
+/* Staggered Highlights in Bottom Section */
+/* Container for highlights in the 65/35 split */
+.relocatedHighlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: fit-content;
+  /* Tightly wrap content so it centers as a block */
+  align-items: flex-start;
+  /* Ensure text inside aligns left relative to itself */
+}
+
+.highlightItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  /* Standardized Font & Color */
+  font-size: var(--font-size-body);
+  font-family: var(--font-body);
+  color: var(--creative-accent);
+  font-weight: 700;
+  opacity: 1;
+  /* Always visible - Animation removed (Rev 10) */
+  transform: none;
+}
+
+/* Tilt wrapper */
+.tiltWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  max-height: 100%;
+  /* MAX space */
+}
+
+/* Illustration */
+.illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  max-height: 100%;
+  /* MAX space */
+}
+
+/* Component Split Wrappers */
+.desktopWrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mobileWrapper {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* Legacy mobile styles removed - now in StatPanelMobile.module.css */
+
+/* Visibility Toggle */
+@media (max-width: 900px) {
+  .desktopWrapper {
+    display: none;
+  }
+
+  .mobileWrapper {
+    display: block;
+  }
+}

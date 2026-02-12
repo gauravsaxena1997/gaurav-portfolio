@@ -1,0 +1,82 @@
+/* ==================== TABLET/LAPTOP FRAME FOR SERVICES ==================== */
+
+.tabletWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    transform: translateY(10px);
+    /* Slight tuck for overlap effect */
+}
+
+.tabletBezel {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: #2a2a2a;
+    border-radius: clamp(16px, 3vw, 24px);
+    padding: clamp(6px, 1.2vw, 10px);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+[data-theme='light'] .tabletBezel {
+    background: #e0e0e0;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.1),
+        0 5px 15px rgba(0, 0, 0, 0.05),
+        inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.topBezel {
+    height: clamp(10px, 1.8vw, 16px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.camera {
+    width: 6px;
+    height: 6px;
+    background: #111;
+    border-radius: 50%;
+    opacity: 0.5;
+}
+
+[data-theme='light'] .camera {
+    background: #999;
+}
+
+.screenArea {
+    flex: 1;
+    width: 100%;
+    background: var(--creative-bg-primary);
+    border-radius: clamp(8px, 1.5vw, 12px);
+    overflow: hidden;
+    position: relative;
+}
+
+.illustrationContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottomBezel {
+    height: clamp(10px, 1.8vw, 16px);
+    width: 100%;
+    margin-top: 4px;
+}

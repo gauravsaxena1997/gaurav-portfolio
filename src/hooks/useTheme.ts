@@ -25,16 +25,19 @@ export function useThemeState() {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
 
   useEffect(() => {
-    // Check localStorage on mount
+    // Check localStorage on mount and set data-theme attribute
     const stored = localStorage.getItem('theme');
-    if (stored) {
-      setIsDarkTheme(stored === 'dark');
-    }
+    const theme = stored || 'dark';
+    const isDark = theme === 'dark';
+    setIsDarkTheme(isDark);
+    document.documentElement.setAttribute('data-theme', theme);
   }, []);
 
   useEffect(() => {
-    // Update localStorage and document class when theme changes
-    localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+    // Update localStorage and document data-theme attribute when theme changes
+    const theme = isDarkTheme ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
   }, [isDarkTheme]);
 
   const toggleTheme = () => {

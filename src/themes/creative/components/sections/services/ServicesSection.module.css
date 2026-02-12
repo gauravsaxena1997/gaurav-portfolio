@@ -1,0 +1,196 @@
+/* Main Section Wrapper */
+.servicesSection {
+    position: relative;
+    /* Auto height - grows with content */
+    width: 100%;
+    z-index: 10;
+}
+
+/* 2-Column Layout */
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Tablet/Desktop: Side-by-Side */
+@media (min-width: 992px) {
+    .contentWrapper {
+        flex-direction: row;
+        align-items: flex-start;
+        /* Key for sticky behavior */
+    }
+}
+
+/* Left Column: Sticky Laptop Animation */
+.leftColumn {
+    width: 100%;
+    height: 50vh;
+    /* Mobile height */
+    position: sticky;
+    top: var(--header-height);
+    /* Stick below header */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    /* Below right column text cards */
+    pointer-events: none;
+    /* let events pass through? No, laptop might be interactive */
+}
+
+@media (min-width: 992px) {
+    .leftColumn {
+        width: 50%;
+        height: var(--viewport-height);
+        /* Use computed viewport height */
+        align-self: flex-start;
+    }
+}
+
+/* Laptop Container */
+.laptopContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform: scale(0.85);
+}
+
+@media (min-width: 992px) {
+    .laptopContainer {
+        transform: scale(1);
+    }
+}
+
+/* Right Column: Scrolling Content Stack */
+.rightColumn {
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 992px) {
+    .rightColumn {
+        width: 50%;
+        /* No fixed height - flows with content */
+    }
+}
+
+/* Service Item - Sticky Card Effect */
+.serviceItem {
+    position: sticky;
+    top: var(--header-height);
+    /* Stick below header */
+    width: 100%;
+    height: var(--viewport-height);
+    /* Each item claims full viewport minus header */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 var(--section-padding-x);
+    box-sizing: border-box;
+
+    /* Visual Styling for Stack Effect */
+    background-color: var(--creative-bg-primary);
+    /* Default Dark Theme */
+    /* Ensure stacking order preserves */
+    /* z-index managed naturally via stacking context */
+}
+
+/* Light Mode Overrides */
+:global(.light-theme) .serviceItem,
+:global([data-theme="light"]) .serviceItem {
+    background-color: #ffffff;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    color: #111111;
+    /* Baseline text color */
+}
+
+:global(.light-theme) .serviceTitle,
+:global([data-theme="light"]) .serviceTitle {
+    color: #111111;
+    /* Force Black Title */
+}
+
+:global(.light-theme) .serviceDescription,
+:global([data-theme="light"]) .serviceDescription {
+    color: #444444;
+    /* Dark Gray Description */
+}
+
+/* Mobile Styling */
+@media (max-width: 991px) {
+    .serviceItem {
+        padding: 0 var(--section-padding-x);
+        height: auto;
+        min-height: 50vh;
+        position: relative;
+        /* On mobile, just flow */
+        background: transparent;
+        padding-bottom: var(--space-2xl);
+    }
+
+    .serviceTitle {
+        font-size: var(--font-size-h3);
+    }
+}
+
+/* Service Content Styling */
+.serviceContent {
+    max-width: 600px;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    /* Text overlays background */
+}
+
+.headerWrapper {
+    margin-bottom: 0;
+}
+
+.serviceHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-bottom: 0;
+}
+
+.serviceIcon {
+    color: var(--creative-accent, #ffd700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Size handled in JSX or defaults */
+}
+
+.serviceTitle {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    /* Unified responsive size */
+    font-weight: 700;
+    /* Match Stats/Projects */
+    color: var(--creative-text-primary);
+    /* Keep white */
+    margin: 0;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+/* Separator now uses shared AccentSeparator component */
+
+.serviceDescription {
+    font-size: var(--font-size-body-md);
+    line-height: 1.7;
+    color: var(--creative-text-secondary);
+    margin-bottom: var(--space-xl);
+    max-width: 90%;
+}
+
+/* Bullets now use shared Highlights component */

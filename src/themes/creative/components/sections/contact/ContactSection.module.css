@@ -1,0 +1,247 @@
+/* Contact Section Styles - Creative Theme (Dark/Gold) */
+
+.container {
+  width: 100%;
+  min-height: var(--viewport-height);
+  /* Fallback for content overflow */
+  /* Desktop strict height applied in media query */
+  display: flex;
+  align-items: center;
+  /* Vertical Center */
+  justify-content: center;
+  /* Horizontal Center */
+  padding: calc(var(--header-height) + var(--section-padding-y)) var(--section-padding-x) var(--section-padding-y);
+  /* Remove vertical padding to let Flexbox handle centering */
+  /* Enforce Dark Background */
+  background: var(--creative-bg-primary, #0a0a0a);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Background Elements (Optional for "Magic Touch") */
+.container::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(194, 149, 80, 0.08) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--grid-gap-lg);
+  max-width: var(--container-lg);
+  width: 100%;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Text Wrapper Styles (Left Column) */
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-right: var(--space-lg);
+  position: relative;
+}
+
+/* Compass Animation */
+@keyframes rotateSlow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.compassWrapper {
+  position: absolute;
+  top: -120px;
+  left: -80px;
+  opacity: 0.12;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.compassIcon {
+  width: 400px;
+  height: 400px;
+  color: var(--creative-accent);
+  animation: rotateSlow 60s linear infinite;
+}
+
+.title {
+  font-size: var(--font-size-h1);
+  font-weight: 700;
+  color: var(--creative-text-primary);
+  /* Gold/White */
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Separator now uses shared AccentSeparator component */
+
+.subtitle {
+  font-size: var(--font-size-body-md);
+  color: var(--creative-text-secondary);
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0;
+}
+
+/* Status Grid */
+.statusGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  background: rgba(var(--creative-bg-secondary-rgb), 0.5);
+  border: 1px solid var(--creative-border-color);
+  color: var(--creative-accent);
+}
+
+.statusText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statusLabel {
+  font-size: var(--font-size-body-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--creative-text-secondary);
+  opacity: 0.8;
+}
+
+.statusValue {
+  font-size: var(--font-size-body-md);
+  font-weight: 600;
+  color: var(--creative-text-primary);
+}
+
+.scheduleButton {
+  margin-top: var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--creative-accent);
+  border-radius: var(--radius-md);
+  color: var(--creative-accent);
+  font-size: var(--font-size-body-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--creative-transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: fit-content;
+}
+
+.scheduleButton:hover {
+  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+}
+
+.scheduleButton:active {
+  transform: translateY(0);
+}
+
+.formWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Center the form in its column */
+  width: 100%;
+}
+
+/* Responsive - Stack on mobile */
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    text-align: center;
+  }
+
+  .textWrapper {
+    align-items: center;
+    padding-right: 0;
+  }
+
+  .statusGrid {
+    align-items: flex-start;
+    /* Correct checking: Status items look better left aligned or grid */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-lg);
+  }
+
+  .compassWrapper {
+    left: 50%;
+    transform: translateX(-50%);
+    top: -60px;
+  }
+
+  .subtitle {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: var(--section-padding-y) var(--section-padding-x);
+    /* Ensure height allows scrolling on very short screens if stack is tall */
+    min-height: 100vh;
+    height: auto;
+  }
+
+  .statusGrid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .compassIcon {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+/* Desktop Strict Viewport Compliance */
+@media (min-width: 1025px) {
+  .container {
+    height: var(--viewport-height);
+    /* Force exact height */
+    min-height: unset;
+    overflow: hidden;
+    /* Clean cut */
+  }
+}

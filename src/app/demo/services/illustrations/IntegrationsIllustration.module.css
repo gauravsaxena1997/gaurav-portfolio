@@ -1,0 +1,114 @@
+.container {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.connections line {
+    opacity: 1;
+}
+
+.centerHub {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.apiCard {
+    animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.apiTitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    fill: #ffffff;
+}
+
+.apiSubtext {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    fill: #ffffff90;
+}
+
+/* Flowing particles */
+.particle1 {
+    animation: flow1 2.5s ease-in-out infinite;
+}
+
+.particle2 {
+    animation: flow2 2.5s ease-in-out 0.8s infinite;
+}
+
+.particle3 {
+    animation: flow3 2.5s ease-in-out 1.6s infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes flow1 {
+    0% {
+        transform: translate(152px, 86px);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(110px, 65px);
+        opacity: 0;
+    }
+}
+
+@keyframes flow2 {
+    0% {
+        transform: translate(182px, 86px);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(224px, 65px);
+        opacity: 0;
+    }
+}
+
+@keyframes flow3 {
+    0% {
+        transform: translate(167px, 120px);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(167px, 165px);
+        opacity: 0;
+    }
+}

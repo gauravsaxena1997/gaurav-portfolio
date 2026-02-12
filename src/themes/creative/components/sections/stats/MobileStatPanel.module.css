@@ -1,0 +1,154 @@
+.statsContainer {
+    position: relative;
+    z-index: 20;
+    background: var(--creative-bg-secondary);
+}
+
+.statPanel {
+    position: sticky;
+    top: var(--header-height);
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    background: var(--creative-bg-secondary);
+    overflow: hidden;
+}
+
+/* Only stacking panels get the card-depth effect */
+.statPanel:nth-child(n+2) {
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    border-top: 1px solid var(--creative-border-color);
+}
+
+/* Blur/shadow gradient effect ONLY for stacking cards */
+.statPanel:nth-child(n+2)::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+    backdrop-filter: blur(4px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Grid Layouts */
+.grid4555 {
+    display: grid;
+    grid-template-rows: 4fr 6fr;
+    height: 100%;
+    width: 100%;
+}
+
+.grid502030 {
+    display: grid;
+    grid-template-rows: 5fr 2fr 3fr;
+    height: 100%;
+    width: 100%;
+}
+
+.textZone {
+    position: relative;
+    color: var(--creative-text-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem 1.5rem 1.5rem 1.5rem;
+    overflow: hidden;
+}
+
+.statTextContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.statTitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    font-weight: 700;
+    color: var(--creative-accent);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.statDescription {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-sm);
+    color: var(--creative-text-secondary);
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0;
+    margin-bottom: 1.25rem;
+}
+
+.backgroundIcon {
+    opacity: 0.06;
+    pointer-events: none;
+}
+
+.listZone {
+    padding: 0 1rem 1.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.illustrationZone {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.illustrationWrapper50 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 2rem;
+}
+
+.illustrationWrapper40 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 1rem;
+}
+
+.globeClip {
+    position: absolute;
+    top: 14%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300%;
+    height: 150%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Stacking Blur Overlay - added for JS parity */
+.stackingBlurOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--creative-bg-secondary-rgb), 0.3);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    z-index: 5;
+    pointer-events: none;
+}

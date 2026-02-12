@@ -1,0 +1,376 @@
+/* 404 Theme 1 — Matter.js Physics */
+/* Always dark theme — uses creative theme dark tokens */
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background-color: #0F0E0D;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-body, 'Manrope', system-ui, sans-serif);
+    color-scheme: dark;
+}
+
+/* Physics playground area */
+.physicsArea {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+}
+
+.physicsArea:active {
+    cursor: grabbing;
+}
+
+/* Individual physics digit */
+.digit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    pointer-events: none;
+    font-family: var(--font-display, 'Sora', system-ui, sans-serif);
+    font-weight: 800;
+    color: #C9A961;
+    background: rgba(201, 169, 97, 0.04);
+    border: 2px solid rgba(201, 169, 97, 0.15);
+    border-radius: 8px;
+    text-shadow:
+        0 0 40px rgba(201, 169, 97, 0.3),
+        0 0 80px rgba(201, 169, 97, 0.1);
+    will-change: transform;
+    backface-visibility: hidden;
+    box-sizing: border-box;
+}
+
+/* ── Centered platform / shelf ── */
+.platform {
+    position: absolute;
+    height: 3px;
+    background: linear-gradient(90deg,
+            rgba(201, 169, 97, 0.4) 0%,
+            rgba(201, 169, 97, 0.2) 50%,
+            rgba(201, 169, 97, 0.4) 100%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Glowing edge indicators — both sides of the platform */
+.platformEdgeLeft,
+.platformEdgeRight {
+    position: absolute;
+    top: -16px;
+    width: 3px;
+    height: 35px;
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(201, 169, 97, 0.3) 30%,
+            rgba(201, 169, 97, 0.5) 50%,
+            rgba(201, 169, 97, 0.3) 70%,
+            transparent 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(201, 169, 97, 0.2);
+}
+
+.platformEdgeLeft {
+    left: -1px;
+}
+
+.platformEdgeRight {
+    right: -1px;
+}
+
+/* ── Catch floor — full width baseline near bottom ── */
+.catchFloor {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(201, 169, 97, 0.15) 20%,
+            rgba(201, 169, 97, 0.2) 50%,
+            rgba(201, 169, 97, 0.15) 80%,
+            transparent 100%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ── Content area below physics ── */
+.content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 2.5vw, 1.5rem) clamp(1rem, 3vw, 2rem);
+    background: #0F0E0D;
+}
+
+.eyebrow {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: clamp(0.7rem, 1.2vw, 0.875rem);
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #C9A961;
+    margin: 0 0 0.75rem;
+    opacity: 0.8;
+    text-align: center;
+}
+
+.message {
+    font-family: var(--font-body, 'Manrope', system-ui, sans-serif);
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    color: #9B9490;
+    line-height: 1.5;
+    margin: 0 0 1.25rem;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    font-family: var(--font-body, 'Manrope', system-ui, sans-serif);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #0F0E0D;
+    background: linear-gradient(135deg, #E6B87A 0%, #C29550 100%);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(194, 149, 80, 0.3);
+}
+
+.cta:active {
+    transform: scale(0.98);
+}
+
+/* ── Gravity control bar ── */
+.controlBar {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Horizontally center groups */
+    gap: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(15, 14, 13, 0.95);
+    border-top: 1px solid rgba(201, 169, 97, 0.1);
+    backdrop-filter: blur(8px);
+    flex-wrap: wrap;
+}
+
+.controlGroup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Center items inside the group */
+    gap: 0.75rem;
+    min-width: 320px;
+    /* Fixed equal width for groups to ensure slider alignment */
+}
+
+.controlDivider {
+    width: 1px;
+    height: 24px;
+    background: rgba(201, 169, 97, 0.1);
+}
+
+.controlLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(201, 169, 97, 0.6);
+    white-space: nowrap;
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.sliderWrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.controlValue {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #C9A961;
+    min-width: 4ch;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* Reset Button — always layout, hidden when inactive */
+.resetButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: rgba(201, 169, 97, 0.6);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 0.25rem;
+    visibility: visible;
+    opacity: 1;
+}
+
+.resetButton.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.resetButton:hover {
+    color: #C9A961;
+    transform: rotate(90deg);
+}
+
+.resetButton:active {
+    transform: rotate(90deg) scale(0.9);
+}
+
+/* ── Custom range slider ── */
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg,
+            rgba(201, 169, 97, 0.15) 0%,
+            rgba(201, 169, 97, 0.3) 100%);
+    outline: none;
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E6B87A 0%, #C29550 100%);
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(201, 169, 97, 0.4);
+    border: 2px solid rgba(15, 14, 13, 0.8);
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 14px rgba(201, 169, 97, 0.6);
+    transform: scale(1.15);
+}
+
+.slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E6B87A 0%, #C29550 100%);
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(201, 169, 97, 0.4);
+    border: 2px solid rgba(15, 14, 13, 0.8);
+}
+
+/* Background grid decoration */
+.gridOverlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(201, 169, 97, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 169, 97, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Reduced motion: static layout */
+@media (prefers-reduced-motion: reduce) {
+    .physicsArea {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        cursor: default;
+    }
+
+    .digit {
+        position: relative !important;
+        transform: none !important;
+    }
+
+    .platform,
+    .catchFloor {
+        display: none;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .content {
+        padding: clamp(0.75rem, 2vw, 1rem) 1rem;
+    }
+
+    .cta {
+        padding: 0.625rem 1.5rem;
+        font-size: 0.8rem;
+    }
+
+    .controlBar {
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        /* Force vertical stacking on mobile */
+        gap: 1rem;
+        /* Space between the rows */
+    }
+
+    .controlGroup {
+        min-width: unset;
+        /* Remove min-width restriction on mobile */
+        width: 100%;
+        /* Full width */
+        max-width: 400px;
+        /* But keep reasonable max width */
+        justify-content: center;
+        /* Center contents */
+    }
+
+    .controlDivider {
+        display: none;
+        /* Hide divider on mobile */
+    }
+}

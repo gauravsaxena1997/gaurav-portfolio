@@ -4,6 +4,8 @@ export interface IService {
   description: string;
   icon: string;
   features: string[];
+  benefit?: string; // Three-tier communication: What's in it for them
+  proof?: string; // Three-tier communication: Evidence/example
 }
 
 export const SERVICES: IService[] = [
@@ -12,6 +14,8 @@ export const SERVICES: IService[] = [
     title: 'Web Application Development',
     description: 'Custom React/Angular applications that scale',
     icon: 'code',
+    benefit: 'Fast, responsive apps that users love',
+    proof: 'Built Lumore in 2 days with AI assistance',
     features: [
       'Single Page Applications',
       'Progressive Web Apps',
@@ -23,6 +27,8 @@ export const SERVICES: IService[] = [
     title: 'E-commerce Development',
     description: 'Online stores with seamless payment integration',
     icon: 'shopping-cart',
+    benefit: 'Start selling online in weeks, not months',
+    proof: 'Integrated payments for multiple clients',
     features: [
       'Product Catalogs & Inventory',
       'Stripe & Shopify Integration',
@@ -35,6 +41,8 @@ export const SERVICES: IService[] = [
     title: 'MVP Development',
     description: 'Rapid prototyping for startups and new ideas',
     icon: 'rocket',
+    benefit: 'Validate your idea without breaking the bank',
+    proof: 'Delivered Roamonn MVP in record time',
     features: [
       'Quick Iteration Cycles',
       'Proof of Concept Builds',
@@ -47,6 +55,8 @@ export const SERVICES: IService[] = [
     title: 'SaaS Development',
     description: 'Subscription-based software solutions',
     icon: 'cloud',
+    benefit: 'Build recurring revenue streams',
+    proof: 'Architected multi-tenant SaaS platforms',
     features: [
       'Multi-tenant Architecture',
       'Billing & Subscriptions',
@@ -59,6 +69,8 @@ export const SERVICES: IService[] = [
     title: 'Backend & Integrations',
     description: 'Connect your app to essential services',
     icon: 'plug',
+    benefit: 'Seamless third-party integrations',
+    proof: 'Integrated Stripe, Auth0, Firebase',
     features: [
       'Payment Processing (Stripe, Razorpay)',
       'Email Services & Notifications',
@@ -71,6 +83,8 @@ export const SERVICES: IService[] = [
     title: 'UI/UX Development',
     description: 'Beautiful, accessible interfaces',
     icon: 'palette',
+    benefit: 'Interfaces users actually enjoy',
+    proof: 'Designed and built award-winning UIs',
     features: ['Responsive Design', 'Component Libraries', 'Design Systems'],
   },
   {
@@ -78,6 +92,8 @@ export const SERVICES: IService[] = [
     title: 'Technical Consulting',
     description: 'Architecture reviews and code audits',
     icon: 'lightbulb',
+    benefit: 'Make informed technical decisions',
+    proof: '5+ years of full-stack experience',
     features: [
       'Code Reviews',
       'Performance Optimization',
@@ -89,6 +105,8 @@ export const SERVICES: IService[] = [
     title: 'Optimization & Audits',
     description: 'Ensure your app performs, ranks, and stays secure',
     icon: 'shield-check',
+    benefit: 'Faster load times, higher rankings',
+    proof: 'Achieved 90+ Lighthouse scores',
     features: [
       'Performance Audits',
       'SEO Optimization',

@@ -1,0 +1,317 @@
+.projectsContainer {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  /* Ensure no overflow interference with sticky */
+}
+
+.projectSlide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Extended height for scroll space (hero + screenshots) */
+  min-height: 250vh;
+  padding: 0 var(--section-padding-x);
+  gap: var(--grid-gap-lg);
+  position: relative;
+  overflow: visible;
+  /* Allow sticky to work */
+}
+
+/* LEFT COLUMN - Sticky & Centered */
+.leftColumn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* Vertical center within viewport space */
+  justify-content: center;
+  overflow: visible;
+}
+
+.stickyContent {
+  position: sticky;
+  top: var(--header-height);
+  height: calc(var(--viewport-height) - var(--header-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* Top align instead of center */
+  max-width: 640px;
+  padding: var(--space-xl) 0;
+  /* Reduced padding top for immediate visibility */
+  align-self: flex-start;
+  box-sizing: border-box;
+}
+
+.projectHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+/* Legacy inline number - kept for reference */
+.projectNumber {
+  font-family: var(--font-display);
+  font-size: var(--font-size-display-lg);
+  font-weight: 800;
+  color: var(--creative-accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Background decorative number - large, low-opacity */
+.projectNumberWrapper {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
+}
+
+.decorNumber {
+  font-family: var(--font-display);
+  font-size: 180px;
+  font-weight: 800;
+  color: inherit;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.decorHash {
+  font-family: var(--font-display);
+  font-size: 80px;
+  /* ~45% of number size */
+  font-weight: 800;
+  color: inherit;
+  margin-right: 4px;
+  transform: translateY(-10px);
+  /* Visual adjustment for baseline */
+}
+
+/* Separators now use shared AccentSeparator component */
+
+.titleStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* Increased gap between title and tag */
+}
+
+/* About Section */
+.projectName {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  /* Unified responsive size */
+  font-weight: 700;
+  color: var(--creative-text-primary);
+  /* Keep white */
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  /* Match Stats */
+  margin: 0;
+}
+
+/* RIGHT COLUMN - Scrolls with media content */
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 0;
+  /* Remove start gap */
+}
+
+/* Hero video section - HERO PATTERN: Centered */
+/* Hero video section - HERO PATTERN: Top Aligned */
+.heroMedia {
+  width: 100%;
+  max-width: 840px;
+  height: auto;
+  /* Remove 100vh constraint */
+  min-height: auto;
+  display: flex;
+  align-items: flex-start;
+  /* Top align */
+  justify-content: center;
+  /* Center horizontally */
+  padding-top: var(--space-xl);
+  /* Match Left Column padding for visual alignment */
+  margin-bottom: var(--space-xl);
+  /* Gap before screenshots */
+  position: relative;
+  /* Revert to relative flow */
+}
+
+/* Meta Row: Tag + CTA */
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Category Badge - Now sits inside Meta Row */
+.categoryBadge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+  color: var(--creative-accent);
+  border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+  font-size: var(--font-size-body-xs);
+  font-family: var(--font-mono);
+  /* Technical Tag */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.categoryBadge::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  padding: 8px 12px;
+  background: var(--creative-bg-secondary);
+  border: 1px solid var(--creative-accent);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--creative-text-primary);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.categoryBadge:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* About Description - Large & Bold */
+.aboutSection {
+  margin-top: 1rem;
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  line-height: 1.5;
+  color: var(--creative-text-secondary);
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Highlights - uses shared Highlights component */
+.highlightsSection {
+  margin-top: var(--space-md);
+}
+
+
+
+/* CTA Buttons Wrapper */
+.ctaWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
+  /* Push to bottom of sticky container */
+  padding-top: 2rem;
+  /* Ensure Visual separation */
+}
+
+/* Primary CTA Button - INCREASED SIZE */
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  /* Increased padding */
+  background: var(--creative-accent);
+  color: var(--creative-bg-primary);
+  font-family: var(--font-mono);
+  /* Technical Action */
+  font-size: var(--font-size-body-sm);
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+}
+
+/* Secondary Button (Explore More) - INCREASED SIZE */
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  /* Increased padding */
+  background: transparent;
+  color: var(--creative-text-primary);
+  font-family: var(--font-mono);
+  /* Technical Action */
+  font-size: var(--font-size-body-sm);
+  /* Increased size */
+  font-weight: 700;
+  border: 1.5px solid var(--creative-text-secondary);
+  /* Thicker border */
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondaryButton:hover {
+  background: var(--creative-text-secondary);
+  color: var(--creative-bg-primary);
+}
+
+/* Mobile: Stack columns, disable sticky */
+@media (max-width: 900px) {
+  .projectSlide {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: var(--section-padding-y) var(--section-padding-x);
+  }
+
+  .stickyContent {
+    position: relative;
+    top: 0;
+    max-width: 100%;
+  }
+
+  .rightColumn {
+    order: -1;
+    /* Media first on mobile */
+    padding-top: 0;
+  }
+
+  .heroMedia {
+    max-width: 100%;
+  }
+
+  .projectHeader {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectNumber {
+    font-size: 1.5rem;
+  }
+
+  .divider {
+    font-size: 1rem;
+  }
+
+  .projectName {
+    font-size: 0.75rem;
+  }
+}

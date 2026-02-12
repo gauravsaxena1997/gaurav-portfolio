@@ -1,18 +1,3 @@
-export const SUMMARY_SNIPPET = `class FreelanceDeveloper {
-  private expertise = {
-      frontend: ['React', 'Angular', 'Next.js', 'TypeScript'],
-      backend: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB'],
-      integrations: ['Stripe', 'Razorpay', 'Supabase', 'Firebase'],
-      deployment: ['Vercel', 'AWS', 'Docker']
-  };
-
-  public deliverResults(): void {
-      console.log('// 5+ years building web applications');
-      console.log('// AI-enhanced workflow: 30-40% faster delivery');
-      console.log('// Ready to bring your ideas to life!');
-  }
-}`;
-
 export const ABOUT_SNIPPET = `# About Me
 
 ## Gaurav Saxena
@@ -58,8 +43,4 @@ export const SUBMIT_BTN_TEXT = {
   IN_PROGRESS: 'HTTP 102: pinging server...',
   SUCCESS: 'HTTP 200: Mission accomplished!',
   FAILED: 'HTTP 500: Transmission failed!',
-} as const;
-
-export const TYPED_STRINGS = {
-  hero: ['Hello World!', 'Gaurav Saxena'],
 } as const;
