@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import dynamic from 'next/dynamic';
 import styles from './MobileLayout.module.css';
+import { SectionTitle } from '@/themes/creative/components/ui';
 import { getProjectsForDisplay } from '@/themes/creative/components/sections/projects/config';
 import { Header } from '@/themes/creative/components/header/Header';
 import { HeroSection } from '@/themes/creative/components/sections/hero/HeroSection';
@@ -143,7 +144,7 @@ export default function MobileLayout() {
                     domId="projects-section"
                     className={styles.projectsWrapper}
                 >
-                    <div className={styles.sectionLabel}>Selected Projects</div>
+                    <SectionTitle title="Selected Projects" />
                     {projects.map((project, index) => (
                         <MobileProjectCard
                             key={project.id}
@@ -160,7 +161,7 @@ export default function MobileLayout() {
                     zIndex={35}
                     style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
                 >
-                    <div className={styles.sectionLabel}>What I Offer</div>
+                    <SectionTitle title="What I Offer" />
                     <MobileServicesSection zIndex={40} />
                 </TrackedSection>
 
@@ -170,7 +171,6 @@ export default function MobileLayout() {
                     zIndex={45}
                     style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
                 >
-                    <div className={styles.sectionLabel}>Client Stories</div>
                     <MobileTestimonialsSection />
                 </TrackedSection>
 

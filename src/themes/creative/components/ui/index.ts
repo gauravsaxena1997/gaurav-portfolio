@@ -1,7 +1,10 @@
-export { GuideBar } from './GuideBar';
-export { LoadingSkeleton } from './LoadingSkeleton';
-export { SectionDivider } from './SectionDivider';
-export { Highlights } from './Highlights';
+export { SectionTitle } from './SectionTitle';
 export { AccentSeparator } from './AccentSeparator';
 export { FAQ } from './FAQ';
 export { FAQModal } from './FAQModal';
+export { GuideBar } from './GuideBar';
+export { Highlights } from './Highlights';
+export { LoadingSkeleton } from './LoadingSkeleton';
+export { SectionDivider } from './SectionDivider';
+export { Snackbar } from './Snackbar';
+export { MobileCardHeader } from './MobileCardHeader';

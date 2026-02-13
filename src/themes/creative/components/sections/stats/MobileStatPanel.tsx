@@ -1,106 +1,70 @@
-'use client';
-
-import React, { useRef, useLayoutEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import styles from './MobileStatPanel.module.css';
+import React from 'react';
 import { MobileChipStack } from './MobileChipStack';
 import { AIBrainIllustration } from './illustrations/AIBrainIllustration';
 import { GlobeVisualization } from './illustrations/GlobeVisualization';
-import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
+import { Highlights, MobileCardHeader } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
 import { STATS_DATA } from '@/config/stats';
-
-if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-}
-
-
 
 interface MobileStatPanelProps {
     index: number;
 }
 
 export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
-    const is5050 = index === 0;
-    // const layoutClass = is5050 ? styles.grid4555 : styles.grid502030; // Removed rigid grids
-    const zIndex = 20 + index;
     const stat = STATS_DATA[index];
     const Icon = stat?.icon;
-    const panelRef = useRef<HTMLDivElement>(null);
-
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            const el = panelRef.current;
-            if (!el) return;
-
-            const overlay = el.querySelector('.creative-stacking-card-overlay');
-
-            if (overlay) {
-                gsap.set(overlay, { opacity: 0 });
-
-                gsap.to(overlay, {
-                    opacity: 1,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top top+=1",
-                        end: "bottom top",
-                        scrub: true
-                    }
-                });
-            }
-        }, panelRef);
-
-        return () => ctx.revert();
-    }, []);
 
     return (
-        <div ref={panelRef} className={styles.statPanel} style={{ zIndex }}>
-            <div className="creative-stacking-card-overlay" />
-            <div className={styles.flexContainer}>
-                {/* Text Zone with BackgroundDecor */}
-                <div className={styles.textZone}>
-                    {/* Background Parallax Icon */}
+        <div className="relative w-full bg-[var(--creative-bg-secondary)] flex flex-col">
+            {/* Content Container - Uses global padding for consistency */}
+            <div className="flex flex-col px-8 pt-12 pb-8 gap-6">
+
+                {/* Header */}
+                <div className="w-full">
+                    <MobileCardHeader
+                        title={stat?.title || ''}
+                        separatorWidth="15%"
+                    />
+                </div>
+
+                {/* Body Text */}
+                <div className="relative w-full">
                     {Icon && (
                         <BackgroundDecor
-                            position={{ top: '45%', right: '5%' }}
-                            size="200px"
-                            parallaxSpeed={0.15}
-                            className={styles.backgroundIcon}
+                            position={{ top: '-20px', right: '-10px' }}
+                            size="140px"
+                            parallaxSpeed={0.10}
+                            className="opacity-[0.06] pointer-events-none"
                         >
-                            <Icon size={200} strokeWidth={1} />
+                            <Icon size={140} strokeWidth={1} />
                         </BackgroundDecor>
                     )}
-                    <div className={styles.statTextContent}>
-                        <h2 className={styles.statTitle}>{stat?.title}</h2>
-                        <AccentSeparator width="40%" />
-                        <p className={styles.statDescription}>{stat?.description}</p>
-                    </div>
+                    <p className="font-[var(--font-body)] text-[var(--font-mobile-p)] text-[var(--creative-text-secondary)] font-medium leading-relaxed mb-4 text-left relative z-10">
+                        {stat?.description}
+                    </p>
                 </div>
-                {/* Highlights Zone - for ALL layouts now */}
+
+                {/* Highlights */}
                 {stat?.highlights && (
-                    <div className={styles.listZone}>
-                        <Highlights items={stat.highlights} mono />
+                    <div className="w-full">
+                        <Highlights
+                            items={stat.highlights}
+                            mono
+                            className="w-full gap-[var(--space-sm)] flex flex-col items-start"
+                            itemClassName="!text-[var(--font-size-body-xs)] !leading-snug w-full text-left"
+                        />
                     </div>
                 )}
-                {/* Illustration Zone */}
-                <div className={styles.illustrationZone}>
-                    {index === 0 && (
-                        <div className={styles.illustrationWrapper50}>
-                            <MobileChipStack />
-                        </div>
-                    )}
-                    {index === 1 && (
-                        <div className={styles.illustrationWrapper40}>
-                            <AIBrainIllustration />
-                        </div>
-                    )}
+            </div>
+
+            {/* Illustration Zone - Full width, natural flow after content */}
+            <div className="w-full h-[300px] relative mt-4 bg-[var(--creative-bg-secondary)] border-t border-[rgba(201,169,97,0.1)]">
+                <div className={`w-full h-full flex relative px-8 ${index === 1 ? 'items-center' : 'items-end'}`}>
+                    {index === 0 && <MobileChipStack />}
+                    {index === 1 && <AIBrainIllustration />}
                     {index === 2 && (
-                        <div className={styles.illustrationWrapper40}>
-                            <div className={styles.globeClip}>
-                                <GlobeVisualization />
-                            </div>
+                        <div className="absolute bottom-[-15%] left-8 w-[300%] h-[180%] flex items-start justify-start pointer-events-none">
+                            <GlobeVisualization />
                         </div>
                     )}
                 </div>

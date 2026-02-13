@@ -4,48 +4,60 @@
     position: sticky;
     top: var(--header-height);
     width: 100%;
-    /* Exact fit for remaining space */
-    height: calc(var(--mobile-safe-height, 100vh) - var(--header-height));
+    /* Exact fit for viewport matching Contact Section */
     background: var(--creative-bg-secondary);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 0;
-    /* Let flex children handle spacing */
+    gap: 1.5rem;
+    /* Minimize gap between title and card */
     z-index: 30;
     overflow-y: hidden;
-    /* Main container fixed, internal scroll if needed */
-    padding: 0;
+    /* Top padding clears header */
 }
 
 .header {
     flex: 0 0 auto;
-    padding: 1rem 1.5rem 0.5rem 1.5rem;
-    /* Reduced top/bottom padding */
+    /* Use minimal padding, rely on section gap */
+    padding: 1rem 1.5rem 0 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    /* Reduced gap */
+    text-align: center;
 }
 
-/* ... title keep ... */
+.title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Light Mode Title */
+:global([data-theme='light']) .title {
+    background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
 /* Scroll Snap Carousel */
 .carouselContainer {
     flex: 1 1 auto;
-    /* Fill remaining space */
+    /* Fill all remaining space */
     width: 100%;
     overflow-x: auto;
-    /* Create scroll container */
+    /* Horizontal scroll only */
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 3rem;
-    /* Increased padding to prevent clipping by next section */
-    /* Consolidate padding */
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    /* Center cards vertically in the available space */
+    justify-content: flex-start;
+    /* Align to top to stay near title */
+    padding-bottom: 0;
 
     /* Hide scrollbar */
     scrollbar-width: none;
@@ -68,24 +80,25 @@
 .cardSnapWrapper {
     scroll-snap-align: center;
     width: 85vw;
-    /* Show part of next card */
+    /* Maintain width */
     max-width: 400px;
     flex-shrink: 0;
+    height: auto;
+    /* Remove full height forcing */
+    padding-bottom: 2rem;
+    /* Add bottom breathing room */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Align to top */
 }
 
 /* Reusing generic card styles via prop, but ensure specific overrides here if needed */
 .mobileCard {
-    height: 100%;
-    /* Fill wrapper */
-    min-height: 300px;
-    /* Ensure visual weight */
-}
-
-.scrollHint {
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--creative-text-secondary);
-    opacity: 0.6;
-    margin-top: -1rem;
+    height: auto;
+    /* Let content dictate, but flexbox in wrapper centers it */
+    width: 100%;
+    min-height: 0;
+    /* Prevent overflow lock */
+    flex: 1;
 }

@@ -20,7 +20,7 @@
 
 /* Only stacking project cards get depth effect */
 .projectContainer+.projectContainer {
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--creative-stack-shadow);
     border-top: 1px solid var(--creative-border-color);
 }
 
@@ -32,7 +32,7 @@
     left: 0;
     width: 100%;
     height: 100px;
-    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+    background: var(--creative-stack-overlay);
     backdrop-filter: blur(4px);
     z-index: -1;
     pointer-events: none;
@@ -52,59 +52,12 @@
     scrollbar-width: thin;
 }
 
-.projectTitle {
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 5vw, 2.25rem);
-    font-weight: 800;
-    /* Keeping 800 for projects as they are main headings */
-    color: var(--creative-accent);
-    line-height: 1.15;
-    /* Matched to Stats */
-    letter-spacing: -0.02em;
-    margin: 0;
-    flex-shrink: 0;
-}
-
-.projectDescription {
-    font-family: var(--font-body);
-    font-size: var(--font-size-body-sm);
-    color: var(--creative-text-secondary);
-    /* Removed opacity: 0.8 to match Stats exactly */
-    font-weight: 500;
-    line-height: 1.6;
-    /* Matched to Stats */
-    margin: 0;
-    margin-bottom: 1.25rem;
-    /* Matched to Stats */
-    max-width: 100%;
-    /* Removed 95% constraint */
-}
-
-/* Updated Separator margin to match flow */
-.projectSeparator {
-    margin: 1rem 0;
-    align-self: flex-start;
-    flex-shrink: 0;
-}
-
-.projectSpacer {
-    /* Deprecated but kept for compat with TSX for now, will remove in TSX next */
-    display: none;
-}
-
-.projectBottomSection {
-    display: flex;
-    flex-direction: column;
+.projectTitleWrapper {
     width: 100%;
-    background: var(--creative-bg-secondary);
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
-    padding-top: 0.5rem;
-    gap: 0.75rem;
-    /* Priority section: Always visible */
-    flex: 0 0 auto;
-    position: relative;
-    z-index: 10;
+    margin-bottom: 0.5rem;
 }
+
+/* ... existing code ... */
 
 .viewLiveBlockButton {
     display: flex;
@@ -114,7 +67,8 @@
     margin: 0 auto;
     padding: 0.85rem;
     background: var(--creative-accent);
-    color: var(--creative-bg-primary);
+    color: var(--text-on-accent);
+    /* Dynamic text color based on theme settings */
     font-family: var(--font-mono);
     font-size: 0.85rem;
     font-weight: 700;
@@ -126,17 +80,14 @@
     box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb), 0.3);
 }
 
-.viewLiveBlockButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(var(--creative-accent-rgb), 0.4);
-    filter: brightness(1.1);
-}
+/* ... existing code ... */
 
 .caseStudyTag {
     display: inline-block;
     padding: 0.2rem 0.4rem;
     background: rgba(var(--creative-accent-rgb), 0.15);
-    color: var(--creative-accent);
+    color: var(--creative-accent-text);
+    /* Accessible Text */
     border: 1px solid rgba(var(--creative-accent-rgb), 0.3);
     font-size: 0.65rem;
     font-family: var(--font-mono);
@@ -148,69 +99,23 @@
     white-space: nowrap;
 }
 
-.projectNumberWrapper {
-    display: flex;
-    align-items: baseline;
-    line-height: 1;
-}
-
-.decorNumber {
-    font-family: var(--font-display);
-    font-size: 150px;
-    font-weight: 800;
-    color: inherit;
-    line-height: 1;
-    letter-spacing: -0.05em;
-}
-
-.decorHash {
-    font-family: var(--font-display);
-    font-size: 60px;
-    font-weight: 800;
-    color: inherit;
-    margin-right: 4px;
-    transform: translateY(-5px);
-}
-
-.projectHighlightsList {
-    margin-top: 0;
-    width: 100%;
-    /* Alignment logic matched to Services/Stats Left Align */
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    /* Left aligned */
-    padding: 0 1rem;
-    padding-left: 0;
-    /* Align flush with text above */
-}
+/* ... existing code ... */
 
 .projectHighlightsList :global(div),
 .projectHighlightsList :global(span),
 .projectHighlightsList :global(li) {
-    color: var(--creative-accent) !important;
+    color: var(--creative-accent-text) !important;
+    /* Accessible Text */
 }
 
-.projectHighlightsOverride {
-    /* Allow natural width for centering */
-    width: 100% !important;
-    /* Full width */
-    margin: 0 !important;
-    /* Ensure bullets align left within the centered block */
-    align-items: flex-start !important;
-}
-
-.projectHighlightsOverride :global(li) {
-    justify-content: flex-start !important;
-    width: 100%;
-    text-align: left;
-}
+/* ... existing code ... */
 
 .projectBadge {
     font-size: var(--font-size-body-xs);
     padding: 0.25rem 0.65rem;
     background: rgba(var(--creative-accent-rgb), 0.1);
-    color: var(--creative-accent);
+    color: var(--creative-accent-text);
+    /* Accessible Text */
     border-radius: var(--radius-sm);
     font-family: var(--font-mono);
 }

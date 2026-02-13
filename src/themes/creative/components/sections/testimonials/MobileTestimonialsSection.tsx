@@ -4,14 +4,12 @@ import { TESTIMONIALS } from '@/config/testimonials';
 import { TestimonialCard } from './TestimonialCard';
 import styles from './MobileTestimonials.module.css'; // Dedicated mobile styles needed for snap layout
 import { AccentSeparator } from '@/themes/creative/components/ui';
+import { SectionTitle } from '../../ui';
 
 export function MobileTestimonialsSection() {
     return (
         <section className={styles.mobileSection}>
-            <div className={styles.header}>
-                <h2 className={styles.title}>Client Stories</h2>
-                <AccentSeparator />
-            </div>
+            <SectionTitle title="Client Stories" />
 
             <div className={styles.carouselContainer}>
                 <div className={styles.carouselTrack}>
@@ -28,9 +26,7 @@ export function MobileTestimonialsSection() {
                 </div>
             </div>
 
-            <div className={styles.scrollHint}>
-                Swipe for more →
-            </div>
+
         </section>
     );
 }

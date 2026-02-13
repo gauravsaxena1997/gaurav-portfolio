@@ -47,7 +47,7 @@ export function TestimonialCard({ data, className = '' }: TestimonialCardProps) 
                 </div>
 
                 <div className={styles.infoColumn}>
-                    <h4 className={styles.authorName}>{data.name}</h4>
+                    <h3 className={styles.authorName}>{data.name}</h3>
                     <span className={styles.designation}>{data.designation}</span>
                 </div>
 

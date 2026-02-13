@@ -324,7 +324,9 @@
 .heroCTA {
   background: transparent;
   border: 2px solid var(--creative-accent);
-  color: var(--creative-accent);
+  /* Graphical border stays original */
+  color: var(--creative-accent-text);
+  /* Accessible text color */
   padding: 0.75rem 2rem;
   font-family: var(--font-display);
   font-size: 1.125rem;

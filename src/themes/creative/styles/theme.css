@@ -35,25 +35,15 @@
   --creative-accent-gradient: linear-gradient(135deg, #E6B87A 0%, #C29550 100%);
   --creative-accent-shadow: rgba(194, 149, 80, 0.3);
 
-  /* Border Radius System */
-  --radius-xs: 2px;
-  /* Subtle elements, separators */
-  --radius-sm: 4px;
-  /* Buttons, small UI elements */
-  --radius-md: 8px;
-  /* Cards, panels, medium containers */
-  --radius-lg: 12px;
-  /* Large containers, modals */
-  --radius-xl: 16px;
-  /* Large containers, modals */
-  --radius-xl: 16px;
-  /* Hero elements,special features */
-  --radius-full: 50%;
-  /* Circular elements */
+  /* Semantic Variables (Accessibility & Aesthetics) */
+  --creative-accent-text: #C9A961;
+  /* Light Gold for Dark Mode (Text on Black) */
+  --creative-accent-subtle: #D4B875;
+  /* Softer Gold for illustrations/lighthouse */
+  --creative-accent-graphic: var(--creative-accent);
+  /* Alias for graphical elements */
 
   /* Mobile Layout System Variables */
-  --mobile-header-height: 56px;
-  /* Dynamic via JS */
   --mobile-safe-height: 100vh;
   /* Dynamic via JS */
   --mobile-100vh: 100vh;
@@ -83,10 +73,10 @@
   --creative-border-color: rgba(201, 169, 97, 0.2);
 
   /* Spotlight beam colors */
-  --creative-spotlight-color: #C89C4A;
-  /* Darker golden beam */
-  --creative-spotlight-rgb: 200, 156, 74;
-  /* RGB for spotlight */
+  --creative-spotlight-color: #EEDC82;
+  /* Very light, soft subtle gold */
+  --creative-spotlight-rgb: 238, 220, 130;
+  /* RGB for soft gold */
 
   /* Natural Rock Colors (Neutral) */
   --creative-rock-dark: #4A4035;
@@ -134,6 +124,10 @@
   --creative-transition-fast: 150ms ease;
   --creative-transition-normal: 300ms ease;
   --creative-transition-slow: 500ms ease;
+
+  /* Global Stacking Shadows (Mobile Cards) */
+  --creative-stack-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+  --creative-stack-overlay: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
 
   /* ===== VIEWPORT SYSTEM ===== */
   /* Header height - fixed navigation bar */
@@ -197,17 +191,22 @@
   --container-lg: clamp(1024px, 80vw, 1400px);
   --container-xl: clamp(1400px, 75vw, 1920px);
 
+  /* Border Radius System */
+  --radius-xs: 2px;
   --radius-sm: clamp(4px, 0.5vw, 6px);
   --radius-md: clamp(6px, 0.75vw, 8px);
   --radius-lg: clamp(8px, 1vw, 12px);
   --radius-xl: clamp(12px, 1.5vw, 16px);
+  --radius-full: 50%;
 }
 
 /* Mobile header height override */
 @media (max-width: 768px) {
   :root {
-    --header-height: 56px;
-    --viewport-height: calc(100vh - 56px);
+    /* Fluid Header Height - Scales with viewport height */
+    --header-height: clamp(3rem, 7vh, 3.75rem);
+    /* approx 48px to 60px */
+    --viewport-height: calc(100vh - var(--header-height));
 
     /* Mobile Type Scale Adjustments */
     --font-size-display-xl: clamp(2.5rem, 12vw, 4rem);
@@ -233,24 +232,22 @@
   --text-body: #6B6560;
   --text-muted: rgba(107, 101, 96, 0.8);
   --text-highlight: #C9A961;
-  --text-on-accent: #ffffff;
-  /* White text on Gold in Light Mode? Or keep black? Used for inverted */
+  /* Semantic Variables (Light Mode) */
+  --text-on-accent: #1A1816;
+  /* Dark text on Gold bg for accessibility */
 
-  --creative-accent: #C9A961;
-  --creative-accent-secondary: #B8935C;
-  --creative-accent-hover: #B8935C;
-  --creative-accent-rgb: 201, 169, 97;
+  --creative-accent-text: color-mix(in srgb, var(--creative-accent), #000 45%);
+  /* 45% Black mix = Dark Bronze (Passes 4.5:1 while keeping Gold hue) */
+  --creative-accent-subtle: #D4B875;
+  --creative-accent-graphic: var(--creative-accent);
 
-  /* Accent Gradient (same as dark mode - gold chips remain consistent) */
-  --creative-accent-gradient: linear-gradient(135deg, #E6B87A 0%, #C29550 100%);
-  --creative-accent-shadow: rgba(194, 149, 80, 0.3);
-
-  --creative-hero-name-color: #B8935C;
-  --creative-hero-social-color: #B8935C;
+  --creative-hero-name-color: var(--creative-accent-text);
+  /* Use accessible text color */
+  --creative-hero-social-color: var(--creative-accent-text);
   --creative-hero-divider-color: rgba(26, 24, 22, 0.18);
 
   --creative-stats-overlay: #D6BD7A;
-  --creative-stats-title: #B8935C;
+  --creative-stats-title: var(--creative-accent-text);
   --creative-stats-body: #33271B;
   --creative-stats-highlight: #3F2E1B;
   --creative-stats-check: #1A1208;
@@ -258,12 +255,15 @@
   --creative-border-color: rgba(201, 169, 97, 0.5);
   /* Increased visibility for light mode */
 
-  --creative-spotlight-color: #C89C4A;
-  --creative-spotlight-rgb: 200, 156, 74;
+  --creative-spotlight-color: #EEDC82;
+  /* Very light, soft subtle gold */
+  --creative-spotlight-rgb: 238, 220, 130;
 
-  --creative-beam-text-inverted: #FFFFFF;
-  --creative-beam-text-muted: rgba(255, 255, 255, 0.82);
-  --creative-beam-accent-inverted: #FFF2C7;
+  /* Dark text for contrast against the light beam */
+  --creative-beam-text-inverted: #1A1816;
+  --creative-beam-text-muted: rgba(26, 24, 22, 0.82);
+  --creative-beam-accent-inverted: #5C461F;
+  /* Deep Bronze */
 
   /* Natural Rock Colors (Dark Mode - slightly cooler/darker) */
   --creative-rock-dark: #2A2A2A;
@@ -284,6 +284,10 @@
 
   --creative-progress-bg: rgba(0, 0, 0, 0.1);
   --creative-progress-fill: var(--creative-accent);
+
+  /* Lighter shadows for Light Mode */
+  --creative-stack-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+  --creative-stack-overlay: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.05));
 }
 
 /* Typography using clamp for responsiveness */
@@ -326,6 +330,21 @@
 .creative-body-sm {
   font-size: clamp(0.875rem, 0.5vw + 0.5rem, 1rem);
   line-height: 1.5;
+}
+
+/* ===== MOBILE CARD HEADER STANDARD (New) ===== */
+.mobile-card-header {
+  font-family: var(--font-display);
+  /* Fluid sizing based on card/viewport context */
+  /* Fallback for environments where clamp or cqh might be ignored */
+  font-size: 1.5rem !important;
+  font-size: clamp(1.5rem, 4cqh, 2rem) !important;
+  font-weight: 700;
+  color: var(--creative-accent-text);
+  margin: 0;
+  line-height: 1.1;
+  /* Ensure it doesn't shrink too small */
+  min-height: 1.1em;
 }
 
 /* Focus styles - accessibility-first with branded accent */

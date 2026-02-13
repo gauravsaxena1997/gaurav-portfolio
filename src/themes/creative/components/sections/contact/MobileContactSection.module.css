@@ -2,249 +2,148 @@
     position: sticky;
     top: 0;
     width: 100%;
-    /* Use safe height */
-    height: var(--mobile-safe-height, 100vh);
-    /* Standardized padding */
-    padding-top: calc(var(--header-height) + var(--mobile-section-padding));
-    padding-bottom: var(--mobile-section-padding);
-    padding-left: var(--mobile-section-padding);
-    padding-right: var(--mobile-section-padding);
+    /* Exact height */
+    padding-top: var(--header-height);
+    /* Safe padding for bottom */
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     z-index: 50;
     background: var(--creative-bg-secondary);
     display: flex;
     flex-direction: column;
-    flex-direction: column;
-    align-items: flex-start;
-    /* Changed from center */
-    /* Center content horizontally */
+    /* Main Layout: Space out header, form, footer */
     justify-content: flex-start;
-    color: var(--creative-text-primary);
-    overflow-y: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    box-sizing: border-box;
+    align-items: center;
+    overflow: hidden;
+    gap: 1rem;
 }
 
-.contactSection::-webkit-scrollbar {
-    display: none;
+.header {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0 0 0;
+    width: 100%;
+    text-align: center;
 }
 
-.contactTitle {
-    font-size: clamp(1.4rem, 4vw, 1.75rem);
+.title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.5rem);
     font-weight: 700;
+    margin: 0;
     color: var(--creative-text-primary);
     line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin: 0 0 0.25rem 0;
-    font-family: var(--font-display);
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
 }
 
-.contactCompassWrapper {
-    position: absolute;
-    top: calc(var(--header-height) - 1rem);
-    right: -2rem;
-    opacity: 0.08;
-    z-index: 0;
-    pointer-events: none;
+.separator {
+    opacity: 0.8;
 }
 
-@keyframes compassRotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.contactCompassIcon {
-    width: clamp(180px, 40vw, 280px);
-    height: clamp(180px, 40vw, 280px);
-    color: var(--creative-accent);
-    animation: compassRotate 60s linear infinite;
-}
-
-.contactSubtitle {
-    font-size: var(--font-size-body-sm);
-    color: var(--creative-text-secondary);
-    line-height: 1.6;
-    margin: 0.5rem 0 0.75rem 0;
-    max-width: 90%;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-}
-
-.contactStatusRow {
-    display: flex;
-    flex-direction: column;
-    /* Stack items vertically */
-    gap: 1.25rem;
-    /* Increased gap for breathing room */
-    width: 100%;
-    margin-bottom: 2rem;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    justify-content: flex-start;
-    align-items: flex-start;
-    /* Align contents to left */
-    padding-left: 0.5rem;
-    /* Slight indent */
-}
-
-.contactChip {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    /* More internal spacing */
-    padding: 0;
-    /* Remove pill padding for cleaner text look, or keep it subtle */
-    background: transparent;
-    /* Remove background for cleaner list look */
-    border: none;
-    /* Remove border */
-    border-radius: 0;
-    font-size: var(--font-size-body-md);
-    /* Larger text */
-    color: var(--creative-text-primary);
-    /* Brighter text */
-    white-space: normal;
-    /* Allow wrap */
-    overflow: visible;
-    text-overflow: clip;
-    max-width: 100%;
-}
-
-.contactChip svg {
-    color: var(--creative-accent);
-    flex-shrink: 0;
+/* Light Mode Title Override if needed */
+:global([data-theme='light']) .title {
+    color: #1a1a1a;
 }
 
 .contactFormArea {
     width: 100%;
-    /* No flex: 1 here, let it flow naturally in scroll */
-    margin-top: 1rem;
     position: relative;
     z-index: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* Center form in the available space */
+    justify-content: center;
+    flex: 1;
+    /* occupy available space */
+    min-height: 0;
+    margin: 0;
+    padding: 0;
 }
 
-/* ContactForm Overrides - target ONLY the top-level container */
+/* Form Container Style */
 .contactFormArea> :global(div) {
     width: 100% !important;
     max-width: 500px !important;
+    height: auto !important;
+    /* Let content dictate height, don't force stretch */
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+
+    /* Use GAP for internal spacing, not space-evenly */
+    justify-content: center !important;
+    gap: clamp(0.5rem, 2vh, 1rem) !important;
+
     background: rgba(var(--creative-bg-secondary-rgb), 0.5) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
     border: 1px solid var(--creative-border-color) !important;
     border-radius: var(--radius-lg) !important;
-    padding: clamp(1rem, 3dvh, 1.25rem) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
-    box-sizing: border-box !important;
-}
-
-/* Ensure children DIVs (field groups) do NOT inherit the card style */
-.contactFormArea :global(form div) {
-    background: transparent !important;
-    border: none !important;
+    padding: clamp(0.75rem, 2vh, 1.25rem) !important;
     box-shadow: none !important;
-    backdrop-filter: none !important;
-    padding: 0 !important;
-    width: 100% !important;
 }
 
+/* Inner Form */
 .contactFormArea :global(form) {
-    gap: clamp(0.4rem, 1.2dvh, 0.6rem) !important;
-    margin-top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: clamp(0.5rem, 2vh, 1rem) !important;
+    margin: 0 !important;
 }
 
+/* Remove forced expansion on inputs, rely on gaps */
 .contactFormArea :global(form > div) {
-    gap: 0.2rem !important;
-}
-
-.contactFormArea :global(label) {
-    font-size: var(--font-size-body-xs) !important;
-    margin-left: 0.1rem !important;
-    letter-spacing: 0.05em !important;
-}
-
-.contactFormArea :global(input),
-.contactFormArea :global(textarea) {
-    padding: 0.6rem 0.75rem !important;
-    font-size: var(--font-size-body-sm) !important;
-    border-radius: var(--radius-sm) !important;
-}
-
-.contactFormArea :global(input::placeholder),
-.contactFormArea :global(textarea::placeholder) {
-    font-size: inherit !important;
-}
-
-.contactFormArea :global(textarea) {
-    min-height: clamp(40px, 8dvh, 70px) !important;
-    resize: none !important;
-}
-
-.contactFormArea :global(button[type="submit"]) {
-    padding: 0.6rem 1rem !important;
-    /* Reduced height */
-    font-size: var(--font-size-body-sm) !important;
-    margin-top: 0.25rem !important;
-    border-radius: var(--radius-sm) !important;
+    flex: 0 0 auto !important;
+    /* Don't stretch infinitely */
+    min-height: 0 !important;
+    padding: 0 !important;
+    gap: 0.25rem !important;
 }
 
 .contactScheduleButton {
+    /* Auto margin top handles spacing from form if form is small, 
+       but flex gap usually handles it. 
+       Flex-shrink 0 ensures it doesn't vanish */
+    flex: 0 0 auto;
+
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
     padding: 1rem;
-    /* Larger touch target */
-    margin-top: 1.5rem;
-    /* More separation from form */
+    /* Slightly Larger Touch Target */
     background: transparent;
-    border: 1px solid var(--creative-accent);
+    border: 1px solid var(--creative-accent-text);
     border-radius: 12px;
-    color: var(--creative-accent);
-    font-size: 1rem;
+    color: var(--creative-accent-text);
+    font-size: 0.9rem;
     font-weight: 600;
     font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-.floatingFAQ {
-    position: absolute;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: rgba(var(--creative-bg-secondary-rgb), 0.8);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--creative-accent);
-    color: var(--creative-accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.faqLink {
+    background: transparent;
+    border: none;
+    color: var(--creative-text-secondary);
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    opacity: 0.7;
     cursor: pointer;
-    z-index: 100;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
-
-
-.floatingFAQ:active {
-    transform: scale(0.95);
+.faqLink:active {
+    opacity: 1;
 }
 
 /* Light Mode Card Fix - Cleaner look, remove shadow/heavy background */

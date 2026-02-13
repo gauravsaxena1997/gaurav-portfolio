@@ -127,7 +127,7 @@ export function LaptopScene({
               magneticStrength={magneticStrength}
             />
           </group>
-          <Environment preset="city" />
+          <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
         </Suspense>
         <ContactShadows
           position={[0, -4.5, 0]}

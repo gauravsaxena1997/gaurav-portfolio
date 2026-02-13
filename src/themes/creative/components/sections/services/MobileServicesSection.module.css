@@ -1,150 +1,66 @@
-/* ==================== MOBILE SERVICES SECTION ==================== */
-
+/* Main Container */
 .servicesContainer {
-    position: sticky;
-    top: 0;
-    z-index: 40;
+    position: relative;
     width: 100%;
-    /* Use safe height from variable */
-    height: var(--mobile-safe-height, 100vh);
-    padding-top: var(--header-height);
+    /* Allow natural scroll */
+    min-height: 100vh;
     background: var(--creative-bg-secondary);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
+    z-index: 35;
+    /* Base z-index for section */
 }
 
-.servicesTextArea {
-    position: relative;
+/* 
+   Laptop Frame Wrapper - Sticky at Bottom 
+   This stays fixed at the bottom while cards scroll BEHIND it (masked)
+*/
+.laptopWrapper {
+    position: absolute;
+    /* Changed from sticky to absolute for entrance sync */
+    top: 70vh;
+    /* Anchor to the bottom of the first viewport */
+    left: 0;
     width: 100%;
-    /* Flex 1 to take all available space */
-    flex: 1;
-    min-height: 0;
-    z-index: 2;
-    overflow-y: auto;
-    /* Re-enable scroll styling */
-    scrollbar-width: thin;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 1rem;
-}
-
-.servicesTextArea::-webkit-scrollbar {
-    width: 4px;
-}
-
-.servicesTextArea::-webkit-scrollbar-thumb {
-    background-color: var(--creative-border-color);
-    border-radius: 4px;
-}
-
-.serviceTextLayer {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    text-align: left;
-    padding: 1rem 1.75rem;
-    color: var(--creative-text-primary);
-    overflow: visible;
-}
-
-.serviceTextLayer.activeService {
-    display: flex;
-    position: relative;
+    height: 30vh;
     z-index: 10;
-}
-
-.statTitle {
-    font-family: var(--font-display);
-    font-size: clamp(1.4rem, 5vw, 1.85rem);
-    font-weight: 700;
-    color: var(--creative-accent);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    margin: 0;
-}
-
-.statDescription {
-    font-family: var(--font-body);
-    font-size: var(--font-size-body-sm);
-    color: var(--creative-text-secondary);
-    font-weight: 500;
-    line-height: 1.5;
-    margin: 0.5rem 0 1rem 0;
-}
-
-.serviceSeparator {
-    margin: 0.75rem 0;
-    opacity: 0.8;
-}
-
-.serviceHighlights {
-    margin-top: 0.5rem;
-    width: 100%;
-    align-items: flex-start !important;
-}
-
-.serviceHighlights :global(li) {
-    justify-content: flex-start;
-    font-size: var(--font-size-body-sm);
-    padding: 0.2rem 0;
-    width: 100%;
-    white-space: normal;
-    word-break: break-word;
-    line-height: 1.4;
-}
-
-.servicesLaptopArea {
-    width: 100%;
-    /* Clamped height: min 200px, preferred 35vh, max 350px */
-    height: clamp(200px, 35vh, 350px);
-    flex: 0 0 auto;
+    /* Above cards - Act as a mask */
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    position: relative;
-    padding: 0 1.5rem calc(1rem + env(safe-area-inset-bottom)) 1.5rem;
-    overflow: visible;
-}
-
-/* Decoration icons */
-.floatingIcon {
-    animation: floatIcon 6s ease-in-out infinite;
-    opacity: 0.08;
-    position: absolute;
-    z-index: -1;
     pointer-events: none;
+    /* Let scroll pass through */
+    background: var(--creative-bg-secondary);
+    /* Mask the cards behind it */
+    /* border-top: removed as per request */
+
+    /* Balanced padding and alignment for laptop visibility */
+    padding: 0.5rem 1rem;
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    align-items: center;
+    /* Center to avoid edge-clipping internal frame */
 }
 
-@keyframes floatIcon {
-
-    0%,
-    100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-
-    50% {
-        transform: translateY(-15px) rotate(2deg);
-    }
+/* Inner wrapper for laptop scene */
+.laptopSceneContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* Center vertically in the padded area */
+    justify-content: center;
+    /* Center horizontally */
 }
 
-/* Illustration transition */
 .illustrationFadeWrapper {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: fadeInService 0.4s ease-out;
+    animation: fadeIn 0.5s ease-out;
 }
 
-@keyframes fadeInService {
+@keyframes fadeIn {
     from {
         opacity: 0;
-        transform: scale(0.98);
+        transform: scale(0.95);
     }
 
     to {
@@ -153,23 +69,148 @@
     }
 }
 
-/* Responsive Overrides for very short screens */
+/* 
+   Scrollable Card List 
+   Renders BEHIND of the laptop wrapper
+*/
+.cardsList {
+    position: relative;
+    z-index: 5;
+    /* Below laptop mask */
+    /* Push cards down so first one allows laptop to be seen initially if desired, 
+       or just start flow. Here we start flow immediately. */
+}
+
+/* Individual Service Card */
+.serviceCard {
+    position: sticky;
+    top: var(--header-height);
+    /* Stick to top under header */
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    /* Full viewport height avail */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Content at top */
+    overflow: hidden;
+
+    /* 
+       Visual Layering:
+       - Top part: Opaque background for text
+       - Bottom part: Transparent for laptop
+    */
+    background: transparent;
+}
+
+/* Only stacking cards get the shadow effect */
+.serviceCard:nth-child(n+2) .cardContent {
+    box-shadow: var(--creative-stack-shadow);
+    border-top: 1px solid var(--creative-border-color);
+}
+
+/* Blur effect for stacking depth */
+.serviceCard:nth-child(n+2) .cardContent::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: var(--creative-stack-overlay);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Content Area - Top ~55% */
+.cardContent {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    /* 70% for Content (Standardized Ratio) */
+    background: var(--creative-bg-secondary);
+    /* Opaque background */
+
+    /* Container Query Enablement */
+    container-type: size;
+    container-name: service-card;
+
+    /* Responsive Padding using cqh/cqw - Minimal padding to maximize text area */
+    padding: clamp(0.5rem, 2cqh, 1.5rem) clamp(1rem, 5vw, 2rem);
+
+    display: flex;
+    flex-direction: column;
+    /* Center content vertically key change */
+    /* Use a consistent fluid gap instead of space-between - Balanced Gap */
+    gap: 2cqh;
+    /* border-bottom: removed */
+
+    /* Safety fallback: Allow content scroll if it still exceeds height, preventing clipping */
+    overflow-y: auto;
+}
+
+/* Hide scrollbar */
+.cardContent::-webkit-scrollbar {
+    display: none;
+}
+
+/* Service Title & Text - Container Query Responsive Scaling */
+.serviceHeader {
+    flex-shrink: 0;
+}
+
+.serviceDescription {
+    font-family: var(--font-body);
+    /* Fluid typography - Lowered minimum and multiplier to GUARANTEE no clipping */
+    font-size: clamp(0.75rem, 3.2cqh, 1.2rem);
+    color: var(--creative-text-secondary);
+    line-height: 1.4;
+    margin: 0;
+    /* Removed line-clamping to ensure full text is ALWAYS visible */
+    overflow: visible;
+}
+
+/* Highlights List Override */
+.highlightsWrapper {
+    /* Removed margin-top: auto */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Scale highlights text - Lowered multiplier for safety */
+    font-size: clamp(0.7rem, 2.8cqh, 1.0rem);
+    line-height: 1.3;
+}
+
+/* Override Highlights internal spacing */
+.highlightsWrapper :global(ul) {
+    gap: 1cqh !important;
+}
+
+.highlightsWrapper :global(li) {
+    margin-bottom: 0 !important;
+    padding: 0.5cqh 0 !important;
+}
+
+/* Background Number/Icon */
+.floatingIcon {
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Laptop Height adjustments for smaller screens */
+/* Small Screen Specifics (iPhone SE) */
 @media (max-height: 700px) {
-    .servicesContainer {
-        padding-top: calc(var(--header-height) - 10px);
+    .laptopWrapper {
+        height: 30vh;
+        padding: 0.5rem 1rem;
+        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
     }
 
-    .statTitle {
-        font-size: 1.3rem;
-    }
-
-    .statDescription {
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .servicesLaptopArea {
-        flex-basis: 200px;
-        padding-bottom: 1rem;
+    .cardContent {
+        height: 70%;
+        padding: 0.75rem 1rem;
+        gap: 3cqh;
     }
 }

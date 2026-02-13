@@ -170,6 +170,9 @@
     transition: all 0.2s ease;
     /* Use pseudo-element for visual representation of the dot */
     position: relative;
+    /* ACCESSIBILITY: Large touch target, small visual */
+    min-width: 32px;
+    min-height: 32px;
 }
 
 .dot::after {

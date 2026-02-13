@@ -93,7 +93,8 @@
 [data-theme='light'] .projectLink {
     background: rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.1);
-    color: var(--creative-accent);
+    color: var(--creative-accent-text);
+    /* Accessible Text */
 }
 
 [data-theme='light'] .projectLink:hover {
@@ -292,36 +293,61 @@
 /* Adjustments for Mobile */
 @media (max-width: 768px) {
     .quoteText {
-        font-size: 1rem;
+        /* Fluid typography: shrinks on SE, grows on Max */
+        font-size: clamp(0.9rem, 3.5vw, 1.15rem);
+        line-height: 1.6;
+        margin-top: auto;
+        margin-bottom: auto;
+        /* Center quote vertically */
     }
 
     .card {
-        padding: 1.5rem;
-        /* Revert height to auto for mobile since no line-clamp */
-        height: auto;
-        min-height: auto;
+        padding: clamp(1.25rem, 3vh, 2rem);
+        /* Tighter padding */
+        height: 100%;
+        /* Fill parent */
+        min-height: 0;
+        /* Allow shrink */
+        gap: 1rem;
+        /* Reduced Gap */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .authorMeta {
         flex-wrap: wrap;
-        /* Force wrap */
-        align-items: flex-start;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
     }
 
     .infoColumn {
         flex: 1;
-        /* Take remaining space on row 1 */
         margin-right: 0;
+    }
+
+    .authorName {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+    }
+
+    .designation {
+        font-size: clamp(0.75rem, 2.5vw, 0.9rem);
     }
 
     .projectWrapper {
         width: 100%;
         margin-left: 0;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
         align-items: flex-start;
-        /* Left align button */
-        padding-top: 1rem;
+        padding-top: 0.75rem;
         border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .projectLink {
+        padding: 0.35rem 0.75rem;
+        /* Smaller Button */
+        font-size: 0.8rem;
     }
 
     .desktopCard {

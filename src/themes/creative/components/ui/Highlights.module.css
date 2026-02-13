@@ -18,16 +18,18 @@
 
 .highlightItem {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: var(--space-sm);
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     font-weight: 700;
-    color: var(--creative-accent);
+    color: var(--creative-accent-text);
+    /* Accessible Text */
 }
 
 .checkmark {
-    color: var(--creative-accent);
+    color: var(--creative-accent-text);
+    /* Accessible Text */
     font-weight: 700;
     font-size: 1.25rem;
     flex-shrink: 0;

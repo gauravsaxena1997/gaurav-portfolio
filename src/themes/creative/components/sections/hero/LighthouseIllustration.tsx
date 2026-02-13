@@ -28,8 +28,8 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
     tower: '#D4C4B0',                  // Warm sand beige
     towerStripe: '#C9B89D',            // Slightly darker beige for stripes
     lampHouse: '#BFB09C',              // Darker beige for lamp house
-    lamp: isLampOn ? 'var(--creative-accent)' : '#C9B89D',
-    lampGlow: isLampOn ? 'var(--creative-accent)' : 'transparent',
+    lamp: isLampOn ? 'var(--creative-accent-subtle)' : '#C9B89D',
+    lampGlow: isLampOn ? 'var(--creative-accent-subtle)' : 'transparent',
     roof: '#A89880',                   // Darker roof for contrast
     base: '#BFB09C',                   // Match lamp house
     window: '#4A4035',                 // Dark warm brown windows

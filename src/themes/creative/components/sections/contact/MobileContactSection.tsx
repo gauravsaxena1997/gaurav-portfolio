@@ -1,7 +1,8 @@
 import React, { useRef, useCallback, useState } from 'react';
-import { MapPin, Mail, Clock, Calendar, Compass, Github, Linkedin, HelpCircle } from 'lucide-react';
+import { MapPin, Mail, Clock, Calendar, Compass, Github, Linkedin } from 'lucide-react';
+import { AnalyticsService } from '@/services/AnalyticsService';
 import styles from './MobileContactSection.module.css';
-import { AccentSeparator, FAQModal } from '@/themes/creative/components/ui';
+import { FAQModal, SectionTitle } from '@/themes/creative/components/ui';
 import { ContactForm, type ContactFormHandle } from './ContactForm';
 import { CONTACT_INFO } from '@/config';
 
@@ -23,30 +24,8 @@ export const MobileContactSection = () => {
     return (
         <div className={styles.contactSection}>
             {/* Rotating Compass Background */}
-            <div className={styles.contactCompassWrapper}>
-                <Compass className={styles.contactCompassIcon} strokeWidth={1} />
-            </div>
-
-            {/* Title */}
-            <h2 className={styles.contactTitle}>Get in Touch</h2>
-            <AccentSeparator width="40%" />
-            {/* Subtitle removed for cleaner mobile look */}
-
-            {/* Status Tags Row */}
-            <div className={styles.contactStatusRow}>
-                <div className={styles.contactChip}>
-                    <MapPin size={12} />
-                    <span>{CONTACT_INFO.location}</span>
-                </div>
-                <div className={styles.contactChip}>
-                    <Mail size={12} />
-                    <span>{CONTACT_INFO.email}</span>
-                </div>
-                <div className={styles.contactChip}>
-                    <Clock size={12} />
-                    <span>{CONTACT_INFO.availability}</span>
-                </div>
-            </div>
+            {/* Title & Separator */}
+            <SectionTitle title="Get in Touch" />
 
             {/* Contact Form */}
             <div className={styles.contactFormArea}>
@@ -66,13 +45,12 @@ export const MobileContactSection = () => {
                 <span>Schedule a Call</span>
             </button>
 
-            {/* Floating FAQ Button */}
+            {/* FAQ Text Link */}
             <button
-                className={styles.floatingFAQ}
+                className={styles.faqLink}
                 onClick={() => setIsFAQOpen(true)}
-                aria-label="Frequently Asked Questions"
             >
-                <HelpCircle size={24} />
+                Frequently Asked Questions
             </button>
 
             <FAQModal

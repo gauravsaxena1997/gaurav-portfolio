@@ -1,7 +1,6 @@
 /* === GLOBAL MOBILE LAYOUT === */
 .mobileLayoutRoot {
     /* Layout Tokens */
-    --header-height: 56px;
     --panel-padding: calc(var(--header-height) + 1rem);
 
     /* Transitions */
@@ -29,7 +28,8 @@
 .sectionLabel {
     padding: 1.5rem 1rem;
     text-align: center;
-    color: var(--creative-accent);
+    color: var(--creative-accent-text);
+    /* Accessible Text */
     background: var(--creative-bg-secondary);
     font-family: var(--font-mono, monospace);
     font-weight: 700;

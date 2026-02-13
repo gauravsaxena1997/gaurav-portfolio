@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './MobileProjectCard.module.css';
 import { MobileProjectCarousel } from '../../layout/MobileProjectCarousel';
 import { UnifiedProjectViewer } from '@/components/shared/UnifiedProjectViewer';
-import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
+import { AccentSeparator, Highlights, MobileCardHeader } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
 
 if (typeof window !== 'undefined') {
@@ -71,10 +71,11 @@ export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardP
 
                 {/* Top Section: Title -> Tag -> Separator -> Highlights */}
                 <div className={styles.projectTopSection}>
-                    {/* Title */}
-                    <h3 className={styles.projectTitle}>
-                        {project.title}
-                    </h3>
+                    {/* Title & Separator */}
+                    <MobileCardHeader
+                        title={project.title}
+                        className={styles.projectTitleWrapper}
+                    />
 
                     {/* Tag */}
                     <span className={styles.caseStudyTag}>
@@ -84,8 +85,6 @@ export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardP
                         {!['case-study', 'venture', 'client'].includes(project.category) && 'PROJECT'}
                     </span>
 
-                    {/* Common Stats Separator (Standardized) */}
-                    <AccentSeparator width="40%" className={styles.projectSeparator} />
 
                     {/* Description - Re-enabled for Mobile consistency */}
                     <p className={styles.projectDescription}>
