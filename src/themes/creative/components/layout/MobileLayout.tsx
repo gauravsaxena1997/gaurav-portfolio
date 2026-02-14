@@ -13,11 +13,10 @@ import { useScrollProgress } from '@/themes/creative/hooks/useScrollProgress';
 import { ProgressScrollbar } from '@/themes/creative/components/scroll/ProgressScrollbar';
 import { useCreativeTheme } from '@/themes/creative/hooks/useCreativeTheme';
 
+// Regular imports for preloaded components
+import { MobileStatPanel } from '@/themes/creative/components/sections/stats/MobileStatPanel';
+
 // Dynamic imports for heavy below-fold sections
-const MobileStatPanel = dynamic(
-    () => import('@/themes/creative/components/sections/stats/MobileStatPanel').then(mod => mod.MobileStatPanel),
-    { ssr: false }
-);
 const MobileProjectCard = dynamic(
     () => import('@/themes/creative/components/sections/projects/MobileProjectCard').then(mod => mod.MobileProjectCard),
     { ssr: false }
