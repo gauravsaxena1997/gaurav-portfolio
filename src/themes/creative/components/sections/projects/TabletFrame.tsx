@@ -156,7 +156,9 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
                   preload="metadata"
                   className={styles.media}
                   aria-label={alt}
-                />
+                >
+                  <track kind="captions" src="/captions/en.vtt" label="English" default />
+                </video>
                 {/* Fullscreen button */}
                 <button
                   className={styles.fullscreenButton}
@@ -215,6 +217,7 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
                 className={styles.fullscreenVideo}
                 onClick={togglePlayPause}
               />
+              <track kind="captions" src="/captions/en.vtt" label="English" default />
 
               {/* Play/Pause overlay button */}
               <button

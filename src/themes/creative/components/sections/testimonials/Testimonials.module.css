@@ -93,7 +93,7 @@
 [data-theme='light'] .projectLink {
     background: rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.1);
-    color: var(--creative-accent);
+    color: var(--color-contrast-on-accent);
 }
 
 [data-theme='light'] .projectLink:hover {
@@ -188,11 +188,12 @@
     gap: 0.25rem;
 }
 
+
 .authorName {
     font-family: var(--font-display);
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--creative-text-primary);
+    color: var(--color-contrast-on-accent);
 }
 
 .designation {

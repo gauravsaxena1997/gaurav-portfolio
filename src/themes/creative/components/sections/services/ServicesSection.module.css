@@ -9,6 +9,17 @@
     scroll-margin-top: var(--header-height);
 }
 
+/* Ensure high contrast for highlight spans */
+.serviceItem span {
+    color: var(--text-highlight-strong);
+    font-weight: 600;
+}
+
+:global([data-theme="light"]) .serviceItem span {
+    color: var(--text-highlight-strong);
+    font-weight: 600;
+}
+
 /* 2-Column Layout */
 .contentWrapper {
     display: flex;

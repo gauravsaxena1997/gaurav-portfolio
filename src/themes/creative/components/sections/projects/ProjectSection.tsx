@@ -200,6 +200,8 @@ export const ProjectSection = memo(function ProjectSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.ctaButton}
+                        aria-label={`View Live: ${project.title}`}
+                        title={`View Live: ${project.title}`}
                         onClick={() => AnalyticsService.trackProjectInteraction('click_live_demo', project.title)}
                       >
                         View Live

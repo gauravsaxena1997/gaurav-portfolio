@@ -110,6 +110,7 @@ export function VideoPlayer({
           }}
         >
           <source src={src} type="video/mp4" />
+          <track kind="captions" src="/captions/en.vtt" label="English" default />
         </video>
 
         {/* Fullscreen button overlay */}
@@ -150,6 +151,7 @@ export function VideoPlayer({
                 }}
               >
                 <source src={src} type="video/mp4" />
+                <track kind="captions" src="/captions/en.vtt" label="English" default />
               </video>
 
               {/* Play/Pause overlay */}

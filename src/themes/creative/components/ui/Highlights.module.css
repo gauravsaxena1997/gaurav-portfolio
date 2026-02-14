@@ -23,11 +23,11 @@
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     font-weight: 700;
-    color: var(--creative-accent);
+    color: var(--text-highlight-strong);
 }
 
 .checkmark {
-    color: var(--creative-accent);
+    color: var(--text-highlight-strong);
     font-weight: 700;
     font-size: 1.25rem;
     flex-shrink: 0;
@@ -42,9 +42,9 @@
 /* Lit Layer Override (Stats wipe animation) */
 /* When inside Stats litLayer, invert colors for visibility on gold background */
 :global([data-lit-layer]) .highlightItem {
-    color: var(--creative-text-primary) !important;
+    color: var(--lit-highlight) !important;
 }
 
 :global([data-lit-layer]) .checkmark {
-    color: #ffffff !important;
+    color: var(--lit-highlight) !important;
 }

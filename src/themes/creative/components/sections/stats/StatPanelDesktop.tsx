@@ -99,7 +99,7 @@ export function StatPanelDesktop({
                     {/* Base Layer (Grey) */}
                     <div className={styles.textContent}>
                         <div className={styles.statHeader}>
-                            <h3 className={styles.title}>{title}</h3>
+                            <h2 className={styles.title}>{title}</h2>
                         </div>
                         <AccentSeparator />
                         <p className={styles.description}>{description}</p>
@@ -124,7 +124,7 @@ export function StatPanelDesktop({
                         {/* Exact copy of textContent children for perfect alignment */}
                         <div className={styles.textContent}>
                             <div className={styles.statHeader}>
-                                <h3 className={styles.title}>{title}</h3>
+                                <h2 className={styles.title}>{title}</h2>
                             </div>
                             <AccentSeparator />
                             <p className={styles.description}>{description}</p>
