@@ -3,7 +3,6 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import dynamic from 'next/dynamic';
 import styles from './MobileServicesSection.module.css';
 import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
@@ -13,15 +12,13 @@ if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-// Lazy load illustrations
-// Lazy load illustrations
-const AiAppIllustration = dynamic(() => import('./illustrations/AiAppIllustration').then(mod => ({ default: mod.AiAppIllustration })), { ssr: false });
-const ImmersiveWebIllustration = dynamic(() => import('./illustrations/ImmersiveWebIllustration').then(mod => ({ default: mod.ImmersiveWebIllustration })), { ssr: false });
-const DevelopmentIllustration = dynamic(() => import('./illustrations/DevelopmentIllustration').then(mod => ({ default: mod.DevelopmentIllustration })), { ssr: false });
-const IntegrationsIllustration = dynamic(() => import('./illustrations/IntegrationsIllustration').then(mod => ({ default: mod.IntegrationsIllustration })), { ssr: false });
-const SeoIllustration = dynamic(() => import('./illustrations/SeoIllustration').then(mod => ({ default: mod.SeoIllustration })), { ssr: false });
-
-const ServiceFrame = dynamic(() => import('../../layout/ServiceFrame').then(m => m.ServiceFrame), { ssr: false });
+// Regular imports for preloaded components
+import { AiAppIllustration } from './illustrations/AiAppIllustration';
+import { ImmersiveWebIllustration } from './illustrations/ImmersiveWebIllustration';
+import { DevelopmentIllustration } from './illustrations/DevelopmentIllustration';
+import { IntegrationsIllustration } from './illustrations/IntegrationsIllustration';
+import { SeoIllustration } from './illustrations/SeoIllustration';
+import { ServiceFrame } from '../../layout/ServiceFrame';
 
 // Helper Component for Illustrations with transition
 const IllustrationContainer = ({ activeIndex }: { activeIndex: number }) => {

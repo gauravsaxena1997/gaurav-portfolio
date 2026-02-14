@@ -9,6 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { useScrollContext } from '../../context/ScrollContext';
 import { HeroSection } from '../sections/hero';
+import { AIBrainIllustration } from '../sections/stats';
 // Dynamic imports for heavy below-fold sections
 const ProjectSection = dynamic(
   () => import('../sections/projects').then((mod) => mod.ProjectSection),
@@ -35,15 +36,7 @@ import { LoadingSkeleton, SectionDivider } from '../ui';
 import { STATS_DATA } from '@/config/stats';
 import styles from './ScrollOrchestrator.module.css';
 
-// Lazy load heavy 3D/physics components
-const AIBrainIllustration = dynamic(
-  () => import('../sections/stats').then((mod) => ({ default: mod.AIBrainIllustration })),
-  {
-    loading: () => <LoadingSkeleton type="laptop" />,
-    ssr: false,
-  }
-);
-
+// Lazy load remaining heavy 3D/physics components
 const ChipStacking = dynamic(
   () => import('../sections/stats').then((mod) => ({ default: mod.ChipStacking })),
   {

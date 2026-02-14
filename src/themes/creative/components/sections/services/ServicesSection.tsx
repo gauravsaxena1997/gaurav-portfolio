@@ -1,28 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
 import { SERVICES } from './servicesData';
 import { BackgroundDecor } from '../../common/BackgroundDecor';
 import { Highlights, AccentSeparator } from '../../ui';
 import styles from './ServicesSection.module.css';
 
-// Lazy load illustrations
-// Lazy load illustrations
-const AiAppIllustration = dynamic(() => import('./illustrations/AiAppIllustration').then(mod => ({ default: mod.AiAppIllustration })), { ssr: false });
-const ImmersiveWebIllustration = dynamic(() => import('./illustrations/ImmersiveWebIllustration').then(mod => ({ default: mod.ImmersiveWebIllustration })), { ssr: false });
-const DevelopmentIllustration = dynamic(() => import('./illustrations/DevelopmentIllustration').then(mod => ({ default: mod.DevelopmentIllustration })), { ssr: false });
-const IntegrationsIllustration = dynamic(() => import('./illustrations/IntegrationsIllustration').then(mod => ({ default: mod.IntegrationsIllustration })), { ssr: false });
-const SeoIllustration = dynamic(() => import('./illustrations/SeoIllustration').then(mod => ({ default: mod.SeoIllustration })), { ssr: false });
-
-// Lazy load LaptopScene
-const LaptopScene = dynamic(
-    () => import('@/components/demos/laptop3d').then(mod => ({ default: mod.LaptopScene })),
-    { ssr: false, loading: () => <div className={styles.laptopLoading}>Loading...</div> }
-);
-
-
-
+// Regular imports for preloaded components
+import { AiAppIllustration } from './illustrations/AiAppIllustration';
+import { ImmersiveWebIllustration } from './illustrations/ImmersiveWebIllustration';
+import { DevelopmentIllustration } from './illustrations/DevelopmentIllustration';
+import { IntegrationsIllustration } from './illustrations/IntegrationsIllustration';
+import { SeoIllustration } from './illustrations/SeoIllustration';
+import { LaptopScene } from '@/components/demos/laptop3d';
 
 export function ServicesSection() {
     const [activeServiceIndex, setActiveServiceIndex] = useState(0);
@@ -81,7 +71,7 @@ export function ServicesSection() {
     };
 
     return (
-        <section className={styles.servicesSection}>
+        <section className={styles.servicesSection} data-services-section>
             <div className={styles.contentWrapper}>
                 {/* Left Column: Sticky Laptop Animation */}
                 <div className={styles.leftColumn}>

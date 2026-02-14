@@ -41,7 +41,7 @@ function generateScales(count: number, seed: string): number[] {
 
 // Dynamic constants for spacing calculation
 const CONSTANT_VERTICAL_GAP = 35; // Fixed pixel gap between stacked images
-const BASE_START_OFFSET = 600;    // Starting pixels below viewport
+const BASE_START_OFFSET = 200;    // Starting pixels below viewport (reduced from 600 for earlier appearance)
 const OFFSET_INCREMENT = 150;     // Additional offset per image index
 const MAX_DISPLAY_IMAGES = 6;     // Cap at 6 images for performance
 
@@ -112,8 +112,8 @@ export const InteractiveGallery = memo(function InteractiveGallery({
           (totalProgress - threshold) / (1 - threshold)
         ));
 
-        // Opacity: fade in as localProgress goes from 0 to 0.3
-        const opacity = Math.min(1, localProgress / 0.3);
+        // Opacity: fade in as localProgress goes from 0 to 0.15 (reduced from 0.3 for earlier appearance)
+        const opacity = Math.min(1, localProgress / 0.15);
 
         // Calculate current Y position
         const yOffset = startOffset * (1 - localProgress * speed) + finalY;
