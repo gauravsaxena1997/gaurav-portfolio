@@ -20,8 +20,7 @@
 .statContent {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* Strict 50-50 Split */
-  grid-template-rows: 100%;
+  grid-template-rows: 1fr;
   gap: 0;
   align-items: center;
   width: 100%;
@@ -233,11 +232,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* No fixed height 100% here - let the parent flex center it */
   justify-content: center;
   align-items: center;
   padding: 2rem 0;
-  /* Internal safety padding */
   box-sizing: border-box;
 }
 

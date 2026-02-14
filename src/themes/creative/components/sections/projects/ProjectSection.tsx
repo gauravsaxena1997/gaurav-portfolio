@@ -183,10 +183,10 @@ export const ProjectSection = memo(function ProjectSection() {
               </BackgroundDecor>
 
               {/* Row 1: Header (Title / Tag) */}
-              <div className={styles.projectHeader}>
+              <div className="flex items-center gap-[var(--space-md)] mb-[var(--space-md)]">
                 <div className={styles.titleStack}>
                   <h2 className={styles.projectName}>{project.title}</h2>
-                  <div className={styles.metaRow}>
+                  <div className="flex items-center gap-6 mt-2 flex-wrap">
                     <span className={styles.categoryBadge}>
                       {project.category === 'case-study' && 'Case Study'}
                       {project.category === 'venture' && 'Personal Venture'}

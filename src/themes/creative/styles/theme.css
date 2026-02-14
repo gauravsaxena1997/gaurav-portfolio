@@ -328,9 +328,9 @@
   --creative-stats-divider-revealed: color-mix(in srgb, var(--color-lit-text-inverted) 32%, transparent 68%);
 
   /* Natural Rock Colors (Dark Mode - slightly cooler/darker) */
-  --creative-rock-dark: #2A2A2A;
-  --creative-rock-mid: #4A4A4A;
-  --creative-rock-light: #6A6A6A;
+  --creative-rock-dark: #6A6A6A;
+  --creative-rock-mid: #8A8A8A;
+  --creative-rock-light: #B0B0B0;
 
   /* Stats Refinement Tokens (Dynamic) */
   --stats-body-text: color-mix(in srgb, var(--creative-text-primary), transparent 25%);
@@ -409,6 +409,11 @@
   --color-lit-text-primary: #1A1816;
   --color-lit-text-secondary: color-mix(in srgb, #1A1816 80%, transparent 20%);
   --color-lit-text-muted: color-mix(in srgb, #1A1816 60%, transparent 40%);
+
+  /* Natural Rock Colors (Dark mode lighthouse base) */
+  --creative-rock-dark: #6A6A6A;
+  --creative-rock-mid: #8A8A8A;
+  --creative-rock-light: #B0B0B0;
 
   /* High-contrast highlight text on dark backgrounds */
   --text-highlight: color-mix(in srgb, #F5F4F0 85%, #0f0c0a 15%);

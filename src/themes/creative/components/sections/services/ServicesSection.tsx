@@ -72,10 +72,10 @@ export function ServicesSection() {
 
     return (
         <section className={styles.servicesSection} data-services-section>
-            <div className={styles.contentWrapper}>
+            <div className={`${styles.contentWrapper} flex flex-col w-full mx-auto relative lg:flex-row lg:items-start`}>
                 {/* Left Column: Sticky Laptop Animation */}
-                <div className={styles.leftColumn}>
-                    <div className={styles.laptopContainer}>
+                <div className={`${styles.leftColumn} w-full h-[50vh] sticky top-[var(--header-height)] flex items-center justify-center z-[5] pointer-events-none lg:w-1/2 lg:h-[var(--viewport-height)] lg:self-start`}>
+                    <div className={`${styles.laptopContainer} w-full h-full flex items-center justify-center relative scale-[0.85] lg:scale-100`}>
                         <LaptopScene
                             screenContent={renderIllustration()}
                             showClickText={false}
@@ -89,7 +89,7 @@ export function ServicesSection() {
                 </div>
 
                 {/* Right Column: Scrolling Sticky Stack */}
-                <div className={styles.rightColumn}>
+                <div className={`${styles.rightColumn} w-full relative z-[10] flex flex-col lg:w-1/2`}>
                     {SERVICES.map((service, index) => (
                         <div
                             key={service.id}
@@ -109,7 +109,7 @@ export function ServicesSection() {
                             <div className={styles.serviceContent}>
 
                                 <div className={styles.headerWrapper}>
-                                    <div className={styles.serviceHeader}>
+                                    <div className={`${styles.serviceHeader} flex items-center gap-[var(--space-lg)] mb-0`}>
                                         <h3 className={styles.serviceTitle}>{service.title}</h3>
                                     </div>
                                     <AccentSeparator />

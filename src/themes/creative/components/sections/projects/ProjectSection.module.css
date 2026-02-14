@@ -42,12 +42,6 @@
   box-sizing: border-box;
 }
 
-.projectHeader {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-bottom: var(--space-md);
-}
 
 /* Legacy inline number - kept for reference */
 .projectNumber {
@@ -140,13 +134,6 @@
 }
 
 /* Meta Row: Tag + CTA */
-.metaRow {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
-  flex-wrap: wrap;
-}
 
 /* Category Badge - Now sits inside Meta Row */
 .categoryBadge {
@@ -214,15 +201,6 @@
 
 
 /* CTA Buttons Wrapper */
-.ctaWrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: auto;
-  /* Push to bottom of sticky container */
-  padding-top: 2rem;
-  /* Ensure Visual separation */
-}
 
 /* Primary CTA Button - INCREASED SIZE */
 .ctaButton {

@@ -21,13 +21,7 @@
 }
 
 /* 2-Column Layout */
-.contentWrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: 0 auto;
-    position: relative;
-}
+/* .contentWrapper layout handled by Tailwind utilities in component */
 
 /* Tablet/Desktop: Side-by-Side */
 @media (min-width: 992px) {
@@ -39,21 +33,7 @@
 }
 
 /* Left Column: Sticky Laptop Animation */
-.leftColumn {
-    width: 100%;
-    height: 50vh;
-    /* Mobile height */
-    position: sticky;
-    top: var(--header-height);
-    /* Stick below header */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 5;
-    /* Below right column text cards */
-    pointer-events: none;
-    /* let events pass through? No, laptop might be interactive */
-}
+/* .leftColumn layout handled by Tailwind utilities in component */
 
 @media (min-width: 992px) {
     .leftColumn {
@@ -65,15 +45,7 @@
 }
 
 /* Laptop Container */
-.laptopContainer {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    transform: scale(0.85);
-}
+/* .laptopContainer layout handled by Tailwind utilities in component */
 
 @media (min-width: 992px) {
     .laptopContainer {
@@ -82,13 +54,7 @@
 }
 
 /* Right Column: Scrolling Content Stack */
-.rightColumn {
-    width: 100%;
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-}
+/* .rightColumn layout handled by Tailwind utilities in component */
 
 @media (min-width: 992px) {
     .rightColumn {
@@ -173,12 +139,7 @@
     margin-bottom: 0;
 }
 
-.serviceHeader {
-    display: flex;
-    align-items: center;
-    gap: var(--space-lg);
-    margin-bottom: 0;
-}
+/* .serviceHeader layout handled by Tailwind utilities in component */
 
 .serviceIcon {
     color: var(--creative-accent, #ffd700);

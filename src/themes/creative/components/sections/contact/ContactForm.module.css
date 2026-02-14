@@ -64,7 +64,7 @@
   color: var(--creative-text-primary);
   /* Darker input background */
   /* Adaptive input background */
-  background: var(--creative-input-bg);
+  background: color-mix(in srgb, var(--creative-bg-primary) 85%, #ffffff 15%);
   border: 1px solid var(--creative-border-color);
   border-radius: var(--radius-md);
   transition: all var(--creative-transition-fast);
@@ -81,7 +81,7 @@
 .input::placeholder,
 .textarea::placeholder {
   color: var(--creative-text-secondary);
-  opacity: 0.4;
+  opacity: 0.6;
 }
 
 .textarea {
@@ -109,7 +109,7 @@
   font-family: var(--font-mono);
   /* Technical Action */
   font-weight: 700;
-  color: var(--creative-bg-primary);
+  color: #111111;
   /* Contrast text on Gold */
   background: var(--creative-accent);
   border: none;
@@ -133,7 +133,7 @@
   opacity: 0.5;
   cursor: not-allowed;
   background: color-mix(in srgb, var(--creative-accent), transparent 60%);
-  color: var(--creative-text-primary);
+  color: #111111;
 }
 
 /* Styles removed: .divider, .dividerText, .scheduleButton - Moved to ContactSection */

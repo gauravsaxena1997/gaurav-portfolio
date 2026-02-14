@@ -297,6 +297,22 @@
   will-change: transform;
 }
 
+/* Dark mode: explicit rock base wedge so grounding remains visible on black canvas */
+[data-theme="dark"] .lighthouse::after,
+:global(.dark-theme) .lighthouse::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  bottom: -2px;
+  width: clamp(180px, 20vw, 280px);
+  height: clamp(60px, 9vw, 110px);
+  background: linear-gradient(145deg, #3f3f3f 0%, #2f2f2f 100%);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 34% 62%);
+  opacity: 0.95;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .lighthouseMobile {
   right: 50%;
   transform: translateX(50%);
