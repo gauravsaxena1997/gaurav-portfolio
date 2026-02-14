@@ -1,4 +1,4 @@
-import { memo, useRef, useEffect, useState, createRef, useMemo } from 'react';
+import { memo, useRef, useEffect, useState, createRef, useMemo, useCallback } from 'react';
 import { useScrollContext } from '../../../context/ScrollContext';
 import { getProjectsForDisplay } from './config';
 import { TabletFrame, TabletFrameHandle } from './TabletFrame';
@@ -36,6 +36,8 @@ export const ProjectSection = memo(function ProjectSection() {
   const [isUnifiedOpen, setIsUnifiedOpen] = useState(false);
   const [unifiedTargetProject, setUnifiedTargetProject] = useState<number>(0);
   const [unifiedStartType, setUnifiedStartType] = useState<'video' | 'gallery'>('video');
+  const [isPreloading, setIsPreloading] = useState(false);
+  const preloadCache = useRef<Set<string>>(new Set());
 
   const { setCurrentProjectIndex, setIsInProjectsSection } = useScrollContext();
 
@@ -58,6 +60,46 @@ export const ProjectSection = memo(function ProjectSection() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Preload helper: images and video head request
+  const preloadMedia = useCallback(async (index: number) => {
+    if (!projects[index]) return;
+    const { heroVideo, thumbnail, images } = projects[index];
+    const tasks: Promise<any>[] = [];
+
+    const enqueueImage = (src?: string) => {
+      if (!src || preloadCache.current.has(src)) return;
+      preloadCache.current.add(src);
+      tasks.push(new Promise((resolve) => {
+        const img = new Image();
+        img.onload = img.onerror = () => resolve(true);
+        img.src = src;
+      }));
+    };
+
+    enqueueImage(thumbnail);
+    images?.forEach(enqueueImage);
+
+    if (heroVideo && !preloadCache.current.has(heroVideo)) {
+      preloadCache.current.add(heroVideo);
+      tasks.push(fetch(heroVideo, { method: 'HEAD' }).catch(() => null));
+    }
+
+    return Promise.all(tasks);
+  }, [projects]);
+
+  // Preload current + next project when index changes
+  useEffect(() => {
+    let cancelled = false;
+    const run = async () => {
+      setIsPreloading(true);
+      await preloadMedia(activeProjectIndex);
+      await preloadMedia(activeProjectIndex + 1);
+      if (!cancelled) setIsPreloading(false);
+    };
+    run();
+    return () => { cancelled = true; };
+  }, [activeProjectIndex, preloadMedia]);
 
   // Scroll handler for project tracking and GuideBar logic
   useEffect(() => {
@@ -148,7 +190,13 @@ export const ProjectSection = memo(function ProjectSection() {
     // 'video' starts at index 0
     // 'gallery' starts at index 1 (since index 0 is video)
     setUnifiedStartType(guideState.action || 'video');
-    setIsUnifiedOpen(true);
+    const open = async () => {
+      setIsPreloading(true);
+      await preloadMedia(guideState.targetIndex);
+      setIsPreloading(false);
+      setIsUnifiedOpen(true);
+    };
+    open();
   };
 
   const activeProject = projects[unifiedTargetProject];

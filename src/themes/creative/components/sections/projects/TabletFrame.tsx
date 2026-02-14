@@ -97,6 +97,7 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
     };
   }, [isFullscreen]);
 
+
   // Keyboard controls
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -150,10 +151,11 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
                 <video
                   ref={videoRef}
                   src={videoSrc}
+                  autoPlay
                   muted
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="auto"
                   className={styles.media}
                   aria-label={alt}
                 >
