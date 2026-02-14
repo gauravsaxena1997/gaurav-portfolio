@@ -27,10 +27,6 @@ export function MobileTestimonialsSection() {
                         but usually CSS padding on track handles this. */}
                 </div>
             </div>
-
-            <div className={styles.scrollHint}>
-                Swipe for more →
-            </div>
         </section>
     );
 }

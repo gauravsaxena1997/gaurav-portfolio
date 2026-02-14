@@ -127,11 +127,6 @@
 
   /* Mobile Layout System Variables */
   --mobile-header-height: 56px;
-  /* Dynamic via JS */
-  --mobile-safe-height: 100vh;
-  /* Dynamic via JS */
-  --mobile-100vh: 100vh;
-  /* Dynamic via JS */
   --mobile-section-padding: 1.5rem;
 
   /* Mobile Typography Scale */
@@ -195,6 +190,11 @@
   --section-padding-y: clamp(2rem, 4vw, 4rem);
   --section-gap: clamp(3rem, 6vw, 6rem);
   --container-padding: clamp(1rem, 4vw, 3rem);
+
+  /* Mobile Flow Layout - Media Constraints */
+  --media-max-height: 350px;
+  --media-aspect-landscape: 16/9;
+  --media-aspect-illustration: 4/3;
 
   /* ===== RESPONSIVE TYPOGRAPHY SYSTEM (PRAHAN SCALE) ===== */
   /* Hero Display (H1 Variant) */
@@ -495,16 +495,3 @@ a:focus:not(:focus-visible) {
 }
 
 /* ===== GLOBAL UTILITIES ===== */
-
-/* Standardized Stacking Blur Overlay */
-.creative-stacking-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(var(--creative-bg-secondary-rgb), 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  opacity: 0;
-  z-index: 50;
-  pointer-events: none;
-  transition: opacity 0.1s linear;
-}

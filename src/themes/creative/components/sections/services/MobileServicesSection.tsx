@@ -1,79 +1,18 @@
 'use client';
 
-import React, { useRef, useLayoutEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React from 'react';
 import styles from './MobileServicesSection.module.css';
 import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
 import { SERVICES as SERVICES_DATA } from './servicesData';
+import { useMobileReveal } from '@/themes/creative/hooks/useMobileReveal';
 
-if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-}
 
-// Regular imports for preloaded components
-import { AiAppIllustration } from './illustrations/AiAppIllustration';
-import { ImmersiveWebIllustration } from './illustrations/ImmersiveWebIllustration';
-import { DevelopmentIllustration } from './illustrations/DevelopmentIllustration';
-import { IntegrationsIllustration } from './illustrations/IntegrationsIllustration';
-import { SeoIllustration } from './illustrations/SeoIllustration';
-import { ServiceFrame } from '../../layout/ServiceFrame';
-
-// Helper Component for Illustrations with transition
-const IllustrationContainer = ({ activeIndex }: { activeIndex: number }) => {
-    const Illustration = React.useMemo(() => {
-        switch (activeIndex) {
-            case 0: return AiAppIllustration;
-            case 1: return ImmersiveWebIllustration;
-            case 2: return DevelopmentIllustration;
-            case 3: return IntegrationsIllustration;
-            case 4: return SeoIllustration;
-            default: return AiAppIllustration;
-        }
-    }, [activeIndex]);
+export const MobileServicesSection = () => {
+    const containerRef = useMobileReveal<HTMLDivElement>({ stagger: 0.08, y: 25 });
 
     return (
-        <div className={styles.illustrationFadeWrapper} key={activeIndex}>
-            <Illustration />
-        </div>
-    );
-};
-
-interface MobileServicesSectionProps {
-    zIndex: number;
-}
-
-export const MobileServicesSection = ({ zIndex }: MobileServicesSectionProps) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [activeIndex, setActiveIndex] = React.useState(0);
-
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            const container = containerRef.current;
-            if (!container) return;
-
-            ScrollTrigger.create({
-                trigger: container,
-                start: 'top top',
-                end: '+=400%',
-                pin: true,
-                anticipatePin: 1,
-                scrub: true,
-                onUpdate: (self) => {
-                    const progress = self.progress;
-                    const newIndex = Math.min(4, Math.floor(progress * 5));
-                    setActiveIndex(newIndex);
-                }
-            });
-
-        }, containerRef);
-
-        return () => ctx.revert();
-    }, []);
-
-    return (
-        <div ref={containerRef} className={styles.servicesContainer} style={{ zIndex }}>
+        <div ref={containerRef} className={styles.servicesContainer}>
             {/* Top Section: Service Text Layers */}
             <div className={styles.servicesTextArea}>
                 {SERVICES_DATA.map((service, index) => {
@@ -81,13 +20,13 @@ export const MobileServicesSection = ({ zIndex }: MobileServicesSectionProps) =>
                     return (
                         <div
                             key={index}
-                            className={`${styles.serviceTextLayer} ${index === activeIndex ? styles.activeService : ''}`}
+                            className={styles.serviceTextLayer}
                         >
                             {/* Background Parallax Icon */}
                             <BackgroundDecor
                                 position={{ top: '5%', right: '5%' }}
                                 size="140px"
-                                parallaxSpeed={0}
+                                parallaxSpeed={0.15}
                                 className={styles.floatingIcon}
                             >
                                 <Icon size={140} strokeWidth={1} />
@@ -107,11 +46,6 @@ export const MobileServicesSection = ({ zIndex }: MobileServicesSectionProps) =>
                         </div>
                     );
                 })}
-            </div>
-
-            {/* Bottom Section: Tablet frame with persistent mount */}
-            <div className={styles.servicesLaptopArea}>
-                <ServiceFrame illustration={<IllustrationContainer activeIndex={activeIndex} />} />
             </div>
         </div>
     );

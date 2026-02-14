@@ -1,57 +1,39 @@
 /* ==================== MOBILE SERVICES SECTION ==================== */
 
 .servicesContainer {
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 40;
     width: 100%;
-    /* Use safe height from variable */
-    height: var(--mobile-safe-height, 100vh);
-    padding-top: var(--header-height);
     background: var(--creative-bg-secondary);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
+    padding: var(--section-padding-y) var(--section-padding-x);
+    gap: var(--space-lg);
 }
 
 .servicesTextArea {
     position: relative;
     width: 100%;
-    /* Flex 1 to take all available space */
-    flex: 1;
-    min-height: 0;
+    flex: 0 0 auto;
     z-index: 2;
-    overflow-y: auto;
-    /* Re-enable scroll styling */
-    scrollbar-width: thin;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 1rem;
-}
-
-.servicesTextArea::-webkit-scrollbar {
-    width: 4px;
-}
-
-.servicesTextArea::-webkit-scrollbar-thumb {
-    background-color: var(--creative-border-color);
-    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
 }
 
 .serviceTextLayer {
-    display: none;
+    display: flex;
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     text-align: left;
-    padding: 1rem 1.75rem;
+    padding: var(--space-md);
     color: var(--creative-text-primary);
     overflow: visible;
-}
-
-.serviceTextLayer.activeService {
-    display: flex;
+    border: 1px solid var(--creative-border-color);
+    border-radius: var(--radius-lg);
+    background: var(--creative-bg-primary);
     position: relative;
     z-index: 10;
 }
@@ -98,16 +80,16 @@
 
 .servicesLaptopArea {
     width: 100%;
-    /* Clamped height: min 200px, preferred 35vh, max 350px */
-    height: clamp(200px, 35vh, 350px);
+    aspect-ratio: var(--media-aspect-illustration);
+    max-height: 280px;
     flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
     position: relative;
-    padding: 0 1.5rem calc(1rem + env(safe-area-inset-bottom)) 1.5rem;
-    overflow: visible;
+    padding: 0;
+    overflow: hidden;
 }
 
 /* Decoration icons */
@@ -131,34 +113,8 @@
     }
 }
 
-/* Illustration transition */
-.illustrationFadeWrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: fadeInService 0.4s ease-out;
-}
-
-@keyframes fadeInService {
-    from {
-        opacity: 0;
-        transform: scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
 /* Responsive Overrides for very short screens */
 @media (max-height: 700px) {
-    .servicesContainer {
-        padding-top: calc(var(--header-height) - 10px);
-    }
-
     .statTitle {
         font-size: 1.3rem;
     }
@@ -166,10 +122,5 @@
     .statDescription {
         font-size: 0.9rem;
         margin-bottom: 0.5rem;
-    }
-
-    .servicesLaptopArea {
-        flex-basis: 200px;
-        padding-bottom: 1rem;
     }
 }

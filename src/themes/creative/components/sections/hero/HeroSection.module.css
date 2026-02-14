@@ -11,11 +11,10 @@
   --hero-vertical-padding: clamp(3rem, 6vw, 5rem);
 }
 
-/* Creating stacking context for mobile */
+/* Mobile hero - no sticky, natural flow */
 @media (max-width: 900px) {
   .heroContainer {
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 0;
   }
 }
@@ -553,9 +552,7 @@
     align-items: flex-start;
     justify-content: center;
     min-height: 100vh;
-    /* Ensure full height */
-    min-height: var(--mobile-safe-height, 100vh);
-    /* Use safe height if available */
+    min-height: 100svh;
   }
 
   .greeting {
@@ -675,7 +672,7 @@
     justify-content: center;
     /* Vertically center content */
     min-height: 100vh;
-    /* Ensure it fills screen */
+    min-height: 100svh;
   }
 
   .heroName {

@@ -1,8 +1,6 @@
 'use client';
 
-import React, { useRef, useLayoutEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React from 'react';
 import styles from './MobileStatPanel.module.css';
 import { MobileChipStack } from './MobileChipStack';
 import { AIBrainIllustration } from './illustrations/AIBrainIllustration';
@@ -10,10 +8,7 @@ import { GlobeVisualization } from './illustrations/GlobeVisualization';
 import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
 import { STATS_DATA } from '@/config/stats';
-
-if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-}
+import { useMobileReveal } from '@/themes/creative/hooks/useMobileReveal';
 
 
 
@@ -22,42 +17,12 @@ interface MobileStatPanelProps {
 }
 
 export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
-    const is5050 = index === 0;
-    // const layoutClass = is5050 ? styles.grid4555 : styles.grid502030; // Removed rigid grids
-    const zIndex = 20 + index;
     const stat = STATS_DATA[index];
     const Icon = stat?.icon;
-    const panelRef = useRef<HTMLDivElement>(null);
-
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            const el = panelRef.current;
-            if (!el) return;
-
-            const overlay = el.querySelector('.creative-stacking-card-overlay');
-
-            if (overlay) {
-                gsap.set(overlay, { opacity: 0 });
-
-                gsap.to(overlay, {
-                    opacity: 1,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top top+=1",
-                        end: "bottom top",
-                        scrub: true
-                    }
-                });
-            }
-        }, panelRef);
-
-        return () => ctx.revert();
-    }, []);
+    const panelRef = useMobileReveal<HTMLDivElement>({ y: 30, delay: index * 0.1 });
 
     return (
-        <div ref={panelRef} className={styles.statPanel} style={{ zIndex }}>
-            <div className="creative-stacking-card-overlay" />
+        <div ref={panelRef} className={styles.statPanel}>
             <div className={styles.flexContainer}>
                 {/* Text Zone with BackgroundDecor */}
                 <div className={styles.textZone}>
