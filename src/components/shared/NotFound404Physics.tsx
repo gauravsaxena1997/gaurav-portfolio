@@ -34,7 +34,6 @@ export default function NotFound404Physics() {
     const [isReady, setIsReady] = useState(false);
     const [digitSize, setDigitSize] = useState({ width: 150, height: 170, fontSize: 110 });
     const [gravity, setGravity] = useState(100);
-    const [bounciness, setBounciness] = useState(0.25);
 
     // Check for reduced motion
     const prefersReducedMotion = useRef(false);
@@ -74,19 +73,6 @@ export default function NotFound404Physics() {
     const resetGravity = useCallback(() => {
         updateGravity(100);
     }, [updateGravity]);
-
-    const updateBounciness = useCallback((value: number) => {
-        setBounciness(value);
-        if (engineRef.current) {
-            Matter.Composite.allBodies(engineRef.current.world).forEach(body => {
-                body.restitution = value;
-            });
-        }
-    }, []);
-
-    const resetBounciness = useCallback(() => {
-        updateBounciness(0.25);
-    }, [updateBounciness]);
 
     // ── Engine Setup ──
     useEffect(() => {
@@ -147,14 +133,12 @@ export default function NotFound404Physics() {
             { x: platformRight + ds.width * 0.15 },       // Last 4 (hanging off)
         ];
 
-        const digitBodies = DIGITS.map((_, i) => {
-            return Matter.Bodies.rectangle(
-                dropPositions[i].x,
-                -120 - i * 220,
-                ds.width, ds.height,
-                { label: `digit-${i}`, restitution: 0.25, friction: 0.6, frictionAir: 0.008, density: 0.003 }
-            );
-        });
+        const digitBodies = DIGITS.map((_, i) => Matter.Bodies.rectangle(
+            dropPositions[i].x,
+            -120 - i * 220,
+            ds.width, ds.height,
+            { label: `digit-${i}`, restitution: 0.25, friction: 0.6, frictionAir: 0.008, density: 0.003 }
+        ));
         bodiesRef.current = digitBodies;
 
         // Divider between 4 and 0
@@ -266,14 +250,12 @@ export default function NotFound404Physics() {
                     { x: newPlatformLeft + newPW + newDs.width * 0.15 },
                 ];
 
-                const newDigitBodies = DIGITS.map((_, i) => {
-                    return Matter.Bodies.rectangle(
-                        newDropPositions[i].x,
-                        -120 - i * 220,
-                        newDs.width, newDs.height,
-                        { label: `digit-${i}`, restitution: bounciness, friction: 0.6, frictionAir: 0.008, density: 0.003 }
-                    );
-                });
+                const newDigitBodies = DIGITS.map((_, i) => Matter.Bodies.rectangle(
+                    newDropPositions[i].x,
+                    -120 - i * 220,
+                    newDs.width, newDs.height,
+                    { label: `digit-${i}`, restitution: 0.25, friction: 0.6, frictionAir: 0.008, density: 0.003 }
+                ));
                 bodiesRef.current = newDigitBodies;
 
                 const newDividerX = newPlatformLeft + newPW * 0.42;
@@ -306,27 +288,7 @@ export default function NotFound404Physics() {
             Matter.World.clear(engine.world, false);
             Matter.Engine.clear(engine);
         };
-    }, [bounciness]); // Only re-run if bounciness changes not ideal but acceptable for basic toggle? 
-    // Actually bounciness state is used inside re-creation. 
-    // Ideally we should use a ref for bounciness to avoid full re-init on slider change?
-    // We handle bounciness updates via updateBounciness.
-    // So we DON'T need [bounciness] dependency here if we access it via state in handleResize?
-    // State in closure might be stale.
-    // But handleResize re-creates bodies. It needs current bounciness.
-    // If we don't depend on it, handleResize uses stale bounciness from mount closure (0.25).
-    // That's fine. The slider updates bodies directly.
-    // Only if we resize, we might reset to 0.25?
-    // Yes. We should probably use a ref for current bounciness.
-
-    // Use ref to track bounciness for resize
-    const bouncinessRef = useRef(bounciness);
-    useEffect(() => { bouncinessRef.current = bounciness; }, [bounciness]);
-
-    // Use bouncinessRef.current in handleResize (I need to edit the code above to use bouncinessRef.current)
-    // I will do that in spirit (or just let it be 0.25 on resize, rarely happens during slider usage).
-    // Actually, I can't restart the write. I will accept that resize resets characteristics or use the state if updated.
-    // React state in closure is stale. 
-    // I'll stick to the provided code for now.
+    }, []);
 
     return (
         <div className={styles.container} data-theme="dark">
@@ -380,36 +342,6 @@ export default function NotFound404Physics() {
                         aria-label="Reset Gravity"
                         title="Reset"
                         tabIndex={gravity === 100 ? -1 : 0}
-                    >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                            <path d="M3 3v5h5" />
-                        </svg>
-                    </button>
-                </div>
-
-                <div className={styles.controlDivider} />
-
-                {/* Bounciness */}
-                <div className={styles.controlGroup}>
-                    <label className={styles.controlLabel} htmlFor="bounciness-slider">Bounce</label>
-                    <div className={styles.sliderWrapper}>
-                        <input
-                            id="bounciness-slider"
-                            type="range"
-                            min="0.1" max="1.0" step="0.1"
-                            value={bounciness}
-                            onChange={(e) => updateBounciness(Number(e.target.value))}
-                            className={styles.slider}
-                        />
-                    </div>
-                    <span className={styles.controlValue}>{bounciness}x</span>
-                    <button
-                        className={`${styles.resetButton} ${bounciness === 0.25 ? styles.hidden : ''}`}
-                        onClick={resetBounciness}
-                        aria-label="Reset Bounce"
-                        title="Reset"
-                        tabIndex={bounciness === 0.25 ? -1 : 0}
                     >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
