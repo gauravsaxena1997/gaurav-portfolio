@@ -42,9 +42,26 @@ export const LoadingScreen = () => {
     }, []);
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0F0E0D]">
-            <div className="text-[#E6E6E6] text-sm tracking-widest uppercase">
-                Loading...
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ background: 'var(--creative-bg-primary)' }}>
+            <div className="w-full max-w-5xl flex flex-col gap-6" style={{ color: 'var(--creative-text-secondary)' }}>
+                {/* Skeleton layout mimicking hero with social/header placeholders */}
+                <div className="flex flex-col gap-4 md:gap-6">
+                    <div className="h-8 w-40 rounded animate-pulse" style={{ background: 'color-mix(in srgb, var(--creative-text-secondary) 12%, transparent)' }} aria-hidden="true" />
+                    <div className="space-y-3">
+                        <div className="h-12 w-3/4 rounded animate-pulse" style={{ background: 'color-mix(in srgb, var(--creative-text-secondary) 10%, transparent)' }} aria-hidden="true" />
+                        <div className="h-12 w-1/2 rounded animate-pulse" style={{ background: 'color-mix(in srgb, var(--creative-text-secondary) 10%, transparent)' }} aria-hidden="true" />
+                    </div>
+                    <div className="h-16 w-full max-w-2xl rounded animate-pulse" style={{ background: 'color-mix(in srgb, var(--creative-text-secondary) 8%, transparent)' }} aria-hidden="true" />
+                    <div className="flex gap-3">
+                        <div className="h-11 w-32 rounded-full animate-pulse" style={{ background: 'color-mix(in srgb, var(--creative-text-secondary) 12%, transparent)' }} aria-hidden="true" />
+                        <div className="h-11 w-32 rounded-full animate-pulse" style={{ background: 'color-mix(in srgb, var(--creative-text-secondary) 12%, transparent)' }} aria-hidden="true" />
+                    </div>
+                    <div className="flex gap-2">
+                        <div className="h-10 w-10 rounded-full animate-pulse" style={{ background: 'color-mix(in srgb, var(--creative-text-secondary) 15%, transparent)' }} aria-hidden="true" />
+                        <div className="h-10 w-10 rounded-full animate-pulse" style={{ background: 'color-mix(in srgb, var(--creative-text-secondary) 15%, transparent)' }} aria-hidden="true" />
+                        <div className="h-10 w-10 rounded-full animate-pulse" style={{ background: 'color-mix(in srgb, var(--creative-text-secondary) 15%, transparent)' }} aria-hidden="true" />
+                    </div>
+                </div>
             </div>
         </div>
     );

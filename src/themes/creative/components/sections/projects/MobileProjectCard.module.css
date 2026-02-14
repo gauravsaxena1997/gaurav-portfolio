@@ -5,51 +5,28 @@
 }
 
 .projectContainer {
-    position: sticky;
-    top: var(--header-height);
+    position: relative;
     width: 100%;
-    /* Subtract header height to ensure it fits exactly in the remaining viewport */
-    height: calc(var(--mobile-safe-height, 100vh) - var(--header-height));
     background: var(--creative-bg-secondary);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-    padding-bottom: 0;
+    padding: var(--section-padding-y) var(--section-padding-x);
+    gap: var(--space-md);
 }
 
-/* Only stacking project cards get depth effect */
+/* Visual separation between project cards */
 .projectContainer+.projectContainer {
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
     border-top: 1px solid var(--creative-border-color);
-}
-
-/* Blur/shadow gradient effect for stacking project cards */
-.projectContainer+.projectContainer::before {
-    content: '';
-    position: absolute;
-    top: -100px;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
-    backdrop-filter: blur(4px);
-    z-index: -1;
-    pointer-events: none;
 }
 
 .projectTopSection {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 1.25rem 1.5rem 0.75rem 1.5rem;
+    padding: 0;
     position: relative;
     z-index: 5;
-    /* This section takes all remaining space and scrolls if needed */
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
-    scrollbar-width: thin;
+    flex: 0 0 auto;
 }
 
 .projectTitle {
@@ -97,10 +74,8 @@
     flex-direction: column;
     width: 100%;
     background: var(--creative-bg-secondary);
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
-    padding-top: 0.5rem;
+    padding-bottom: env(safe-area-inset-bottom);
     gap: 0.75rem;
-    /* Priority section: Always visible */
     flex: 0 0 auto;
     position: relative;
     z-index: 10;
@@ -217,12 +192,14 @@
 
 .projectMediaContainer {
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     background: transparent;
     border: none;
-    border-radius: 0;
-    margin: 0 1rem;
-    height: auto;
+    border-radius: var(--radius-lg);
+    margin: 0;
+    width: 100%;
+    aspect-ratio: var(--media-aspect-landscape);
+    max-height: var(--media-max-height);
 }
 
 .backgroundIcon {

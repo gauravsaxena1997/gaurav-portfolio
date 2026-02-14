@@ -42,12 +42,6 @@
   box-sizing: border-box;
 }
 
-.projectHeader {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-bottom: var(--space-md);
-}
 
 /* Legacy inline number - kept for reference */
 .projectNumber {
@@ -140,20 +134,13 @@
 }
 
 /* Meta Row: Tag + CTA */
-.metaRow {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
-  flex-wrap: wrap;
-}
 
 /* Category Badge - Now sits inside Meta Row */
 .categoryBadge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
   background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
-  color: var(--creative-accent);
+  color: var(--color-accessible-text-on-gold);
   border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
   font-size: var(--font-size-body-xs);
   font-family: var(--font-mono);
@@ -214,15 +201,6 @@
 
 
 /* CTA Buttons Wrapper */
-.ctaWrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: auto;
-  /* Push to bottom of sticky container */
-  padding-top: 2rem;
-  /* Ensure Visual separation */
-}
 
 /* Primary CTA Button - INCREASED SIZE */
 .ctaButton {
@@ -232,7 +210,7 @@
   padding: 1rem 2rem;
   /* Increased padding */
   background: var(--creative-accent);
-  color: var(--creative-bg-primary);
+  color: var(--color-text-on-accent);
   font-family: var(--font-mono);
   /* Technical Action */
   font-size: var(--font-size-body-sm);
@@ -246,6 +224,11 @@
 .ctaButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+}
+
+[data-theme="dark"] .ctaButton {
+  background: var(--creative-accent);
+  color: var(--cta-text-on-accent-dark);
 }
 
 /* Secondary Button (Explore More) - INCREASED SIZE */
@@ -266,6 +249,11 @@
   border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .secondaryButton {
+  color: #1A1816;
+  border-color: #1A1816;
 }
 
 .secondaryButton:hover {

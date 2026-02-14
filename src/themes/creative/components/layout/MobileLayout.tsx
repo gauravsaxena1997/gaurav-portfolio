@@ -50,14 +50,12 @@ const TrackedSection = ({
     children,
     className,
     style,
-    zIndex
 }: {
     logicalId: string;
     domId: string;
     children: React.ReactNode;
     className?: string;
     style?: React.CSSProperties;
-    zIndex?: number;
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { updateProgress } = useScrollProgress({ sectionId: logicalId });
@@ -85,7 +83,7 @@ const TrackedSection = ({
             ref={containerRef}
             id={domId}
             className={className}
-            style={{ ...style, zIndex }}
+            style={style}
             data-section={logicalId}
         >
             {children}
@@ -119,7 +117,6 @@ export default function MobileLayout() {
                     logicalId="hero"
                     domId="hero-section"
                     style={{ position: 'relative' }}
-                    zIndex={0}
                 >
                     <HeroSection />
                 </TrackedSection>
@@ -127,7 +124,6 @@ export default function MobileLayout() {
                 <TrackedSection
                     logicalId="stats"
                     domId="stats-section"
-                    zIndex={10}
                     style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
                 >
                     <div className={styles.statsContainer}>
@@ -148,7 +144,6 @@ export default function MobileLayout() {
                             key={project.id}
                             project={project}
                             index={index}
-                            zIndex={30 + index}
                         />
                     ))}
                 </TrackedSection>
@@ -156,27 +151,23 @@ export default function MobileLayout() {
                 <TrackedSection
                     logicalId="services"
                     domId="services-section"
-                    zIndex={35}
                     style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
                 >
                     <div className={styles.sectionLabel}>What I Offer</div>
-                    <MobileServicesSection zIndex={40} />
+                    <MobileServicesSection />
                 </TrackedSection>
 
                 <TrackedSection
                     logicalId="testimonials"
                     domId="testimonials-section"
-                    zIndex={45}
                     style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
                 >
-                    <div className={styles.sectionLabel}>Client Stories</div>
                     <MobileTestimonialsSection />
                 </TrackedSection>
 
                 <TrackedSection
                     logicalId="contact"
                     domId="contact-section"
-                    zIndex={50}
                     style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
                 >
                     <MobileContactSection />

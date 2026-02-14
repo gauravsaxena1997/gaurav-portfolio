@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "analyze": "ANALYZE=true npm run build"
+    "analyze": "ANALYZE=true npm run build",
+    "lh:accessibility:light": "lighthouse http://localhost:3000/?theme=light --only-categories=accessibility --preset=desktop --output=json --output-path=./docs/audit/lighthouse-desktop-light-mode-latest.json --chrome-flags='--headless --disable-gpu --no-sandbox'",
+    "lh:accessibility:dark": "lighthouse http://localhost:3000/?theme=dark --only-categories=accessibility --preset=desktop --output=json --output-path=./docs/audit/lighthouse-desktop-dark-mode-latest.json --chrome-flags='--headless --disable-gpu --no-sandbox'"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -38,6 +40,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.2",
+    "lighthouse": "^12.1.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

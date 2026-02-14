@@ -62,6 +62,7 @@ export function MobileVideoFrame({ videoSrc, imageSrc, alt }: MobileVideoFramePr
                             loop
                             muted
                             playsInline
+                            preload="metadata"
                             poster={imageSrc}
                         />
                     ) : imageSrc ? (
@@ -71,6 +72,7 @@ export function MobileVideoFrame({ videoSrc, imageSrc, alt }: MobileVideoFramePr
                             fill
                             className={styles.mediaContent}
                             style={{ objectFit: 'contain' }}
+                            priority
                         />
                     ) : (
                         <div className={styles.noMediaPlaceholder}>NO MEDIA</div>

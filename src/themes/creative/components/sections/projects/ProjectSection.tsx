@@ -1,4 +1,4 @@
-import { memo, useRef, useEffect, useState, createRef, useMemo } from 'react';
+import { memo, useRef, useEffect, useState, createRef, useMemo, useCallback } from 'react';
 import { useScrollContext } from '../../../context/ScrollContext';
 import { getProjectsForDisplay } from './config';
 import { TabletFrame, TabletFrameHandle } from './TabletFrame';
@@ -36,6 +36,7 @@ export const ProjectSection = memo(function ProjectSection() {
   const [isUnifiedOpen, setIsUnifiedOpen] = useState(false);
   const [unifiedTargetProject, setUnifiedTargetProject] = useState<number>(0);
   const [unifiedStartType, setUnifiedStartType] = useState<'video' | 'gallery'>('video');
+  const preloadCache = useRef<Set<string>>(new Set());
 
   const { setCurrentProjectIndex, setIsInProjectsSection } = useScrollContext();
 
@@ -58,6 +59,40 @@ export const ProjectSection = memo(function ProjectSection() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Preload helper: images and video head request
+  const preloadMedia = useCallback(async (index: number) => {
+    if (!projects[index]) return;
+    const { heroVideo, thumbnail, images } = projects[index];
+    const tasks: Promise<any>[] = [];
+
+    const enqueueImage = (src?: string) => {
+      if (!src || preloadCache.current.has(src)) return;
+      preloadCache.current.add(src);
+      tasks.push(new Promise((resolve) => {
+        const img = new Image();
+        img.onload = img.onerror = () => resolve(true);
+        img.src = src;
+      }));
+    };
+
+    enqueueImage(thumbnail);
+    images?.forEach(enqueueImage);
+
+    if (heroVideo && !preloadCache.current.has(heroVideo)) {
+      preloadCache.current.add(heroVideo);
+      tasks.push(fetch(heroVideo, { method: 'HEAD' }).catch(() => null));
+    }
+
+    return Promise.all(tasks);
+  }, [projects]);
+
+  // Preload current + next project when index changes (non-blocking)
+  useEffect(() => {
+    // Fire-and-forget preloading - don't block rendering
+    preloadMedia(activeProjectIndex);
+    preloadMedia(activeProjectIndex + 1);
+  }, [activeProjectIndex, preloadMedia]);
 
   // Scroll handler for project tracking and GuideBar logic
   useEffect(() => {
@@ -148,6 +183,8 @@ export const ProjectSection = memo(function ProjectSection() {
     // 'video' starts at index 0
     // 'gallery' starts at index 1 (since index 0 is video)
     setUnifiedStartType(guideState.action || 'video');
+    // Non-blocking preload
+    preloadMedia(guideState.targetIndex);
     setIsUnifiedOpen(true);
   };
 
@@ -183,10 +220,10 @@ export const ProjectSection = memo(function ProjectSection() {
               </BackgroundDecor>
 
               {/* Row 1: Header (Title / Tag) */}
-              <div className={styles.projectHeader}>
+              <div className="flex items-center gap-[var(--space-md)] mb-[var(--space-md)]">
                 <div className={styles.titleStack}>
                   <h2 className={styles.projectName}>{project.title}</h2>
-                  <div className={styles.metaRow}>
+                  <div className="flex items-center gap-6 mt-2 flex-wrap">
                     <span className={styles.categoryBadge}>
                       {project.category === 'case-study' && 'Case Study'}
                       {project.category === 'venture' && 'Personal Venture'}
@@ -200,6 +237,8 @@ export const ProjectSection = memo(function ProjectSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.ctaButton}
+                        aria-label={`View Live: ${project.title}`}
+                        title={`View Live: ${project.title}`}
                         onClick={() => AnalyticsService.trackProjectInteraction('click_live_demo', project.title)}
                       >
                         View Live

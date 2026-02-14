@@ -133,6 +133,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://vercel.app" />
         <PersonSchema />
         <ServiceSchema />
         <WebSiteSchema />

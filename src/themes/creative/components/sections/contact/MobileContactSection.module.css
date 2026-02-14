@@ -1,32 +1,16 @@
 .contactSection {
-    position: sticky;
-    top: 0;
+    position: relative;
     width: 100%;
-    /* Use safe height */
-    height: var(--mobile-safe-height, 100vh);
-    /* Standardized padding */
-    padding-top: calc(var(--header-height) + var(--mobile-section-padding));
-    padding-bottom: var(--mobile-section-padding);
-    padding-left: var(--mobile-section-padding);
-    padding-right: var(--mobile-section-padding);
+    padding: var(--section-padding-y) var(--section-padding-x);
     z-index: 50;
     background: var(--creative-bg-secondary);
     display: flex;
     flex-direction: column;
-    flex-direction: column;
     align-items: flex-start;
-    /* Changed from center */
-    /* Center content horizontally */
     justify-content: flex-start;
+    gap: var(--space-sm);
     color: var(--creative-text-primary);
-    overflow-y: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
-}
-
-.contactSection::-webkit-scrollbar {
-    display: none;
 }
 
 .contactTitle {
@@ -109,8 +93,8 @@
     border: none;
     /* Remove border */
     border-radius: 0;
-    font-size: var(--font-size-body-md);
-    /* Larger text */
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    /* Responsive font sizing */
     color: var(--creative-text-primary);
     /* Brighter text */
     white-space: normal;
@@ -118,6 +102,15 @@
     overflow: visible;
     text-overflow: clip;
     max-width: 100%;
+}
+
+.contactChip span {
+    word-break: break-word;
+    /* Allow breaking long emails */
+    flex: 1;
+    /* Take available space */
+    min-width: 0;
+    /* Allow shrinking */
 }
 
 .contactChip svg {

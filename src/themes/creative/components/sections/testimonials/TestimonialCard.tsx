@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ExternalLink } from 'lucide-react';
 import { Testimonial } from '@/config/testimonials';
 import styles from './Testimonials.module.css';
+import { AccentSeparator } from '@/themes/creative/components/ui';
 
 interface TestimonialCardProps {
     data: Testimonial;
@@ -47,7 +48,7 @@ export function TestimonialCard({ data, className = '' }: TestimonialCardProps) 
                 </div>
 
                 <div className={styles.infoColumn}>
-                    <h4 className={styles.authorName}>{data.name}</h4>
+                    <div className={styles.authorName} role="text">{data.name}</div>
                     <span className={styles.designation}>{data.designation}</span>
                 </div>
 

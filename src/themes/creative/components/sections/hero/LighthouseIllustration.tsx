@@ -33,11 +33,10 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
     roof: '#A89880',                   // Darker roof for contrast
     base: '#BFB09C',                   // Match lamp house
     window: '#4A4035',                 // Dark warm brown windows
-    // Land/cliff colors - Natural rock tones (neutral grays with slight warmth)
-    // Avoid using text-primary/secondary to prevent extreme contrast in light/dark modes
-    cliffDark: 'var(--creative-rock-dark)',   // #4a4a4a equivalent in theme
-    cliffMid: 'var(--creative-rock-mid)',     // #6b6b6b equivalent
-    cliffLight: 'var(--creative-rock-light)', // #8c8c8c equivalent
+    // Land/cliff colors - fixed neutral grays for consistent visibility in both themes
+    cliffDark: '#5A5A5A',
+    cliffMid: '#777777',
+    cliffLight: '#949494',
   };
 
   return (
@@ -87,19 +86,19 @@ export const LighthouseIllustration = memo(function LighthouseIllustration({
       <path
         d="M0 230 L 35 175 C 45 172, 50 170, 60 172 L 60 175 L 80 175 L 80 172 C 95 170, 110 168, 140 165 L 140 230 Z"
         fill={colors.cliffDark}
-        opacity="0.9" // Increased from 0.5
+        opacity="1"
       />
       {/* Middle layer - follows the taper */}
       <path
         d="M15 230 L 40 180 C 50 177, 55 176, 62 177 L 62 175 L 78 175 L 78 177 C 100 174, 120 172, 140 175 L 140 230 Z"
         fill={colors.cliffMid}
-        opacity="0.7" // Increased from 0.35
+        opacity="0.85"
       />
       {/* Top surface layer - closest to lighthouse */}
       <path
         d="M30 230 L 48 188 C 55 185, 60 184, 65 185 L 65 175 L 75 175 L 75 185 C 95 182, 115 180, 140 185 L 140 230 Z"
         fill={colors.cliffLight}
-        opacity="0.5" // Increased from 0.25
+        opacity="0.7"
       />
       {/* Rock texture details along the slope */}
       <ellipse cx="50" cy="200" rx="6" ry="3" fill={colors.cliffMid} opacity="0.4" />

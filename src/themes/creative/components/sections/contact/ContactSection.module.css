@@ -1,22 +1,6 @@
 /* Contact Section Styles - Creative Theme (Dark/Gold) */
 
-.container {
-  width: 100%;
-  min-height: 100vh;
-  /* Use flex column to stack content and footer naturally */
-  display: flex;
-  align-items: center;
-  /* Vertical Center */
-  justify-content: center;
-  /* Horizontal Center */
-  padding: calc(var(--header-height) + var(--section-padding-y)) var(--section-padding-x) var(--section-padding-y);
-  /* Remove vertical padding to let Flexbox handle centering */
-  /* Enforce Dark Background */
-  background: var(--creative-bg-primary, #0a0a0a);
-  position: relative;
-  overflow: hidden;
-  box-sizing: border-box;
-}
+/* .container layout handled by Tailwind utilities in component */
 
 /* Background Elements (Optional for "Magic Touch") */
 .container::before {
@@ -31,26 +15,10 @@
   pointer-events: none;
 }
 
-.content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--grid-gap-lg);
-  max-width: var(--container-lg);
-  width: 100%;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
+/* .content layout handled by Tailwind utilities in component */
 
 /* Text Wrapper Styles (Left Column) */
-.textWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding-right: var(--space-lg);
-  position: relative;
-}
+/* .textWrapper layout handled by Tailwind utilities in component */
 
 /* Compass Animation */
 @keyframes rotateSlow {
@@ -96,40 +64,17 @@
   color: var(--creative-text-secondary);
   line-height: 1.6;
   max-width: 480px;
-  margin: 0;
+  margin: 0 0 var(--space-lg) 0;
 }
 
 /* Status Grid */
-.statusGrid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  margin-top: var(--space-xl);
-}
+/* .statusGrid layout handled by Tailwind utilities in component */
 
-.statusItem {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
+/* .statusItem layout handled by Tailwind utilities in component */
 
-.iconBox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-lg);
-  background: rgba(var(--creative-bg-secondary-rgb), 0.5);
-  border: 1px solid var(--creative-border-color);
-  color: var(--creative-accent);
-}
+/* .iconBox layout handled by Tailwind utilities in component */
 
-.statusText {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
+/* .statusText layout handled by Tailwind utilities in component */
 
 .statusLabel {
   font-size: var(--font-size-body-xs);
@@ -145,6 +90,7 @@
   color: var(--creative-text-primary);
 }
 
+/* Schedule CTA styling */
 .scheduleButton {
   margin-top: var(--space-xl);
   display: flex;
@@ -174,34 +120,11 @@
   transform: translateY(0);
 }
 
-.formWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Center the form in its column */
-  width: 100%;
-}
+/* .formWrapper layout handled by Tailwind utilities in component */
 
 /* Footer removed, replaced by Floating FAQ */
 
-.floatingFAQ {
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(var(--creative-accent-rgb), 0.1);
-  border: 1px solid var(--creative-accent);
-  color: var(--creative-accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 20;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
+/* .floatingFAQ layout handled by Tailwind utilities in component */
 
 .floatingFAQ:hover {
   background: var(--creative-accent);

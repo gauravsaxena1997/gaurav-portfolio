@@ -1,59 +1,27 @@
 'use client';
 
-import React, { useRef, useLayoutEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React from 'react';
 import styles from './MobileProjectCard.module.css';
 import { MobileProjectCarousel } from '../../layout/MobileProjectCarousel';
 import { UnifiedProjectViewer } from '@/components/shared/UnifiedProjectViewer';
 import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
-
-if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-}
+import { useMobileReveal } from '@/themes/creative/hooks/useMobileReveal';
 
 
 
 interface MobileProjectCardProps {
     project: any;
     index: number;
-    zIndex: number;
 }
 
-export const MobileProjectCard = ({ project, index, zIndex }: MobileProjectCardProps) => {
+export const MobileProjectCard = ({ project, index }: MobileProjectCardProps) => {
     const [isViewerOpen, setIsViewerOpen] = React.useState(false);
-    const cardRef = useRef<HTMLDivElement>(null);
-
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            const el = cardRef.current;
-            if (!el) return;
-
-            const overlay = el.querySelector('.creative-stacking-card-overlay');
-            if (overlay) {
-                gsap.set(overlay, { opacity: 0 });
-
-                gsap.to(overlay, {
-                    opacity: 1,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top top+=1",
-                        end: "bottom top",
-                        scrub: true
-                    }
-                });
-            }
-        }, cardRef);
-
-        return () => ctx.revert();
-    }, []);
+    const cardRef = useMobileReveal<HTMLDivElement>({ y: 30, delay: index * 0.05 });
 
     return (
         <>
-            <div ref={cardRef} className={styles.projectContainer} style={{ zIndex }}>
-                <div className="creative-stacking-card-overlay" />
+            <div ref={cardRef} className={styles.projectContainer}>
                 {/* Background Decor - Number with Parallax */}
                 <BackgroundDecor
                     position={{ top: '15%', right: '5%' }}

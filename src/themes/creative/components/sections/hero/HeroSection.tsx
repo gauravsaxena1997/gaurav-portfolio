@@ -59,7 +59,9 @@ function HeroContent({ animate, className }: HeroContentProps) {
       <AccentSeparator className={`${animClass} socialDivider`} />
 
       {/* Action Row: Social Links + CTA */}
-      <div className={`${styles.actionRow} ${animClass} actionRow`}>
+      <div
+        className={`${styles.actionRow} ${animClass} actionRow flex items-center gap-[var(--space-xl)]`}
+      >
         <SocialLinks className={styles.socialLinks} />
         <button
           className={styles.heroCTA}
