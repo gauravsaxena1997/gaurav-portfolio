@@ -119,6 +119,7 @@ export function MobileProjectCarousel({
                             loop
                             muted
                             playsInline
+                            preload="metadata"
                         />
                     ) : (
                         <Image
@@ -128,6 +129,7 @@ export function MobileProjectCarousel({
                             className={styles.mediaContent}
                             style={{ objectFit: 'contain' }}
                             sizes="(max-width: 768px) 90vw, 50vw"
+                            priority
                         />
                     )}
 

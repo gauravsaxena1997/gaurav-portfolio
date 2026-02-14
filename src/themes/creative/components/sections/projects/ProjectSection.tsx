@@ -36,7 +36,6 @@ export const ProjectSection = memo(function ProjectSection() {
   const [isUnifiedOpen, setIsUnifiedOpen] = useState(false);
   const [unifiedTargetProject, setUnifiedTargetProject] = useState<number>(0);
   const [unifiedStartType, setUnifiedStartType] = useState<'video' | 'gallery'>('video');
-  const [isPreloading, setIsPreloading] = useState(false);
   const preloadCache = useRef<Set<string>>(new Set());
 
   const { setCurrentProjectIndex, setIsInProjectsSection } = useScrollContext();
@@ -88,17 +87,11 @@ export const ProjectSection = memo(function ProjectSection() {
     return Promise.all(tasks);
   }, [projects]);
 
-  // Preload current + next project when index changes
+  // Preload current + next project when index changes (non-blocking)
   useEffect(() => {
-    let cancelled = false;
-    const run = async () => {
-      setIsPreloading(true);
-      await preloadMedia(activeProjectIndex);
-      await preloadMedia(activeProjectIndex + 1);
-      if (!cancelled) setIsPreloading(false);
-    };
-    run();
-    return () => { cancelled = true; };
+    // Fire-and-forget preloading - don't block rendering
+    preloadMedia(activeProjectIndex);
+    preloadMedia(activeProjectIndex + 1);
   }, [activeProjectIndex, preloadMedia]);
 
   // Scroll handler for project tracking and GuideBar logic
@@ -190,13 +183,9 @@ export const ProjectSection = memo(function ProjectSection() {
     // 'video' starts at index 0
     // 'gallery' starts at index 1 (since index 0 is video)
     setUnifiedStartType(guideState.action || 'video');
-    const open = async () => {
-      setIsPreloading(true);
-      await preloadMedia(guideState.targetIndex);
-      setIsPreloading(false);
-      setIsUnifiedOpen(true);
-    };
-    open();
+    // Non-blocking preload
+    preloadMedia(guideState.targetIndex);
+    setIsUnifiedOpen(true);
   };
 
   const activeProject = projects[unifiedTargetProject];

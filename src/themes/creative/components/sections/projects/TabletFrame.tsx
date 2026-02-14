@@ -55,7 +55,32 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
     }
   }));
 
-  // ... (intersection observer stays) ...
+  // IntersectionObserver to autoplay video when in viewport
+  useEffect(() => {
+    const video = videoRef.current;
+    const container = containerRef.current;
+    if (!video || !container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            video.play().catch(() => {
+              // Autoplay failed, user interaction required
+            });
+          } else {
+            setIsInView(false);
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   // Handle fullscreen open
   const openFullscreen = useCallback(() => {
@@ -155,7 +180,7 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
                   muted
                   loop
                   playsInline
-                  preload="auto"
+                  preload="metadata"
                   className={styles.media}
                   aria-label={alt}
                 >
@@ -177,7 +202,7 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
                 fill
                 sizes="(max-width: 900px) 100vw, 50vw"
                 className={styles.media}
-                priority={false}
+                priority
               />
             ) : (
               <div className={styles.placeholder}>

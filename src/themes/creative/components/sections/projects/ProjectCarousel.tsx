@@ -60,7 +60,7 @@ export const ProjectCarousel = memo(function ProjectCarousel({
                 fill
                 sizes="90vw"
                 className={styles.image}
-                priority={index === 0}
+                priority={index < 2}
               />
             </div>
           </div>
