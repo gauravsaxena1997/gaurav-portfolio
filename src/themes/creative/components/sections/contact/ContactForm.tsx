@@ -5,7 +5,6 @@ import { validate } from '@/lib/validation';
 import { contactFormSchema } from '@/lib/validation/schemas';
 import { AppError } from '@/lib/errors/AppError';
 import { errorHandler } from '@/lib/errors/ErrorHandler';
-import { GuideBar } from '../../ui/GuideBar';
 import { AnalyticsService } from '@/services/AnalyticsService';
 import styles from './ContactForm.module.css';
 
@@ -223,13 +222,12 @@ export const ContactForm = memo(
           </button>
         </form>
 
-        {/* Success GuideBar notification */}
-        <GuideBar
-          forceVisible={status.type === 'success'}
-          message={status.message}
-          autoDismissAfter={5000}
-          showGreeting={false}
-        />
+        {/* Success notification */}
+        {status.type === 'success' && (
+          <div className={styles.successMessage} role="alert">
+            {status.message}
+          </div>
+        )}
       </div>
     );
   })

@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { ThemeProvider } from '@/components/shared';
 import { PersonSchema, ServiceSchema, WebSiteSchema, BreadcrumbSchema, FAQSchema, TestimonialSchema } from '@/components/seo';
 import { AnalyticsService } from '@/services/AnalyticsService';
+import { ChatWidgetLoader } from '@/components/chat/ChatWidgetLoader';
 import './globals.css';
 
 const sora = Sora({
@@ -150,6 +151,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <ThemeProvider>{children}</ThemeProvider>
+        <ChatWidgetLoader />
         {/* Google Analytics - Production Only */}
         {process.env.NODE_ENV === 'production' && (
           <>

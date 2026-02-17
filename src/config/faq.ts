@@ -44,5 +44,13 @@ export const FAQ_ITEMS: FAQItem[] = [
     {
         question: "What makes you the best freelancer for my project?",
         answer: "I combine the technical depth of a Principal Engineer with the visual sensibility of a Designer. Unlike standard developers, I care deeply about the 'feel' of the product—animations, micro-interactions, and user journey—guaranteeing a premium result."
+    },
+    {
+        question: "How can I explore more of Gaurav's work?",
+        answer: "You can explore Gaurav's work across a few places — GitHub for open-source projects and technical code, and LinkedIn where he regularly shares case studies, insights, and blog posts. If you're a developer, GitHub is a great place to see his code quality and project structure. If you're a business owner or recruiter, LinkedIn showcases his professional journey and real-world impact."
+    },
+    {
+        question: "Where can I see Gaurav's projects and portfolio?",
+        answer: "Gaurav's projects are showcased right here on this portfolio. You can also find his open-source work on GitHub and professional case studies on LinkedIn. His portfolio includes projects in e-commerce, fintech, healthcare, and AI-powered applications."
     }
 ];

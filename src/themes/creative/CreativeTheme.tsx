@@ -6,7 +6,6 @@ import { ScrollProvider } from './context/ScrollContext';
 import { ScrollOrchestrator } from './components/scroll/ScrollOrchestrator';
 import { ProgressScrollbar } from './components/scroll/ProgressScrollbar';
 import { Header } from './components/header/Header';
-import { GuideBar } from './components/ui';
 
 import './styles/theme.css';
 import './styles/scrollbar.css';
@@ -42,9 +41,6 @@ export function CreativeTheme({ currentTheme, onThemeChange }: CreativeThemeProp
         <main className={styles.scrollContainer}>
           <ScrollOrchestrator />
         </main>
-
-        {/* Guide Bar - Welcome message and lighthouse hint */}
-        <GuideBar />
       </div>
     </ScrollProvider>
   );

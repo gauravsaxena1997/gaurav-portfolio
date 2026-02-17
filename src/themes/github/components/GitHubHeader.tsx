@@ -234,6 +234,8 @@ export function GitHubHeader({
               width={32}
               height={32}
               className={styles.profilePhoto}
+              priority
+              sizes="32px"
             />
           </Link>
 

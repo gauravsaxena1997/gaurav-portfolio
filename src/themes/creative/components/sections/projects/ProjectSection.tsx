@@ -5,7 +5,7 @@ import { TabletFrame, TabletFrameHandle } from './TabletFrame';
 import { InteractiveGallery } from './InteractiveGallery';
 import { ProjectCarousel } from './ProjectCarousel';
 import { BackgroundDecor } from '../../common/BackgroundDecor';
-import { Highlights, AccentSeparator, GuideBar } from '../../ui';
+import { Highlights, AccentSeparator } from '../../ui';
 import { UnifiedProjectViewer } from '@/components/shared/UnifiedProjectViewer';
 import { ProjectSchema } from '@/components/seo';
 import { AnalyticsService } from '@/services/AnalyticsService';
@@ -24,13 +24,6 @@ export const ProjectSection = memo(function ProjectSection() {
   const [isMobile, setIsMobile] = useState(false);
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
 
-  // Guide Bar State
-  const [guideState, setGuideState] = useState<{
-    message: string;
-    actionLabel: string;
-    action: 'video' | 'gallery' | null;
-    targetIndex: number;
-  } | null>(null);
 
   // Unified Viewer State
   const [isUnifiedOpen, setIsUnifiedOpen] = useState(false);
@@ -109,7 +102,6 @@ export const ProjectSection = memo(function ProjectSection() {
       setIsInProjectsSection(inProjectsSection);
 
       if (!inProjectsSection) {
-        setGuideState(null);
         return;
       }
 
@@ -130,42 +122,9 @@ export const ProjectSection = memo(function ProjectSection() {
             setCurrentProjectIndex(index);
           }
           foundActive = true;
-
-          // Determine context (Video/Info vs Images)
-          // Look for the gallery wrapper within this slide to see its position
-          const gallery = slide.querySelector(`[data-id="gallery-${index}"]`);
-          if (gallery) {
-            const galleryRect = gallery.getBoundingClientRect();
-            // If gallery is entering the "active" zone (started entering viewport or above fold)
-            // Threshold: Gallery top is above 60% of viewport height (coming up)
-            const isGalleryActive = galleryRect.top < viewportHeight * 0.7;
-
-            setGuideState(isGalleryActive ? {
-              message: "View Demo / Images in Full Screen",
-              actionLabel: "Click Here",
-              action: 'gallery',
-              targetIndex: index
-            } : {
-              message: "View Demo / Images in Full Screen",
-              actionLabel: "Click Here",
-              action: 'video',
-              targetIndex: index
-            });
-          } else {
-            // Fallback if no gallery
-            setGuideState({
-              message: "View Demo / Images in Full Screen",
-              actionLabel: "Click Here",
-              action: 'video',
-              targetIndex: index
-            });
-          }
         }
       });
 
-      if (!foundActive) {
-        setGuideState(null);
-      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -173,20 +132,6 @@ export const ProjectSection = memo(function ProjectSection() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeProjectIndex, setCurrentProjectIndex, setIsInProjectsSection]);
 
-  // Handle Guide Bar Actions - NOW UNIFIED
-  const handleGuideAction = () => {
-    if (!guideState) return;
-
-    setUnifiedTargetProject(guideState.targetIndex);
-
-    // Determine start index based on action
-    // 'video' starts at index 0
-    // 'gallery' starts at index 1 (since index 0 is video)
-    setUnifiedStartType(guideState.action || 'video');
-    // Non-blocking preload
-    preloadMedia(guideState.targetIndex);
-    setIsUnifiedOpen(true);
-  };
 
   const activeProject = projects[unifiedTargetProject];
   // Calculate initial index: if action was gallery, we want to start at first image. 
@@ -230,7 +175,23 @@ export const ProjectSection = memo(function ProjectSection() {
                       {project.category === 'client' && 'Client Work'}
                     </span>
 
-                    {/* CTA Moved Here */}
+                    {/* CTAs */}
+                    {project.slug && (
+                      <a
+                        href={`/projects/${project.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.ctaButton}
+                        aria-label={`Explore project: ${project.title}`}
+                        title={`Explore project: ${project.title}`}
+                      >
+                        Explore Project
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                          <path d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
+                      </a>
+                    )}
+
                     {project.liveUrl && (
                       <a
                         href={project.liveUrl}
@@ -308,16 +269,6 @@ export const ProjectSection = memo(function ProjectSection() {
           </div>
         </div>
       ))}
-
-      {/* Persistent GuideBar for Section Context */}
-      <GuideBar
-        forceVisible={!!guideState}
-        isPersistent={true}
-        message={guideState?.message}
-        actionLabel={guideState?.actionLabel}
-        onAction={handleGuideAction}
-        showGreeting={false}
-      />
 
       {/* Unified Project Viewer - Replaces separate ImageViewer/FullscreenVideo */}
       {activeProject && (

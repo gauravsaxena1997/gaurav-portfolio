@@ -1,6 +1,7 @@
 'use client';
 
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { createPortal } from 'react-dom';
 import { useDeviceCapabilities } from '../../hooks/useDeviceCapabilities';
 import styles from './GuideBar.module.css';
@@ -23,11 +24,13 @@ function KeyboardBadge({ children }: { children: React.ReactNode }) {
 function Avatar({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <img
+      <Image
         src="/profile.jpg"
         alt="Gaurav Saxena"
-        width="40"
-        height="40"
+        width={40}
+        height={40}
+        priority
+        sizes="40px"
       />
     </div>
   );

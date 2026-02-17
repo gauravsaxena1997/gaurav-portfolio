@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Linkedin, Mail, MessageSquare, MapPin, Briefcase, Building2, Rocket, Users, Zap, FileText, Github } from 'lucide-react';
 import { PROFILE } from '@/data';
 import type { SectionId } from '@/data';
@@ -155,10 +156,14 @@ export function Hero({ onNavigate }: HeroProps) {
           {/* Left Sidebar */}
           <div className={styles.sidebar}>
             <div className={styles.avatarWrapper}>
-              <img
+              <Image
                 src="/profile.jpg"
                 alt={PROFILE.name}
                 className={styles.avatar}
+                width={80}
+                height={80}
+                priority
+                sizes="80px"
               />
               <div className={styles.statusBadge}>
                 <span className={styles.statusDot}></span>

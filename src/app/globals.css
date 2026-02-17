@@ -14,8 +14,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -67,11 +65,7 @@ img {
   display: block;
 }
 
-/* Lists */
-ul,
-ol {
-  list-style: none;
-}
+/* Lists: allow native markers; scope custom styles per component instead */
 
 /* Buttons */
 button {

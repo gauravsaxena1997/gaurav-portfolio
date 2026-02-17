@@ -10,6 +10,7 @@ export interface IProfile {
   instagram?: string;
   passion: string;
   currentFocus: string;
+  domains?: string[];
 }
 
 export interface IEducation {
@@ -23,7 +24,7 @@ export const PROFILE: IProfile = {
   name: 'Gaurav Saxena',
   title: 'Freelance Full-Stack Developer',
   tagline: 'I Build Web Apps That Drive Results',
-  experience: '5+ years',
+  experience: '6+ years',
   location: 'Jaipur, Rajasthan',
   email: 'gauravsaxena.jaipur@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gauravsaxena1997',
@@ -32,6 +33,13 @@ export const PROFILE: IProfile = {
   passion: 'Building scalable web applications',
   currentFocus:
     'Helping startups and businesses build scalable web applications',
+  domains: [
+    'Marketing Research',
+    'Healthcare',
+    'Finance',
+    'Ticketing Platforms',
+    'Travel & Hospitality',
+  ],
 };
 
 export const EDUCATION: IEducation[] = [
