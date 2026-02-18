@@ -5,7 +5,14 @@
 
 import type { Action } from '@/types/messageBlocks';
 
-export function createActionHandler(onSendFollowup?: (prompt: string) => void) {
+interface ActionHandlerOptions {
+  onBeforeScrollTo?: () => void;
+}
+
+export function createActionHandler(
+  onSendFollowup?: (prompt: string) => void,
+  options?: ActionHandlerOptions
+) {
   return async (action: Action) => {
     switch (action.type) {
       case 'open_url':
@@ -18,19 +25,22 @@ export function createActionHandler(onSendFollowup?: (prompt: string) => void) {
 
       case 'scroll_to':
         {
-          const el = document.getElementById(action.targetId);
-          if (el) {
-            // Temporarily unlock body scroll for navigation
-            const originalOverflow = document.body.style.overflow;
+          // Fire the before-scroll hook (closes chat on mobile)
+          options?.onBeforeScrollTo?.();
+          const targetId = action.targetId;
+
+          // Wait for the chat close animation + body position:fixed to clear
+          // before attempting scrollIntoView (otherwise scroll is a no-op)
+          setTimeout(() => {
+            // Ensure body scroll is fully unlocked (matches new overflow-based lock)
+            document.documentElement.style.overflow = '';
             document.body.style.overflow = '';
-            
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
-            // Restore scroll lock after navigation
-            setTimeout(() => {
-              document.body.style.overflow = originalOverflow;
-            }, 1000);
-          }
+
+            const el = document.getElementById(targetId);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 350); // 350ms covers close animation on mobile + desktop
         }
         break;
 

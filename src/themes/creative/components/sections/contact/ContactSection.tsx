@@ -107,11 +107,11 @@ export function ContactSection({ className }: ContactSectionProps) {
 
       {/* Floating FAQ Button */}
       <button
-        className={`${styles.floatingFAQ} absolute bottom-8 right-8 w-12 h-12 rounded-full bg-[rgba(var(--creative-accent-rgb),0.1)] border border-[var(--creative-accent)] text-[var(--creative-accent)] flex items-center justify-center cursor-pointer z-[20] transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[0_4px_15px_rgba(0,0,0,0.2)] hover:bg-[var(--creative-accent)] hover:text-[var(--creative-bg-primary)] hover:scale-110 hover:shadow-[0_8px_25px_rgba(var(--creative-accent-rgb),0.4)] lg:bottom-6 lg:right-6`}
+        className={`${styles.floatingFAQ} absolute bottom-[120px] right-6 w-[60px] h-[60px] rounded-full bg-[rgba(var(--creative-accent-rgb),0.1)] border border-[var(--creative-accent)] text-[var(--creative-accent)] flex items-center justify-center cursor-pointer z-[20] transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[0_4px_15px_rgba(0,0,0,0.2)] hover:bg-[var(--creative-accent)] hover:text-[var(--creative-bg-primary)] hover:scale-110 hover:shadow-[0_8px_25px_rgba(var(--creative-accent-rgb),0.4)] lg:bottom-[110px] lg:right-6`}
         onClick={() => setIsFAQOpen(true)}
         aria-label="Frequently Asked Questions"
       >
-        <HelpCircle size={24} />
+        <HelpCircle size={28} />
       </button>
 
       <FAQModal

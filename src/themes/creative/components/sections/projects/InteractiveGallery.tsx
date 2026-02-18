@@ -41,8 +41,8 @@ function generateScales(count: number, seed: string): number[] {
 
 // Dynamic constants for spacing calculation
 const CONSTANT_VERTICAL_GAP = 35; // Fixed pixel gap between stacked images
-const BASE_START_OFFSET = 200;    // Starting pixels below viewport (reduced from 600 for earlier appearance)
-const OFFSET_INCREMENT = 150;     // Additional offset per image index
+const BASE_START_OFFSET = 300;    // Starting pixels below viewport — tight so images appear quickly
+const OFFSET_INCREMENT = 250;     // Additional offset per image index (reduced to minimize dead scroll)
 const MAX_DISPLAY_IMAGES = 6;     // Cap at 6 images for performance
 
 /**
@@ -71,66 +71,79 @@ export const InteractiveGallery = memo(function InteractiveGallery({
     [displayImages.length, projectName]
   );
 
-  // Sequential staggered reveal scroll effect
+  // Set gallery container height based on stacked images (mount + resize only).
+  useEffect(() => {
+    const setHeight = () => {
+      if (!containerRef.current) return;
+      const vh = window.innerHeight;
+      const n = displayImages.length;
+      const firstImg = imagesRef.current[0];
+      const imgHeight = firstImg?.getBoundingClientRect().height || 320;
+      const stackedHeight = (n - 1) * CONSTANT_VERTICAL_GAP + imgHeight;
+
+      // Gallery just needs to fit stacked images plus a bit of breathing room.
+      // Animation is driven by a fixed scroll distance (below), not container height.
+      const galleryHeight = stackedHeight + vh * 0.15;
+      containerRef.current.style.minHeight = `${Math.ceil(galleryHeight)}px`;
+
+      // Set parent slide height to right column content so sticky unpins exactly when content ends.
+      const slide = containerRef.current.closest('[class*="projectSlide"]') as HTMLElement;
+      if (slide) {
+        const rightCol = containerRef.current.closest('[class*="rightColumn"]') as HTMLElement;
+        if (rightCol) {
+          const rightHeight = rightCol.scrollHeight;
+          // Cap excessive height to avoid dead scroll; ensure at least viewport + 200px for sticky
+          const minNeeded = vh + 200;
+          const capped = Math.max(minNeeded, Math.min(rightHeight, vh * 1.70));
+          slide.style.minHeight = `${Math.ceil(capped)}px`;
+        }
+      }
+    };
+
+    const timer = setTimeout(setHeight, 400);
+    window.addEventListener('resize', setHeight);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', setHeight);
+    };
+  }, [displayImages.length]);
+
+  // Sequential staggered reveal using fixed scroll distance (1.5 × viewport), decoupled from container height.
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const handleScroll = () => {
       if (!containerRef.current) return;
-
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-
       if (prefersReducedMotion) return;
 
-      // Overall scroll progress (0 = just entered, 1 = fully scrolled through)
-      const totalProgress = Math.max(0, Math.min(1,
-        (windowHeight - rect.top) / (windowHeight + rect.height * 0.75)
-      ));
+      const ANIMATION_SCROLL_DISTANCE = windowHeight * 1.5;
+      const scrolledInto = windowHeight - rect.top;
+      const totalProgress = Math.max(0, Math.min(1, scrolledInto / ANIMATION_SCROLL_DISTANCE));
 
       imagesRef.current.forEach((img, index) => {
         if (!img) return;
 
-        // Dynamic Calculation Logic
-        // 1. Threshold: Distribute 0 to 0.6 range across all images
-        // This ensures the last image starts animating before the section ends
-        const threshold = index * (0.6 / Math.max(1, displayImages.length - 1));
-
-        // 2. Speed: Slightly faster for later images to catch up? 
-        // Actually, uniform speed or slight deceleration works best for stacking.
-        // Let's use a gentle gradient from 1.0 down to 0.6
-        const speed = 1.0 - (index * (0.4 / Math.max(1, displayImages.length - 1)));
-
-        // 3. Start Offset: Increase starting distance for later images
-        const startOffset = BASE_START_OFFSET + (index * OFFSET_INCREMENT);
-
-        // 4. Final Position: Consistent gap (e.g., 0, 35, 70, 105...)
+        const n = Math.max(1, displayImages.length - 1);
+        const threshold = index * (0.4 / n);
+        const speed = 1.0;
+        const startOffset = BASE_START_OFFSET + index * OFFSET_INCREMENT;
         const finalY = index * CONSTANT_VERTICAL_GAP;
+        const localProgress = Math.max(0, Math.min(1, (totalProgress - threshold) / Math.max(0.01, 1 - threshold)));
 
-        // Calculate this image's local progress
-        const localProgress = Math.max(0, Math.min(1,
-          (totalProgress - threshold) / (1 - threshold)
-        ));
-
-        // Opacity: fade in as localProgress goes from 0 to 0.15 (reduced from 0.3 for earlier appearance)
-        const opacity = Math.min(1, localProgress / 0.15);
-
-        // Calculate current Y position
+        const opacity = Math.min(1, localProgress / 0.12);
         const yOffset = startOffset * (1 - localProgress * speed) + finalY;
 
-        // Apply transform
         img.style.opacity = String(opacity);
-        // Use fixed xOffsets array we generated earlier
         const xOffset = xOffsets[index] ?? 0;
         const scale = scales[index] ?? 1;
-
         img.style.transform = `translate(calc(-50% + ${xOffset}%), calc(${yOffset}px)) scale(${scale})`;
       });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, [displayImages, xOffsets, scales]);
 

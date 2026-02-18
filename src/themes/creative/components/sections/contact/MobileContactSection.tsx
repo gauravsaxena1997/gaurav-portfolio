@@ -66,13 +66,15 @@ export const MobileContactSection = () => {
                 <span>Schedule a Call</span>
             </button>
 
-            {/* Floating FAQ Button */}
+            {/* Inline FAQ link for mobile */}
             <button
-                className={styles.floatingFAQ}
+                type="button"
+                className={styles.inlineFaqLink}
                 onClick={() => setIsFAQOpen(true)}
                 aria-label="Frequently Asked Questions"
             >
-                <HelpCircle size={24} />
+                <HelpCircle size={18} />
+                <span>FAQ</span>
             </button>
 
             <FAQModal

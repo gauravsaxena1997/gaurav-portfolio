@@ -10,9 +10,10 @@ interface MessageListProps {
   messages: ChatMessage[];
   status: ChatStatus;
   onSendFollowup?: (prompt: string) => void;
+  onBeforeScrollTo?: () => void;
 }
 
-export function MessageList({ messages, status, onSendFollowup }: MessageListProps) {
+export function MessageList({ messages, status, onSendFollowup, onBeforeScrollTo }: MessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,7 +29,12 @@ export function MessageList({ messages, status, onSendFollowup }: MessageListPro
       onTouchMove={(e) => e.stopPropagation()}
     >
       {messages.map((msg) => (
-        <MessageBubble key={msg.id} message={msg} onSendFollowup={onSendFollowup} />
+        <MessageBubble
+          key={msg.id}
+          message={msg}
+          onSendFollowup={onSendFollowup}
+          onBeforeScrollTo={onBeforeScrollTo}
+        />
       ))}
       {status === 'loading' && <TypingIndicator />}
       <div ref={bottomRef} />

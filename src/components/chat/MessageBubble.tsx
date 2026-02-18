@@ -11,9 +11,10 @@ import styles from './chat.module.css';
 interface MessageBubbleProps {
   message: ChatMessage;
   onSendFollowup?: (prompt: string) => void;
+  onBeforeScrollTo?: () => void;
 }
 
-export function MessageBubble({ message, onSendFollowup }: MessageBubbleProps) {
+export function MessageBubble({ message, onSendFollowup, onBeforeScrollTo }: MessageBubbleProps) {
   const isUser = message.role === 'user';
 
   // Parse assistant messages into blocks
@@ -24,8 +25,8 @@ export function MessageBubble({ message, onSendFollowup }: MessageBubbleProps) {
 
   // Create action handler with followup support
   const handleAction = useCallback(
-    createActionHandler(onSendFollowup),
-    [onSendFollowup]
+    createActionHandler(onSendFollowup, { onBeforeScrollTo }),
+    [onSendFollowup, onBeforeScrollTo]
   );
 
   return (

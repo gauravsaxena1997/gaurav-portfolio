@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState, type RefObject } from 'react';
+import { useRef, useEffect, useState, useCallback, type RefObject } from 'react';
 import { useChat } from '@/hooks/useChat';
 import { ChatHeader } from './ChatHeader';
 import { MessageList } from './MessageList';
@@ -25,38 +25,70 @@ export function ChatWindow({ onClose, inputRef }: ChatWindowProps) {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // Lock body scroll and hide progress bar on mobile
     const progressBar = document.querySelector('[data-scroll-progress]') as HTMLElement;
     const isMobileView = window.innerWidth <= 768;
-    
+
     if (isMobileView) {
-      // Mobile: lock page scroll completely
+      // Mobile: lock page scroll WITHOUT position:fixed
+      // position:fixed breaks native keyboard scroll-to-input behavior
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      document.body.style.height = '100%';
       if (progressBar) progressBar.style.display = 'none';
-    } else {
-      // Desktop: allow page scroll but prevent bleed
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.height = '';
-      if (progressBar) progressBar.style.display = '';
     }
 
     // Focus window
     windowRef.current?.focus();
 
     return () => {
+      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.height = '';
       if (progressBar) progressBar.style.display = '';
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
+
+  // visualViewport listener: resize chat window when virtual keyboard opens/closes
+  // This is the ONLY reliable way to handle real mobile keyboards
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.visualViewport) return;
+    const isMobileView = window.innerWidth <= 768;
+    if (!isMobileView) return;
+
+    const vv = window.visualViewport;
+    const el = windowRef.current;
+    if (!el) return;
+
+    const onResize = () => {
+      // visualViewport.height = actual visible area (excludes keyboard)
+      // visualViewport.offsetTop = how far the viewport has shifted down
+      const vpHeight = vv!.height;
+      const vpOffsetTop = vv!.offsetTop;
+      el.style.height = `${vpHeight}px`;
+      el.style.top = `${vpOffsetTop}px`;
+      el.style.bottom = 'auto';
+    };
+
+    vv.addEventListener('resize', onResize);
+    vv.addEventListener('scroll', onResize);
+    // Run once to set initial size
+    onResize();
+
+    return () => {
+      vv.removeEventListener('resize', onResize);
+      vv.removeEventListener('scroll', onResize);
+      if (el) {
+        el.style.height = '';
+        el.style.top = '';
+        el.style.bottom = '';
+      }
+    };
+  }, []);
+
+  const handleBeforeScrollTo = useCallback(() => {
+    if (isMobile) {
+      onClose();
+    }
+  }, [isMobile, onClose]);
 
   // Focus input on open
   useEffect(() => {
@@ -93,7 +125,12 @@ export function ChatWindow({ onClose, inputRef }: ChatWindowProps) {
         {messages.length === 0 ? (
           <SuggestedQuestions onSelect={sendMessage} />
         ) : (
-          <MessageList messages={messages} status={status} onSendFollowup={sendMessage} />
+          <MessageList
+            messages={messages}
+            status={status}
+            onSendFollowup={sendMessage}
+            onBeforeScrollTo={handleBeforeScrollTo}
+          />
         )}
       </div>
 
