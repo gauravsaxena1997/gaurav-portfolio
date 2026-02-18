@@ -126,7 +126,6 @@
   /* Circular elements */
 
   /* Mobile Layout System Variables */
-  --mobile-header-height: 56px;
   --mobile-section-padding: 1.5rem;
 
   /* Mobile Typography Scale */
@@ -170,11 +169,8 @@
   --creative-transition-slow: 500ms ease;
 
   /* ===== VIEWPORT SYSTEM ===== */
-  /* Header height - fixed navigation bar */
-  --header-height: 64px;
-  /* Viewport calculations accounting for fixed header */
-  --viewport-height: calc(100vh - var(--header-height));
-  --viewport-height-safe: calc(100vh - var(--header-height) - 2rem);
+  --viewport-height: 100vh;
+  --viewport-height-safe: calc(100vh - 2rem);
 
   /* ===== RESPONSIVE SPACING SYSTEM ===== */
   --space-xs: clamp(0.25rem, 0.5vw, 0.5rem);
@@ -245,8 +241,7 @@
 /* Mobile header height override */
 @media (max-width: 768px) {
   :root {
-    --header-height: 56px;
-    --viewport-height: calc(100vh - 56px);
+    --viewport-height: 100vh;
 
     /* Mobile Type Scale Adjustments */
     --font-size-display-xl: clamp(2.5rem, 12vw, 4rem);
@@ -256,96 +251,6 @@
   }
 }
 
-[data-theme="light"] {
-  /* ===== LIGHT THEME - ACCESSIBILITY ENHANCED ===== */
-  --creative-bg-primary: #FAFAF8;
-  --creative-bg-secondary: #F5F4F0;
-  --creative-bg-primary-rgb: 250, 250, 248;
-  --creative-input-bg: #EAE9E4;
-  /* Darker than bg for contrast */
-  --creative-bg-secondary-rgb: 245, 244, 240;
-
-  --creative-text-primary: #1A1816;
-  --creative-text-secondary: #6B6560;
-
-  /* ===== ACCESSIBILITY CRITICAL FIXES ===== */
-  /* High contrast text for light mode */
-  --color-text-on-accent: #1A1816;  /* Dark text for light mode */
-  --color-text-on-accent-light: #1A1816; /* Consistent dark text */
-  --color-contrast-on-accent: #1A1816; /* WCAG AA compliant */
-  
-  /* Lit layer text (high contrast for accessibility) */
-  --color-lit-text-primary: #1A1816;  /* High contrast dark text */
-  --color-lit-text-secondary: color-mix(in srgb, #1A1816 80%, transparent 20%);
-  --color-lit-text-muted: color-mix(in srgb, #1A1816 60%, transparent 40%);
-  
-  /* Semantic text tokens (light mode) */
-  --text-title: #1A1816;
-  --text-body: #6B6560;
-  --text-muted: color-mix(in srgb, #6B6560 80%, transparent 20%);
-  --text-highlight: var(--color-accent);
-  /* Strong highlight tone tuned for WCAG contrast on light backgrounds */
-  --text-highlight-strong: color-mix(in srgb, var(--color-accent) 55%, black 45%);
-  --text-on-accent: #1A1816; /* High contrast */
-  --text-on-accent-light: #1A1816; /* High contrast for light mode */
-
-  --creative-accent: var(--color-accent);
-  --creative-accent-secondary: var(--brand-secondary);
-  --creative-accent-hover: var(--color-accent-hover);
-  --creative-accent-rgb: var(--brand-primary-rgb);
-
-  /* Accent Gradient (calculated) */
-  --creative-accent-gradient: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-primary) 100%);
-  --creative-accent-shadow: color-mix(in srgb, var(--brand-primary) 30%, transparent 70%);
-
-  /* Hero section (calculated) */
-  --creative-hero-name-color: var(--brand-secondary);
-  --creative-hero-social-color: var(--brand-secondary);
-  --creative-hero-divider-color: color-mix(in srgb, var(--brand-secondary) 18%, transparent 82%);
-
-  /* Stats section (accessibility enhanced) */
-  --creative-stats-overlay: var(--brand-primary-light);
-  --creative-stats-title: var(--brand-secondary);
-  --creative-stats-body: color-mix(in srgb, var(--brand-primary) 70%, black 30%);
-  --creative-stats-highlight: color-mix(in srgb, var(--brand-primary) 60%, black 40%);
-  --creative-stats-check: color-mix(in srgb, var(--brand-primary) 80%, black 20%);
-
-  /* Borders (calculated) */
-  --creative-border-color: color-mix(in srgb, var(--brand-primary) 50%, transparent 50%);
-
-  /* Spotlight beam (calculated) */
-  --creative-spotlight-color: var(--brand-primary-dark);
-  --creative-spotlight-rgb: var(--brand-primary-rgb);
-
-  /* Beam-on-text colors (accessibility enhanced) */
-  --creative-beam-text-inverted: #FFFFFF;
-  --creative-beam-text-muted: color-mix(in srgb, #FFFFFF 82%, transparent 18%);
-  --creative-beam-accent-inverted: color-mix(in srgb, var(--brand-primary-lightest) 80%, white 20%);
-
-  /* Stats revealed colors (high contrast) */
-  --creative-stats-title-revealed: var(--color-lit-text-primary);
-  --creative-stats-text-revealed: var(--color-lit-text-primary);
-  --creative-stats-divider-revealed: color-mix(in srgb, var(--color-lit-text-inverted) 32%, transparent 68%);
-
-  /* Natural Rock Colors (Dark Mode - slightly cooler/darker) */
-  --creative-rock-dark: #6A6A6A;
-  --creative-rock-mid: #8A8A8A;
-  --creative-rock-light: #B0B0B0;
-
-  /* Stats Refinement Tokens (Dynamic) */
-  --stats-body-text: color-mix(in srgb, var(--creative-text-primary), transparent 25%);
-  --chip-accent-bg: color-mix(in srgb, var(--color-accent), #000 15%);
-  --chip-neutral-bg: var(--creative-bg-secondary);
-  --chip-text-on-accent: #1a1a1a;
-  --chip-text-on-neutral: var(--creative-text-primary);
-
-  /* Progress bar */
-  --creative-progress-bg: rgba(255, 255, 255, 0.1);
-  --creative-progress-fill: var(--color-accent);
-
-  /* ===== UTILITY CLASSES FOR EASY THEMING ===== */
-  /* These can be used in components for consistent theming */
-}
 
 /* ===== UTILITY CLASSES ===== */
 .accent-bg { background: var(--color-accent); }
@@ -377,35 +282,12 @@
 
 /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
 /* High contrast combinations for accessibility */
-[data-theme="light"] .high-contrast {
-  color: var(--color-contrast-on-accent); /* 4.8:1 ratio on accent background */
+.high-contrast {
+  color: var(--color-contrast-on-accent-strong); /* 4.8:1 ratio on accent background (dark mode) */
 }
 
-[data-theme="dark"] .high-contrast {
-  color: var(--color-contrast-on-accent-strong); /* 4.8:1 ratio on accent background */
-}
-
-[data-theme="light"] {
-  /* Stats Refinement Tokens (Light Mode) */
-  --stats-body-text: #76716B;
-  --chip-accent-bg: color-mix(in srgb, var(--color-accent), #fff 20%);
-  --chip-neutral-bg: #EAE9E4;
-  /* Muted gray-cream */
-  --chip-text-on-accent: #1A1816;
-  --chip-text-on-neutral: #33312E;
-
-  --creative-progress-bg: rgba(0, 0, 0, 0.1);
-  --creative-progress-fill: var(--color-accent);
-  /* Maintain high-contrast highlight tone in light mode */
-  --text-highlight-strong: color-mix(in srgb, var(--color-accent) 55%, black 45%);
-  /* Lit-layer text and highlight tokens (computed, palette-driven) */
-  --lit-body-text: color-mix(in srgb, #1A1816 92%, transparent 8%);
-  --lit-highlight: color-mix(in srgb, var(--color-accent) 25%, #1A1816 75%);
-  --lit-check: var(--lit-highlight);
-}
-
-[data-theme="dark"] {
-  /* Ensure lit-layer text stays high-contrast on gold in dark mode */
+/* Dark theme defaults (only mode) */
+:root {
   --color-lit-text-primary: #1A1816;
   --color-lit-text-secondary: color-mix(in srgb, #1A1816 80%, transparent 20%);
   --color-lit-text-muted: color-mix(in srgb, #1A1816 60%, transparent 40%);

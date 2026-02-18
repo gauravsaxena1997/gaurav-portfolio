@@ -181,10 +181,6 @@
   transform: scale(1.05);
 }
 
-[data-theme="light"] .closeButton:hover {
-  background: rgba(0, 0, 0, 0.06);
-}
-
 .closeButton:active {
   transform: scale(0.95);
 }

@@ -39,6 +39,9 @@ export interface BackgroundDecorProps {
 
     /** Variant for different backgrounds (e.g., lit-layer in Stats) */
     variant?: 'default' | 'inverted';
+
+    /** Optional trigger element for parallax (if not provided, uses parent section) */
+    triggerElement?: HTMLElement | null;
 }
 
 /**
@@ -72,6 +75,7 @@ export function BackgroundDecor({
     color,
     className = '',
     variant = 'default',
+    triggerElement,
 }: BackgroundDecorProps) {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const uniqueId = useId();
@@ -84,9 +88,16 @@ export function BackgroundDecor({
         }
 
         const element = wrapperRef.current;
-        const parentSection = element.closest('section') || element.parentElement;
+        // Use provided triggerElement, or find the closest per-project container
+        // via data attributes (survives CSS Module class name hashing),
+        // or fall back to closest section.
+        const trigger = triggerElement
+            || element.closest('[data-project-slide]')
+            || element.closest('[data-project-card]')
+            || element.closest('section')
+            || element.parentElement;
 
-        if (!parentSection) return;
+        if (!trigger) return;
 
         // Check for reduced motion preference
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -103,9 +114,9 @@ export function BackgroundDecor({
             ease: 'none',
             scrollTrigger: {
                 id: `bg-decor-${uniqueId}`,
-                trigger: parentSection,
-                start: 'top bottom', // Start when section enters viewport from below
-                end: 'bottom top',   // End when section leaves viewport above
+                trigger: trigger,
+                start: 'top bottom', // Start when trigger enters viewport from below
+                end: 'bottom top',   // End when trigger leaves viewport above
                 scrub: 0,            // Direct 1:1 scrubbing for immediate response
             },
         });
@@ -115,7 +126,7 @@ export function BackgroundDecor({
             animation.scrollTrigger?.kill();
             animation.kill();
         };
-    }, [parallaxSpeed, uniqueId]);
+    }, [parallaxSpeed, uniqueId, triggerElement]);
 
     // Build inline styles for positioning
     const positionStyles: React.CSSProperties = {

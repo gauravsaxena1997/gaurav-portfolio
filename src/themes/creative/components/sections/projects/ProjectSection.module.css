@@ -27,8 +27,8 @@
 
 .stickyContent {
   position: sticky;
-  top: var(--header-height);
-  height: calc(var(--viewport-height) - var(--header-height));
+  top: var(--project-sticky-offset, 72px);
+  height: calc(var(--viewport-height) - var(--project-sticky-offset, 72px));
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -93,8 +93,8 @@
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   /* Unified responsive size */
   font-weight: 700;
-  color: var(--creative-text-primary);
-  /* Keep white */
+  color: #F5F4F0;
+  /* Light/white for visibility on dark bg */
   line-height: 1.15;
   letter-spacing: -0.02em;
   /* Match Stats */
@@ -204,11 +204,10 @@
 .ctaButton {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   padding: 1rem 2rem;
-  /* Increased padding */
   background: var(--creative-accent);
-  color: var(--color-text-on-accent);
+  color: var(--cta-text-on-accent-dark);
   font-family: var(--font-mono);
   /* Technical Action */
   font-size: var(--font-size-body-sm);
@@ -224,11 +223,6 @@
   box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
 }
 
-[data-theme="dark"] .ctaButton {
-  background: var(--creative-accent);
-  color: var(--cta-text-on-accent-dark);
-}
-
 /* Secondary Button (Explore More) - INCREASED SIZE */
 .secondaryButton {
   display: inline-flex;
@@ -242,16 +236,11 @@
   font-size: var(--font-size-body-sm);
   /* Increased size */
   font-weight: 700;
-  border: 1.5px solid var(--creative-text-secondary);
+  border: 1.5px solid #1A1816;
   /* Thicker border */
   border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-[data-theme="dark"] .secondaryButton {
-  color: #1A1816;
-  border-color: #1A1816;
 }
 
 .secondaryButton:hover {

@@ -1,7 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useCreativeTheme } from './hooks/useCreativeTheme';
 import { ScrollProvider } from './context/ScrollContext';
 import { ScrollOrchestrator } from './components/scroll/ScrollOrchestrator';
 import { ProgressScrollbar } from './components/scroll/ProgressScrollbar';
@@ -17,21 +15,15 @@ interface CreativeThemeProps {
 }
 
 export function CreativeTheme({ currentTheme, onThemeChange }: CreativeThemeProps) {
-  const { theme, toggleTheme } = useCreativeTheme();
-
   return (
     <ScrollProvider>
       <div
         className={`${styles.creativeTheme} creative-theme`}
-        data-theme={theme}
-        suppressHydrationWarning
       >
         {/* Fixed Header */}
         <Header
           currentTheme={currentTheme}
           onThemeChange={onThemeChange}
-          themeMode={theme}
-          onModeToggle={toggleTheme}
         />
 
         {/* Custom Progress Scrollbar */}

@@ -30,18 +30,12 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    0 8px 16px rgba(0, 0, 0, 0.1);
+    0 6px 30px rgba(0, 0, 0, 0.25),
+    0 12px 40px rgba(0, 0, 0, 0.22);
   background: var(--creative-bg-secondary);
-}
-
-[data-theme='light'] .imageWrapper {
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06);
 }
 
 .image {

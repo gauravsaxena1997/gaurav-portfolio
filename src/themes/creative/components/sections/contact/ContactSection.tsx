@@ -37,7 +37,7 @@ export function ContactSection({ className }: ContactSectionProps) {
   }, []);
 
   return (
-    <div className={`${styles.container} ${className || ''} w-full min-h-screen flex items-center justify-center p-[calc(var(--header-height)+var(--section-padding-y))_var(--section-padding-x)_var(--section-padding-y)] bg-[var(--creative-bg-primary,_#0a0a0a)] relative overflow-hidden box-border`}>
+    <div className={`${styles.container} ${className || ''} w-full min-h-screen flex items-center justify-center p-[var(--section-padding-y)_var(--section-padding-x)_var(--section-padding-y)] bg-[var(--creative-bg-primary,_#0a0a0a)] relative overflow-hidden box-border`}>
       <div className={`${styles.content} grid grid-cols-1 gap-[var(--grid-gap-lg)] max-w-[var(--container-lg)] w-full items-center relative z-[1] lg:grid-cols-2 lg:gap-[var(--grid-gap-lg)]`}>
         {/* Left Column: Text Content */}
         <div className={`${styles.textWrapper} flex flex-col justify-center items-start pr-[var(--space-lg)] relative text-left lg:items-start lg:pr-[var(--space-lg)]`}>

@@ -74,7 +74,7 @@ export function ServicesSection() {
         <section className={styles.servicesSection} data-services-section>
             <div className={`${styles.contentWrapper} flex flex-col w-full mx-auto relative lg:flex-row lg:items-start`}>
                 {/* Left Column: Sticky Laptop Animation */}
-                <div className={`${styles.leftColumn} w-full h-[50vh] sticky top-[var(--header-height)] flex items-center justify-center z-[5] pointer-events-none lg:w-1/2 lg:h-[var(--viewport-height)] lg:self-start`}>
+                <div className={`${styles.leftColumn} w-full h-[50vh] sticky top-[var(--service-sticky-offset,72px)] flex items-center justify-center z-[5] pointer-events-none lg:w-1/2 lg:h-[var(--viewport-height)] lg:self-start`}>
                     <div className={`${styles.laptopContainer} w-full h-full flex items-center justify-center relative scale-[0.85] lg:scale-100`}>
                         <LaptopScene
                             screenContent={renderIllustration()}

@@ -5,17 +5,12 @@
     /* Auto height - grows with content */
     width: 100%;
     z-index: 10;
-    /* Fix scroll alignment behind fixed header */
-    scroll-margin-top: var(--header-height);
+    /* No fixed header reserve */
+    scroll-margin-top: 0;
 }
 
 /* Ensure high contrast for highlight spans */
 .serviceItem span {
-    color: var(--text-highlight-strong);
-    font-weight: 600;
-}
-
-:global([data-theme="light"]) .serviceItem span {
     color: var(--text-highlight-strong);
     font-weight: 600;
 }
@@ -66,11 +61,11 @@
 /* Service Item - Sticky Card Effect */
 .serviceItem {
     position: sticky;
-    top: var(--header-height);
-    /* Stick below header */
+    top: 0;
+    /* No header gap */
     width: 100%;
-    height: var(--viewport-height);
-    /* Each item claims full viewport minus header */
+    height: 100vh;
+    /* Full viewport height */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -88,26 +83,6 @@
     box-shadow: 0 -10px 15px -5px rgba(0, 0, 0, 0.3);
 }
 
-/* Light Mode Overrides */
-:global(.light-theme) .serviceItem,
-:global([data-theme="light"]) .serviceItem {
-    background-color: #ffffff;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    color: #111111;
-    /* Baseline text color */
-}
-
-:global(.light-theme) .serviceTitle,
-:global([data-theme="light"]) .serviceTitle {
-    color: #111111;
-    /* Force Black Title */
-}
-
-:global(.light-theme) .serviceDescription,
-:global([data-theme="light"]) .serviceDescription {
-    color: #444444;
-    /* Dark Gray Description */
-}
 
 /* Mobile Styling */
 @media (max-width: 991px) {
