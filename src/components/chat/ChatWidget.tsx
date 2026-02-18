@@ -63,20 +63,24 @@ export function ChatWidget() {
 
       <button
         onClick={isOpen ? closeChat : openChat}
-        className={`${styles.fab} ${isOpen ? styles.fabOpen : ''} ${!hasInteracted ? styles.fabPulse : ''}`}
+        className={`${styles.fab} ${isOpen ? styles.fabOpen : ''}`}
         aria-label={isOpen ? 'Close chat' : 'Open chat assistant (C)'}
         aria-expanded={isOpen}
       >
         {isOpen ? (
-          <X size={24} strokeWidth={2} />
+          <div className={styles.fabClose}>
+            <X size={22} strokeWidth={2.5} />
+          </div>
         ) : (
-          <Image
-            src="/profile.jpg"
-            alt="Chat with Gaurav"
-            width={40}
-            height={40}
-            className={`${styles.fabIcon}`}
-          />
+          <div className={styles.fabBubble}>
+            <Image
+              src="/chat-avatar.webp"
+              alt="Chat with Gaurav"
+              width={64}
+              height={64}
+              className={styles.fabIcon}
+            />
+          </div>
         )}
       </button>
     </div>

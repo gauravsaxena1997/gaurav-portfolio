@@ -22,6 +22,6 @@ export const TESTIMONIALS: Testimonial[] = [
         designation: 'Senior Data & BI Engineer',
         quote: "Working with Gaurav was a smooth and valuable experience. He combines consulting mindset, web development skills, and content understanding to deliver well-rounded solutions. He communicates clearly, meets commitments, and focuses on quality. I’d recommend him to anyone looking for a reliable freelance partner who can handle both strategy and execution.",
         projectUrl: 'https://punitgauttam.vercel.app',
-        avatar: '/images/testimonials/punit.jpg'
+        avatar: '/images/testimonials/punit.webp'
     }
 ];

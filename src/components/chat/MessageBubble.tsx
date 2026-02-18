@@ -33,7 +33,7 @@ export function MessageBubble({ message, onSendFollowup, onBeforeScrollTo }: Mes
     <div className={`${styles.messageRow} ${isUser ? styles.user : styles.assistant}`}>
       {!isUser && (
         <Image
-          src="/profile.jpg"
+          src="/chat-avatar.webp"
           alt="Gaurav"
           width={32}
           height={32}

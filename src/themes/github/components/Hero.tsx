@@ -157,7 +157,7 @@ export function Hero({ onNavigate }: HeroProps) {
           <div className={styles.sidebar}>
             <div className={styles.avatarWrapper}>
               <Image
-                src="/profile.jpg"
+                src="/profile.webp"
                 alt={PROFILE.name}
                 className={styles.avatar}
                 width={80}

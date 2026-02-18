@@ -36,7 +36,7 @@ export function SuggestedQuestions({ onSelect }: SuggestedQuestionsProps) {
       {/* Welcome message bubble */}
       <div className={styles.welcomeRow}>
         <Image
-          src="/profile.jpg"
+          src="/profile.webp"
           alt="Gaurav"
           width={32}
           height={32}

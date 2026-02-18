@@ -229,7 +229,7 @@ export function GitHubHeader({
           {/* Profile photo as logo */}
           <Link href="/" className={styles.logoLink} onClick={(e) => handleNavClick(e, 'home')}>
             <Image
-              src="/profile.jpg"
+              src="/profile.webp"
               alt="Gaurav Saxena"
               width={32}
               height={32}
