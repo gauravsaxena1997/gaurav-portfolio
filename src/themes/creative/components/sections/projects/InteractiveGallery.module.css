@@ -39,16 +39,6 @@
   pointer-events: none;
 }
 
-/* Light theme */
-[data-theme='light'] .screenshot {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-[data-theme='light'] .screenshot:hover {
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
-}
-
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
   .container {

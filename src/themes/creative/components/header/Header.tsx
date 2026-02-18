@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, Palette } from 'lucide-react';
+import { Menu, X, Palette } from 'lucide-react';
 import { useScrollContext } from '../../context/ScrollContext';
 import { ThemeInfoModal } from '@/components/shared/ThemeInfoModal';
 import styles from './Header.module.css';
@@ -9,20 +9,12 @@ import styles from './Header.module.css';
 interface HeaderProps {
   currentTheme: 'creative' | 'github';
   onThemeChange: (theme: 'creative' | 'github') => void;
-  themeMode: 'dark' | 'light';
-  onModeToggle: () => void;
 }
 
-export function Header({ currentTheme, onThemeChange, themeMode, onModeToggle }: HeaderProps) {
+export function Header({ currentTheme, onThemeChange }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const { activeSection } = useScrollContext();
-
-  // Only render theme-dependent icon after mount to avoid hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Lock body scroll when menu is open
   useEffect(() => {
@@ -77,7 +69,7 @@ export function Header({ currentTheme, onThemeChange, themeMode, onModeToggle }:
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Right: Toggles */}
+        {/* Right: Toggles (removed dark/light mode toggle - creative theme is dark-only) */}
         <div className={styles.toggles}>
           {/* Theme Switcher (Creative/GitHub) - Commenting out until GitHub theme is ready */}
           {/* 
@@ -89,21 +81,6 @@ export function Header({ currentTheme, onThemeChange, themeMode, onModeToggle }:
             <Palette size={20} />
           </button>
           */}
-
-          {/* Mode Toggle (Dark/Light) - RIGHT */}
-          <button
-            className={styles.iconButton}
-            onClick={onModeToggle}
-            aria-label={mounted ? `Switch to ${themeMode === 'dark' ? 'light' : 'dark'} mode` : 'Toggle theme mode'}
-            suppressHydrationWarning
-          >
-            {mounted ? (
-              themeMode === 'dark' ? <Sun size={20} /> : <Moon size={20} />
-            ) : (
-              // Placeholder during SSR - use a neutral icon or the Sun icon
-              <Sun size={20} />
-            )}
-          </button>
         </div>
       </header>
 

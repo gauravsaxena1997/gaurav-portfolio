@@ -15,11 +15,6 @@
     font-weight: 600;
 }
 
-:global([data-theme="light"]) .serviceItem span {
-    color: var(--text-highlight-strong);
-    font-weight: 600;
-}
-
 /* 2-Column Layout */
 /* .contentWrapper layout handled by Tailwind utilities in component */
 
@@ -88,26 +83,6 @@
     box-shadow: 0 -10px 15px -5px rgba(0, 0, 0, 0.3);
 }
 
-/* Light Mode Overrides */
-:global(.light-theme) .serviceItem,
-:global([data-theme="light"]) .serviceItem {
-    background-color: #ffffff;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    color: #111111;
-    /* Baseline text color */
-}
-
-:global(.light-theme) .serviceTitle,
-:global([data-theme="light"]) .serviceTitle {
-    color: #111111;
-    /* Force Black Title */
-}
-
-:global(.light-theme) .serviceDescription,
-:global([data-theme="light"]) .serviceDescription {
-    color: #444444;
-    /* Dark Gray Description */
-}
 
 /* Mobile Styling */
 @media (max-width: 991px) {

@@ -166,11 +166,6 @@
   width: 100%;
 }
 
-/* Light mode: force high-contrast titles on lit background */
-:global([data-theme="light"]) .litLayer .title {
-  color: var(--color-lit-text-primary) !important;
-}
-
 :global([data-theme="dark"]) .litLayer .title {
   color: var(--color-lit-text-primary) !important;
 }

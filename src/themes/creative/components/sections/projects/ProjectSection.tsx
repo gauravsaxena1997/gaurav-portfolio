@@ -42,6 +42,7 @@ export const ProjectSection = memo(function ProjectSection() {
     [projects.length]
   );
 
+
   // Detect mobile
   useEffect(() => {
     const checkMobile = () => {
@@ -143,7 +144,7 @@ export const ProjectSection = memo(function ProjectSection() {
   return (
     <div ref={containerRef} className={styles.projectsContainer}>
       {projects.map((project, index) => (
-        <div key={project.id} className={styles.projectSlide}>
+        <div key={project.id} className={styles.projectSlide} data-project-slide={index}>
           <ProjectSchema project={project} />
           {/* Left Column - Becomes Sticky */}
           <div className={styles.leftColumn}>

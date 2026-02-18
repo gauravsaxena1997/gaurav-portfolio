@@ -21,7 +21,7 @@ export const MobileProjectCard = ({ project, index }: MobileProjectCardProps) =>
 
     return (
         <>
-            <div ref={cardRef} className={styles.projectContainer}>
+            <div ref={cardRef} className={styles.projectContainer} data-project-card={index}>
                 {/* Background Decor - Number with Parallax */}
                 <BackgroundDecor
                     position={{ top: '15%', right: '5%' }}

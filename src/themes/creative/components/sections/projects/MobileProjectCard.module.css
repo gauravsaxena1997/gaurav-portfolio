@@ -192,14 +192,13 @@
 
 .projectMediaContainer {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     background: transparent;
     border: none;
     border-radius: var(--radius-lg);
     margin: 0;
     width: 100%;
-    aspect-ratio: var(--media-aspect-landscape);
-    max-height: var(--media-max-height);
+    /* No aspect-ratio or max-height — let the carousel frame dictate its own size */
 }
 
 .backgroundIcon {
