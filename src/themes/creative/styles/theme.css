@@ -126,7 +126,6 @@
   /* Circular elements */
 
   /* Mobile Layout System Variables */
-  --mobile-header-height: 56px;
   --mobile-section-padding: 1.5rem;
 
   /* Mobile Typography Scale */
@@ -170,11 +169,8 @@
   --creative-transition-slow: 500ms ease;
 
   /* ===== VIEWPORT SYSTEM ===== */
-  /* Header height - fixed navigation bar */
-  --header-height: 64px;
-  /* Viewport calculations accounting for fixed header */
-  --viewport-height: calc(100vh - var(--header-height));
-  --viewport-height-safe: calc(100vh - var(--header-height) - 2rem);
+  --viewport-height: 100vh;
+  --viewport-height-safe: calc(100vh - 2rem);
 
   /* ===== RESPONSIVE SPACING SYSTEM ===== */
   --space-xs: clamp(0.25rem, 0.5vw, 0.5rem);
@@ -245,8 +241,7 @@
 /* Mobile header height override */
 @media (max-width: 768px) {
   :root {
-    --header-height: 56px;
-    --viewport-height: calc(100vh - 56px);
+    --viewport-height: 100vh;
 
     /* Mobile Type Scale Adjustments */
     --font-size-display-xl: clamp(2.5rem, 12vw, 4rem);

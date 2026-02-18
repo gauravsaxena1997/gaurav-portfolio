@@ -5,8 +5,8 @@
     /* Auto height - grows with content */
     width: 100%;
     z-index: 10;
-    /* Fix scroll alignment behind fixed header */
-    scroll-margin-top: var(--header-height);
+    /* No fixed header reserve */
+    scroll-margin-top: 0;
 }
 
 /* Ensure high contrast for highlight spans */
@@ -61,11 +61,11 @@
 /* Service Item - Sticky Card Effect */
 .serviceItem {
     position: sticky;
-    top: var(--header-height);
-    /* Stick below header */
+    top: 0;
+    /* No header gap */
     width: 100%;
-    height: var(--viewport-height);
-    /* Each item claims full viewport minus header */
+    height: 100vh;
+    /* Full viewport height */
     display: flex;
     flex-direction: column;
     justify-content: center;

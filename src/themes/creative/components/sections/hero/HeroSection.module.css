@@ -175,7 +175,7 @@
 /* Hero content container */
 .heroContent {
   padding: var(--hero-vertical-padding);
-  padding-top: calc(var(--header-height) + var(--hero-vertical-padding));
+  padding-top: var(--hero-vertical-padding);
   padding-bottom: var(--space-md);
   padding-left: clamp(3rem, 8vw, 10rem);
   max-width: 1000px;
@@ -490,7 +490,7 @@
   .heroContent {
     --hero-vertical-padding: 0;
     /* Let flexbox handle vertical spacing */
-    padding-top: var(--header-height);
+    padding-top: 0;
     /* Hard safe area */
     display: flex;
     flex-direction: column;
@@ -544,7 +544,7 @@
     text-align: left;
     --hero-vertical-padding: clamp(1.5rem, 6vw, 2.5rem);
     padding: var(--hero-vertical-padding);
-    padding-top: calc(var(--header-height) + var(--hero-vertical-padding));
+    padding-top: var(--hero-vertical-padding);
     padding-bottom: calc(var(--hero-vertical-padding) * 1.1);
     max-width: 100%;
     display: flex;
@@ -664,7 +664,7 @@
     --hero-vertical-padding: clamp(0.75rem, 4vw, 1.25rem);
     /* Tighter padding */
     padding: var(--hero-vertical-padding);
-    padding-top: calc(var(--header-height) + 0.5rem);
+    padding-top: calc(0.5rem + 0px);
     /* Reduced top offset */
     padding-bottom: var(--hero-vertical-padding);
     display: flex;

@@ -36,7 +36,7 @@ const BEAM_TRANSITION_DURATION = 0.6; // seconds
 const BEAM_EASE = 'power2.inOut';
 
 // Particle configuration
-const PARTICLE_COUNT = 8;
+const PARTICLE_COUNT = 80;
 
 interface Particle {
   id: number;

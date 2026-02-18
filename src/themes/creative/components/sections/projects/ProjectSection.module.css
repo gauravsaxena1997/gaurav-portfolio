@@ -27,8 +27,8 @@
 
 .stickyContent {
   position: sticky;
-  top: var(--header-height);
-  height: calc(var(--viewport-height) - var(--header-height));
+  top: var(--project-sticky-offset, 72px);
+  height: calc(var(--viewport-height) - var(--project-sticky-offset, 72px));
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
