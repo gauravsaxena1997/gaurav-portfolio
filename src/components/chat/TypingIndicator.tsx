@@ -7,7 +7,7 @@ export function TypingIndicator() {
   return (
     <div className={styles.typingRow} aria-label="Assistant is typing">
       <Image
-        src="/profile.jpg"
+        src="/chat-avatar.webp"
         alt="Gaurav"
         width={32}
         height={32}

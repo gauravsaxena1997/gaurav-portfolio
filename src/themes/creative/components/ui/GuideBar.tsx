@@ -25,7 +25,7 @@ function Avatar({ className }: { className?: string }) {
   return (
     <div className={className}>
       <Image
-        src="/profile.jpg"
+        src="/profile.webp"
         alt="Gaurav Saxena"
         width={40}
         height={40}

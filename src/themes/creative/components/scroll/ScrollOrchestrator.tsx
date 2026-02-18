@@ -2,7 +2,7 @@
 
 import { useMediaQuery } from '@/hooks/use-media-query';
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -62,6 +62,81 @@ export function ScrollOrchestrator() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { setActiveSection, setTotalProgress } = useScrollContext();
   const isDesktopStats = useMediaQuery('(min-width: 900px)');
+
+  // Preserve scroll position across refreshes (reload only, not fresh address-bar navigations).
+  // Root cause: GSAP ScrollTrigger.refresh() fires after React hydration and resets
+  // scroll to 0. We restore AFTER that first refresh, and only when nav type is reload.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const KEY = 'scroll-restore';
+
+    // Save position before page unloads
+    const save = () => {
+      try { sessionStorage.setItem(KEY, String(window.scrollY)); } catch {}
+    };
+    window.addEventListener('beforeunload', save);
+
+    // Detect navigation type (reload vs navigate)
+    const navEntry = (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined);
+    const navType = navEntry?.type || (performance as any).navigation?.type;
+    const isReload = navType === 'reload' || navType === (performance as any).navigation?.TYPE_RELOAD;
+
+    // Read saved target
+    let target: number | null = null;
+    try {
+      const stored = sessionStorage.getItem(KEY);
+      if (stored) {
+        const parsed = parseInt(stored, 10);
+        if (!Number.isNaN(parsed) && parsed > 0) target = parsed;
+      }
+    } catch {}
+
+    // Only restore on reload, and only if we have a target
+    if (!isReload || target === null) {
+      return () => window.removeEventListener('beforeunload', save);
+    }
+
+    // Prevent browser's own scroll restoration from interfering
+    try { history.scrollRestoration = 'manual'; } catch {}
+
+    // Jump to top immediately so there's no flash of wrong position
+    window.scrollTo(0, 0);
+
+    const savedTarget = target;
+
+    // GSAP ScrollTrigger fires a 'refresh' event after it initializes and
+    // recalculates all trigger positions — this is what was resetting our scroll.
+    // We listen for that first refresh, then restore position after it completes.
+    let restored = false;
+    const onFirstRefresh = () => {
+      if (restored) return;
+      restored = true;
+      ScrollTrigger.removeEventListener('refresh', onFirstRefresh);
+
+      // Small extra delay to let any post-refresh layout settle
+      setTimeout(() => {
+        window.scrollTo({ top: savedTarget, behavior: 'smooth' });
+      }, 50);
+    };
+
+    ScrollTrigger.addEventListener('refresh', onFirstRefresh);
+
+    // Fallback: if ScrollTrigger never fires refresh (e.g., no triggers registered yet),
+    // restore after 800ms anyway
+    const fallback = setTimeout(() => {
+      if (!restored) {
+        restored = true;
+        ScrollTrigger.removeEventListener('refresh', onFirstRefresh);
+        window.scrollTo({ top: savedTarget, behavior: 'smooth' });
+      }
+    }, 800);
+
+    return () => {
+      window.removeEventListener('beforeunload', save);
+      ScrollTrigger.removeEventListener('refresh', onFirstRefresh);
+      clearTimeout(fallback);
+    };
+  }, []);
 
 
   useGSAP(

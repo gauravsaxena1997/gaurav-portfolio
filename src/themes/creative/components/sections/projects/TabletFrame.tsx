@@ -180,7 +180,8 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
                   muted
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="auto"
+                  poster={imageSrc}
                   className={styles.media}
                   aria-label={alt}
                 >
@@ -203,6 +204,8 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
                 sizes="(max-width: 900px) 100vw, 50vw"
                 className={styles.media}
                 priority
+                placeholder="blur"
+                blurDataURL="data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoIAAUAAUAmJYgCdAEO/gHOAAD++P/////////////////////8"
               />
             ) : (
               <div className={styles.placeholder}>

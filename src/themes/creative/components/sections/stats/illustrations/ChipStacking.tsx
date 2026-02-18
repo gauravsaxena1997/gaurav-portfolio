@@ -283,7 +283,7 @@ export function ChipStacking({
     // 2. Trigger Drop on Scroll
     const trigger = ScrollTrigger.create({
       trigger: container,
-      start: 'top 70%', // Trigger earlier (when top hits 70% of viewport)
+      start: 'top 80%', // Trigger earlier (when top hits 70% of viewport)
       once: true, // Play once
       onEnter: () => {
         // Activate Physics -> Gravity takes over

@@ -129,7 +129,10 @@ export function MobileProjectCarousel({
                             className={styles.mediaContent}
                             style={{ objectFit: 'contain' }}
                             sizes="(max-width: 768px) 90vw, 50vw"
-                            priority
+                            priority={imageIndex === 0}
+                            loading={imageIndex === 0 ? 'eager' : 'lazy'}
+                            placeholder="blur"
+                            blurDataURL="data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoIAAUAAUAmJYgCdAEO/gHOAAD++P/////////////////////8"
                         />
                     )}
 
