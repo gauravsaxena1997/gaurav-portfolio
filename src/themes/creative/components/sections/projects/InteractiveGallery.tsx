@@ -40,10 +40,10 @@ function generateScales(count: number, seed: string): number[] {
 }
 
 // Dynamic constants for spacing calculation
-const CONSTANT_VERTICAL_GAP = 35; // Fixed pixel gap between stacked images
-const BASE_START_OFFSET = 300;    // Starting pixels below viewport — tight so images appear quickly
-const OFFSET_INCREMENT = 250;     // Additional offset per image index (reduced to minimize dead scroll)
-const MAX_DISPLAY_IMAGES = 6;     // Cap at 6 images for performance
+const CONSTANT_VERTICAL_GAP = 65; // Fixed pixel gap between stacked images
+const BASE_START_OFFSET = 250;    // Starting pixels below viewport — tight so images appear quickly
+const OFFSET_INCREMENT = 320;     // Additional offset per image index (reduced to minimize dead scroll)
+const MAX_DISPLAY_IMAGES = 5;     // Cap at 6 images for performance
 
 /**
  * InteractiveGallery - Scattered overlapping screenshot display with parallax + DRAG
@@ -83,7 +83,7 @@ export const InteractiveGallery = memo(function InteractiveGallery({
 
       // Gallery just needs to fit stacked images plus a bit of breathing room.
       // Animation is driven by a fixed scroll distance (below), not container height.
-      const galleryHeight = stackedHeight + vh * 0.15;
+      const galleryHeight = stackedHeight + vh * 0.45;
       containerRef.current.style.minHeight = `${Math.ceil(galleryHeight)}px`;
 
       // Set parent slide height to right column content so sticky unpins exactly when content ends.
@@ -94,7 +94,7 @@ export const InteractiveGallery = memo(function InteractiveGallery({
           const rightHeight = rightCol.scrollHeight;
           // Cap excessive height to avoid dead scroll; ensure at least viewport + 200px for sticky
           const minNeeded = vh + 200;
-          const capped = Math.max(minNeeded, Math.min(rightHeight, vh * 1.70));
+          const capped = Math.max(minNeeded, Math.min(rightHeight, vh * 1.80));
           slide.style.minHeight = `${Math.ceil(capped)}px`;
         }
       }
