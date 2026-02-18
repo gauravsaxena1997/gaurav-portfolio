@@ -79,6 +79,7 @@ export function ChatWidget() {
               width={64}
               height={64}
               className={styles.fabIcon}
+              priority
             />
           </div>
         )}

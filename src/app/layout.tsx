@@ -135,6 +135,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://vercel.app" />
+        {/* Preload critical above-the-fold images to eliminate flicker */}
+        <link rel="preload" as="image" href="/chat-avatar.webp" fetchPriority="high" />
+        <link rel="preload" as="image" href="/profile.webp" fetchPriority="high" />
         <PersonSchema />
         <ServiceSchema />
         <WebSiteSchema />

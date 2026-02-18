@@ -36,11 +36,12 @@ export function SuggestedQuestions({ onSelect }: SuggestedQuestionsProps) {
       {/* Welcome message bubble */}
       <div className={styles.welcomeRow}>
         <Image
-          src="/profile.webp"
+          src="/chat-avatar.webp"
           alt="Gaurav"
           width={32}
           height={32}
           className={styles.avatar}
+          priority
         />
         <div className={styles.welcomeBubble}>
           <p style={{ margin: 0 }}>

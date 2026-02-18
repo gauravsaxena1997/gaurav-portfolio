@@ -168,11 +168,15 @@ export const InteractiveGallery = memo(function InteractiveGallery({
           <Image
             src={image}
             alt={`${projectName} screenshot ${index + 1}`}
-            width={0}
-            height={0}
-            sizes="50vw"
+            width={1200}
+            height={750}
+            sizes="(max-width: 900px) 100vw, 50vw"
             className={styles.image}
             style={{ width: '100%', height: 'auto' }}
+            priority={index === 0}
+            loading={index <= 1 ? 'eager' : 'lazy'}
+            placeholder="blur"
+            blurDataURL="data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoIAAUAAUAmJYgCdAEO/gHOAAD++P/////////////////////8"
           />
         </div>
       ))}
