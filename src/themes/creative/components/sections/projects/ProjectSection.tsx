@@ -176,25 +176,9 @@ export const ProjectSection = memo(function ProjectSection() {
                     </span>
 
                     {/* CTAs */}
-                    {project.slug && (
+                    {(project.liveUrl || project.slug) && (
                       <a
-                        href={`/projects/${project.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.ctaButton}
-                        aria-label={`Explore project: ${project.title}`}
-                        title={`Explore project: ${project.title}`}
-                      >
-                        Explore Project
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                          <path d="M7 17L17 7M17 7H7M17 7V17" />
-                        </svg>
-                      </a>
-                    )}
-
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
+                        href={project.liveUrl || `/projects/${project.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.ctaButton}

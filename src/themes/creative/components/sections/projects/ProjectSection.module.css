@@ -8,13 +8,11 @@
 .projectSlide {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* Extended height for scroll space (hero + screenshots) */
-  min-height: 250vh;
+  /* Height is set dynamically by JS (InteractiveGallery) based on right column content */
   padding: 0 var(--section-padding-x);
   gap: var(--grid-gap-lg);
   position: relative;
   overflow: visible;
-  /* Allow sticky to work */
 }
 
 /* LEFT COLUMN - Sticky & Centered */

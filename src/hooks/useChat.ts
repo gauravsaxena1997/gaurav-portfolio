@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import type { ChatMessage, ChatStatus } from '@/types/chat';
 import { CHAT_CONFIG, CHAT_ERRORS } from '@/lib/chat/constants';
+
+const SESSION_KEY = 'chat_session_state';
 
 function generateId(): string {
   return `msg_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
@@ -13,6 +15,30 @@ export function useChat() {
   const [status, setStatus] = useState<ChatStatus>('idle');
   const [error, setError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+
+  // Rehydrate from sessionStorage on mount (only messages, never restore in-flight status)
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem(SESSION_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as { messages?: ChatMessage[] };
+        if (Array.isArray(parsed.messages) && parsed.messages.length > 0) {
+          setMessages(parsed.messages);
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to load chat session:', err);
+    }
+  }, []);
+
+  // Persist messages to sessionStorage whenever they change
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ messages }));
+    } catch {
+      // Ignore quota errors silently
+    }
+  }, [messages]);
 
   const sendMessage = useCallback(
     async (content: string) => {
@@ -87,6 +113,7 @@ export function useChat() {
     setMessages([]);
     setStatus('idle');
     setError(null);
+    try { sessionStorage.removeItem(SESSION_KEY); } catch { /* ignore */ }
   }, []);
 
   const cancelRequest = useCallback(() => {

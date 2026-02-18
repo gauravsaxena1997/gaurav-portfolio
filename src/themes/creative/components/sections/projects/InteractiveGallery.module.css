@@ -1,8 +1,8 @@
 .container {
   position: relative;
   width: 100%;
-  /* Extended height for full 4-screenshot reveal before unpin */
-  min-height: 1600px;
+  /* Height is set dynamically by JS; this is just a small fallback before hydration */
+  min-height: 600px;
 }
 
 .screenshot {
