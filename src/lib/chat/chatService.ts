@@ -5,7 +5,7 @@
 
 import { buildChatContext } from './contextBuilder';
 import { sanitizeInput, isPromptInjection, checkRateLimit } from './guardrails';
-import { generateCerebrasResponse } from './providers';
+import { generateGatewayResponse } from './providers';
 import { CHAT_CONFIG, CHAT_ERRORS } from './constants';
 import { logger } from '@/lib/logger';
 import type { ChatResponse } from '@/types/chat';
@@ -40,8 +40,8 @@ class ChatService {
       // 4. Build context with token optimization
       const messages = buildChatContext(sanitized, history);
 
-      // 5. Call Cerebras with automatic key rotation
-      const result = await generateCerebrasResponse(
+      // 5. Call LLM Gateway
+      const result = await generateGatewayResponse(
         messages,
         CHAT_CONFIG.maxTokens,
         CHAT_CONFIG.temperature
@@ -60,12 +60,6 @@ class ChatService {
       };
     } catch (error) {
       const errMsg = error instanceof Error ? error.message : String(error);
-
-      // Distinguish between all-keys-exhausted and other errors
-      if (errMsg.includes('All Cerebras API keys exhausted')) {
-        logger.error('All API keys exhausted', { error: errMsg });
-        return { success: false, error: CHAT_ERRORS.ALL_KEYS_EXHAUSTED };
-      }
 
       logger.error('ChatService error', { error: errMsg });
       return { success: false, error: CHAT_ERRORS.API_ERROR };

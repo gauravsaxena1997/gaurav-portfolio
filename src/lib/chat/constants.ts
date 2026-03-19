@@ -8,14 +8,7 @@ export const CHAT_CONFIG: ChatConfig = {
   rateLimitPerMinute: 20,
 };
 
-export const CEREBRAS_CONFIG = {
-  baseUrl: 'https://api.cerebras.ai/v1',
-  model: 'llama3.1-8b',
-  /** HTTP status codes that trigger key rotation */
-  rotatableStatusCodes: [429, 402, 503] as const,
-  /** Max keys to try before giving up */
-  maxKeyRotations: 3,
-} as const;
+// Removed CEREBRAS_CONFIG as we now use llm-gateway-service
 
 export const CHAT_UI = {
   widgetSize: 56,
@@ -39,5 +32,4 @@ export const CHAT_ERRORS = {
   NETWORK: 'Network error. Please check your connection and try again.',
   API_ERROR: "I'm having trouble responding right now. Please try again shortly.",
   OFF_TOPIC: "I can only answer questions about Gaurav's portfolio and services.",
-  ALL_KEYS_EXHAUSTED: 'The assistant is temporarily unavailable. Please try again later.',
 } as const;
