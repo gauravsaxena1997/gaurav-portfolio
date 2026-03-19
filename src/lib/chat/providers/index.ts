@@ -1,7 +1,7 @@
 /**
- * Provider factory — currently Cerebras-only with key rotation.
- * Extensible for future providers.
+ * Provider factory for LLM Gateway Service.
+ * Decoupled from specific LLM providers (Cerebras, OpenAI, etc).
  */
 
-export { generateCerebrasResponse } from './cerebras';
-export type { LLMMessage, LLMResponse } from './types';
+export * from './types';
+export * from './gateway';
