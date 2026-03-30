@@ -11,6 +11,7 @@ import { HeroSection } from '@/themes/creative/components/sections/hero/HeroSect
 import { ScrollProvider } from '@/themes/creative/context/ScrollContext';
 import { useScrollProgress } from '@/themes/creative/hooks/useScrollProgress';
 import { ProgressScrollbar } from '@/themes/creative/components/scroll/ProgressScrollbar';
+import { ClickTrigger } from '@/themes/creative/components/ui';
 
 // Regular imports for preloaded components
 import { MobileStatPanel } from '@/themes/creative/components/sections/stats/MobileStatPanel';
@@ -107,6 +108,8 @@ export default function MobileLayout({ activeSubTheme = '' }: MobileLayoutProps)
     return (
         <ScrollProvider>
             <ProgressScrollbar />
+            {/* Site-wide cursor click burst animation */}
+            <ClickTrigger />
             <div className={`${styles.mobileLayoutRoot} creative-theme ${activeSubTheme}`}>
                 <Header
                     currentTheme={currentTheme}

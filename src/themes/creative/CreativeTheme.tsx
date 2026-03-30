@@ -4,6 +4,8 @@ import { ScrollProvider } from './context/ScrollContext';
 import { ScrollOrchestrator } from './components/scroll/ScrollOrchestrator';
 import { ProgressScrollbar } from './components/scroll/ProgressScrollbar';
 import { Header } from './components/header/Header';
+import { ClickTrigger } from './components/ui';
+
 
 import './styles/theme.css';
 import './styles/scrollbar.css';
@@ -29,6 +31,9 @@ export function CreativeTheme({ currentTheme, onThemeChange, activeSubTheme = ''
 
         {/* Custom Progress Scrollbar */}
         <ProgressScrollbar />
+
+        {/* Site-wide cursor click burst animation */}
+        <ClickTrigger />
 
         {/* Main Scroll Content */}
         <main className={styles.scrollContainer}>
