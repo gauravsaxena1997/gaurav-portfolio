@@ -90,7 +90,11 @@ const TrackedSection = ({
     );
 };
 
-export default function MobileLayout() {
+interface MobileLayoutProps {
+    activeSubTheme?: string;
+}
+
+export default function MobileLayout({ activeSubTheme = '' }: MobileLayoutProps) {
     const projects = getProjectsForDisplay();
 
     // Theme State for Header
@@ -103,7 +107,7 @@ export default function MobileLayout() {
     return (
         <ScrollProvider>
             <ProgressScrollbar />
-            <div className={`${styles.mobileLayoutRoot} creative-theme`}>
+            <div className={`${styles.mobileLayoutRoot} creative-theme ${activeSubTheme}`}>
                 <Header
                     currentTheme={currentTheme}
                     onThemeChange={handleThemeChange}

@@ -5,19 +5,22 @@ import dynamic from 'next/dynamic';
 import { HeroContent } from './HeroContent';
 import styles from './HeroSection.module.css';
 
-// Dynamic imports for the 3D concept so it doesn't block the main thread
-const HeroConceptB = dynamic(() => import('./HeroConceptB').then(m => m.HeroConceptB), { 
+// Dynamic imports for the 3D grid hero, so it doesn't block the main thread
+const HeroGridSection = dynamic(() => import('./HeroConceptB').then(m => m.HeroGridSection), { 
   ssr: false,
   loading: () => <FallbackHero /> 
 });
 
-// A lightweight fallback while ThreeJS canvas loads
+// A lightweight fallback while ThreeJS canvas loads — same light cream as final
 function FallbackHero() {
   return (
-    <div className={styles.heroContainer}>
-      <div className="absolute inset-0 z-0 bg-[#09090B]" />
-      <div className="absolute inset-0 z-10 flex items-center">
-        <HeroContent animate={false} />
+    <div className={styles.heroContainer} style={{ background: '#FFFBF7' }}>
+      <div className="absolute inset-0 z-10 flex items-center" style={{ pointerEvents: 'none' }}>
+        <div className={styles.heroTwoCol}>
+          <div className={styles.heroTextCol}>
+            <HeroContent animate={false} />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -34,7 +37,7 @@ export function HeroSection() {
 
   return (
     <div className="relative w-full min-h-screen">
-      <HeroConceptB />
+      <HeroGridSection />
     </div>
   );
 }

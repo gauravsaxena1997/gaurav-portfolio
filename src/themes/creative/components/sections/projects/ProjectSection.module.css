@@ -93,8 +93,8 @@
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   /* Unified responsive size */
   font-weight: 700;
-  color: #F5F4F0;
-  /* Light/white for visibility on dark bg */
+  color: var(--creative-text-primary);
+  /* Light/white for visibility on dark bg, adapt to light mode */
   line-height: 1.15;
   letter-spacing: -0.02em;
   /* Match Stats */

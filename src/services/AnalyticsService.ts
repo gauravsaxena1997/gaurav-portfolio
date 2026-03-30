@@ -12,6 +12,7 @@ export type AnalyticsEvent =
     | { action: 'view_project'; category: 'Portfolio'; label: string } // Label = Project Title
     | { action: 'click_case_study'; category: 'Portfolio'; label: string }
     | { action: 'click_live_demo'; category: 'Portfolio'; label: string }
+    | { action: 'view_project_gallery'; category: 'Portfolio'; label: string }
     | { action: 'schedule_call'; category: 'Contact'; label?: string };
 
 
@@ -57,7 +58,7 @@ export const AnalyticsService = {
         });
     },
 
-    trackProjectInteraction: (action: 'view_project' | 'click_live_demo', projectTitle: string) => {
+    trackProjectInteraction: (action: 'view_project' | 'click_live_demo' | 'view_project_gallery', projectTitle: string) => {
         AnalyticsService.track({
             action,
             category: 'Portfolio',

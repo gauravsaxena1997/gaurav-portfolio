@@ -133,13 +133,13 @@
 .contactFormArea> :global(div) {
     width: 100% !important;
     max-width: 500px !important;
-    background: rgba(var(--creative-bg-secondary-rgb), 0.5) !important;
+    background: color-mix(in srgb, var(--creative-text-primary) 3%, transparent) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid var(--creative-border-color) !important;
+    border: 1px solid color-mix(in srgb, var(--creative-text-primary) 8%, transparent) !important;
     border-radius: var(--radius-lg) !important;
     padding: clamp(1rem, 3dvh, 1.25rem) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+    box-shadow: none !important;
     box-sizing: border-box !important;
 }
 

@@ -1,7 +1,6 @@
 import { memo, useRef, useEffect, useState, createRef, useMemo, useCallback } from 'react';
 import { useScrollContext } from '../../../context/ScrollContext';
 import { getProjectsForDisplay } from './config';
-import { TabletFrame, TabletFrameHandle } from './TabletFrame';
 import { InteractiveGallery } from './InteractiveGallery';
 import { ProjectCarousel } from './ProjectCarousel';
 import { BackgroundDecor } from '../../common/BackgroundDecor';
@@ -34,13 +33,6 @@ export const ProjectSection = memo(function ProjectSection() {
   const { setCurrentProjectIndex, setIsInProjectsSection } = useScrollContext();
 
   const projects = getProjectsForDisplay();
-
-  // Create refs for TabletFrames to trigger fullscreen (Optional now, if still needed for individual clicks?)
-  // Keeping specific fullscreen for TabletFrame interaction itself if user clicks the frame directly.
-  const projectRefs = useMemo(() =>
-    Array(projects.length).fill(0).map(() => createRef<TabletFrameHandle>()),
-    [projects.length]
-  );
 
 
   // Detect mobile
@@ -169,14 +161,8 @@ export const ProjectSection = memo(function ProjectSection() {
               <div className="flex items-center gap-[var(--space-md)] mb-[var(--space-md)]">
                 <div className={styles.titleStack}>
                   <h2 className={styles.projectName}>{project.title}</h2>
-                  <div className="flex items-center gap-6 mt-2 flex-wrap">
-                    <span className={styles.categoryBadge}>
-                      {project.category === 'case-study' && 'Case Study'}
-                      {project.category === 'venture' && 'Personal Venture'}
-                      {project.category === 'client' && 'Client Work'}
-                    </span>
-
-                    {/* CTAs */}
+                  <div className="flex items-center gap-4 mt-2 flex-wrap">
+                    {/* Primary CTA (View Live) */}
                     {(project.liveUrl || project.slug) && (
                       <a
                         href={project.liveUrl || `/projects/${project.slug}`}
@@ -193,6 +179,20 @@ export const ProjectSection = memo(function ProjectSection() {
                         </svg>
                       </a>
                     )}
+
+                    {/* Secondary CTA (View Gallery) */}
+                    <button
+                      onClick={() => {
+                        setUnifiedTargetProject(index);
+                        setUnifiedStartType('gallery');
+                        setIsUnifiedOpen(true);
+                        AnalyticsService.trackProjectInteraction('view_project_gallery', project.title);
+                      }}
+                      className={styles.secondaryButton}
+                      aria-label={`View Gallery for ${project.title}`}
+                    >
+                      View Gallery
+                    </button>
                   </div>
                 </div>
               </div>
@@ -217,25 +217,9 @@ export const ProjectSection = memo(function ProjectSection() {
             </div>
           </div>
 
-          {/* Right Column - Hero Video + Screenshots */}
+          {/* Right Column - Screenshots only */}
           <div className={styles.rightColumn}>
-            {/* Hero Video in Tablet Frame */}
-            <div className={styles.heroMedia}>
-              <TabletFrame
-                ref={projectRefs[index]}
-                videoSrc={project.heroVideo}
-                imageSrc={project.thumbnail}
-                alt={`${project.title} demo`}
-                onExpand={() => {
-                  setUnifiedTargetProject(index);
-                  setUnifiedStartType('video');
-                  setIsUnifiedOpen(true);
-                  AnalyticsService.trackProjectInteraction('view_project', project.title);
-                }}
-              />
-            </div>
-
-            {/* Screenshots with Parallax - Wrapped to scroll over sticky video */}
+            {/* Screenshots with Parallax */}
             {project.images && project.images.length > 0 && (
               <div className={styles.galleryWrapper} data-id={`gallery-${index}`}>
                 {isMobile ? (

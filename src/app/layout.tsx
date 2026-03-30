@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Sora, Manrope, Archivo, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import { Sora, Manrope, Archivo, Space_Grotesk, JetBrains_Mono, Inter, Outfit, Playfair_Display, DM_Sans, Syne, Montserrat } from 'next/font/google';
 import Script from 'next/script';
 import { ThemeProvider } from '@/components/shared';
 import { PersonSchema, ServiceSchema, WebSiteSchema, BreadcrumbSchema, FAQSchema, TestimonialSchema } from '@/components/seo';
@@ -33,6 +33,42 @@ const spaceGrotesk = Space_Grotesk({
 
 const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const outfit = Outfit({
+  variable: '--font-outfit',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: '--font-playfair',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const dmSans = DM_Sans({
+  variable: '--font-dm-sans',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const syne = Syne({
+  variable: '--font-syne',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const montserrat = Montserrat({
+  variable: '--font-montserrat',
   subsets: ['latin'],
   display: 'swap',
 });
@@ -157,7 +193,7 @@ export default function RootLayout({
         <FAQSchema />
         <TestimonialSchema />
       </head>
-      <body className={`${sora.variable} ${manrope.variable} ${archivo.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}>
+      <body className={`${sora.variable} ${manrope.variable} ${archivo.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} ${outfit.variable} ${playfairDisplay.variable} ${dmSans.variable} ${syne.variable} ${montserrat.variable} font-sans`}>
         <a
           href="#main-content"
           className="fixed top-0 left-0 z-[9999] -translate-y-full bg-[#007acc] px-4 py-2 text-white !text-white text-sm font-semibold transition-transform duration-200 focus:translate-y-0"

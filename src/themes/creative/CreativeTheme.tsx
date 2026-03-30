@@ -12,13 +12,14 @@ import styles from './styles/creative.module.css';
 interface CreativeThemeProps {
   currentTheme: 'creative' | 'github';
   onThemeChange: (theme: 'creative' | 'github') => void;
+  activeSubTheme?: string;
 }
 
-export function CreativeTheme({ currentTheme, onThemeChange }: CreativeThemeProps) {
+export function CreativeTheme({ currentTheme, onThemeChange, activeSubTheme = '' }: CreativeThemeProps) {
   return (
     <ScrollProvider>
       <div
-        className={`${styles.creativeTheme} creative-theme`}
+        className={`${styles.creativeTheme} creative-theme ${activeSubTheme}`}
       >
         {/* Fixed Header */}
         <Header

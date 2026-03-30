@@ -11,6 +11,74 @@
   --hero-vertical-padding: clamp(3rem, 6vw, 5rem);
 }
 
+/* ── Two-column hero layout ── */
+.heroTwoCol {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(2rem, 6vw, 8rem);
+  gap: clamp(2rem, 4vw, 5rem);
+  pointer-events: none;
+}
+
+.heroTextCol {
+  flex: 1 1 60%;
+  min-width: 0;
+  pointer-events: auto;
+}
+
+/* Override heroContent padding inside two-col layout:
+   The outer heroTwoCol already handles horizontal padding,
+   so we strip the heroContent left-pad to avoid double-indenting. */
+.heroTextCol .heroContent {
+  padding-left: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Profile image column — shrink slightly to give more room to text */
+.heroProfileWrapper {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  order: 1; /* Right side on desktop */
+}
+
+/* Decorative warm ring behind the profile */
+.heroProfileRing {
+  position: relative;
+  width: clamp(220px, 22vw, 320px);
+  height: clamp(220px, 22vw, 320px);
+  border-radius: 50%;
+  /* Warm editorial halo */
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--creative-accent) 18%, transparent) 0%,
+    color-mix(in srgb, var(--creative-accent) 6%, transparent) 60%,
+    transparent 100%
+  );
+  padding: 6px;
+}
+
+.heroProfileImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  /* Subtle warm border */
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--creative-accent) 25%, transparent),
+    0 20px 60px color-mix(in srgb, var(--creative-text-primary) 15%, transparent);
+}
+
 /* Mobile hero - no sticky, natural flow */
 @media (max-width: 900px) {
   .heroContainer {
@@ -30,9 +98,11 @@
 .heroContainer .heroName,
 .heroContainer .heroTagline,
 .heroContainer .heroSubtitle,
-.heroContainer .socialLinks {
+.heroContainer .socialLinks,
+.heroContainer .actionRow,
+.heroContainer .heroProfileWrapper {
   opacity: 1;
-  /* Text visible by default, no cascade animation */
+  /* Visible by default — no entrance animation on desktop */
 }
 
 /* Base layer - default theme colors */
@@ -319,49 +389,147 @@
   width: clamp(60px, 15vw, 100px);
 }
 
-/* Action Row - clusters Social and CTA */
+/* Action Row - clusters Social pills + CTA */
 .actionRow {
   display: flex;
   align-items: center;
-  gap: var(--space-xl);
+  gap: 1rem;
   margin-top: var(--space-md);
   flex-wrap: wrap;
 }
 
-/* Social Links */
-.socialLinks {
+/* Social pills row container */
+.socialPillRow {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
-/* Hero CTA Button */
-.heroCTA {
-  background: transparent;
-  border: 2px solid var(--creative-accent);
-  color: var(--creative-accent);
-  padding: 0.75rem 2rem;
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: all var(--creative-transition-normal);
-  border-radius: 4px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
+/* LinkedIn — filled primary capsule */
+.socialPillPrimary {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
+  padding: 0.6rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-decoration: none;
+  background: var(--creative-accent);
+  color: #ffffff;
+  border: 2px solid var(--creative-accent);
+  transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+  cursor: pointer;
   white-space: nowrap;
 }
 
-.heroCTA:hover {
-  background: var(--creative-accent);
-  color: var(--creative-bg-primary);
+.socialPillPrimary:hover {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(var(--creative-spotlight-rgb), 0.2);
+  box-shadow: 0 8px 20px rgba(var(--brand-primary-rgb), 0.3);
+}
+
+.socialPillPrimary:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* GitHub — outlined secondary capsule */
+.socialPillSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.6rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-decoration: none;
+  background: transparent;
+  color: var(--creative-text-primary);
+  border: 2px solid color-mix(in srgb, var(--creative-text-primary) 35%, transparent);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.18s ease, color 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.socialPillSecondary:hover {
+  background: color-mix(in srgb, var(--creative-text-primary) 8%, transparent);
+  border-color: var(--creative-text-primary);
+  transform: translateY(-2px);
+}
+
+.socialPillSecondary:active {
+  transform: translateY(0);
+}
+
+/* Icon-only circular secondary button (LinkedIn, GitHub) */
+.socialIconCircle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--creative-text-primary);
+  border: 2px solid var(--creative-accent);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(44, 40, 37, 0.05);
+}
+
+.socialIconCircle:hover {
+  background: color-mix(in srgb, var(--creative-accent) 8%, #ffffff);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.15);
+}
+
+.socialIconCircle:active {
+  transform: translateY(0) scale(0.94);
+}
+
+.socialIconCircle svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+
+/* Hero CTA Button - Refined capsule primary */
+.heroCTA {
+  background: var(--creative-accent);
+  border: 2px solid var(--creative-accent);
+  color: #ffffff;
+  height: 48px;
+  padding: 0 1.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 9999px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.2);
+}
+
+.heroCTA:hover {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(var(--brand-primary-rgb), 0.3);
 }
 
 .heroCTA:active {
@@ -538,7 +706,52 @@
   }
 }
 
+/* Tablet: reduce padding in two-col layout */
+@media (max-width: 900px) {
+  .heroTwoCol {
+    padding: 0 clamp(1.5rem, 4vw, 4rem);
+    gap: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .heroProfileRing {
+    width: clamp(160px, 18vw, 240px);
+    height: clamp(160px, 18vw, 240px);
+  }
+}
+
 /* Mobile - Asymmetric left-aligned layout */
+@media (max-width: 768px) {
+  /* Stack image on top, text below */
+  .heroTwoCol {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: clamp(1rem, 4vw, 2rem);
+    padding-top: calc(var(--header-height, 64px) + 1rem);
+    gap: 1.25rem;
+    height: auto;
+    min-height: 100svh;
+  }
+
+  /* Image comes first (top) on mobile */
+  .heroProfileWrapper {
+    order: -1;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .heroProfileRing {
+    width: clamp(90px, 24vw, 140px);
+    height: clamp(90px, 24vw, 140px);
+  }
+
+  .heroTextCol {
+    width: 100%;
+    flex: 1 0 auto;
+  }
+}
+
+/* Mobile - existing content overrides */
 @media (max-width: 768px) {
   .heroContent {
     text-align: left;

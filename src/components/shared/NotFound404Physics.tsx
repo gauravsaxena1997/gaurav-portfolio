@@ -39,18 +39,10 @@ export default function NotFound404Physics() {
     // Check for reduced motion
     const prefersReducedMotion = useRef(false);
 
-    // ── Force dark theme & mark as 404 ──
+    // ── Mark as 404 page ──
     useEffect(() => {
-        const prev = document.documentElement.getAttribute('data-theme');
-        document.documentElement.setAttribute('data-theme', 'dark');
         document.body.setAttribute('data-page-type', '404');
-
         return () => {
-            if (prev) {
-                document.documentElement.setAttribute('data-theme', prev);
-            } else {
-                document.documentElement.removeAttribute('data-theme');
-            }
             document.body.removeAttribute('data-page-type');
         };
     }, []);
@@ -237,7 +229,7 @@ export default function NotFound404Physics() {
     }, []); // Mount only — engine setup should not re-run
 
     return (
-        <div className={`${styles.container} creative-theme`} data-theme="dark">
+        <div className={`${styles.container} creative-theme theme-light-warm`}>
             <div className={styles.gridOverlay} />
             
             <div ref={containerRef} className={styles.physicsArea}>
