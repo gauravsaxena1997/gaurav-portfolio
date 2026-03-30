@@ -32,8 +32,8 @@ export function Header({ currentTheme, onThemeChange }: HeaderProps) {
     { id: 'hero', label: 'Home' },
     { id: 'projects', label: 'Projects' },
 
-    { id: 'services', label: 'Services' },
     { id: 'testimonials', label: 'Testimonials' },
+    { id: 'services', label: 'Services' },
     { id: 'contact', label: 'Contact' },
   ];
 

@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './MobileStatPanel.module.css';
 import { MobileChipStack } from './MobileChipStack';
 import { AIBrainIllustration } from './illustrations/AIBrainIllustration';
-import { GlobeVisualization } from './illustrations/GlobeVisualization';
+import { NeuralNetworkVisualization } from './illustrations/NeuralNetworkVisualization';
 import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
 import { STATS_DATA } from '@/config/stats';
@@ -63,9 +63,7 @@ export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
                     )}
                     {index === 2 && (
                         <div className={styles.illustrationWrapper40}>
-                            <div className={styles.globeClip}>
-                                <GlobeVisualization />
-                            </div>
+                            <NeuralNetworkVisualization />
                         </div>
                     )}
                 </div>

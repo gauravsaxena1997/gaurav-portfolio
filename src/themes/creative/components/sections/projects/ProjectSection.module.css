@@ -137,9 +137,9 @@
 .categoryBadge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
-  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+  background: rgba(var(--creative-accent-rgb), 0.15);
   color: var(--color-accessible-text-on-gold);
-  border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+  border: 1px solid rgba(var(--creative-accent-rgb), 0.3);
   font-size: var(--font-size-body-xs);
   font-family: var(--font-mono);
   /* Technical Tag */
@@ -207,20 +207,21 @@
   gap: 0.5rem;
   padding: 1rem 2rem;
   background: var(--creative-accent);
-  color: var(--cta-text-on-accent-dark);
+  color: #ffffff;
   font-family: var(--font-mono);
   /* Technical Action */
   font-size: var(--font-size-body-sm);
   font-weight: 700;
   text-decoration: none;
-  border-radius: var(--radius-lg);
+  border-radius: 9999px;
   transition: all 0.2s ease;
   width: fit-content;
+  white-space: nowrap;
 }
 
 .ctaButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb), 0.3);
 }
 
 /* Secondary Button (Explore More) - INCREASED SIZE */
@@ -238,7 +239,7 @@
   font-weight: 700;
   border: 1.5px solid #1A1816;
   /* Thicker border */
-  border-radius: var(--radius-lg);
+  border-radius: 9999px;
   cursor: pointer;
   transition: all 0.2s ease;
 }

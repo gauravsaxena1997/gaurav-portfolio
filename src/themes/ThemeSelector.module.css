@@ -28,21 +28,21 @@
 
 .quickToggle:hover {
   background-color: rgba(40, 40, 40, 0.95);
-  border-color: rgba(184, 134, 11, 0.6);
+  border-color: rgba(var(--creative-accent-rgb), 0.6);
   transform: translateY(-2px);
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4),
               0 10px 20px -8px rgba(0, 0, 0, 0.3);
 }
 
 .quickToggle:focus-visible {
-  outline: 2px solid #B8860B;
+  outline: 2px solid var(--creative-accent);
   outline-offset: 2px;
 }
 
 .toggleIcon {
   font-size: 1.25rem;
   line-height: 1;
-  color: #B8860B;
+  color: var(--creative-accent);
 }
 
 .toggleText {
@@ -90,12 +90,12 @@
 }
 
 .dropdownItem:focus-visible {
-  outline: 2px solid #B8860B;
+  outline: 2px solid var(--creative-accent);
   outline-offset: -2px;
 }
 
 .dropdownItemActive {
-  background-color: rgba(184, 134, 11, 0.15);
+  background-color: rgba(var(--creative-accent-rgb), 0.15);
 }
 
 .dropdownItemContent {
@@ -108,7 +108,7 @@
 .dropdownIcon {
   font-size: 1.5rem;
   line-height: 1;
-  color: #B8860B;
+  color: var(--creative-accent);
 }
 
 .dropdownText {
@@ -131,7 +131,7 @@
 
 .checkmark {
   font-size: 1.125rem;
-  color: #B8860B;
+  color: var(--creative-accent);
 }
 
 /* Mobile Styles */

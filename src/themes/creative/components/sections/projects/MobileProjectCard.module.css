@@ -89,15 +89,16 @@
     margin: 0 auto;
     padding: 0.85rem;
     background: var(--creative-accent);
-    color: var(--creative-bg-primary);
+    color: #ffffff;
     font-family: var(--font-mono);
     font-size: 0.85rem;
     font-weight: 700;
     text-decoration: none;
-    border-radius: var(--radius-lg);
+    border-radius: 9999px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     transition: all 0.2s ease;
+    white-space: nowrap;
     box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb), 0.3);
 }
 

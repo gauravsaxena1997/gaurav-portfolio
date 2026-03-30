@@ -55,19 +55,30 @@
   font-family: var(--font-mono);
 }
 
-.input,
-.textarea {
+.input {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   font-size: var(--font-size-body-md);
   font-family: inherit;
   color: var(--creative-text-primary);
-  /* Darker input background */
-  /* Adaptive input background */
   background: color-mix(in srgb, var(--creative-bg-primary) 85%, #ffffff 15%);
   border: 1px solid var(--creative-border-color);
-  border-radius: var(--radius-md);
+  border-radius: 9999px;
   transition: all var(--creative-transition-fast);
+}
+
+.textarea {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: var(--font-size-body-md);
+  font-family: inherit;
+  color: var(--creative-text-primary);
+  background: color-mix(in srgb, var(--creative-bg-primary) 85%, #ffffff 15%);
+  border: 1px solid var(--creative-border-color);
+  border-radius: 24px;
+  transition: all var(--creative-transition-fast);
+  resize: vertical;
+  min-height: 120px;
 }
 
 .input:focus,
@@ -75,18 +86,13 @@
   outline: none;
   background: rgba(var(--creative-bg-primary-rgb), 0.5);
   border-color: var(--creative-accent);
-  box-shadow: 0 0 0 4px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+  box-shadow: 0 0 0 4px rgba(var(--creative-accent-rgb), 0.15);
 }
 
 .input::placeholder,
 .textarea::placeholder {
   color: var(--creative-text-secondary);
   opacity: 0.6;
-}
-
-.textarea {
-  resize: vertical;
-  min-height: 100px;
 }
 
 .status {
@@ -104,25 +110,26 @@
 }
 
 .submitButton {
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.5rem;
   font-size: var(--font-size-body-sm);
   font-family: var(--font-mono);
   /* Technical Action */
   font-weight: 700;
-  color: #111111;
+  color: #ffffff;
   /* Contrast text on Gold */
   background: var(--creative-accent);
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 9999px;
   cursor: pointer;
   transition: all var(--creative-transition-fast);
   margin-top: 0.5rem;
+  width: fit-content;
 }
 
 .submitButton:hover:not(:disabled) {
   filter: brightness(1.1);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.25);
+  box-shadow: 0 8px 20px rgba(var(--creative-accent-rgb), 0.25);
 }
 
 .submitButton:active:not(:disabled) {
@@ -133,7 +140,7 @@
   opacity: 0.5;
   cursor: not-allowed;
   background: color-mix(in srgb, var(--creative-accent), transparent 60%);
-  color: #111111;
+  color: #ffffff;
 }
 
 /* Styles removed: .divider, .dividerText, .scheduleButton - Moved to ContactSection */

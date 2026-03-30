@@ -11,7 +11,7 @@ export const TESTIMONIALS: Testimonial[] = [
     {
         id: 'cultureticks',
         name: 'Maxwell Truluck',
-        designation: 'CEO/Founder — CultureTicks',
+        designation: 'CEO/Founder - CultureTicks',
         quote: "Gaurav was an incredibly efficient and proactive worker. He was fantastic at performing due diligence on new materials and absorbed information incredibly quickly. I would highly recommend his services to anyone and everyone.",
         projectUrl: 'https://cultureticks.com',
         // No avatar provided -> Will fallback to "MT" initials

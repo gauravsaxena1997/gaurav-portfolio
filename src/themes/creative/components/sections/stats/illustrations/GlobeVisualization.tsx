@@ -88,13 +88,13 @@ export const GlobeVisualization = memo(function GlobeVisualization({
     const themeColors = isDarkMode
       ? {
         dark: 0.9,                          // Dark globe surface
-        baseColor: [0.85, 0.78, 0.68] as [number, number, number],  // Warm beige dots (visible on dark)
-        glowColor: [0.25, 0.22, 0.18] as [number, number, number],  // Subtle warm glow
+        baseColor: [0.63, 0.63, 0.66] as [number, number, number],  // Neutral light gray dots
+        glowColor: [0.15, 0.15, 0.2] as [number, number, number],  // Subtle cool glow
       }
       : {
         dark: 0.1,                          // Light globe surface
-        baseColor: [0.55, 0.45, 0.35] as [number, number, number],  // Warm brown dots (visible on light)
-        glowColor: [0.85, 0.80, 0.72] as [number, number, number],  // Warm beige glow
+        baseColor: [0.3, 0.3, 0.35] as [number, number, number],  // Dark gray dots
+        glowColor: [0.85, 0.85, 0.9] as [number, number, number],  // Cool glow
       };
 
     // Get accent color from CSS variable (normalized to 0-1 range)
@@ -105,8 +105,8 @@ export const GlobeVisualization = memo(function GlobeVisualization({
         const [r, g, b] = accentRgb.split(',').map(v => parseFloat(v.trim()) / 255);
         return [r, g, b];
       }
-      // Fallback: champagne gold #C9A961
-      return [0.79, 0.66, 0.38];
+      // Fallback: Indigo
+      return [0.31, 0.27, 0.90];
     };
 
     const accentColor = getAccentColor();

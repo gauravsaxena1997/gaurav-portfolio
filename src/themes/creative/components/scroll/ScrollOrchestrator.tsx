@@ -45,8 +45,8 @@ const ChipStacking = dynamic(
   }
 );
 
-const GlobeVisualization = dynamic(
-  () => import('../sections/stats').then((mod) => ({ default: mod.GlobeVisualization })),
+const NeuralNetworkVisualization = dynamic(
+  () => import('../sections/stats').then((mod) => ({ default: mod.NeuralNetworkVisualization })),
   {
     loading: () => <LoadingSkeleton type="globe" />,
     ssr: false,
@@ -154,8 +154,8 @@ export function ScrollOrchestrator() {
         { id: '#hero-section', name: 'hero' },
         { id: '#stats-section', name: 'stats' },
         { id: '#projects-section', name: 'projects' },
-        { id: '#services-section', name: 'services' },
         { id: '#testimonials-section', name: 'testimonials' },
+        { id: '#services-section', name: 'services' },
         { id: '#contact-section', name: 'contact' },
       ];
 
@@ -217,8 +217,8 @@ export function ScrollOrchestrator() {
                 );
               } else {
                 illustration = (
-                  <ErrorBoundary fallback={<div className="p-4 text-center">Globe visualization unavailable</div>}>
-                    <GlobeVisualization />
+                  <ErrorBoundary fallback={<div className="p-4 text-center">Neural network unavailable</div>}>
+                    <NeuralNetworkVisualization />
                   </ErrorBoundary>
                 );
               }
@@ -249,16 +249,17 @@ export function ScrollOrchestrator() {
         <ProjectSection />
       </section>
 
-      {/* ===== SECTION DIVIDER: Projects → Services ===== */}
+      {/* ===== SECTION DIVIDER: Projects → Testimonials ===== */}
+      {/* ===== TESTIMONIALS SECTION ===== */}
+      <section id="testimonials-section" className={styles.scrollSection}>
+        <TestimonialsSection />
+      </section>
+
+      {/* ===== SECTION DIVIDER: Testimonials → Services ===== */}
       {/* ===== SERVICES SECTION ===== */}
       <section id="services-section" className={styles.scrollSection}>
         <SectionDivider title="WHAT I OFFER" />
         <ServicesSection />
-      </section>
-
-      {/* ===== TESTIMONIALS SECTION ===== */}
-      <section id="testimonials-section" className={styles.scrollSection}>
-        <TestimonialsSection />
       </section>
 
       {/* ===== CONTACT SECTION ===== */}

@@ -61,8 +61,7 @@
 }
 
 .chip.gold .chipContent {
-  color: #1a0a00;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  color: inherit;
 }
 
 /* === VARIANT: SECONDARY (Theme Adaptive) === */
@@ -96,7 +95,7 @@
 .chip.gold:hover {
   box-shadow:
     0 2px 0 rgba(255, 255, 255, 0.3) inset,
-    0 15px 30px rgba(194, 149, 80, 0.5),
+    0 15px 30px color-mix(in srgb, var(--creative-accent), transparent 50%),
     0 6px 12px rgba(0, 0, 0, 0.3);
 }
 

@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: var(--font-sora), system-ui, sans-serif;
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-display: var(--theme-font-display, var(--font-sora)), system-ui, sans-serif;
+  --font-sans: var(--theme-font-sans, var(--font-manrope)), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), monospace;
 
   /* Alias for backward compatibility if needed, or prefer font-sans */
-  --font-body: var(--font-manrope), system-ui, sans-serif;
+  --font-body: var(--theme-font-body, var(--font-manrope)), system-ui, sans-serif;
 }
 
 /* Reset and Base Styles */
@@ -23,7 +23,7 @@ html {
 }
 
 body {
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: var(--font-size-body);
   font-weight: 700;
   line-height: 1.6;

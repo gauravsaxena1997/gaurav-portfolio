@@ -29,7 +29,7 @@ export const STATS_DATA: StatItem[] = [
     {
         id: 'ai-workflow',
         title: 'AI-Driven Velocity',
-        description: "I use custom AI pipelines to automate the boring stuff—ideation, testing, and boilerplate. You get your product to market 2x faster without sacrificing quality.",
+        description: "I use custom AI pipelines to automate the boring stuff - ideation, testing, and boilerplate. You get your product to market 2x faster without sacrificing quality.",
         icon: Cpu,
         highlights: [
             '50% Faster Delivery',

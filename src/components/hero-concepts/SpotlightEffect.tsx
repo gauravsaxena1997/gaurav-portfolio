@@ -2,8 +2,8 @@
 
 import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
-import { useMousePosition } from '../../../hooks/useMousePosition';
-import styles from './HeroSection.module.css';
+import { useMousePosition } from '../../themes/creative/hooks/useMousePosition';
+import styles from './LighthouseHero.module.css';
 
 export type SpotlightMode = 'mouse' | 'touch' | 'gyroscope' | 'ambient' | 'static';
 

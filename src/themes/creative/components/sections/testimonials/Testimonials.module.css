@@ -105,7 +105,7 @@
     .card:hover {
         transform: translateY(-5px);
         background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(255, 215, 0, 0.3);
+        border-color: rgba(var(--creative-accent-rgb), 0.3);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
@@ -164,7 +164,7 @@
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
-    border: 2px solid rgba(255, 215, 0, 0.2);
+    border: 2px solid rgba(var(--creative-accent-rgb), 0.2);
     position: relative;
 }
 
@@ -193,7 +193,7 @@
     font-family: var(--font-display);
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--color-contrast-on-accent);
+    color: var(--creative-text-primary);
 }
 
 .designation {
@@ -229,8 +229,9 @@
     font-weight: 500;
     padding: 0.5rem 1rem;
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 20px;
+    border-radius: 9999px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
 }
 
 .projectLink:hover {

@@ -215,7 +215,7 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
             cy="72"
             rx="8"
             ry="10"
-            fill="var(--creative-accent)"
+            fill="#1a1a1a"
             filter="url(#eyeGlowFilter)"
           />
           {/* Pupil highlight */}
@@ -245,7 +245,7 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
             cy="72"
             rx="8"
             ry="10"
-            fill="var(--creative-accent)"
+            fill="#1a1a1a"
             filter="url(#eyeGlowFilter)"
           />
           {/* Pupil highlight */}
@@ -259,10 +259,9 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
           />
         </g>
 
-        {/* Smile */}
         <path
           d="M 88 90 Q 100 98 112 90"
-          stroke="var(--creative-accent)"
+          stroke="#ffffff"
           strokeWidth="2.5"
           strokeLinecap="round"
           fill="none"

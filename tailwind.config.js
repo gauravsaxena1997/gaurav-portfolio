@@ -33,7 +33,7 @@ module.exports = {
         'section-y': 'var(--section-padding-y, 3rem)',
       },
       boxShadow: {
-        accent: '0 4px 12px rgba(201, 169, 97, 0.3)',
+        accent: '0 4px 12px color-mix(in srgb, var(--color-accent) 30%, transparent 70%)',
       },
     },
   },

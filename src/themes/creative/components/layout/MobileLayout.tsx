@@ -103,7 +103,7 @@ export default function MobileLayout() {
     return (
         <ScrollProvider>
             <ProgressScrollbar />
-            <div className={styles.mobileLayoutRoot}>
+            <div className={`${styles.mobileLayoutRoot} creative-theme`}>
                 <Header
                     currentTheme={currentTheme}
                     onThemeChange={handleThemeChange}
@@ -145,20 +145,20 @@ export default function MobileLayout() {
                 </TrackedSection>
 
                 <TrackedSection
+                    logicalId="testimonials"
+                    domId="testimonials-section"
+                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
+                >
+                    <MobileTestimonialsSection />
+                </TrackedSection>
+
+                <TrackedSection
                     logicalId="services"
                     domId="services-section"
                     style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
                 >
                     <div className={styles.sectionLabel}>What I Offer</div>
                     <MobileServicesSection />
-                </TrackedSection>
-
-                <TrackedSection
-                    logicalId="testimonials"
-                    domId="testimonials-section"
-                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
-                >
-                    <MobileTestimonialsSection />
                 </TrackedSection>
 
                 <TrackedSection
