@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
-import { type LucideIcon } from 'lucide-react';
+import { useRef, useEffect, useCallback } from 'react';
+import { type LucideIcon, Info } from 'lucide-react';
 import styles from './StatPanel.module.css';
 import { ReactNode } from 'react';
 import { BackgroundDecor } from '../../common/BackgroundDecor';
@@ -9,6 +9,7 @@ import { Highlights, AccentSeparator } from '../../ui';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { useGestures } from '@/themes/creative/context/GestureContext';
 
 interface StatPanelProps {
     /** Panel title */
@@ -24,6 +25,7 @@ interface StatPanelProps {
     desktopLayout?: 'text-left' | 'text-right'; // Default 'text-left'
     illustAlign?: 'center' | 'bottom'; // Default 'center'
     highlightsLocation?: 'text' | 'illustration'; // Default 'text'
+    illustrationInfo?: string;
 }
 
 /**
@@ -42,9 +44,79 @@ export function StatPanelDesktop({
     desktopLayout = 'text-left',
     illustAlign = 'center',
     highlightsLocation = 'text',
+    illustrationInfo,
 }: StatPanelProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const litLayerRef = useRef<HTMLDivElement>(null);
+    const { isGesturesEnabled, isTrackingActive, handCoordinates, lastGesture } = useGestures();
+    const isPalmHoveringRef = useRef(false);
+    const gestureRevealProgressRef = useRef(0);
+    const scrollProgressRef = useRef(0);
+    const rafIdRef = useRef<number | null>(null);
+
+    // Palm gesture hover effect - uses refs and rAF to avoid setState in useEffect
+    const updatePalmGestureEffect = useCallback(() => {
+        const litLayer = litLayerRef.current;
+        const container = containerRef.current;
+        if (!litLayer || !container) return;
+
+        // Check if gestures are active and palm gesture is detected
+        if (!isGesturesEnabled || !isTrackingActive || !handCoordinates || lastGesture !== 'Palm') {
+            isPalmHoveringRef.current = false;
+            // Revert to scroll-based progress when not hovering
+            const revealPercent = (1 - scrollProgressRef.current) * 100;
+            litLayer.style.clipPath = `inset(0 ${revealPercent}% 0 0)`;
+            (litLayer.style as CSSStyleDeclaration & { webkitClipPath: string }).webkitClipPath = `inset(0 ${revealPercent}% 0 0)`;
+            return;
+        }
+
+        const rect = container.getBoundingClientRect();
+        
+        // Convert hand coordinates to viewport coordinates
+        const handViewportX = handCoordinates.x * window.innerWidth;
+        const handViewportY = handCoordinates.y * window.innerHeight;
+        
+        // Check if hand is within the panel bounds
+        const isHovering = 
+            handViewportX >= rect.left &&
+            handViewportX <= rect.right &&
+            handViewportY >= rect.top &&
+            handViewportY <= rect.bottom;
+        
+        isPalmHoveringRef.current = isHovering;
+        
+        if (isHovering) {
+            // Calculate reveal progress based on hand position within panel (0 to 1)
+            const progressX = (handViewportX - rect.left) / rect.width;
+            gestureRevealProgressRef.current = 1 - progressX;
+            
+            // Apply gesture-based reveal directly
+            const revealPercent = (1 - gestureRevealProgressRef.current) * 100;
+            litLayer.style.clipPath = `inset(0 ${revealPercent}% 0 0)`;
+            (litLayer.style as CSSStyleDeclaration & { webkitClipPath: string }).webkitClipPath = `inset(0 ${revealPercent}% 0 0)`;
+        } else {
+            // Not hovering - use scroll-based progress
+            const revealPercent = (1 - scrollProgressRef.current) * 100;
+            litLayer.style.clipPath = `inset(0 ${revealPercent}% 0 0)`;
+            (litLayer.style as CSSStyleDeclaration & { webkitClipPath: string }).webkitClipPath = `inset(0 ${revealPercent}% 0 0)`;
+        }
+    }, [isGesturesEnabled, isTrackingActive, handCoordinates, lastGesture]);
+
+    // Schedule updates using requestAnimationFrame
+    useEffect(() => {
+        const scheduleUpdate = () => {
+            updatePalmGestureEffect();
+            rafIdRef.current = requestAnimationFrame(scheduleUpdate);
+        };
+        
+        rafIdRef.current = requestAnimationFrame(scheduleUpdate);
+        
+        return () => {
+            if (rafIdRef.current) {
+                cancelAnimationFrame(rafIdRef.current);
+            }
+        };
+    }, [updatePalmGestureEffect]);
 
     useGSAP(() => {
         const litLayer = litLayerRef.current;
@@ -52,7 +124,6 @@ export function StatPanelDesktop({
 
         // UNIFIED ANIMATION: Left-to-Right Wipe
         const startClip = 'inset(0 100% 0 0)';
-        const endClip = 'inset(0 0% 0 0)';
 
         gsap.set(litLayer, {
             clipPath: startClip,
@@ -60,17 +131,26 @@ export function StatPanelDesktop({
             opacity: 1,
         });
 
-        gsap.to(litLayer, {
-            clipPath: endClip,
-            webkitClipPath: endClip,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: 'top bottom',
-                end: 'bottom 90%',
-                scrub: true,
+        // Scroll-based animation - updates ref instead of setState
+        const scrollTriggerInstance = ScrollTrigger.create({
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom 90%',
+            scrub: true,
+            onUpdate: (self) => {
+                scrollProgressRef.current = self.progress;
+                // Only apply scroll animation if not being controlled by palm gesture
+                if (!isPalmHoveringRef.current) {
+                    const revealPercent = (1 - self.progress) * 100;
+                    litLayer.style.clipPath = `inset(0 ${revealPercent}% 0 0)`;
+                    (litLayer.style as CSSStyleDeclaration & { webkitClipPath: string }).webkitClipPath = `inset(0 ${revealPercent}% 0 0)`;
+                }
             }
         });
+
+        return () => {
+            scrollTriggerInstance.kill();
+        };
     }, { scope: containerRef });
 
     return (
@@ -147,6 +227,16 @@ export function StatPanelDesktop({
                                 <div className={styles.tiltWrapper}>
                                     <div className={styles.illustration}>
                                         {illustration || <div className="p-4 border border-dashed border-gray-600 rounded">Illustration Placeholder</div>}
+                                        {illustrationInfo && (
+                                            <div className={styles.infoBadge}>
+                                                <div className={styles.infoIconWrapper}>
+                                                    <Info size={24} strokeWidth={2.5} />
+                                                </div>
+                                                <div className={styles.infoTextWrapper}>
+                                                    <span className={styles.infoText}>{illustrationInfo}</span>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -166,6 +256,16 @@ export function StatPanelDesktop({
                         <div className={styles.tiltWrapper}>
                             <div className={styles.illustration}>
                                 {illustration || <div className="p-4 border border-dashed border-gray-600 rounded">Illustration Placeholder</div>}
+                                {illustrationInfo && (
+                                    <div className={styles.infoBadge}>
+                                        <div className={styles.infoIconWrapper}>
+                                            <Info size={24} strokeWidth={2.5} />
+                                        </div>
+                                        <div className={styles.infoTextWrapper}>
+                                            <span className={styles.infoText}>{illustrationInfo}</span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}

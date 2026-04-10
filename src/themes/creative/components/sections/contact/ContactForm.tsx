@@ -107,7 +107,7 @@ export const ContactForm = memo(
             if (data.error && typeof data.error === 'object' && data.error.context?.errors) {
               // Map backend validation errors back to fields
               const backendErrors: Record<string, string> = {};
-              data.error.context.errors.forEach((err: any) => {
+              data.error.context.errors.forEach((err: { path: string; message: string }) => {
                 const field = err.path.split('.').pop();
                 if (field) backendErrors[field] = err.message;
               });
@@ -128,7 +128,7 @@ export const ContactForm = memo(
           if (err instanceof AppError && err.code === 'VALIDATION_ERROR') {
             const errors: Record<string, string> = {};
             if (err.context?.errors) {
-              (err.context.errors as any[]).forEach((e: any) => {
+              (err.context.errors as { path: string, message: string }[]).forEach((e) => {
                 const field = e.path.split('.').pop();
                 if (field) errors[field] = e.message;
               });

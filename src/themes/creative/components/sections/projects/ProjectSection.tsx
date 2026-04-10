@@ -1,15 +1,27 @@
-import { memo, useRef, useEffect, useState, createRef, useMemo, useCallback } from 'react';
+import { memo, useRef, useEffect, useState, useCallback } from 'react';
 import { useScrollContext } from '../../../context/ScrollContext';
 import { getProjectsForDisplay } from './config';
-import { TabletFrame, TabletFrameHandle } from './TabletFrame';
 import { InteractiveGallery } from './InteractiveGallery';
 import { ProjectCarousel } from './ProjectCarousel';
-import { BackgroundDecor } from '../../common/BackgroundDecor';
-import { Highlights, AccentSeparator } from '../../ui';
+
+import { AccentSeparator } from '../../ui';
 import { UnifiedProjectViewer } from '@/components/shared/UnifiedProjectViewer';
 import { ProjectSchema } from '@/components/seo';
 import { AnalyticsService } from '@/services/AnalyticsService';
+import {
+  BotMessageSquare, BarChart3, Smartphone, ShieldCheck,
+  Network, Palette, FileCode2,
+  Sparkles, Zap, ShoppingBag, Film,
+  Star, Layers, Globe, TrendingUp, type LucideIcon,
+} from 'lucide-react';
 import styles from './ProjectSection.module.css';
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  BotMessageSquare, BarChart3, Smartphone, ShieldCheck,
+  Network, Palette, FileCode2,
+  Sparkles, Zap, ShoppingBag, Film,
+  Star, Layers, Globe, TrendingUp,
+};
 
 /**
  * ProjectSection - Redesigned with clean vertical scrolling
@@ -28,19 +40,11 @@ export const ProjectSection = memo(function ProjectSection() {
   // Unified Viewer State
   const [isUnifiedOpen, setIsUnifiedOpen] = useState(false);
   const [unifiedTargetProject, setUnifiedTargetProject] = useState<number>(0);
-  const [unifiedStartType, setUnifiedStartType] = useState<'video' | 'gallery'>('video');
   const preloadCache = useRef<Set<string>>(new Set());
 
   const { setCurrentProjectIndex, setIsInProjectsSection } = useScrollContext();
 
   const projects = getProjectsForDisplay();
-
-  // Create refs for TabletFrames to trigger fullscreen (Optional now, if still needed for individual clicks?)
-  // Keeping specific fullscreen for TabletFrame interaction itself if user clicks the frame directly.
-  const projectRefs = useMemo(() =>
-    Array(projects.length).fill(0).map(() => createRef<TabletFrameHandle>()),
-    [projects.length]
-  );
 
 
   // Detect mobile
@@ -58,7 +62,7 @@ export const ProjectSection = memo(function ProjectSection() {
   const preloadMedia = useCallback(async (index: number) => {
     if (!projects[index]) return;
     const { heroVideo, thumbnail, images } = projects[index];
-    const tasks: Promise<any>[] = [];
+    const tasks: Promise<unknown>[] = [];
 
     const enqueueImage = (src?: string) => {
       if (!src || preloadCache.current.has(src)) return;
@@ -108,7 +112,6 @@ export const ProjectSection = memo(function ProjectSection() {
 
       // Calculate which project is active based on scroll position
       const slides = container.querySelectorAll(`.${styles.projectSlide}`);
-      let foundActive = false;
 
       slides.forEach((slide, index) => {
         const slideRect = slide.getBoundingClientRect();
@@ -117,14 +120,13 @@ export const ProjectSection = memo(function ProjectSection() {
         // Or if it's the one currently filling the screen
         const isVisible = slideRect.top < viewportHeight * 0.6 && slideRect.bottom > viewportHeight * 0.4;
 
-        if (isVisible) {
-          if (index !== activeProjectIndex) {
-            setActiveProjectIndex(index);
-            setCurrentProjectIndex(index);
+          if (isVisible) {
+            if (index !== activeProjectIndex) {
+              setActiveProjectIndex(index);
+              setCurrentProjectIndex(index);
+            }
           }
-          foundActive = true;
-        }
-      });
+        });
 
     };
 
@@ -135,10 +137,6 @@ export const ProjectSection = memo(function ProjectSection() {
 
 
   const activeProject = projects[unifiedTargetProject];
-  // Calculate initial index: if action was gallery, we want to start at first image. 
-  // If video exists, first image is index 1. If not, index 0.
-  // Assuming all projects have video for now based on TabletFrame logic.
-  const hasVideo = !!activeProject?.heroVideo;
   const initialViewerIndex = 0; // Always start from video/demo as per user request
 
   return (
@@ -150,12 +148,14 @@ export const ProjectSection = memo(function ProjectSection() {
           <div className={styles.leftColumn}>
             <div className={styles.stickyContent}>
 
-              {/* Background Decorative Number */}
-              <BackgroundDecor
-                position={{ bottom: '15%', right: '10%' }}
-                size="200px"
-                parallaxSpeed={0.12}
+              {/* Background Decorative Number — pure CSS, no GSAP parallax.
+                  Parallax was the root cause of inconsistent positioning: each
+                  projectSlide has a different height (driven by the right-column
+                  gallery), so GSAP's scrub progress differed per project even
+                  when the sticky text was visually in the same viewport state. */}
+              <div
                 className={styles.projectNumberDecor}
+                aria-hidden="true"
               >
                 <div className={styles.projectNumberWrapper}>
                   <span className={styles.decorHash}>#</span>
@@ -163,20 +163,14 @@ export const ProjectSection = memo(function ProjectSection() {
                     {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
-              </BackgroundDecor>
+              </div>
 
               {/* Row 1: Header (Title / Tag) */}
-              <div className="flex items-center gap-[var(--space-md)] mb-[var(--space-md)]">
+              <div className="flex items-center">
                 <div className={styles.titleStack}>
                   <h2 className={styles.projectName}>{project.title}</h2>
-                  <div className="flex items-center gap-6 mt-2 flex-wrap">
-                    <span className={styles.categoryBadge}>
-                      {project.category === 'case-study' && 'Case Study'}
-                      {project.category === 'venture' && 'Personal Venture'}
-                      {project.category === 'client' && 'Client Work'}
-                    </span>
-
-                    {/* CTAs */}
+                  <div className="flex items-center gap-4 mt-2 flex-wrap">
+                    {/* Primary CTA (View Live) */}
                     {(project.liveUrl || project.slug) && (
                       <a
                         href={project.liveUrl || `/projects/${project.slug}`}
@@ -193,11 +187,23 @@ export const ProjectSection = memo(function ProjectSection() {
                         </svg>
                       </a>
                     )}
+
+                    {/* Secondary CTA (View Gallery) */}
+                    <button
+                      onClick={() => {
+                        setUnifiedTargetProject(index);
+                        setIsUnifiedOpen(true);
+                        AnalyticsService.trackProjectInteraction('view_project_gallery', project.title);
+                      }}
+                      className={styles.secondaryButton}
+                      aria-label={`View Gallery for ${project.title}`}
+                    >
+                      View Gallery
+                    </button>
                   </div>
                 </div>
               </div>
 
-              {/* Accent separator - matches Services pattern */}
               <AccentSeparator />
 
               {/* Row 2: About Text (Large & Bold) */}
@@ -205,10 +211,40 @@ export const ProjectSection = memo(function ProjectSection() {
                 <p className={styles.description}>{project.shortDescription}</p>
               </div>
 
-              {/* Row 3: Key Highlights with shared Highlights component */}
-              {project.highlights && project.highlights.length > 0 && (
-                <div className={styles.highlightsSection}>
-                  <Highlights items={project.highlights} />
+              {/* Row 3: Key Features with Icons */}
+              {project.keyFeatures && project.keyFeatures.length > 0 ? (
+                <div className={styles.keyFeaturesGrid}>
+                  {project.keyFeatures.slice(0, 4).map((kf: { icon: string; text: string }, i: number) => {
+                    const Icon = ICON_MAP[kf.icon] ?? Star;
+                    return (
+                      <div key={i} className={styles.keyFeatureItem}>
+                        <span className={styles.keyFeatureIconWrap}>
+                          <Icon size={13} strokeWidth={2} />
+                        </span>
+                        <span className={styles.keyFeatureText}>{kf.text}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                project.features && project.features.length > 0 && (
+                  <ul className={styles.featureList}>
+                    {project.features.slice(0, 4).map((feat: string, i: number) => (
+                      <li key={i} className={styles.featureItem}>
+                        <span className={styles.featureDot} aria-hidden="true" />
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                )
+              )}
+
+              {/* Row 4: Tech Stack Badges */}
+              {project.techStack && project.techStack.length > 0 && (
+                <div className={styles.techStackRow}>
+                  {project.techStack.map((tech: string) => (
+                    <span key={tech} className={styles.techBadge}>{tech}</span>
+                  ))}
                 </div>
               )}
 
@@ -217,25 +253,9 @@ export const ProjectSection = memo(function ProjectSection() {
             </div>
           </div>
 
-          {/* Right Column - Hero Video + Screenshots */}
+          {/* Right Column - Screenshots only */}
           <div className={styles.rightColumn}>
-            {/* Hero Video in Tablet Frame */}
-            <div className={styles.heroMedia}>
-              <TabletFrame
-                ref={projectRefs[index]}
-                videoSrc={project.heroVideo}
-                imageSrc={project.thumbnail}
-                alt={`${project.title} demo`}
-                onExpand={() => {
-                  setUnifiedTargetProject(index);
-                  setUnifiedStartType('video');
-                  setIsUnifiedOpen(true);
-                  AnalyticsService.trackProjectInteraction('view_project', project.title);
-                }}
-              />
-            </div>
-
-            {/* Screenshots with Parallax - Wrapped to scroll over sticky video */}
+            {/* Screenshots with Parallax */}
             {project.images && project.images.length > 0 && (
               <div className={styles.galleryWrapper} data-id={`gallery-${index}`}>
                 {isMobile ? (

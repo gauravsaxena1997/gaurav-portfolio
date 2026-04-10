@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Code as CodeIcon, Check, Sparkles } from 'lucide-react';
 import styles from './ThemeSelector.module.css';
 
@@ -32,11 +32,7 @@ const getThemeIcon = (theme: string, size: number = 20) => {
 
 export function ThemeSelector({ active, onChange, themes }: ThemeSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [mounted] = useState(() => typeof window !== 'undefined');
 
   if (!mounted) {
     return null; // Avoid hydration mismatch

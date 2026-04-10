@@ -82,7 +82,7 @@ export function LaptopScene({
     checkTheme();
 
     // Observe changes
-    const Observer = window.MutationObserver || (window as any).WebKitMutationObserver;
+    const Observer = window.MutationObserver || (window as typeof window & { WebKitMutationObserver?: typeof MutationObserver }).WebKitMutationObserver;
     if (Observer) {
       const observer = new Observer(checkTheme);
       observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });

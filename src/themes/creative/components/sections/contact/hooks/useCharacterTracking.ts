@@ -129,7 +129,7 @@ export function useCharacterTracking({
   }, [interactionRefs, formRef]);
 
   // Animation loop for smooth updates
-  const animate = useCallback(() => {
+  const animate = useCallback(function animateLoop() {
     // Apply smoothing
     smoothedState.current.eyeX = lerp(smoothedState.current.eyeX, rawEyeX.current, smoothing);
     smoothedState.current.eyeY = lerp(smoothedState.current.eyeY, rawEyeY.current, smoothing);
@@ -142,8 +142,42 @@ export function useCharacterTracking({
     setCharacterState({ ...smoothedState.current });
 
     // Continue loop
-    rafId.current = requestAnimationFrame(animate);
+    rafId.current = requestAnimationFrame(animateLoop);
   }, [smoothing]);
+
+  useEffect(() => {
+    if (!enabled) {
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+        rafId.current = null;
+      }
+      return;
+    }
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      // Set static friendly pose
+      setCharacterState({
+        eyeX: 0,
+        eyeY: 0,
+        headTiltX: 0,
+        headTiltY: 0,
+        expression: 75,
+        isActive: false,
+      });
+      return;
+    }
+
+    // Start animation loop
+    rafId.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+      }
+    };
+  }, [enabled, animate]);
 
   // Handle mouse move
   const handleMouseMove = useCallback((e: MouseEvent) => {

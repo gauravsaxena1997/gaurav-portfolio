@@ -11,6 +11,7 @@ import { HeroSection } from '@/themes/creative/components/sections/hero/HeroSect
 import { ScrollProvider } from '@/themes/creative/context/ScrollContext';
 import { useScrollProgress } from '@/themes/creative/hooks/useScrollProgress';
 import { ProgressScrollbar } from '@/themes/creative/components/scroll/ProgressScrollbar';
+import { ClickTrigger } from '@/themes/creative/components/ui';
 
 // Regular imports for preloaded components
 import { MobileStatPanel } from '@/themes/creative/components/sections/stats/MobileStatPanel';
@@ -90,7 +91,11 @@ const TrackedSection = ({
     );
 };
 
-export default function MobileLayout() {
+interface MobileLayoutProps {
+    activeSubTheme?: string;
+}
+
+export default function MobileLayout({ activeSubTheme = '' }: MobileLayoutProps) {
     const projects = getProjectsForDisplay();
 
     // Theme State for Header
@@ -103,7 +108,9 @@ export default function MobileLayout() {
     return (
         <ScrollProvider>
             <ProgressScrollbar />
-            <div className={styles.mobileLayoutRoot}>
+            {/* Site-wide cursor click burst animation */}
+            <ClickTrigger />
+            <div className={`${styles.mobileLayoutRoot} creative-theme ${activeSubTheme}`}>
                 <Header
                     currentTheme={currentTheme}
                     onThemeChange={handleThemeChange}
@@ -134,7 +141,7 @@ export default function MobileLayout() {
                     domId="projects-section"
                     className={styles.projectsWrapper}
                 >
-                    <div className={styles.sectionLabel}>Selected Projects</div>
+                    <div className={styles.sectionLabel}>Project Showcase</div>
                     {projects.map((project, index) => (
                         <MobileProjectCard
                             key={project.id}
@@ -145,20 +152,20 @@ export default function MobileLayout() {
                 </TrackedSection>
 
                 <TrackedSection
+                    logicalId="testimonials"
+                    domId="testimonials-section"
+                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
+                >
+                    <MobileTestimonialsSection />
+                </TrackedSection>
+
+                <TrackedSection
                     logicalId="services"
                     domId="services-section"
                     style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
                 >
                     <div className={styles.sectionLabel}>What I Offer</div>
                     <MobileServicesSection />
-                </TrackedSection>
-
-                <TrackedSection
-                    logicalId="testimonials"
-                    domId="testimonials-section"
-                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
-                >
-                    <MobileTestimonialsSection />
                 </TrackedSection>
 
                 <TrackedSection

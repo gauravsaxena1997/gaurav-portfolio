@@ -5,3 +5,4 @@ export { Highlights } from './Highlights';
 export { AccentSeparator } from './AccentSeparator';
 export { FAQ } from './FAQ';
 export { FAQModal } from './FAQModal';
+export { ClickTrigger } from './ClickTrigger';

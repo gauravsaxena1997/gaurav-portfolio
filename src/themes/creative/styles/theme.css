@@ -1,17 +1,22 @@
 /* Creative Theme - Enhanced Centralized Design System */
 /* Design System: Warm Bronze & Cream - v2.0.0 - Accessibility Enhanced */
 
-:root {
+.creative-theme {
+  /* ===== THEME FONTS ===== */
+  --theme-font-display: var(--font-archivo);
+  --theme-font-sans: var(--font-space-grotesk);
+  --theme-font-body: var(--font-space-grotesk);
+
   /* ===== PRIMARY BRAND COLORS (ONLY THESE TO CHANGE FOR THEME EXPERIMENTATION) ===== */
-  --brand-primary: #C9A961;     /* Main champagne gold */
-  --brand-secondary: #B8935C;   /* Deeper bronze */
-  --brand-accent: #D4AF6A;      /* Bright accent */
+  --brand-primary: #4F46E5;     /* Main Indigo */
+  --brand-secondary: #4338CA;   /* Deeper Indigo */
+  --brand-accent: #6366F1;      /* Bright accent Indigo */
   
   /* ===== CALCULATED COLOR SYSTEM ===== */
   /* RGB values for calculations */
-  --brand-primary-rgb: 201, 169, 97;
-  --brand-secondary-rgb: 184, 147, 92;
-  --brand-accent-rgb: 212, 175, 106;
+  --brand-primary-rgb: 79, 70, 229;
+  --brand-secondary-rgb: 67, 56, 202;
+  --brand-accent-rgb: 99, 102, 241;
   
   /* ===== DYNAMIC COLOR CALCULATIONS ===== */
   /* Light variations (automatically calculated) */
@@ -58,21 +63,21 @@
   /* ===== DARK THEME (DEFAULT) ===== */
 
   /* Backgrounds */
-  --creative-bg-primary: #0F0E0D;
-  /* Deep warm black */
-  --creative-bg-secondary: #1A1816;
-  /* Elevated warm charcoal */
-  --creative-bg-primary-rgb: 15, 14, 13;
+  --creative-bg-primary: #09090B;
+  /* Deep tech black */
+  --creative-bg-secondary: #18181B;
+  /* Elevated pure charcoal */
+  --creative-bg-primary-rgb: 9, 9, 11;
   /* For rgba() usage */
   --creative-input-bg: rgba(var(--creative-bg-primary-rgb), 0.3);
-  --creative-bg-secondary-rgb: 26, 24, 22;
+  --creative-bg-secondary-rgb: 24, 24, 27;
   /* For rgba() usage */
 
   /* Text */
-  --creative-text-primary: #F5F4F0;
-  /* Warm white */
-  --creative-text-secondary: #9B9490;
-  /* Warm mid-gray */
+  --creative-text-primary: #FAFAFA;
+  /* Pure white */
+  --creative-text-secondary: #A1A1AA;
+  /* Neutral mid-gray */
 
   /* Accents (Mapped to calculated system) */
   --creative-accent: var(--color-accent);
@@ -92,11 +97,11 @@
 
   /* Stats section (accessibility enhanced) */
   --creative-stats-overlay: var(--brand-primary-light);
-  --creative-stats-title: var(--brand-secondary);
+  --creative-stats-title: var(--creative-text-primary);
   --creative-stats-title-revealed: var(--color-lit-text-primary); /* High contrast */
-  --creative-stats-body: color-mix(in srgb, var(--brand-primary) 30%, black 70%);
-  --creative-stats-highlight: color-mix(in srgb, var(--brand-primary) 40%, black 60%);
-  --creative-stats-check: color-mix(in srgb, var(--brand-primary) 20%, black 80%);
+  --creative-stats-body: color-mix(in srgb, var(--creative-text-primary) 80%, transparent 20%);
+  --creative-stats-highlight: color-mix(in srgb, var(--creative-text-primary) 100%, transparent 0%);
+  --creative-stats-check: var(--color-accent);
   --creative-stats-text-revealed: var(--color-lit-text-primary); /* High contrast */
   --creative-stats-divider-revealed: color-mix(in srgb, var(--color-lit-text-inverted) 32%, transparent 68%);
 
@@ -143,21 +148,28 @@
   --text-on-accent-light: var(--color-text-on-accent-light); /* High contrast for light mode */
 
   /* Beam-on-text colors (when beam crosses text) */
-  --creative-beam-text-inverted: var(--text-on-accent);
-  --creative-beam-text-muted: rgba(26, 24, 22, 0.82);
-  --creative-beam-accent-inverted: #FFF2C7;
+  --creative-beam-text-inverted: var(--color-text-on-accent);
+  --creative-beam-text-muted: color-mix(in srgb, var(--color-text-on-accent) 82%, transparent 18%);
+  --creative-beam-accent-inverted: var(--color-text-on-accent);
 
   /* Stats section revealed colors */
-  --creative-stats-title-revealed: #FFF2C7;
-  --creative-stats-text-revealed: #1A1816;
-  --creative-stats-divider-revealed: rgba(255, 242, 199, 0.32);
+  --creative-stats-title-revealed: var(--color-text-on-accent);
+  --creative-stats-text-revealed: var(--color-text-on-accent);
+  --creative-stats-divider-revealed: color-mix(in srgb, var(--color-text-on-accent) 32%, transparent 68%);
 
   /* Stats Refinement Tokens (Dynamic) */
-  --stats-body-text: color-mix(in srgb, var(--creative-text-primary), transparent 25%);
+  --stats-body-text: var(--creative-text-secondary);
   --chip-accent-bg: color-mix(in srgb, var(--creative-accent), #000 15%);
   --chip-neutral-bg: var(--creative-bg-secondary);
-  --chip-text-on-accent: #1a1a1a;
+  --chip-text-on-accent: var(--color-contrast-on-accent);
   --chip-text-on-neutral: var(--creative-text-primary);
+  
+  /* Shared Highlight texts used across modules */
+  --text-highlight: var(--creative-text-primary);
+  --text-highlight-strong: var(--creative-text-primary);
+  --lit-body-text: var(--creative-text-secondary);
+  --lit-highlight: var(--creative-text-primary);
+  --lit-check: var(--creative-accent);
 
   /* Progress bar */
   --creative-progress-bg: rgba(255, 255, 255, 0.1);
@@ -240,7 +252,7 @@
 
 /* Mobile header height override */
 @media (max-width: 768px) {
-  :root {
+  .creative-theme {
     --viewport-height: 100vh;
 
     /* Mobile Type Scale Adjustments */
@@ -248,6 +260,10 @@
     --font-size-h1: 2rem;
     --font-size-h2: 1.5rem;
     --font-size-h3: 1.25rem;
+    
+    /* Mobile Spacing Fixes */
+    --section-padding-x: 1rem;
+    --section-padding-y: 2rem;
   }
 }
 
@@ -288,29 +304,149 @@
 
 /* Dark theme defaults (only mode) */
 :root {
-  --color-lit-text-primary: #1A1816;
-  --color-lit-text-secondary: color-mix(in srgb, #1A1816 80%, transparent 20%);
-  --color-lit-text-muted: color-mix(in srgb, #1A1816 60%, transparent 40%);
+  --color-lit-text-primary: #FAFAFA;
+  --color-lit-text-secondary: color-mix(in srgb, #FAFAFA 80%, transparent 20%);
+  --color-lit-text-muted: color-mix(in srgb, #FAFAFA 60%, transparent 40%);
 
   /* Natural Rock Colors (Dark mode lighthouse base) */
   --creative-rock-dark: #6A6A6A;
   --creative-rock-mid: #8A8A8A;
   --creative-rock-light: #B0B0B0;
 
-  /* High-contrast highlight text on dark backgrounds */
-  --text-highlight: color-mix(in srgb, #F5F4F0 85%, #0f0c0a 15%);
-  --text-highlight-strong: color-mix(in srgb, #F5F4F0 92%, #0f0c0a 8%);
-  /* Use same computed formula to keep parity across modes */
-  --lit-body-text: color-mix(in srgb, #1A1816 92%, transparent 8%);
-  --lit-highlight: color-mix(in srgb, var(--color-accent) 25%, #1A1816 75%);
-  --lit-check: var(--lit-highlight);
+  /* High-contrast highlight text legacy defaults - Overridden by .creative-theme */
+  --text-highlight: var(--creative-text-primary);
+  --text-highlight-strong: var(--creative-text-primary);
+  --lit-body-text: var(--creative-text-secondary);
+  --lit-highlight: var(--creative-text-primary);
+  --lit-check: var(--creative-accent);
 
   /* Accessible text on accent backgrounds in dark mode */
   --color-text-on-accent: var(--color-text-on-accent-dark);
   --color-contrast-on-accent: var(--color-contrast-on-accent-strong);
 
   /* CTA-specific: ensure text on gold accent stays high-contrast */
-  --cta-text-on-accent-dark: #1A1816;
+  --cta-text-on-accent-dark: #FAFAFA;
+}
+
+/* ===== NEW THEMES (v3.0.0) ===== */
+.creative-theme.theme-light-exec {
+  /* Minimalist Executive */
+  --theme-font-display: var(--font-outfit);
+  --theme-font-sans: var(--font-inter);
+  --theme-font-body: var(--font-inter);
+  
+  --brand-primary: #2563EB;
+  --brand-secondary: #1D4ED8;
+  --brand-accent: #3B82F6;
+  --brand-primary-rgb: 37, 99, 235;
+  --brand-secondary-rgb: 29, 78, 216;
+  --brand-accent-rgb: 59, 130, 246;
+
+  --creative-bg-primary: #FAFAFA;
+  --creative-bg-secondary: #F4F4F5;
+  --creative-bg-primary-rgb: 250, 250, 250;
+  --creative-bg-secondary-rgb: 244, 244, 245;
+
+  --creative-text-primary: #09090B;
+  --creative-text-secondary: #3F3F46;
+
+  --color-text-on-accent: #FFFFFF;
+  --color-text-on-accent-dark: #FFFFFF;
+  --color-text-on-accent-light: #FFFFFF;
+  --color-lit-text-primary: #FFFFFF;
+  --color-lit-text-secondary: rgba(255,255,255,0.8);
+  --color-contrast-on-accent: #FFFFFF;
+  --color-contrast-on-accent-strong: #FFFFFF;
+}
+
+.creative-theme.theme-light-warm {
+  /* Warm Editorial */
+  --theme-font-display: var(--font-playfair);
+  --theme-font-sans: var(--font-dm-sans);
+  --theme-font-body: var(--font-dm-sans);
+  
+  --brand-primary: #D97757;
+  --brand-secondary: #C06346;
+  --brand-accent: #ED8B6B;
+  --brand-primary-rgb: 217, 119, 87;
+  --brand-secondary-rgb: 192, 99, 70;
+  --brand-accent-rgb: 237, 139, 107;
+
+  --creative-bg-primary: #FFFBF7;
+  --creative-bg-secondary: #F5F2EE;
+  --creative-bg-primary-rgb: 255, 251, 247;
+  --creative-bg-secondary-rgb: 245, 242, 238;
+
+  --creative-text-primary: #2C2825;
+  --creative-text-secondary: #57534E;
+  
+  --color-text-on-accent: #FFFFFF;
+  --color-text-on-accent-dark: #FFFFFF;
+  --color-text-on-accent-light: #FFFFFF;
+  --color-lit-text-primary: #FFFFFF;
+  --color-lit-text-secondary: rgba(255,255,255,0.8);
+  --color-contrast-on-accent: #FFFFFF;
+  --color-contrast-on-accent-strong: #FFFFFF;
+}
+
+.creative-theme.theme-dark-sapphire {
+  /* Midnight Sapphire */
+  --theme-font-display: var(--font-syne);
+  --theme-font-sans: var(--font-inter);
+  --theme-font-body: var(--font-inter);
+  
+  --brand-primary: #38BDF8;
+  --brand-secondary: #0284C7;
+  --brand-accent: #7DD3FC;
+  --brand-primary-rgb: 56, 189, 248;
+  --brand-secondary-rgb: 2, 132, 199;
+  --brand-accent-rgb: 125, 211, 252;
+
+  --creative-bg-primary: #0A0F1A;
+  --creative-bg-secondary: #111827;
+  --creative-bg-primary-rgb: 10, 15, 26;
+  --creative-bg-secondary-rgb: 17, 24, 39;
+
+  --creative-text-primary: #F8FAFC;
+  --creative-text-secondary: #94A3B8;
+  
+  --color-text-on-accent: #0F172A;
+  --color-text-on-accent-dark: #0F172A;
+  --color-text-on-accent-light: #0F172A;
+  --color-lit-text-primary: #0F172A;
+  --color-lit-text-secondary: rgba(15,23,42,0.8);
+  --color-contrast-on-accent: #0F172A;
+  --color-contrast-on-accent-strong: #0F172A;
+}
+
+.creative-theme.theme-dark-emerald {
+  /* Charcoal Emerald */
+  --theme-font-display: var(--font-montserrat);
+  --theme-font-sans: var(--font-space-grotesk);
+  --theme-font-body: var(--font-space-grotesk);
+  
+  --brand-primary: #10B981;
+  --brand-secondary: #059669;
+  --brand-accent: #34D399;
+  --brand-primary-rgb: 16, 185, 129;
+  --brand-secondary-rgb: 5, 150, 105;
+  --brand-accent-rgb: 52, 211, 153;
+
+  --creative-bg-primary: #121212;
+  --creative-bg-secondary: #1E1E1E;
+  --creative-bg-primary-rgb: 18, 18, 18;
+  --creative-bg-secondary-rgb: 30, 30, 30;
+
+  --creative-text-primary: #E5E5E5;
+  --creative-text-secondary: #A3A3A3;
+  
+  --color-text-on-accent: #052E16;
+  --color-text-on-accent-dark: #052E16;
+  --color-text-on-accent-light: #052E16;
+  --color-lit-text-primary: #052E16;
+  --color-lit-text-secondary: rgba(5,46,22,0.8);
+  --color-contrast-on-accent: #052E16;
+  --color-contrast-on-accent-strong: #052E16;
 }
 
 /* ===== FOCUS STYLES - ACCESSIBILITY FIRST ===== */

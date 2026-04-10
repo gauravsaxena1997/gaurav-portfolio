@@ -21,6 +21,7 @@ interface StatPanelProps {
   desktopLayout?: 'text-left' | 'text-right';
   illustAlign?: 'center' | 'bottom';
   highlightsLocation?: 'text' | 'illustration';
+  illustrationInfo?: string;
 }
 
 /**

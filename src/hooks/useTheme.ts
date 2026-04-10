@@ -22,15 +22,20 @@ export function useTheme() {
 }
 
 export function useThemeState() {
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('theme');
+      const theme = stored || 'dark';
+      const isDark = theme === 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+      return isDark;
+    }
+    return true;
+  });
 
   useEffect(() => {
-    // Check localStorage on mount and set data-theme attribute
-    const stored = localStorage.getItem('theme');
-    const theme = stored || 'dark';
-    const isDark = theme === 'dark';
-    setIsDarkTheme(isDark);
-    document.documentElement.setAttribute('data-theme', theme);
+    // This effect can be used for other purposes if needed
+    // Theme initialization is now handled in useState
   }, []);
 
   useEffect(() => {

@@ -3,6 +3,7 @@
 import { useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import type { ChatMessage } from '@/types/chat';
+import type { Action } from '@/types/messageBlocks';
 import { parseMessageBlocks } from '@/lib/chat/blockParser';
 import { MessageBlocksRenderer } from './blocks/MessageBlocksRenderer';
 import { createActionHandler } from './actionHandlers';
@@ -25,7 +26,7 @@ export function MessageBubble({ message, onSendFollowup, onBeforeScrollTo }: Mes
 
   // Create action handler with followup support
   const handleAction = useCallback(
-    createActionHandler(onSendFollowup, { onBeforeScrollTo }),
+    (action: Action) => createActionHandler(onSendFollowup, { onBeforeScrollTo })(action),
     [onSendFollowup, onBeforeScrollTo]
   );
 

@@ -34,8 +34,8 @@
   justify-content: flex-start;
   /* Top align instead of center */
   max-width: 640px;
-  padding: var(--space-xl) 0;
-  /* Reduced padding top for immediate visibility */
+  padding: clamp(1rem, 2vw, 2rem) 0 clamp(1rem, 2vw, 2rem);
+  gap: clamp(1.25rem, 3vh, 2rem);
   align-self: flex-start;
   box-sizing: border-box;
 }
@@ -51,7 +51,24 @@
   letter-spacing: -0.02em;
 }
 
-/* Background decorative number - large, low-opacity */
+/* Background decorative number - fixed position inside sticky container.
+   Uses absolute positioning with viewport-relative bottom so it's
+   identical across ALL projects regardless of slide height. */
+.projectNumberDecor {
+  position: absolute;
+  bottom: 10vh;
+  right: 10%;
+  width: 200px;
+  height: 200px;
+  opacity: 0.08;
+  z-index: -1;
+  pointer-events: none;
+  color: var(--creative-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .projectNumberWrapper {
   display: flex;
   align-items: baseline;
@@ -90,14 +107,11 @@
 /* About Section */
 .projectName {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  /* Unified responsive size */
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem); /* Scaled down further */
   font-weight: 700;
-  color: #F5F4F0;
-  /* Light/white for visibility on dark bg */
+  color: var(--creative-text-primary);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  /* Match Stats */
   margin: 0;
 }
 
@@ -137,9 +151,9 @@
 .categoryBadge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
-  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+  background: rgba(var(--creative-accent-rgb), 0.15);
   color: var(--color-accessible-text-on-gold);
-  border: 1px solid rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+  border: 1px solid rgba(var(--creative-accent-rgb), 0.3);
   font-size: var(--font-size-body-xs);
   font-family: var(--font-mono);
   /* Technical Tag */
@@ -179,13 +193,13 @@
 
 /* About Description - Large & Bold */
 .aboutSection {
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
 .description {
   font-family: var(--font-body);
   font-size: var(--font-size-body);
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--creative-text-secondary);
   font-weight: 700;
   margin: 0;
@@ -193,7 +207,96 @@
 
 /* Highlights - uses shared Highlights component */
 .highlightsSection {
-  margin-top: var(--space-md);
+  margin-top: 0;
+}
+
+/* Key Features Icon Grid — 2×2 layout */
+.keyFeaturesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+  margin-top: 0;
+}
+
+.keyFeatureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.keyFeatureIconWrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(var(--creative-accent-rgb), 0.12);
+  color: var(--creative-accent);
+  border: 1px solid rgba(var(--creative-accent-rgb), 0.2);
+}
+
+.keyFeatureText {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  color: var(--creative-text-primary);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* Feature bullet list */
+.featureList {
+  list-style: none;
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  color: var(--creative-text-secondary);
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.featureDot {
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--creative-accent);
+  margin-top: 0.45em;
+}
+
+/* Tech stack badge row */
+.techStackRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0;
+}
+
+.techBadge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  background: rgba(var(--creative-accent-rgb), 0.08);
+  color: var(--creative-text-secondary);
+  border: 1px solid rgba(var(--creative-accent-rgb), 0.2);
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0.8;
 }
 
 
@@ -205,40 +308,39 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem 2rem;
+  padding: 1rem 2.25rem;
   background: var(--creative-accent);
-  color: var(--cta-text-on-accent-dark);
+  color: #ffffff;
   font-family: var(--font-mono);
   /* Technical Action */
-  font-size: var(--font-size-body-sm);
+  font-size: 1rem;
   font-weight: 700;
   text-decoration: none;
-  border-radius: var(--radius-lg);
+  border-radius: 9999px;
   transition: all 0.2s ease;
   width: fit-content;
+  white-space: nowrap;
 }
 
 .ctaButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.3);
+  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb), 0.3);
 }
 
 /* Secondary Button (Explore More) - INCREASED SIZE */
 .secondaryButton {
   display: inline-flex;
   align-items: center;
-  padding: 1rem 2rem;
-  /* Increased padding */
+  padding: 1rem 2.25rem;
   background: transparent;
   color: var(--creative-text-primary);
   font-family: var(--font-mono);
   /* Technical Action */
-  font-size: var(--font-size-body-sm);
-  /* Increased size */
+  font-size: 1rem;
   font-weight: 700;
   border: 1.5px solid #1A1816;
   /* Thicker border */
-  border-radius: var(--radius-lg);
+  border-radius: 9999px;
   cursor: pointer;
   transition: all 0.2s ease;
 }

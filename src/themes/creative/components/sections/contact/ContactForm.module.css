@@ -7,15 +7,12 @@
   width: 100%;
   max-width: 520px;
 
-  /* Glass Card Effect */
-  background: rgba(var(--creative-bg-secondary-rgb), 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--creative-border-color);
+  /* Elevated warm card — distinct from page background */
+  background: #FFFFFF;
+  border: 1.5px solid #E8E2DA;
   border-radius: var(--radius-lg);
   padding: clamp(1.5rem, 3vw, 2.5rem);
-  /* User requested flat look matching dark mode */
-  box-shadow: none;
+  box-shadow: 0 4px 24px rgba(44, 40, 37, 0.08);
 }
 
 .title {
@@ -55,38 +52,44 @@
   font-family: var(--font-mono);
 }
 
-.input,
-.textarea {
+.input {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   font-size: var(--font-size-body-md);
   font-family: inherit;
-  color: var(--creative-text-primary);
-  /* Darker input background */
-  /* Adaptive input background */
-  background: color-mix(in srgb, var(--creative-bg-primary) 85%, #ffffff 15%);
-  border: 1px solid var(--creative-border-color);
-  border-radius: var(--radius-md);
-  transition: all var(--creative-transition-fast);
+  color: #2C2825;
+  /* Clear white background with warm visible border */
+  background: #FFFFFF;
+  border: 1.5px solid #D6CFC7;
+  border-radius: 9999px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.textarea {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: var(--font-size-body-md);
+  font-family: inherit;
+  color: #2C2825;
+  background: #FFFFFF;
+  border: 1.5px solid #D6CFC7;
+  border-radius: 24px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  resize: vertical;
+  min-height: 120px;
+  outline: none;
 }
 
 .input:focus,
 .textarea:focus {
-  outline: none;
-  background: rgba(var(--creative-bg-primary-rgb), 0.5);
-  border-color: var(--creative-accent);
-  box-shadow: 0 0 0 4px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+  background: #FFFFFF;
+  border-color: #D97757;
 }
 
 .input::placeholder,
 .textarea::placeholder {
-  color: var(--creative-text-secondary);
-  opacity: 0.6;
-}
-
-.textarea {
-  resize: vertical;
-  min-height: 100px;
+  color: #A09890;
 }
 
 .status {
@@ -104,25 +107,26 @@
 }
 
 .submitButton {
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.5rem;
   font-size: var(--font-size-body-sm);
   font-family: var(--font-mono);
   /* Technical Action */
   font-weight: 700;
-  color: #111111;
+  color: var(--color-accessible-text-on-gold);
   /* Contrast text on Gold */
   background: var(--creative-accent);
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 9999px;
   cursor: pointer;
   transition: all var(--creative-transition-fast);
   margin-top: 0.5rem;
+  width: fit-content;
 }
 
 .submitButton:hover:not(:disabled) {
   filter: brightness(1.1);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.25);
+  box-shadow: 0 8px 20px rgba(var(--creative-accent-rgb), 0.25);
 }
 
 .submitButton:active:not(:disabled) {
@@ -133,7 +137,7 @@
   opacity: 0.5;
   cursor: not-allowed;
   background: color-mix(in srgb, var(--creative-accent), transparent 60%);
-  color: #111111;
+  color: var(--color-accessible-text-on-gold);
 }
 
 /* Styles removed: .divider, .dividerText, .scheduleButton - Moved to ContactSection */

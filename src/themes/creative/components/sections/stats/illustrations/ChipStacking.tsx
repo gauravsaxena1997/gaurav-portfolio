@@ -5,6 +5,7 @@ import * as Matter from 'matter-js';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { RotateCcw } from 'lucide-react';
+import { useGestures } from '@/themes/creative/context/GestureContext';
 import { measureChipWidth, getResponsiveWidth } from '@/utils/measureText';
 import { CHIP_LABELS } from '@/config/stats';
 import styles from './ChipStacking.module.css';
@@ -31,8 +32,6 @@ const CHIP_HEIGHT = 58;
 export function ChipStacking({
   className,
   // chips prop is now optional and we'll derive state from CHIP_LABELS by default
-  chips: userChips,
-  enableAnimations = true,
 }: ChipStackingProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Matter.Engine | null>(null);
@@ -43,13 +42,8 @@ export function ChipStacking({
   const [hasMoved, setHasMoved] = useState(false);
   const animationFrameRef = useRef<number | null>(null);
   const chipBodiesRef = useRef<Map<string, Matter.Body>>(new Map());
-
-  // Check for reduced motion preference with lazy initialization
-  const prefersReducedMotion = useRef(
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      : false
-  );
+  const { isGesturesEnabled, isTrackingActive, handCoordinates, lastGesture } = useGestures();
+  const gestureDragRef = useRef<{ body: Matter.Body | null; constraint: Matter.Constraint | null }>({ body: null, constraint: null });
 
   // Initialize and Sort Chips (Pyramid Logic)
   useEffect(() => {
@@ -141,10 +135,14 @@ export function ChipStacking({
 
     Matter.World.add(world, [ground, leftWall, rightWall, ceiling]);
 
+    // Store reference for cleanup
+    const currentChipBodies = chipBodiesRef.current;
+
     // Cleanup
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
+      const currentAnimationFrame = animationFrameRef.current;
+      if (currentAnimationFrame) {
+        cancelAnimationFrame(currentAnimationFrame);
       }
       if (engineRef.current) {
         Matter.Engine.clear(engineRef.current);
@@ -152,7 +150,7 @@ export function ChipStacking({
       if (worldRef.current) {
         Matter.World.clear(worldRef.current, false);
       }
-      chipBodiesRef.current.clear();
+      currentChipBodies.clear();
     };
   }, [chips]);
 
@@ -178,8 +176,8 @@ export function ChipStacking({
       );
 
       // Set damping properties after creation (not in TypeScript interface but valid at runtime)
-      (body as any).angularDamping = 0.25;  // INCREASED from 0.05 (reduces spinning)
-      (body as any).damping = 0.25;         // INCREASED from 0.1 (reduces bouncing)
+      (body as Matter.Body & { angularDamping: number }).angularDamping = 0.25;  // INCREASED from 0.05 (reduces spinning)
+      (body as Matter.Body & { damping: number }).damping = 0.25;         // INCREASED from 0.1 (reduces bouncing)
 
       Matter.World.add(worldRef.current, body);
       chipBodiesRef.current.set(chip.id, body);
@@ -189,7 +187,7 @@ export function ChipStacking({
   );
 
   // Physics render loop
-  const updatePhysics = useCallback(() => {
+  const updatePhysics = useCallback(function updatePhysicsLoop() {
     if (!engineRef.current || !worldRef.current || !isPhysicsActive || !containerRef.current) return;
 
     // Update physics
@@ -200,10 +198,10 @@ export function ChipStacking({
       const body = chipBodiesRef.current.get(chip.id);
       const element = document.getElementById(`chip-${chip.id}`);
 
-      if (body && element) {
+      if (body && element && containerRef.current) {
         // Clamp positions to prevent escape
-        const containerWidth = containerRef.current!.clientWidth;
-        const containerHeight = containerRef.current!.clientHeight;
+        const containerWidth = containerRef.current.clientWidth;
+        const containerHeight = containerRef.current.clientHeight;
 
         // Prevent falling below ground
         if (body.position.y > containerHeight - CHIP_HEIGHT / 2 - 10) {
@@ -237,13 +235,13 @@ export function ChipStacking({
       }
     });
 
-    animationFrameRef.current = requestAnimationFrame(updatePhysics);
+    animationFrameRef.current = requestAnimationFrame(updatePhysicsLoop);
   }, [chips, isPhysicsActive]);
 
   // Start physics loop
   useEffect(() => {
     if (isPhysicsActive) {
-      updatePhysics();
+      animationFrameRef.current = requestAnimationFrame(updatePhysics);
     }
 
     return () => {
@@ -315,28 +313,30 @@ export function ChipStacking({
 
     const mouse = Matter.Mouse.create(containerRef.current);
     // Disable mouse wheel to allow page scrolling
-    (mouse as any).element.removeEventListener('mousewheel', (mouse as any).mousewheel);
-    (mouse as any).element.removeEventListener('DOMMouseScroll', (mouse as any).mousewheel);
-    (mouse as any).element.removeEventListener('wheel', (mouse as any).mousewheel);
+    const mouseWithWheel = mouse as Matter.Mouse & { mousewheel: (event: WheelEvent) => void; element: HTMLElement };
+    mouseWithWheel.element.removeEventListener('mousewheel', mouseWithWheel.mousewheel as unknown as EventListener);
+    mouseWithWheel.element.removeEventListener('DOMMouseScroll', mouseWithWheel.mousewheel as unknown as EventListener);
+    mouseWithWheel.element.removeEventListener('wheel', mouseWithWheel.mousewheel as unknown as EventListener);
 
     const mouseConstraint = Matter.MouseConstraint.create(engineRef.current, {
       mouse: mouse,
       constraint: {
         stiffness: 0.6,        // REDUCED from 0.95 (prevents aggressive pulling)
         render: { visible: false },
-      } as any,  // Use 'as any' to allow runtime properties not in TypeScript definitions
+      } as Matter.IConstraintDefinition,
     });
 
     // Set additional constraint properties after creation
     if (mouseConstraint.constraint) {
-      (mouseConstraint.constraint as any).damping = 0.8;          // NEW - absorbs oscillations
-      (mouseConstraint.constraint as any).angularStiffness = 0;   // NEW - prevents unwanted rotation during drag
+      (mouseConstraint.constraint as Matter.Constraint & { damping: number }).damping = 0.8;          // NEW - absorbs oscillations
+      (mouseConstraint.constraint as Matter.Constraint & { angularStiffness: number }).angularStiffness = 0;   // NEW - prevents unwanted rotation during drag
     }
 
     Matter.World.add(worldRef.current!, mouseConstraint);
     mouseConstraintRef.current = mouseConstraint;
 
     // Drag start
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Matter.Events.on(mouseConstraint, 'startdrag', (event: any) => {
       const body = event.body as Matter.Body;
       const element = document.getElementById(`chip-${body.label}`);
@@ -354,6 +354,7 @@ export function ChipStacking({
     });
 
     // Drag end
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Matter.Events.on(mouseConstraint, 'enddrag', (event: any) => {
       const body = event.body as Matter.Body;
       const element = document.getElementById(`chip-${body.label}`);
@@ -371,6 +372,81 @@ export function ChipStacking({
       mouseConstraintRef.current = null;
     };
   }, [isPhysicsActive]);
+
+  // --- NEW: Hand Gesture Integration ---
+  useEffect(() => {
+    if (!isGesturesEnabled || !isTrackingActive || !handCoordinates || !worldRef.current || !containerRef.current) {
+      // Cleanup gesture drag if it was active
+      if (gestureDragRef.current.constraint) {
+        Matter.World.remove(worldRef.current!, gestureDragRef.current.constraint);
+        gestureDragRef.current.constraint = null;
+        gestureDragRef.current.body = null;
+      }
+      return;
+    }
+
+    const container = containerRef.current;
+    const rect = container.getBoundingClientRect();
+    
+    // FIX: Convert normalized viewport hand coordinates (0-1) to container-local coordinates
+    // The hand coordinates are relative to the entire viewport, but we need them relative to the container
+    const viewportX = handCoordinates.x * window.innerWidth;
+    const viewportY = handCoordinates.y * window.innerHeight;
+    
+    // Convert to container-local coordinates
+    const targetX = viewportX - rect.left;
+    const targetY = viewportY - rect.top;
+
+    if (lastGesture === 'Pinch') {
+      if (!gestureDragRef.current.body) {
+        // Start dragging: Find nearest body with adjusted detection radius
+        const bodies = Array.from(chipBodiesRef.current.values());
+        // FIX: Use a slightly larger detection radius for easier grabbing
+        const nearest = Matter.Query.point(bodies, { x: targetX, y: targetY })[0];
+        
+        if (nearest) {
+          gestureDragRef.current.body = nearest;
+          gestureDragRef.current.constraint = Matter.Constraint.create({
+            pointA: { x: targetX, y: targetY },
+            bodyB: nearest,
+            stiffness: 0.3,  // Increased for more responsive dragging
+            damping: 0.05,   // Reduced for smoother following
+            length: 0,
+            render: { visible: false }
+          });
+          Matter.World.add(worldRef.current, gestureDragRef.current.constraint);
+          setHasMoved(true);
+          
+          // Visual feedback for drag start
+          const element = document.getElementById(`chip-${nearest.label}`);
+          if (element) {
+            element.style.zIndex = '50';
+            element.classList.add(styles.dragging);
+          }
+        }
+      } else if (gestureDragRef.current.constraint) {
+        // Update drag position
+        gestureDragRef.current.constraint.pointA = { x: targetX, y: targetY };
+        Matter.Sleeping.set(gestureDragRef.current.body, false);
+      }
+    } else {
+      // Gesture released
+      if (gestureDragRef.current.constraint) {
+        const body = gestureDragRef.current.body;
+        if (body) {
+          // Restore visual state
+          const element = document.getElementById(`chip-${body.label}`);
+          if (element) {
+            element.style.zIndex = String(Math.floor(10 + body.position.y));
+            element.classList.remove(styles.dragging);
+          }
+        }
+        Matter.World.remove(worldRef.current, gestureDragRef.current.constraint);
+        gestureDragRef.current.constraint = null;
+        gestureDragRef.current.body = null;
+      }
+    }
+  }, [isGesturesEnabled, isTrackingActive, handCoordinates, lastGesture]);
 
   // Keyboard navigation
   const handleKeyDown = useCallback(

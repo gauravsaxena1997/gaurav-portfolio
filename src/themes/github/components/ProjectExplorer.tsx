@@ -38,13 +38,11 @@ function groupProjectsByCategory(projects: ICaseStudy[]) {
 
 // Category folder component
 function CategoryFolder({
-  category,
   label,
   projects,
   currentSlug,
   defaultOpen = true, // All folders expanded by default
 }: {
-  category: CategoryType;
   label: string;
   projects: ICaseStudy[];
   currentSlug: string;
@@ -114,19 +112,16 @@ export function ProjectExplorer({
 
         <div className={styles.tree}>
           <CategoryFolder
-            category="case-study"
             label="Case Studies"
             projects={groupedProjects['case-study']}
             currentSlug={currentSlug}
           />
           <CategoryFolder
-            category="client"
             label="Freelancing Work"
             projects={groupedProjects.client}
             currentSlug={currentSlug}
           />
           <CategoryFolder
-            category="venture"
             label="Personal Ventures"
             projects={groupedProjects.venture}
             currentSlug={currentSlug}
@@ -170,19 +165,16 @@ export function ProjectExplorer({
 
               <div className={styles.tree}>
                 <CategoryFolder
-                  category="case-study"
                   label="Case Studies"
                   projects={groupedProjects['case-study']}
                   currentSlug={currentSlug}
                 />
                 <CategoryFolder
-                  category="client"
                   label="Freelancing Work"
                   projects={groupedProjects.client}
                   currentSlug={currentSlug}
                 />
                 <CategoryFolder
-                  category="venture"
                   label="Personal Ventures"
                   projects={groupedProjects.venture}
                   currentSlug={currentSlug}

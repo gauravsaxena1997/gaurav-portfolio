@@ -2,10 +2,9 @@ import { CASE_STUDIES, ICaseStudy } from '@/data/caseStudies';
 
 // Featured project IDs - easy to swap projects by changing these
 export const FEATURED_PROJECT_IDS = [
+  'moniqo',
+  'artifexa',
   'lumore',
-  'superhuman-flow',
-  'punit-portfolio',
-  'roamonn', // 4th project - Group & Corporate Travel Platform
 ] as const;
 
 export type FeaturedProjectId = (typeof FEATURED_PROJECT_IDS)[number];

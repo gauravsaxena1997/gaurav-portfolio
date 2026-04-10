@@ -24,7 +24,7 @@
 
 .title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
     font-weight: 700;
     color: var(--creative-text-primary);
     margin-bottom: 1rem;
@@ -45,8 +45,8 @@
 /* --- Card Styles (Glassmorphism) --- */
 .card {
     position: relative;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: color-mix(in srgb, var(--creative-text-primary) 3%, transparent);
+    border: 1px solid color-mix(in srgb, var(--creative-text-primary) 8%, transparent);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 24px;
@@ -67,52 +67,13 @@
     /* Ensure content distribution */
 }
 
-/* Light Mode Overrides */
-[data-theme='light'] .card {
-    background: rgba(255, 255, 255, 0.6);
-    border-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme='light'] .title {
-    background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-[data-theme='light'] .quoteText {
-    color: #4a4a4a;
-    font-weight: 400;
-}
-
-[data-theme='light'] .authorName {
-    color: #1a1a1a;
-}
-
-[data-theme='light'] .projectLink {
-    background: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.1);
-    color: var(--color-contrast-on-accent);
-}
-
-[data-theme='light'] .projectLink:hover {
-    background: rgba(0, 0, 0, 0.1);
-}
-
 /* Only apply hover scale on devices that support hover */
 @media (hover: hover) {
     .card:hover {
         transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(255, 215, 0, 0.3);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    }
-
-    [data-theme='light'] .card:hover {
-        background: rgba(255, 255, 255, 0.8);
-        border-color: rgba(0, 0, 0, 0.2);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        background: color-mix(in srgb, var(--creative-text-primary) 5%, transparent);
+        border-color: color-mix(in srgb, var(--creative-accent) 30%, transparent);
+        box-shadow: 0 10px 30px color-mix(in srgb, var(--creative-text-primary) 10%, transparent);
     }
 }
 
@@ -137,7 +98,7 @@
 
 .quoteText {
     font-family: var(--font-body);
-    font-size: 1.1rem;
+    font-size: var(--font-size-body);
     line-height: 1.7;
     color: var(--creative-text-secondary);
     font-weight: 300;
@@ -164,7 +125,7 @@
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
-    border: 2px solid rgba(255, 215, 0, 0.2);
+    border: 2px solid rgba(var(--creative-accent-rgb), 0.2);
     position: relative;
 }
 
@@ -174,7 +135,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    background: color-mix(in srgb, var(--creative-text-primary) 5%, transparent);
     color: var(--creative-accent);
     font-family: var(--font-display);
     font-weight: 700;
@@ -193,7 +154,7 @@
     font-family: var(--font-display);
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--color-contrast-on-accent);
+    color: var(--creative-text-primary);
 }
 
 .designation {
@@ -228,14 +189,15 @@
     transition: opacity 0.3s;
     font-weight: 500;
     padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: color-mix(in srgb, var(--creative-text-primary) 5%, transparent);
+    border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, var(--creative-text-primary) 8%, transparent);
+    white-space: nowrap;
 }
 
 .projectLink:hover {
     opacity: 0.8;
-    background: rgba(255, 255, 255, 0.08);
+    background: color-mix(in srgb, var(--creative-text-primary) 10%, transparent);
 }
 
 /* --- Desktop Marquee Specifics --- */

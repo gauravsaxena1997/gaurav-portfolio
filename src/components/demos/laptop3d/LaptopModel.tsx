@@ -1,7 +1,7 @@
 'use client';
 import * as THREE from 'three';
 import { useRef, useState, useEffect, type ReactNode } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { useGLTF, Html } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
 
@@ -47,7 +47,6 @@ export function LaptopModel({
   ) as unknown as GLTFResult;
 
   const [hovered, setHovered] = useState(false);
-  const { viewport } = useThree();
 
   // Mouse position for magnetic effect
   const mouse = useRef({ x: 0, y: 0 });

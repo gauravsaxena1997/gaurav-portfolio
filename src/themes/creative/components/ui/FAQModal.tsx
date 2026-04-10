@@ -17,7 +17,9 @@ export function FAQModal({ isOpen, onClose, onContactClick }: FAQModalProps) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        requestAnimationFrame(() => {
+            setMounted(true);
+        });
         if (isOpen) {
             document.body.style.overflow = 'hidden';
         } else {

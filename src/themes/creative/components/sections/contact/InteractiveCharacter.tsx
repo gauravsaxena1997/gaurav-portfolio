@@ -444,10 +444,19 @@ export const InteractiveCharacter = memo(function InteractiveCharacter({
           {/* ===== MOUTH - Confident slight smile ===== */}
           <path
             d={`M 82 ${mouthY} Q 100 ${mouthCurve} 118 ${mouthY}`}
-            stroke="#a85d5d"
-            strokeWidth="3"
+            stroke="#6B2C2E"
+            strokeWidth="3.5"
             strokeLinecap="round"
             fill="none"
+          />
+          {/* Lip highlight for dimension */}
+          <path
+            d={`M 86 ${mouthY + 1.5} Q 100 ${mouthCurve - 2} 114 ${mouthY + 1.5}`}
+            stroke="#D4736E"
+            strokeWidth="1"
+            strokeLinecap="round"
+            fill="none"
+            opacity="0.4"
           />
         </g>
       </svg>

@@ -4,14 +4,27 @@ import React from 'react';
 import styles from './MobileProjectCard.module.css';
 import { MobileProjectCarousel } from '../../layout/MobileProjectCarousel';
 import { UnifiedProjectViewer } from '@/components/shared/UnifiedProjectViewer';
-import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
+import { AccentSeparator } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
 import { useMobileReveal } from '@/themes/creative/hooks/useMobileReveal';
+import {
+  BotMessageSquare, BarChart3, Smartphone, ShieldCheck,
+  Network, Palette, FileCode2,
+  Sparkles, Zap, ShoppingBag, Film,
+  Star, Layers, Globe, TrendingUp, type LucideIcon,
+} from 'lucide-react';
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  BotMessageSquare, BarChart3, Smartphone, ShieldCheck,
+  Network, Palette, FileCode2,
+  Sparkles, Zap, ShoppingBag, Film,
+  Star, Layers, Globe, TrendingUp,
+};
 
 
 
 interface MobileProjectCardProps {
-    project: any;
+    project: import('./config').ProjectDisplayData;
     index: number;
 }
 
@@ -36,44 +49,58 @@ export const MobileProjectCard = ({ project, index }: MobileProjectCardProps) =>
                         </span>
                     </div>
                 </BackgroundDecor>
-
-                {/* Top Section: Title -> Tag -> Separator -> Highlights */}
+                {/* Top Section */}
                 <div className={styles.projectTopSection}>
                     {/* Title */}
                     <h3 className={styles.projectTitle}>
                         {project.title}
                     </h3>
 
-                    {/* Tag */}
-                    <span className={styles.caseStudyTag}>
-                        {project.category === 'case-study' && 'CASE STUDY'}
-                        {project.category === 'venture' && 'PERSONAL VENTURE'}
-                        {project.category === 'client' && 'CLIENT WORK'}
-                        {!['case-study', 'venture', 'client'].includes(project.category) && 'PROJECT'}
-                    </span>
-
-                    {/* Common Stats Separator (Standardized) */}
+                    {/* Separator */}
                     <AccentSeparator width="40%" className={styles.projectSeparator} />
 
-                    {/* Description - Re-enabled for Mobile consistency */}
+                    {/* Description */}
                     <p className={styles.projectDescription}>
                         {project.shortDescription}
                     </p>
 
-                    {/* Highlights */}
-                    {project.highlights && project.highlights.length > 0 && (
-                        <div className={styles.projectHighlightsList}>
-                            <Highlights
-                                items={project.highlights}
-                                mono
-                                className={styles.projectHighlightsOverride}
-                            />
+                    {/* Key Features with Icons */}
+                    {project.keyFeatures && project.keyFeatures.length > 0 ? (
+                        <div className={styles.keyFeaturesGrid}>
+                            {project.keyFeatures.slice(0, 4).map((kf: { icon: string; text: string }, i: number) => {
+                                const Icon = ICON_MAP[kf.icon] ?? Star;
+                                return (
+                                    <div key={i} className={styles.keyFeatureItem}>
+                                        <span className={styles.keyFeatureIconWrap}>
+                                            <Icon size={12} strokeWidth={2} />
+                                        </span>
+                                        <span className={styles.keyFeatureText}>{kf.text}</span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        project.features && project.features.length > 0 && (
+                            <ul className={styles.featureList}>
+                                {project.features.slice(0, 4).map((feat: string, i: number) => (
+                                    <li key={i} className={styles.featureItem}>
+                                        <span className={styles.featureDot} aria-hidden="true" />
+                                        {feat}
+                                    </li>
+                                ))}
+                            </ul>
+                        )
+                    )}
+
+                    {/* Tech Stack Badges */}
+                    {project.techStack && project.techStack.length > 0 && (
+                        <div className={styles.techStackRow}>
+                            {project.techStack.map((tech: string) => (
+                                <span key={tech} className={styles.techBadge}>{tech}</span>
+                            ))}
                         </div>
                     )}
                 </div>
-
-
-
 
                 {/* Bottom Section: Media -> View Live Button */}
                 <div className={styles.projectBottomSection}>

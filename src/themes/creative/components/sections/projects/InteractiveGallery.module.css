@@ -7,9 +7,9 @@
 
 .screenshot {
   position: absolute;
-  /* 30% larger: 78% width, 676px max */
-  width: 78%;
-  max-width: 676px;
+  /* Decreased width for visibility */
+  width: 80%;
+  max-width: none;
   left: 50%;
   transform: translateX(-50%);
 
@@ -23,9 +23,17 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 
 
+  /* Cap height so portrait/mobile screenshots don't overflow the viewport (Decreased) */
+  max-height: 65vh;
 
   /* Start invisible - JS reveals them */
   opacity: 0;
+}
+
+.screenshot.portrait {
+  width: auto;
+  max-width: 38%;
+  /* Mobile phone orientation gap: one on left, one on right */
 }
 
 .screenshot:hover {
@@ -34,9 +42,12 @@
 
 .image {
   width: 100%;
+  /* Constrain portrait screenshots — height auto would overflow for 9:16 images */
+  max-height: 65vh;
   height: auto;
   display: block;
   pointer-events: none;
+  object-fit: contain;
 }
 
 /* ===== Responsive ===== */
@@ -48,6 +59,11 @@
   .screenshot {
     width: 90%;
     max-width: none;
+    max-height: 50vh;
+  }
+
+  .image {
+    max-height: 50vh;
   }
 }
 

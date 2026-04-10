@@ -1,0 +1,89 @@
+.container {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10001; /* Above almost everything else */
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  will-change: left, top;
+}
+
+.cursor {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base Dot */
+.dot {
+  width: 12px;
+  height: 12px;
+  background: var(--brand-primary);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Glow ring */
+.glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--brand-primary);
+  border-radius: 50%;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+/* Label */
+.label {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+/* Gesture States */
+.pinch .dot {
+  transform: scale(0.6);
+  background: var(--creative-accent);
+}
+
+.pinch .glow {
+  width: 16px;
+  height: 16px;
+  opacity: 1;
+  border-width: 4px;
+}
+
+.point .cursor {
+  /* Crosshair look for pointing */
+}
+
+.point .dot {
+  background: white;
+  border-color: var(--brand-primary);
+}
+
+.palm .glow {
+  width: 60px;
+  height: 60px;
+  opacity: 0.1;
+  border-style: dashed;
+}

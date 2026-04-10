@@ -42,6 +42,10 @@ export interface BackgroundDecorProps {
 
     /** Optional trigger element for parallax (if not provided, uses parent section) */
     triggerElement?: HTMLElement | null;
+
+    /** Custom start and end points for ScrollTrigger */
+    parallaxStart?: string;
+    parallaxEnd?: string;
 }
 
 /**
@@ -76,6 +80,8 @@ export function BackgroundDecor({
     className = '',
     variant = 'default',
     triggerElement,
+    parallaxStart = 'top bottom',
+    parallaxEnd = 'bottom top',
 }: BackgroundDecorProps) {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const uniqueId = useId();
@@ -109,24 +115,27 @@ export function BackgroundDecor({
         // Multiplied by 1.25 to boost intensity as per user feedback (Revision 10)
         const movement = -Math.round(window.innerHeight * parallaxSpeed * 1.25);
 
-        const animation = gsap.to(element, {
-            y: movement, // Negative moves up as we scroll down
-            ease: 'none',
-            scrollTrigger: {
-                id: `bg-decor-${uniqueId}`,
-                trigger: trigger,
-                start: 'top bottom', // Start when trigger enters viewport from below
-                end: 'bottom top',   // End when trigger leaves viewport above
-                scrub: 0,            // Direct 1:1 scrubbing for immediate response
-            },
-        });
+        const animation = gsap.fromTo(element,
+            { y: 0 },
+            {
+                y: movement, // Negative moves up as we scroll down
+                ease: 'none',
+                scrollTrigger: {
+                    id: `bg-decor-${uniqueId}`,
+                    trigger: trigger,
+                    start: parallaxStart, // Start hook
+                    end: parallaxEnd,     // End hook
+                    scrub: 0,             // Direct 1:1 scrubbing for immediate response
+                },
+            }
+        );
 
         // Cleanup ScrollTrigger on unmount
         return () => {
             animation.scrollTrigger?.kill();
             animation.kill();
         };
-    }, [parallaxSpeed, uniqueId, triggerElement]);
+    }, [parallaxSpeed, uniqueId, triggerElement, parallaxStart, parallaxEnd]);
 
     // Build inline styles for positioning
     const positionStyles: React.CSSProperties = {

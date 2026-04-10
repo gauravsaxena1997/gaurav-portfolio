@@ -44,8 +44,9 @@ export function usePhysicsEngine({
   containerRef,
 }: UsePhysicsEngineOptions): PhysicsEngineReturn | null {
   const [isInitialized, setIsInitialized] = useState(false);
-  const engineRef = useRef<Matter.Engine | null>(null);
-  const worldRef = useRef<Matter.World | null>(null);
+  const [hasValidRefs, setHasValidRefs] = useState(false);
+  const [engine, setEngine] = useState<Matter.Engine | null>(null);
+  const [world, setWorld] = useState<Matter.World | null>(null);
   const bodyMapRef = useRef<Map<string, Matter.Body>>(new Map());
 
   useEffect(() => {
@@ -68,42 +69,46 @@ export function usePhysicsEngine({
     // Get world reference
     const world = engine.world;
 
-    // Store references
-    engineRef.current = engine;
-    worldRef.current = world;
+    const currentBodyMap = bodyMapRef.current;
 
-    setIsInitialized(true);
+    requestAnimationFrame(() => {
+      setEngine(engine);
+      setWorld(world);
+      setHasValidRefs(true);
+      setIsInitialized(true);
+    });
 
     // Cleanup on unmount
     return () => {
-      if (engineRef.current) {
-        Matter.Engine.clear(engineRef.current);
+      if (engine) {
+        Matter.Engine.clear(engine);
       }
-      if (worldRef.current) {
-        Matter.World.clear(worldRef.current, false);
+      if (world) {
+        Matter.World.clear(world, false);
       }
-      bodyMapRef.current.clear();
-      engineRef.current = null;
-      worldRef.current = null;
+      currentBodyMap.clear();
+      setEngine(null);
+      setWorld(null);
+      setHasValidRefs(false);
       setIsInitialized(false);
     };
-  }, [containerRef]);
+  }, [containerRef, userConfig]);
 
-  if (!isInitialized || !engineRef.current || !worldRef.current) {
+  if (!isInitialized || !hasValidRefs) {
     return null;
   }
 
   const addBody = (body: Matter.Body) => {
-    if (!worldRef.current) return;
-    Matter.World.add(worldRef.current, body);
+    if (!world) return;
+    Matter.World.add(world, body);
     if (body.label) {
       bodyMapRef.current.set(body.label, body);
     }
   };
 
   const removeBody = (body: Matter.Body) => {
-    if (!worldRef.current) return;
-    Matter.World.remove(worldRef.current, body);
+    if (!world) return;
+    Matter.World.remove(world, body);
     if (body.label) {
       bodyMapRef.current.delete(body.label);
     }
@@ -114,18 +119,18 @@ export function usePhysicsEngine({
   };
 
   const cleanup = () => {
-    if (engineRef.current) {
-      Matter.Engine.clear(engineRef.current);
+    if (engine) {
+      Matter.Engine.clear(engine);
     }
-    if (worldRef.current) {
-      Matter.World.clear(worldRef.current, false);
+    if (world) {
+      Matter.World.clear(world, false);
     }
     bodyMapRef.current.clear();
   };
 
   return {
-    engine: engineRef.current,
-    world: worldRef.current,
+    engine: engine as Matter.Engine,
+    world: world as Matter.World,
     addBody,
     removeBody,
     getBodyById,

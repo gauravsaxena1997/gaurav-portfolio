@@ -16,8 +16,8 @@
 
 /* Hamburger Button */
 .hamburger {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: color-mix(in srgb, var(--creative-text-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--creative-text-primary) 25%, transparent);
   color: var(--creative-text-primary);
   cursor: pointer;
   display: flex;
@@ -28,22 +28,51 @@
   padding: 0;
   border-radius: 50%;
   box-shadow:
-    0 8px 24px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+    0 8px 24px rgba(0,0,0,0.15),
+    inset 0 1px 0 color-mix(in srgb, var(--creative-text-primary) 25%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--creative-bg-primary) 50%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: background-color var(--creative-transition-fast), transform var(--creative-transition-fast), box-shadow var(--creative-transition-fast);
 }
 
 .hamburger:hover {
-  background-color: rgba(255, 255, 255, 0.14);
+  background-color: color-mix(in srgb, var(--creative-text-primary) 14%, transparent);
   transform: translateY(-1px);
 }
 
 .hamburger:focus-visible {
   outline: 2px solid var(--creative-accent);
   outline-offset: 2px;
+}
+
+/* Labs Button (Experimental Flask) - Glassmorphic matching hamburger */
+.labsButton {
+  position: relative;
+  background: color-mix(in srgb, var(--creative-text-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--creative-text-primary) 25%, transparent);
+  color: var(--creative-text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  margin-left: 12px;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.15),
+    inset 0 1px 0 color-mix(in srgb, var(--creative-text-primary) 25%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--creative-bg-primary) 50%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color var(--creative-transition-fast), transform var(--creative-transition-fast), box-shadow var(--creative-transition-fast);
+}
+
+.labsButton:hover {
+  background-color: color-mix(in srgb, var(--creative-text-primary) 14%, transparent);
+  transform: translateY(-1px);
 }
 
 /* Toggle Buttons Container */
@@ -69,7 +98,7 @@
 
 .iconButton:hover {
   color: var(--creative-accent);
-  background-color: rgba(201, 169, 97, 0.1);
+  background-color: color-mix(in srgb, var(--creative-accent) 15%, transparent);
 }
 
 .iconButton:focus-visible {
@@ -77,18 +106,21 @@
   outline-offset: 2px;
 }
 
-/* Navigation Overlay */
+/* Navigation Overlay — frosted warm glass */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 14, 13, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* Warm cream frosted glass — muted, not fully opaque */
+  background: rgba(255, 251, 247, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 0.3s ease-out;
+  /* Subtle warm border at very edge */
+  border-top: 3px solid #D97757;
+  animation: fadeIn 0.25s ease-out;
 }
 
 @keyframes fadeIn {
@@ -122,11 +154,11 @@
   }
 }
 
-/* Navigation Items */
+/* Navigation Items — dark brown text readable on light overlay */
 .navItem {
   background: none;
   border: none;
-  color: var(--creative-text-primary);
+  color: #2C2825;
   font-family: var(--font-display);
   font-size: clamp(2rem, 6vw, 4rem);
   font-weight: 700;
@@ -135,15 +167,16 @@
   cursor: pointer;
   padding: 0.5rem 1rem;
   position: relative;
-  transition: color var(--creative-transition-normal);
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .navItem:hover {
-  color: var(--creative-accent);
+  color: #D97757;
+  transform: translateX(6px);
 }
 
 .navItem.active {
-  color: var(--creative-accent);
+  color: #D97757;
 }
 
 .navItem.active::after {
@@ -162,8 +195,15 @@
     padding: 0;
     background: transparent;
     top: 16px;
-    left: auto;
     right: 16px;
+    flex-direction: row-reverse;
+  }
+
+  .labsButton {
+    margin-left: 0;
+    margin-right: 12px;
+    width: 40px;
+    height: 40px;
   }
 
   .overlay {

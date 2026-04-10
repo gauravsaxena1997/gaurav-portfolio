@@ -33,7 +33,7 @@ export function measureComponentLoad(componentName: string, startTime: number): 
   componentLoadMetrics.push(metric);
 
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[Performance] ${componentName} loaded in ${loadTime.toFixed(2)}ms`);
+    // console.log(`[Performance] ${componentName} loaded in ${loadTime.toFixed(2)}ms`);
   }
 }
 
@@ -41,6 +41,7 @@ export function measureComponentLoad(componentName: string, startTime: number): 
  * Log lazy load metrics for all components
  */
 export function logLazyLoadMetrics(): ComponentLoadMetric[] {
+  /*
   if (process.env.NODE_ENV === 'development' && componentLoadMetrics.length > 0) {
     console.table(
       componentLoadMetrics.map(m => ({
@@ -50,6 +51,7 @@ export function logLazyLoadMetrics(): ComponentLoadMetric[] {
       }))
     );
   }
+  */
 
   return componentLoadMetrics;
 }
@@ -89,7 +91,7 @@ export function measureScrollPerformance(): void {
       }
 
       if (process.env.NODE_ENV === 'development' && fps < 55) {
-        console.warn(`[Performance] Low FPS detected: ${fps} FPS`);
+        // console.warn(`[Performance] Low FPS detected: ${fps} FPS`);
       }
     }
 
@@ -152,11 +154,11 @@ export function measurePerformance(name: string, startMark: string, endMark: str
       if (process.env.NODE_ENV === 'development') {
         const entries = window.performance.getEntriesByName(name);
         if (entries.length > 0) {
-          const measure = entries[entries.length - 1];
-          console.log(`[Performance] ${name}: ${measure.duration.toFixed(2)}ms`);
+          // const measure = entries[entries.length - 1];
+          // console.log(`[Performance] ${name}: ${measure.duration.toFixed(2)}ms`);
         }
       }
-    } catch (error) {
+    } catch {
       // Marks may not exist, silently fail
     }
   }

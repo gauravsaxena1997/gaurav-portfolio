@@ -49,6 +49,7 @@ export function createActionHandler(
         if (action.modalId.startsWith('project_')) {
           const projectId = action.modalId.replace('project_', '');
           // Trigger project viewer (would need to be wired through context/props)
+          // eslint-disable-next-line no-console
           console.log('Open project modal:', projectId, action.payload);
         }
         break;
@@ -64,11 +65,13 @@ export function createActionHandler(
           await navigator.clipboard.writeText(action.text);
           // Could show a toast notification here
         } catch (err) {
+          // eslint-disable-next-line no-console
           console.error('Failed to copy to clipboard:', err);
         }
         break;
 
       default:
+        // eslint-disable-next-line no-console
         console.warn('Unknown action type:', (action as Action).type);
     }
   };

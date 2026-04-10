@@ -26,8 +26,10 @@ export function UnifiedProjectViewer({
     title,
     liveUrl,
 }: UnifiedProjectViewerProps) {
-    // Total slides = (1 if video exists) + images.length
-    const hasVideo = !!videoSrc;
+    const [videoError, setVideoError] = useState(false);
+    
+    // Total slides = (1 if video exists and is loadable) + images.length
+    const hasVideo = !!videoSrc && !videoError;
     const totalSlides = (hasVideo ? 1 : 0) + images.length;
 
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
@@ -45,8 +47,12 @@ export function UnifiedProjectViewer({
     // Reset index when opening
     useEffect(() => {
         if (isOpen) {
-            setCurrentIndex(initialIndex);
-            setIsPlaying(true);
+            // Use requestAnimationFrame to avoid synchronous setState
+            requestAnimationFrame(() => {
+                setCurrentIndex(initialIndex);
+                setIsPlaying(true);
+                setVideoError(false); // Reset error state when re-opening
+            });
             // Reset progress bar width directly
             if (progressBarRef.current) {
                 progressBarRef.current.style.width = '0%';
@@ -67,7 +73,7 @@ export function UnifiedProjectViewer({
     }, [isOpen]);
 
     // Smooth Progress Bar Animation Loop
-    const animateProgress = useCallback(() => {
+    const animateProgress = useCallback(function animationLoop() {
         if (videoRef.current && progressBarRef.current) {
             const { currentTime, duration } = videoRef.current;
             if (duration) {
@@ -76,7 +82,7 @@ export function UnifiedProjectViewer({
                 progressBarRef.current.style.width = `${percent}%`;
             }
         }
-        requestRef.current = requestAnimationFrame(animateProgress);
+        requestRef.current = requestAnimationFrame(animationLoop);
     }, []);
 
     // Manage Animation Loop
@@ -106,6 +112,18 @@ export function UnifiedProjectViewer({
     const goToPrev = useCallback(() => {
         setCurrentIndex((prev) => (prev > 0 ? prev - 1 : totalSlides - 1));
     }, [totalSlides]);
+
+    const togglePlayPause = useCallback(() => {
+        if (videoRef.current) {
+            if (videoRef.current.paused) {
+                videoRef.current.play();
+                setIsPlaying(true);
+            } else {
+                videoRef.current.pause();
+                setIsPlaying(false);
+            }
+        }
+    }, []);
 
     // Swipe Handlers
     const handleTouchStart = (e: React.TouchEvent) => {
@@ -144,7 +162,7 @@ export function UnifiedProjectViewer({
                 togglePlayPause();
             }
         },
-        [isOpen, onClose, goToNext, goToPrev, hasVideo, currentIndex]
+        [isOpen, onClose, goToNext, goToPrev, hasVideo, currentIndex, togglePlayPause]
     );
 
     useEffect(() => {
@@ -174,21 +192,11 @@ export function UnifiedProjectViewer({
     useEffect(() => {
         if (hasVideo && currentIndex !== 0 && videoRef.current) {
             videoRef.current.pause();
-            setIsPlaying(false);
+            requestAnimationFrame(() => {
+                setIsPlaying(false);
+            });
         }
     }, [currentIndex, hasVideo]);
-
-    const togglePlayPause = () => {
-        if (videoRef.current) {
-            if (videoRef.current.paused) {
-                videoRef.current.play();
-                setIsPlaying(true);
-            } else {
-                videoRef.current.pause();
-                setIsPlaying(false);
-            }
-        }
-    };
 
     if (!isOpen) return null;
 
@@ -272,6 +280,9 @@ export function UnifiedProjectViewer({
                                 playsInline
                                 style={styles.fullscreenVideo}
                                 onClick={togglePlayPause}
+                                onError={() => {
+                                    setVideoError(true);
+                                }}
                             />
                             {/* Play/Pause Overlay */}
                             <button

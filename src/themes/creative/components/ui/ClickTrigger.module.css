@@ -1,0 +1,111 @@
+/* ClickTrigger — themed cursor click effect using portfolio CSS variables */
+
+.rippleArm {
+  position: fixed;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  background: var(--creative-accent, #D97757);
+  opacity: 1;
+}
+
+/* Vertical arm (top/bottom) */
+.armVertical {
+  width: 2px;
+  height: 10px;
+}
+
+/* Horizontal arm (left/right) */
+.armHorizontal {
+  width: 10px;
+  height: 2px;
+}
+
+/* Directional animations */
+.armUp {
+  animation: clickArmUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.armDown {
+  animation: clickArmDown 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.armLeft {
+  animation: clickArmLeft 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.armRight {
+  animation: clickArmRight 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Diagonal corner dots */
+.cornerDot {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  background: var(--creative-accent, #D97757);
+}
+
+.dotTopLeft    { animation: clickDotTopLeft    0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.dotTopRight   { animation: clickDotTopRight   0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.dotBottomLeft { animation: clickDotBottomLeft 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.dotBottomRight{ animation: clickDotBottomRight 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+/* ===== Keyframes ===== */
+
+@keyframes clickArmUp {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translateY(0)    scaleY(1);   }
+  60%  { opacity: 0.7; transform: translate(-50%, -50%) translateY(-18px) scaleY(1.4); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translateY(-28px) scaleY(0.6); }
+}
+
+@keyframes clickArmDown {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translateY(0)   scaleY(1);   }
+  60%  { opacity: 0.7; transform: translate(-50%, -50%) translateY(18px) scaleY(1.4); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translateY(28px) scaleY(0.6); }
+}
+
+@keyframes clickArmLeft {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translateX(0)    scaleX(1);   }
+  60%  { opacity: 0.7; transform: translate(-50%, -50%) translateX(-18px) scaleX(1.4); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translateX(-28px) scaleX(0.6); }
+}
+
+@keyframes clickArmRight {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translateX(0)   scaleX(1);   }
+  60%  { opacity: 0.7; transform: translate(-50%, -50%) translateX(18px) scaleX(1.4); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translateX(28px) scaleX(0.6); }
+}
+
+@keyframes clickDotTopLeft {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translate(0,    0);    }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(-16px, -16px); }
+}
+
+@keyframes clickDotTopRight {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translate(0,   0);    }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(16px, -16px); }
+}
+
+@keyframes clickDotBottomLeft {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translate(0,    0);   }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(-16px, 16px); }
+}
+
+@keyframes clickDotBottomRight {
+  0%   { opacity: 1; transform: translate(-50%, -50%) translate(0,   0);   }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(16px,  16px); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .rippleArm,
+  .cornerDot {
+    display: none;
+  }
+}

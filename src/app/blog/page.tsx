@@ -36,7 +36,7 @@ export default function BlogPage() {
 
       {featuredPosts.length > 0 && (
         <section className={styles.section}>
-          <h2 className={`${styles.sectionTitle} code-font`}>// featured</h2>
+          <h2 className={`${styles.sectionTitle} code-font`}>{'// featured'}</h2>
           <div className={styles.featuredGrid}>
             {featuredPosts.map((post) => (
               <BlogCard key={post.id} post={post} featured />
@@ -47,7 +47,7 @@ export default function BlogPage() {
 
       {regularPosts.length > 0 && (
         <section className={styles.section}>
-          <h2 className={`${styles.sectionTitle} code-font`}>// all posts</h2>
+          <h2 className={`${styles.sectionTitle} code-font`}>{'// all posts'}</h2>
           <div className={styles.grid}>
             {regularPosts.map((post) => (
               <BlogCard key={post.id} post={post} />

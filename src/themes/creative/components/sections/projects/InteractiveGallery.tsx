@@ -10,43 +10,38 @@ interface InteractiveGalleryProps {
   className?: string;
 }
 
-// Seeded random generator for consistent results
-function seededRandom(seed: string, index: number): number {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = ((hash << 5) - hash) + seed.charCodeAt(i);
-    hash |= 0;
+// Deterministic left / right / center stagger pattern:
+// index 0 → left  (-18%)
+// index 1 → right (+18%)
+// index 2 → center(0%)
+// index 3 → left  (-12%)
+// index 4 → right (+12%)
+// Center all gallery constants for easy adjustment
+const GALLERY_CONFIG = {
+  VERTICAL_GAP: 80,          // Reduced gap for slightly smaller images
+  BASE_START_OFFSET: 280,
+  OFFSET_INCREMENT: 360,
+  MAX_DISPLAY_IMAGES: 5,
+  STAGGER_OFFSETS: [-16, 16, 0, -10, 10], // Base horizontal offsets (percent)
+  PORTRAIT_SPREAD: 25,       // Wider horizontal spread for portrait images
+  SCALES: [1.02, 0.98, 1.0, 1.01, 0.99],
+};
+
+function getXOffset(index: number, isPortrait: boolean): number {
+  // Logic: For portrait images (usually index 3, 4+), use wider horizontal spread
+  if (isPortrait) {
+    return (index % 2 === 0) ? GALLERY_CONFIG.PORTRAIT_SPREAD : -GALLERY_CONFIG.PORTRAIT_SPREAD;
   }
-  for (let i = 0; i <= index; i++) {
-    hash = (hash * 1103515245 + 12345) & 0x7fffffff;
-  }
-  return (hash % 1000) / 1000; // 0 to 1
+  return GALLERY_CONFIG.STAGGER_OFFSETS[index % GALLERY_CONFIG.STAGGER_OFFSETS.length];
 }
 
-// Generate random X offsets (±20% from center)
-function generateXOffsets(count: number, seed: string): number[] {
-  return Array.from({ length: count }, (_, i) => {
-    const rand = seededRandom(seed + 'x', i);
-    return (rand - 0.5) * 40; // -20% to +20%
-  });
+function getScale(index: number): number {
+  return GALLERY_CONFIG.SCALES[index % GALLERY_CONFIG.SCALES.length];
 }
-
-// Generate random scale variations (0.9 to 1.1)
-function generateScales(count: number, seed: string): number[] {
-  return Array.from({ length: count }, (_, i) => {
-    const rand = seededRandom(seed + 's', i);
-    return 0.9 + rand * 0.2; // 0.9 to 1.1
-  });
-}
-
-// Dynamic constants for spacing calculation
-const CONSTANT_VERTICAL_GAP = 65; // Fixed pixel gap between stacked images
-const BASE_START_OFFSET = 250;    // Starting pixels below viewport — tight so images appear quickly
-const OFFSET_INCREMENT = 320;     // Additional offset per image index (reduced to minimize dead scroll)
-const MAX_DISPLAY_IMAGES = 5;     // Cap at 6 images for performance
 
 /**
- * InteractiveGallery - Scattered overlapping screenshot display with parallax + DRAG
+ * InteractiveGallery - Staggered left/right/center screenshot reveal with parallax
+ * Images appear on scroll in a L → R → C pattern for clear visual rhythm.
  */
 export const InteractiveGallery = memo(function InteractiveGallery({
   images,
@@ -57,19 +52,7 @@ export const InteractiveGallery = memo(function InteractiveGallery({
   const imagesRef = useRef<(HTMLDivElement | null)[]>([]);
 
   // Slice images to max limit to prevent excessive DOM nodes
-  const displayImages = useMemo(() => images.slice(0, MAX_DISPLAY_IMAGES), [images]);
-
-  // Track current parallax offsets for each image (updated by scroll handler)
-  const parallaxOffsetsRef = useRef<number[]>([]);
-
-  const xOffsets = useMemo(
-    () => generateXOffsets(displayImages.length, projectName),
-    [displayImages.length, projectName]
-  );
-  const scales = useMemo(
-    () => generateScales(displayImages.length, projectName),
-    [displayImages.length, projectName]
-  );
+  const displayImages = useMemo(() => images.slice(0, GALLERY_CONFIG.MAX_DISPLAY_IMAGES), [images]);
 
   // Set gallery container height based on stacked images (mount + resize only).
   useEffect(() => {
@@ -79,10 +62,9 @@ export const InteractiveGallery = memo(function InteractiveGallery({
       const n = displayImages.length;
       const firstImg = imagesRef.current[0];
       const imgHeight = firstImg?.getBoundingClientRect().height || 320;
-      const stackedHeight = (n - 1) * CONSTANT_VERTICAL_GAP + imgHeight;
+      const stackedHeight = (n - 1) * GALLERY_CONFIG.VERTICAL_GAP + imgHeight;
 
       // Gallery just needs to fit stacked images plus a bit of breathing room.
-      // Animation is driven by a fixed scroll distance (below), not container height.
       const galleryHeight = stackedHeight + vh * 0.45;
       containerRef.current.style.minHeight = `${Math.ceil(galleryHeight)}px`;
 
@@ -92,7 +74,6 @@ export const InteractiveGallery = memo(function InteractiveGallery({
         const rightCol = containerRef.current.closest('[class*="rightColumn"]') as HTMLElement;
         if (rightCol) {
           const rightHeight = rightCol.scrollHeight;
-          // Cap excessive height to avoid dead scroll; ensure at least viewport + 200px for sticky
           const minNeeded = vh + 200;
           const capped = Math.max(minNeeded, Math.min(rightHeight, vh * 1.80));
           slide.style.minHeight = `${Math.ceil(capped)}px`;
@@ -108,7 +89,7 @@ export const InteractiveGallery = memo(function InteractiveGallery({
     };
   }, [displayImages.length]);
 
-  // Sequential staggered reveal using fixed scroll distance (1.5 × viewport), decoupled from container height.
+  // Sequential staggered reveal — L → R → C pattern becomes visible on scroll.
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -128,16 +109,17 @@ export const InteractiveGallery = memo(function InteractiveGallery({
         const n = Math.max(1, displayImages.length - 1);
         const threshold = index * (0.4 / n);
         const speed = 1.0;
-        const startOffset = BASE_START_OFFSET + index * OFFSET_INCREMENT;
-        const finalY = index * CONSTANT_VERTICAL_GAP;
+        const startOffset = GALLERY_CONFIG.BASE_START_OFFSET + index * GALLERY_CONFIG.OFFSET_INCREMENT;
+        const finalY = index * GALLERY_CONFIG.VERTICAL_GAP;
         const localProgress = Math.max(0, Math.min(1, (totalProgress - threshold) / Math.max(0.01, 1 - threshold)));
 
         const opacity = Math.min(1, localProgress / 0.12);
         const yOffset = startOffset * (1 - localProgress * speed) + finalY;
 
         img.style.opacity = String(opacity);
-        const xOffset = xOffsets[index] ?? 0;
-        const scale = scales[index] ?? 1;
+        const isPortrait = displayImages[index]?.toLowerCase().includes('mobile') || displayImages[index]?.toLowerCase().includes('portrait');
+        const xOffset = getXOffset(index, isPortrait);
+        const scale = getScale(index);
         img.style.transform = `translate(calc(-50% + ${xOffset}%), calc(${yOffset}px)) scale(${scale})`;
       });
     };
@@ -145,41 +127,43 @@ export const InteractiveGallery = memo(function InteractiveGallery({
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [displayImages, xOffsets, scales]);
+  }, [displayImages]);
 
-
-  // Calculate z-index for each screenshot (simple stacked order)
-  const getZIndex = (index: number): number => {
-    return index + 1;
-  };
 
   return (
     <div ref={containerRef} className={`${styles.container} ${className || ''}`}>
-      {displayImages.map((image, index) => (
-        <div
-          key={image}
-          ref={(el) => { imagesRef.current[index] = el; }}
-          className={styles.screenshot}
-          style={{
-            zIndex: getZIndex(index),
-            top: 0, // Images start at top, positioned via transform
-          }}
-        >
-          <Image
-            src={image}
-            alt={`${projectName} screenshot ${index + 1}`}
-            width={1200}
-            height={750}
-            sizes="(max-width: 900px) 100vw, 50vw"
-            className={styles.image}
-            style={{ width: '100%', height: 'auto' }}
-            priority={index === 0}
-            loading={index <= 1 ? 'eager' : 'lazy'}
-            placeholder="blur"
-            blurDataURL="data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoIAAUAAUAmJYgCdAEO/gHOAAD++P/////////////////////8"
-          />
-        </div>
-      ))}
+      {displayImages.map((image, index) => {
+        const isPortrait = image.toLowerCase().includes('mobile') || image.toLowerCase().includes('portrait');
+        const imgWidth = isPortrait ? 550 : 1600; // Increased width for better resolution/size
+        const imgHeight = isPortrait ? 1000 : 900; // Increased height limit
+
+        return (
+          <div
+            key={image}
+            ref={(el) => { imagesRef.current[index] = el; }}
+            className={`${styles.screenshot} ${isPortrait ? styles.portrait : ''}`}
+            style={{
+              zIndex: index + 1,
+              top: 0,
+            }}
+          >
+            <Image
+              src={image}
+              alt={`${projectName} screenshot ${index + 1}`}
+              width={imgWidth}
+              height={imgHeight}
+              sizes="(max-width: 900px) 100vw, 50vw"
+              className={styles.image}
+              style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '72vh' }}
+              priority={index === 0}
+              loading={index <= 1 ? 'eager' : 'lazy'}
+              placeholder="blur"
+              blurDataURL="data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoIAAUAAUAmJYgCdAEO/gHOAAD++P/////////////////////8"
+            />
+          </div>
+        );
+      })}
     </div>
   );
 });
+

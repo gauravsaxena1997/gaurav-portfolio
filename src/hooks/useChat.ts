@@ -11,24 +11,30 @@ function generateId(): string {
 }
 
 export function useChat() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = sessionStorage.getItem(SESSION_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored) as { messages?: ChatMessage[] };
+          if (Array.isArray(parsed.messages) && parsed.messages.length > 0) {
+            return parsed.messages;
+          }
+        }
+      } catch {
+        // Ignore errors during initialization
+      }
+    }
+    return [];
+  });
   const [status, setStatus] = useState<ChatStatus>('idle');
   const [error, setError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   // Rehydrate from sessionStorage on mount (only messages, never restore in-flight status)
   useEffect(() => {
-    try {
-      const stored = sessionStorage.getItem(SESSION_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as { messages?: ChatMessage[] };
-        if (Array.isArray(parsed.messages) && parsed.messages.length > 0) {
-          setMessages(parsed.messages);
-        }
-      }
-    } catch (err) {
-      console.warn('Failed to load chat session:', err);
-    }
+    // Messages are already initialized from sessionStorage, so this effect can be removed
+    // or used for other purposes if needed
   }, []);
 
   // Persist messages to sessionStorage whenever they change

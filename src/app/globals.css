@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: var(--font-sora), system-ui, sans-serif;
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-display: var(--theme-font-display, var(--font-sora)), system-ui, sans-serif;
+  --font-sans: var(--theme-font-sans, var(--font-manrope)), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), monospace;
 
   /* Alias for backward compatibility if needed, or prefer font-sans */
-  --font-body: var(--font-manrope), system-ui, sans-serif;
+  --font-body: var(--theme-font-body, var(--font-manrope)), system-ui, sans-serif;
 }
 
 /* Reset and Base Styles */
@@ -23,21 +23,18 @@ html {
 }
 
 body {
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: var(--font-size-body);
   font-weight: 700;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Disable rubber band / bounce effect on scroll */
   overscroll-behavior: none;
   -webkit-overflow-scrolling: auto;
-  /* Consistent background color for entire page */
-  background-color: #0d1117;
-  /* Prevent horizontal scroll on mobile - using max-width approach instead */
+  /* Warm Editorial light theme baseline — matches --creative-bg-primary */
+  background-color: #FFFBF7;
   max-width: 100vw;
-  color: #A1A1AA;
-  /* Default muted text color */
+  color: #2C2825;
 }
 
 /* Light theme body background */
@@ -108,8 +105,7 @@ button {
 
 /* Focus styles */
 :focus-visible {
-  outline: 2px solid #007acc;
-  outline-offset: 2px;
+  outline: none;
 }
 
 /* Prism.js Theme Overrides */

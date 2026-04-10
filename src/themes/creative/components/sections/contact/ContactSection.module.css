@@ -50,8 +50,8 @@
 .title {
   font-size: var(--font-size-h1);
   font-weight: 700;
-  color: var(--creative-text-primary);
-  /* Gold/White */
+  color: var(--creative-accent) !important;
+  /* Gold/Orangish Theme Match */
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin: 0;
@@ -99,7 +99,7 @@
   padding: 0.85rem 1.5rem;
   background: transparent;
   border: 1px solid var(--creative-accent);
-  border-radius: var(--radius-md);
+  border-radius: 9999px;
   color: var(--creative-accent);
   font-size: var(--font-size-body-sm);
   font-weight: 600;
@@ -111,9 +111,9 @@
 }
 
 .scheduleButton:hover {
-  background: rgba(var(--creative-accent-rgb, 184, 134, 11), 0.1);
+  background: rgba(var(--creative-accent-rgb), 0.1);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(var(--creative-accent-rgb, 184, 134, 11), 0.15);
+  box-shadow: 0 4px 15px rgba(var(--creative-accent-rgb), 0.15);
 }
 
 .scheduleButton:active {

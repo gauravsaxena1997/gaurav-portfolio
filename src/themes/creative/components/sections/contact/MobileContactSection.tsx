@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useState } from 'react';
-import { MapPin, Mail, Clock, Calendar, Compass, Github, Linkedin, HelpCircle } from 'lucide-react';
+import { MapPin, Mail, Clock, Calendar, Compass, HelpCircle } from 'lucide-react';
 import styles from './MobileContactSection.module.css';
 import { AccentSeparator, FAQModal } from '@/themes/creative/components/ui';
 import { ContactForm, type ContactFormHandle } from './ContactForm';
@@ -9,7 +9,7 @@ export const MobileContactSection = () => {
     const formRef = useRef<ContactFormHandle>(null);
     const [isFAQOpen, setIsFAQOpen] = useState(false);
 
-    const handleRegisterInteractables = useCallback((refs: React.RefObject<HTMLElement | null>[]) => {
+    const handleRegisterInteractables = useCallback(() => {
         // No-op for mobile
     }, []);
 

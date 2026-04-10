@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { ExternalLink } from 'lucide-react';
 import { Testimonial } from '@/config/testimonials';
 import styles from './Testimonials.module.css';
-import { AccentSeparator } from '@/themes/creative/components/ui';
 
 interface TestimonialCardProps {
     data: Testimonial;

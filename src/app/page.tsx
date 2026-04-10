@@ -10,26 +10,24 @@ const MobileLayout = dynamic(() => import('@/themes/creative/components/layout/M
   loading: () => <LoadingScreen />,
 });
 
+// The finalised theme - Warm Editorial (Light)
+const ACTIVE_THEME = 'theme-light-warm';
+
 export default function Home() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
-
-  // This state is needed for CreativeTheme props, preserving existing functionality
-  // Default to 'creative' as that's the main theme
   const [activeTheme, setActiveTheme] = useState<'creative' | 'github'>('creative');
 
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const checkDevice = useCallback(() => {
-    // Check if viewport width is mobile (standard breakpoint < 768px)
-    const mobile = window.innerWidth < 768;
+    const mobile = typeof window !== 'undefined' && window.innerWidth < 768;
     setIsMobile(mobile);
   }, []);
 
   useEffect(() => {
-    // Check on mount (immediate, no debounce)
+    // Run immediately on mount to resolve the initial desktop/mobile state
     checkDevice();
-
-    // Debounced resize handler to prevent layout thrashing
+    
     const handleResize = () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
       debounceTimer.current = setTimeout(checkDevice, 150);
@@ -46,29 +44,24 @@ export default function Home() {
     setActiveTheme(theme);
   };
 
-  // Show loading state while detecting device (prevents hydration mismatch flicker)
   if (isMobile === null) {
     return <LoadingScreen />;
   }
 
-  // Render Mobile Layout
   if (isMobile) {
     return (
       <div id="main-content">
-        <MobileLayout />
+        <MobileLayout activeSubTheme={ACTIVE_THEME} />
       </div>
     );
   }
 
-  // Render Desktop Layout (Default)
-  // Using CreativeTheme wrapper to ensure full desktop functionality is restored
-  // NOTE: This currently forces CreativeTheme. If GitHub theme support is needed in the future,
-  // the switch logic from the original file should be restored here.
   return (
     <div id="main-content">
       <CreativeTheme
         currentTheme={activeTheme}
         onThemeChange={handleThemeChange}
+        activeSubTheme={ACTIVE_THEME}
       />
     </div>
   );

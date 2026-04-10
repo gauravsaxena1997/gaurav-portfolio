@@ -32,9 +32,8 @@ export const LoadingScreen = () => {
                     import('./../layout/ServiceFrame'),
                 ]);
 
-                console.log('[LoadingScreen] All critical components preloaded');
-            } catch (error) {
-                console.warn('[LoadingScreen] Preload failed:', error);
+            } catch {
+                // Silently fail preloads in production
             }
         };
 
