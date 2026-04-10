@@ -9,6 +9,7 @@ import { getProjectsForDisplay } from '@/themes/creative/components/sections/pro
 import { Header } from '@/themes/creative/components/header/Header';
 import { HeroSection } from '@/themes/creative/components/sections/hero/HeroSection';
 import { ScrollProvider } from '@/themes/creative/context/ScrollContext';
+import { GestureProvider } from '@/themes/creative/context/GestureContext';
 import { useScrollProgress } from '@/themes/creative/hooks/useScrollProgress';
 import { ProgressScrollbar } from '@/themes/creative/components/scroll/ProgressScrollbar';
 import { ClickTrigger } from '@/themes/creative/components/ui';
@@ -107,75 +108,77 @@ export default function MobileLayout({ activeSubTheme = '' }: MobileLayoutProps)
 
     return (
         <ScrollProvider>
-            <ProgressScrollbar />
-            {/* Site-wide cursor click burst animation */}
-            <ClickTrigger />
-            <div className={`${styles.mobileLayoutRoot} creative-theme ${activeSubTheme}`}>
-                <Header
-                    currentTheme={currentTheme}
-                    onThemeChange={handleThemeChange}
-                />
+            <GestureProvider>
+                <ProgressScrollbar />
+                {/* Site-wide cursor click burst animation */}
+                <ClickTrigger />
+                <div className={`${styles.mobileLayoutRoot} creative-theme ${activeSubTheme}`}>
+                    <Header
+                        currentTheme={currentTheme}
+                        onThemeChange={handleThemeChange}
+                    />
 
-                <TrackedSection
-                    logicalId="hero"
-                    domId="hero-section"
-                    style={{ position: 'relative' }}
-                >
-                    <HeroSection />
-                </TrackedSection>
+                    <TrackedSection
+                        logicalId="hero"
+                        domId="hero-section"
+                        style={{ position: 'relative' }}
+                    >
+                        <HeroSection />
+                    </TrackedSection>
 
-                <TrackedSection
-                    logicalId="stats"
-                    domId="stats-section"
-                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
-                >
-                    <div className={styles.statsContainer}>
-                        {[0, 1, 2].map((i) => (
-                            <MobileStatPanel key={i} index={i} />
+                    <TrackedSection
+                        logicalId="stats"
+                        domId="stats-section"
+                        style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
+                    >
+                        <div className={styles.statsContainer}>
+                            {[0, 1, 2].map((i) => (
+                                <MobileStatPanel key={i} index={i} />
+                            ))}
+                        </div>
+                    </TrackedSection>
+
+                    <TrackedSection
+                        logicalId="projects"
+                        domId="projects-section"
+                        className={styles.projectsWrapper}
+                    >
+                        <div className={styles.sectionLabel}>Project Showcase</div>
+                        {projects.map((project, index) => (
+                            <MobileProjectCard
+                                key={project.id}
+                                project={project}
+                                index={index}
+                            />
                         ))}
-                    </div>
-                </TrackedSection>
+                    </TrackedSection>
 
-                <TrackedSection
-                    logicalId="projects"
-                    domId="projects-section"
-                    className={styles.projectsWrapper}
-                >
-                    <div className={styles.sectionLabel}>Project Showcase</div>
-                    {projects.map((project, index) => (
-                        <MobileProjectCard
-                            key={project.id}
-                            project={project}
-                            index={index}
-                        />
-                    ))}
-                </TrackedSection>
+                    <TrackedSection
+                        logicalId="testimonials"
+                        domId="testimonials-section"
+                        style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
+                    >
+                        <MobileTestimonialsSection />
+                    </TrackedSection>
 
-                <TrackedSection
-                    logicalId="testimonials"
-                    domId="testimonials-section"
-                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
-                >
-                    <MobileTestimonialsSection />
-                </TrackedSection>
+                    <TrackedSection
+                        logicalId="services"
+                        domId="services-section"
+                        style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
+                    >
+                        <div className={styles.sectionLabel}>What I Offer</div>
+                        <MobileServicesSection />
+                    </TrackedSection>
 
-                <TrackedSection
-                    logicalId="services"
-                    domId="services-section"
-                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
-                >
-                    <div className={styles.sectionLabel}>What I Offer</div>
-                    <MobileServicesSection />
-                </TrackedSection>
-
-                <TrackedSection
-                    logicalId="contact"
-                    domId="contact-section"
-                    style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
-                >
-                    <MobileContactSection />
-                </TrackedSection>
-            </div>
+                    <TrackedSection
+                        logicalId="contact"
+                        domId="contact-section"
+                        style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
+                    >
+                        <MobileContactSection />
+                    </TrackedSection>
+                </div>
+            </GestureProvider>
         </ScrollProvider>
     );
 }

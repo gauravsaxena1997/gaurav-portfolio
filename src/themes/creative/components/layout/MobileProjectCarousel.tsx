@@ -26,7 +26,8 @@ export function MobileProjectCarousel({
     projectName,
     onExpand,
 }: MobileProjectCarouselProps) {
-    const hasVideo = !!videoSrc;
+    const [videoError, setVideoError] = useState(false);
+    const hasVideo = !!videoSrc && !videoError;
     const totalSlides = (hasVideo ? 1 : 0) + images.length;
     const [currentIndex, setCurrentIndex] = useState(0);
     const [touchStart, setTouchStart] = useState(0);
@@ -122,6 +123,7 @@ export function MobileProjectCarousel({
                             muted
                             playsInline
                             preload="metadata"
+                            onError={() => setVideoError(true)}
                         />
                     ) : (
                         <Image

@@ -52,8 +52,8 @@
   right: 24px;
   bottom: 24px;
   z-index: 9998;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,8 +95,8 @@
 
 /* Chat bubble shape wrapper — clips the avatar into speech-bubble form */
 .fabBubble {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   position: relative;
   overflow: hidden;
   border-radius: 50%;
@@ -113,8 +113,8 @@
 
 /* Close button state — plain circle with X */
 .fabClose {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: color-mix(in srgb, var(--creative-text-primary) 85%, transparent);
   display: flex;
@@ -142,8 +142,8 @@
   overflow-x: hidden;
   outline: none;
   right: 24px;
-  bottom: 100px;
-  width: 630px;
+  bottom: 90px;
+  width: 420px;
   height: 600px;
   border-radius: 20px;
   /* Use theme variables for adaptive background */

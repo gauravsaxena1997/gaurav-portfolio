@@ -10,8 +10,8 @@
     background: var(--creative-bg-secondary);
     display: flex;
     flex-direction: column;
-    padding: var(--section-padding-y) var(--section-padding-x);
-    gap: var(--space-md);
+    padding: clamp(2rem, 8vw, 2.5rem) var(--section-padding-x);
+    gap: 2.5rem;
 }
 
 /* Visual separation between project cards */
@@ -87,7 +87,9 @@
     justify-content: center;
     width: calc(100% - 3rem);
     margin: 0 auto;
-    padding: 0.85rem;
+    padding: 0.75rem;
+    width: calc(100% - 2.5rem);
+    margin: 0 auto;
     background: var(--creative-accent);
     color: #ffffff;
     font-family: var(--font-mono);
@@ -99,7 +101,7 @@
     letter-spacing: 0.05em;
     transition: all 0.2s ease;
     white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb), 0.3);
+    box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb), 0.2);
 }
 
 .viewLiveBlockButton:hover {
@@ -211,7 +213,7 @@
 .keyFeaturesGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.85rem 1rem;
+    gap: 0.6rem 0.8rem;
     margin-top: 1rem;
 }
 
@@ -226,20 +228,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    background: rgba(var(--creative-accent-rgb), 0.12);
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: rgba(var(--creative-accent-rgb), 0.08);
     color: var(--creative-accent);
-    border: 1px solid rgba(var(--creative-accent-rgb), 0.2);
+    border: 1px solid rgba(var(--creative-accent-rgb), 0.15);
 }
 
 .keyFeatureText {
     font-family: var(--font-body);
-    font-size: 0.95rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    color: var(--creative-text-primary);
-    line-height: 1.3;
+    color: var(--creative-text-secondary);
+    line-height: 1.4;
     letter-spacing: -0.01em;
 }
 
@@ -277,8 +279,8 @@
 .techStackRow {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.85rem;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
 }
 
 .techBadge {

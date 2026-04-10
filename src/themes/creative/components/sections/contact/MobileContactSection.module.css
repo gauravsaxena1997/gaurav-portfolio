@@ -133,13 +133,11 @@
 .contactFormArea> :global(div) {
     width: 100% !important;
     max-width: 500px !important;
-    background: color-mix(in srgb, var(--creative-text-primary) 3%, transparent) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid color-mix(in srgb, var(--creative-text-primary) 8%, transparent) !important;
+    background: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
     border-radius: var(--radius-lg) !important;
-    padding: clamp(1rem, 3dvh, 1.25rem) !important;
-    box-shadow: none !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
     box-sizing: border-box !important;
 }
 
@@ -170,13 +168,16 @@
 
 .contactFormArea :global(input),
 .contactFormArea :global(textarea) {
-    padding: 0.6rem 0.75rem !important;
+    padding: 0.8rem 1rem !important;
     font-size: var(--font-size-body-sm) !important;
+    background: #fdfdfd !important;
+    border: 1px solid #eeeeee !important;
 }
 
 .contactFormArea :global(input::placeholder),
 .contactFormArea :global(textarea::placeholder) {
     font-size: inherit !important;
+    color: #999999 !important;
 }
 
 .contactFormArea :global(textarea) {

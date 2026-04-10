@@ -192,11 +192,11 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .header {
-    padding: 0;
-    background: transparent;
-    top: 16px;
-    right: 16px;
-    flex-direction: row-reverse;
+    top: max(24px, env(safe-area-inset-top));
+    right: max(24px, env(safe-area-inset-right));
+    left: auto;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 
   .labsButton {

@@ -750,8 +750,8 @@
 
   /* Larger profile ring on mobile for visual impact */
   .heroProfileRing {
-    width: clamp(130px, 35vw, 180px);
-    height: clamp(130px, 35vw, 180px);
+    width: clamp(160px, 45vw, 220px);
+    height: clamp(160px, 45vw, 220px);
     /* Enhanced warm glow for mobile */
     background: radial-gradient(
       circle,
@@ -759,7 +759,7 @@
       color-mix(in srgb, var(--creative-accent) 8%, transparent) 60%,
       transparent 100%
     );
-    padding: 5px;
+    padding: 6px;
     box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--creative-accent) 30%, transparent),
                 0 12px 40px color-mix(in srgb, var(--creative-accent) 12%, transparent);
   }
@@ -775,6 +775,8 @@
 
 /* Mobile - Centered premium content layout */
 @media (max-width: 768px) {
+
+
   .heroContent {
     text-align: center;
     --hero-vertical-padding: 0;
@@ -788,12 +790,14 @@
 
   /* Eyebrow label — larger & centered */
   .greeting {
-    font-size: clamp(0.8rem, 3.5vw, 1rem);
-    opacity: 0.85;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.12em;
-    white-space: nowrap;
+    font-size: clamp(0.85rem, 4.2vw, 1.2rem);
+    opacity: 0.95;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.1em;
+    white-space: normal;
     text-align: center;
+    font-weight: 800;
+    max-width: 90%;
   }
 
   .tagline {
@@ -919,8 +923,8 @@
 
   /* Slightly smaller profile image on very small screens */
   .heroProfileRing {
-    width: clamp(110px, 30vw, 150px);
-    height: clamp(110px, 30vw, 150px);
+    width: clamp(140px, 42vw, 200px);
+    height: clamp(140px, 42vw, 200px);
   }
 
   .heroName {
@@ -935,13 +939,15 @@
   }
 
   .greeting {
-    font-size: clamp(0.7rem, 3vw, 0.875rem);
-    margin-bottom: 0.3rem;
+    font-size: clamp(0.8rem, 4vw, 1rem);
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
   }
 
   .heroTagline {
-    font-size: clamp(0.85rem, 4vw, 1.1rem) !important;
-    margin-bottom: 0.5rem;
+    font-size: clamp(1.1rem, 5vw, 1.45rem) !important;
+    margin-bottom: 0.75rem;
   }
 
   .actionRow {

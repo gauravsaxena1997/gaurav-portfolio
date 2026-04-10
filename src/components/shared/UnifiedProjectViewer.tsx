@@ -206,44 +206,18 @@ export function UnifiedProjectViewer({
 
     return (
         <div style={styles.overlay} onClick={onClose}>
-            {/* Header Bar */}
+            {/* Top Navigation Bar: Minimalist & Clean */}
             <div
-                className="viewer-header"
                 style={styles.header}
                 onClick={(e) => e.stopPropagation()}
+                className="viewer-nav-top"
             >
-                <div className="header-top-row">
-                    {/* Title & Close on the same row for mobile */}
-                    <div style={styles.headerLeft}>
-                        {title && <h2 style={styles.projectTitle}>{title}</h2>}
-                    </div>
-                    {/* Mobile Only Close Button - Moved here for alignment */}
-                    <button style={styles.closeButton} onClick={onClose} aria-label="Close" className="close-btn-mobile">
-                        <X size={24} />
-                    </button>
+                <div style={styles.headerLeft}>
+                    {title && <h2 style={styles.projectTitle}>{title}</h2>}
                 </div>
-
-                <div className="header-bottom-row" style={styles.headerRight}>
-                    {liveUrl && (
-                        <a
-                            href={liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={styles.liveButton}
-
-                            className="view-live-btn"
-                            onClick={() => title && AnalyticsService.trackProjectInteraction('click_live_demo', title)}
-                        >
-                            View Live
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: 6 }}>
-                                <path d="M7 17L17 7M17 7H7M17 7V17" />
-                            </svg>
-                        </a>
-                    )}
-                    <button style={styles.closeButton} onClick={onClose} aria-label="Close" className="close-btn-desktop">
-                        <X size={24} />
-                    </button>
-                </div>
+                <button style={styles.closeButton} onClick={onClose} aria-label="Close">
+                    <X size={20} />
+                </button>
             </div>
 
             <div
@@ -253,20 +227,19 @@ export function UnifiedProjectViewer({
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
             >
-
                 {/* Desktop Navigation - Previous */}
                 {totalSlides > 1 && (
                     <button
-                        style={{ ...styles.navButton, left: 16 }}
+                        style={{ ...styles.navButton, left: 24 }}
                         onClick={goToPrev}
                         aria-label="Previous slide"
                         className="nav-btn-desktop"
                     >
-                        <ChevronLeft size={32} />
+                        <ChevronLeft size={28} />
                     </button>
                 )}
 
-                {/* Main Content Area */}
+                {/* Main Media Core */}
                 <div style={styles.mediaContainer}>
                     {isVideoSlide ? (
                         <div style={styles.videoWrapper}>
@@ -275,37 +248,21 @@ export function UnifiedProjectViewer({
                                 src={videoSrc}
                                 autoPlay
                                 id="fullscreen-video-player"
-                                muted // Start muted for autoplay
+                                muted
                                 loop
                                 playsInline
                                 style={styles.fullscreenVideo}
                                 onClick={togglePlayPause}
-                                onError={() => {
-                                    setVideoError(true);
-                                }}
+                                onError={() => setVideoError(true)}
                             />
-                            {/* Play/Pause Overlay */}
-                            <button
-                                style={{
-                                    ...styles.playPauseButton,
-                                    opacity: isPlaying ? 0 : 1,
-                                }}
-                                onClick={togglePlayPause}
-                                className="play-pause-btn"
-                            >
-                                {isPlaying ? <Pause size={48} /> : <Play size={48} />}
-                            </button>
-
-                            {/* Progress Bar (Hidden on mobile via CSS) */}
-                            <div style={styles.progressBarContainer} className="progress-bar-container">
-                                <div
-                                    ref={progressBarRef}
-                                    style={{
-                                        ...styles.progressBarFill,
-                                        width: '0%',
-                                    }}
-                                />
-                            </div>
+                            {!isPlaying && (
+                                <button
+                                    style={styles.playPauseButton}
+                                    onClick={togglePlayPause}
+                                >
+                                    <Play size={40} fill="currentColor" />
+                                </button>
+                            )}
                         </div>
                     ) : (
                         <div style={styles.imageWrapper}>
@@ -315,7 +272,7 @@ export function UnifiedProjectViewer({
                                 fill
                                 style={{ objectFit: 'contain' }}
                                 quality={100}
-                                sizes="90vw"
+                                sizes="95vw"
                                 priority
                             />
                         </div>
@@ -325,166 +282,69 @@ export function UnifiedProjectViewer({
                 {/* Desktop Navigation - Next */}
                 {totalSlides > 1 && (
                     <button
-                        style={{ ...styles.navButton, right: 16 }}
+                        style={{ ...styles.navButton, right: 24 }}
                         onClick={goToNext}
                         aria-label="Next slide"
                         className="nav-btn-desktop"
                     >
-                        <ChevronRight size={32} />
+                        <ChevronRight size={28} />
                     </button>
                 )}
+            </div>
 
-                {/* Desktop Counter */}
+            {/* Bottom Controls / CTA Bar */}
+            <div
+                style={styles.footer}
+                onClick={(e) => e.stopPropagation()}
+                className="viewer-nav-bottom"
+            >
                 {totalSlides > 1 && (
-                    <div style={styles.counter} className="counter-desktop">
-                        {currentIndex + 1} / {totalSlides}
+                    <div style={styles.mobileCarouselNav}>
+                         <button className="mob-page-btn" onClick={goToPrev}><ChevronLeft size={18} /></button>
+                         <span style={styles.counter}>{currentIndex + 1} / {totalSlides}</span>
+                         <button className="mob-page-btn" onClick={goToNext}><ChevronRight size={18} /></button>
                     </div>
                 )}
-
-                {/* Mobile Controls (Prev - Count - Next) */}
-                {totalSlides > 1 && (
-                    <div className="mobile-controls">
-                        <button
-                            className="mobile-nav-btn"
-                            onClick={(e) => { e.stopPropagation(); goToPrev(); }}
-                            aria-label="Previous slide"
-                        >
-                            <ChevronLeft size={24} />
-                        </button>
-
-                        <div className="mobile-counter">
-                            {currentIndex + 1} / {totalSlides}
-                        </div>
-
-                        <button
-                            className="mobile-nav-btn"
-                            onClick={(e) => { e.stopPropagation(); goToNext(); }}
-                            aria-label="Next slide"
-                        >
-                            <ChevronRight size={24} />
-                        </button>
-                    </div>
+                
+                {liveUrl && (
+                    <a
+                        href={liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={styles.liveButton}
+                        className="view-live-cta"
+                        onClick={() => title && AnalyticsService.trackProjectInteraction('click_live_demo', title)}
+                    >
+                        Visit Website
+                        <ChevronRight size={14} style={{ marginLeft: 4 }} />
+                    </a>
                 )}
             </div>
-            {/* CSS for hover effects */}
+
             <style jsx>{`
-        .play-pause-btn:hover {
-            opacity: 1 !important;
-        }
-
-        /* Mobile Header Logic */
-        .close-btn-mobile { display: none !important; }
-        .mobile-controls { display: none; }
-        .nav-btn-desktop { display: block; }
-        .counter-desktop { display: block; }
-        
-        /* Hide scrollbars globally in viewer */
-        .viewer-header, .mobile-controls {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        @media (max-width: 768px) {
-            .viewer-header {
-                flex-direction: column;
-                align-items: flex-start !important;
-                justify-content: center !important;
-                height: auto !important;
-                min-height: 100px;
-                padding: 20px 24px !important;
-                gap: 16px;
-                background: linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.6), transparent) !important;
-                pointer-events: none; /* Container is pass-through */
-            }
-
-            .header-top-row {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                pointer-events: auto; /* Enable clicks for children (Close button) */
-            }
-
-            .header-bottom-row {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .view-live-btn {
-                width: 100%;
-                justify-content: center;
-                background: rgba(255, 255, 255, 0.2) !important;
-            }
-
-            .close-btn-desktop { display: none !important; }
-            
-            /* Clean Mobile Close Button */
-            .close-btn-mobile { 
-                 display: flex !important; 
-                 background: rgba(255, 255, 255, 0.1) !important;
-                 border-radius: 50%;
-                 width: 32px;
-                 height: 32px;
-                 align-items: center;
-                 justify-content: center;
-                 border: none;
-                 color: white;
-            }
-
-            /* Hide Desktop Navs */
-            .nav-btn-desktop { display: none !important; }
-            .counter-desktop { display: none !important; }
-
-            /* Mobile Controls Bar */
-             .mobile-controls {
-                display: flex !important;
-                flex-direction: row; /* FORCE ROW */
-                align-items: center;
-                justify-content: center;
-                gap: 24px;
-                position: absolute;
-                bottom: 40px;
-                left: 0;
-                width: 100%;
-                z-index: 20;
-                pointer-events: none;
-            }
-
-            /* Hide video progress bar on mobile if requested */
-            /* User calls it "custom scroll bar" */
-            .progress-bar-container {
-                 display: none !important;
-            }
-
-            .mobile-nav-btn {
-                background: rgba(0, 0, 0, 0.5);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 50%;
-                width: 44px;
-                height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                pointer-events: auto;
-                cursor: pointer;
-                backdrop-filter: blur(4px);
-            }
-
-            .mobile-counter {
-                color: white;
-                font-size: 14px;
-                font-weight: 500;
-                background: rgba(0, 0, 0, 0.5);
-                padding: 6px 16px;
-                border-radius: 20px;
-                backdrop-filter: blur(4px);
-                pointer-events: auto;
-            }
-        }
-      `}</style>
+                .mob-page-btn {
+                    background: #f5f5f5;
+                    border: 1px solid #e5e5e5;
+                    border-radius: 8px;
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #555;
+                }
+                
+                @media (max-width: 768px) {
+                    .nav-btn-desktop { display: none !important; }
+                    
+                    .view-live-cta {
+                        flex: 1;
+                        justify-content: center;
+                        font-weight: 700 !important;
+                        letter-spacing: 0.02em;
+                    }
+                }
+            `}</style>
         </div>
     );
 }
@@ -496,93 +356,53 @@ const styles: Record<string, React.CSSProperties> = {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: '#000000',
+        backgroundColor: '#ffffff',
         zIndex: 2147483647,
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden', /* Ensure no scrollbars */
     },
     header: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '80px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0 40px',
-        zIndex: 20,
-        background: 'linear-gradient(to bottom, rgba(0,0,0,0.8), transparent)',
-        pointerEvents: 'none', // Allow clicks to pass through if not hitting buttons
+        padding: '20px 24px',
+        borderBottom: '1px solid #f0f0f0',
+        background: '#ffffff',
     },
     headerLeft: {
-        pointerEvents: 'auto',
-    },
-    headerRight: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '20px',
-        pointerEvents: 'auto',
+        flex: 1,
     },
     projectTitle: {
-        color: 'white',
-        fontSize: '18px',
-        fontWeight: 500,
-        letterSpacing: '0.5px',
+        color: '#111111',
+        fontSize: '16px',
+        fontWeight: 700,
         margin: 0,
     },
-    liveButton: {
-        display: 'flex',
-        alignItems: 'center',
-        color: 'white',
-        textDecoration: 'none',
-        fontSize: '14px',
-        fontWeight: 500,
-        background: 'rgba(255, 255, 255, 0.15)',
-        padding: '8px 16px',
-        borderRadius: '20px',
-        backdropFilter: 'blur(10px)',
-        transition: 'background 0.2s',
-    },
     closeButton: {
-        background: 'rgba(255, 255, 255, 0.15)',
-        border: 'none',
+        background: '#f5f5f5',
+        border: '1px solid #e5e5e5',
         borderRadius: '50%',
-        width: '40px',
-        height: '40px',
+        width: '36px',
+        height: '36px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         cursor: 'pointer',
-        color: 'white',
-        backdropFilter: 'blur(10px)',
-        transition: 'background 0.2s',
+        color: '#111111',
+        transition: 'all 0.2s',
     },
     content: {
         position: 'relative',
         flex: 1,
-        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    navButton: {
-        position: 'absolute',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        background: 'rgba(255, 255, 255, 0.1)',
-        border: 'none',
-        borderRadius: 8,
-        padding: 8,
-        cursor: 'pointer',
-        color: 'white',
-        zIndex: 10,
+        background: '#fafafa',
     },
     mediaContainer: {
         position: 'relative',
-        width: '90vw',
-        height: '80vh', // Slightly smaller to account for header
+        width: '100%',
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -598,58 +418,75 @@ const styles: Record<string, React.CSSProperties> = {
     fullscreenVideo: {
         maxWidth: '100%',
         maxHeight: '100%',
-        width: 'auto',
-        height: 'auto',
         objectFit: 'contain',
-        cursor: 'pointer',
     },
     imageWrapper: {
         width: '100%',
         height: '100%',
         position: 'relative',
     },
-    counter: {
-        position: 'absolute',
-        bottom: 24,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        color: 'white',
-        fontSize: 14,
-        fontFamily: 'system-ui',
-        background: 'rgba(0, 0, 0, 0.5)',
-        padding: '6px 16px',
-        borderRadius: 20,
-    },
-    playPauseButton: {
+    navButton: {
         position: 'absolute',
         top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        background: 'rgba(0, 0, 0, 0.5)',
-        border: 'none',
+        transform: 'translateY(-50%)',
+        background: '#ffffff',
+        border: '1px solid #e5e5e5',
         borderRadius: '50%',
-        padding: '20px',
-        cursor: 'pointer',
-        color: 'white',
-        transition: 'opacity 0.2s ease',
+        width: '48px',
+        height: '48px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        cursor: 'pointer',
+        color: '#111111',
+        zIndex: 10,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
     },
-    progressBarContainer: {
+    footer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
+        padding: '24px 24px calc(24px + env(safe-area-inset-bottom))',
+        borderBottom: 'none',
+        background: '#ffffff',
+    },
+    mobileCarouselNav: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '16px',
+    },
+    counter: {
+        fontSize: '13px',
+        fontWeight: 600,
+        color: '#666666',
+        minWidth: '40px',
+        textAlign: 'center',
+    },
+    liveButton: {
+        display: 'flex',
+        alignItems: 'center',
+        color: '#ffffff',
+        textDecoration: 'none',
+        fontSize: '14px',
+        fontWeight: 600,
+        background: '#ff6b3d', // Custom accent for CTA
+        padding: '12px 24px',
+        borderRadius: '12px',
+        transition: 'transform 0.2s',
+    },
+    playPauseButton: {
         position: 'absolute',
-        bottom: 0,
-        left: 0,
-        width: '100%',
-        height: '4px',
-        background: 'rgba(255, 255, 255, 0.2)',
-        borderRadius: '0 0 4px 4px',
-        overflow: 'hidden',
-    },
-    progressBarFill: {
-        height: '100%',
-        background: '#cda882',
-        width: '0%', // Start at 0
-        // removed transition: width linear... to allow rAF to control it instantly
+        background: 'rgba(255, 255, 255, 0.9)',
+        border: 'none',
+        borderRadius: '50%',
+        width: '64px',
+        height: '64px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#111111',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+        zIndex: 10,
     }
 };
