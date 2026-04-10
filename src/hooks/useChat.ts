@@ -132,11 +132,21 @@ export function useChat() {
     setStatus('idle');
   }, []);
 
+  const retryLastMessage = useCallback(async () => {
+    const lastUserMsg = [...messages].reverse().find(m => m.role === 'user');
+    if (lastUserMsg) {
+      // Remove the last error-inducing user message and retry
+      // Actually, we keep it and just re-send the content
+      await sendMessage(lastUserMsg.content);
+    }
+  }, [messages, sendMessage]);
+
   return {
     messages,
     status,
     error,
     sendMessage,
+    retryLastMessage,
     clearChat,
     cancelRequest,
     dismissError,

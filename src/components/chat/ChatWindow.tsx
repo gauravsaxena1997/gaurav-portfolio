@@ -14,7 +14,7 @@ interface ChatWindowProps {
 }
 
 export function ChatWindow({ onClose, inputRef }: ChatWindowProps) {
-  const { messages, status, error, sendMessage, clearChat, dismissError } =
+  const { messages, status, error, sendMessage, retryLastMessage, clearChat, dismissError } =
     useChat();
   const windowRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -136,8 +136,13 @@ export function ChatWindow({ onClose, inputRef }: ChatWindowProps) {
 
       {error && (
         <div className={styles.errorBar} role="alert">
-          <span>{error}</span>
-          <button onClick={dismissError} aria-label="Dismiss error">
+          <div className={styles.errorContent}>
+            <span>{error}</span>
+            <button className={styles.retryBtn} onClick={retryLastMessage}>
+               Retry
+            </button>
+          </div>
+          <button onClick={dismissError} className={styles.dismissBtn} aria-label="Dismiss error">
             ✕
           </button>
         </div>
