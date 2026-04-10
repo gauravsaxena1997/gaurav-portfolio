@@ -105,7 +105,7 @@ export const CASE_STUDIES: ICaseStudy[] = [
       ],
       toolsUsed: [
         'Next.js (App Router) - Full-stack framework with server actions',
-        'Prisma + PostgreSQL - Database ORM and relational data layer',
+        'Prisma + Postgres SQL - Database ORM and relational data layer',
         'OpenAI / LLM API - Powers the financial chatbot and AI insight cards',
         'JWT (jose) - Secure httpOnly cookie-based authentication',
         'Framer Motion - Smooth UI animations and transitions',
@@ -125,7 +125,8 @@ export const CASE_STUDIES: ICaseStudy[] = [
     ],
     techStack: [
       'Next.js',
-      'Supabase',
+      'Postgres SQL',
+      'JWT',
       'OpenAI',
       'Framer Motion',
     ],

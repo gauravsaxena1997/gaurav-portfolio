@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, ReactNode, useMemo } from 'react';
 
 interface SectionProgress {
   id: string;
@@ -102,25 +102,34 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const contextValue = useMemo(() => ({
+    totalProgress,
+    setTotalProgress,
+    activeSection,
+    setActiveSection,
+    sectionProgress,
+    updateSectionProgress,
+    scrollDirection,
+    setScrollDirection,
+    isScrolling,
+    setIsScrolling,
+    currentProjectIndex,
+    setCurrentProjectIndex,
+    isInProjectsSection,
+    setIsInProjectsSection,
+  }), [
+    totalProgress,
+    activeSection,
+    sectionProgress,
+    updateSectionProgress,
+    scrollDirection,
+    isScrolling,
+    currentProjectIndex,
+    isInProjectsSection,
+  ]);
+
   return (
-    <ScrollContext.Provider
-      value={{
-        totalProgress,
-        setTotalProgress,
-        activeSection,
-        setActiveSection,
-        sectionProgress,
-        updateSectionProgress,
-        scrollDirection,
-        setScrollDirection,
-        isScrolling,
-        setIsScrolling,
-        currentProjectIndex,
-        setCurrentProjectIndex,
-        isInProjectsSection,
-        setIsInProjectsSection,
-      }}
-    >
+    <ScrollContext.Provider value={contextValue}>
       {children}
     </ScrollContext.Provider>
   );

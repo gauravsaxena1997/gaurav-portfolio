@@ -42,10 +42,13 @@ export const ProjectSection = memo(function ProjectSection() {
   const [unifiedTargetProject, setUnifiedTargetProject] = useState<number>(0);
   const preloadCache = useRef<Set<string>>(new Set());
 
-  const { setCurrentProjectIndex, setIsInProjectsSection } = useScrollContext();
+  const {
+    setCurrentProjectIndex,
+    setIsInProjectsSection,
+    isInProjectsSection: currentIsInProjects,
+  } = useScrollContext();
 
   const projects = getProjectsForDisplay();
-
 
   // Detect mobile
   useEffect(() => {
@@ -104,7 +107,11 @@ export const ProjectSection = memo(function ProjectSection() {
       // Check if we're in the projects section
       // Relaxed check: Show as soon as top is within 50% of viewport
       const inProjectsSection = rect.top < viewportHeight * 0.5 && rect.bottom >= viewportHeight * 0.5;
-      setIsInProjectsSection(inProjectsSection);
+
+      // GUARD: Only update context if value has changed
+      if (inProjectsSection !== currentIsInProjects) {
+        setIsInProjectsSection(inProjectsSection);
+      }
 
       if (!inProjectsSection) {
         return;
@@ -133,7 +140,7 @@ export const ProjectSection = memo(function ProjectSection() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeProjectIndex, setCurrentProjectIndex, setIsInProjectsSection]);
+  }, [activeProjectIndex, currentIsInProjects, setCurrentProjectIndex, setIsInProjectsSection]);
 
 
   const activeProject = projects[unifiedTargetProject];
