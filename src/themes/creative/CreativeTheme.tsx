@@ -5,6 +5,10 @@ import { ScrollOrchestrator } from './components/scroll/ScrollOrchestrator';
 import { ProgressScrollbar } from './components/scroll/ProgressScrollbar';
 import { Header } from './components/header/Header';
 import { ClickTrigger } from './components/ui';
+import { GestureProvider } from './context/GestureContext';
+import { HandGestureManager } from './components/shared/HandGestureManager';
+import { GestureFeedback } from './components/shared/GestureFeedback';
+import { useEffect } from 'react';
 
 
 import './styles/theme.css';
@@ -18,28 +22,45 @@ interface CreativeThemeProps {
 }
 
 export function CreativeTheme({ currentTheme, onThemeChange, activeSubTheme = '' }: CreativeThemeProps) {
+  // Apply theme classes to body so portals (like FAQModal) inherit variables
+  useEffect(() => {
+    const classes = ['creative-theme', activeSubTheme].filter(Boolean);
+    document.body.classList.add(...classes);
+    return () => {
+      document.body.classList.remove(...classes);
+    };
+  }, [activeSubTheme]);
+
   return (
-    <ScrollProvider>
-      <div
-        className={`${styles.creativeTheme} creative-theme ${activeSubTheme}`}
-      >
-        {/* Fixed Header */}
-        <Header
-          currentTheme={currentTheme}
-          onThemeChange={onThemeChange}
-        />
+    <GestureProvider>
+      <ScrollProvider>
+        <div
+          className={`${styles.creativeTheme} creative-theme ${activeSubTheme}`}
+        >
+          {/* Site-wide Headless Gesture Engine */}
+          <HandGestureManager />
 
-        {/* Custom Progress Scrollbar */}
-        <ProgressScrollbar />
+          {/* Fixed Header */}
+          <Header
+            currentTheme={currentTheme}
+            onThemeChange={onThemeChange}
+          />
 
-        {/* Site-wide cursor click burst animation */}
-        <ClickTrigger />
+          {/* Custom Progress Scrollbar */}
+          <ProgressScrollbar />
 
-        {/* Main Scroll Content */}
-        <main className={styles.scrollContainer}>
-          <ScrollOrchestrator />
-        </main>
-      </div>
-    </ScrollProvider>
+          {/* Site-wide cursor click burst animation */}
+          <ClickTrigger />
+
+          {/* Gesture Visual Feedback (Follower) */}
+          <GestureFeedback />
+
+          {/* Main Scroll Content */}
+          <main className={styles.scrollContainer}>
+            <ScrollOrchestrator />
+          </main>
+        </div>
+      </ScrollProvider>
+    </GestureProvider>
   );
 }

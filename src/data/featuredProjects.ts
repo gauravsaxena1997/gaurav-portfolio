@@ -4,6 +4,8 @@ import type { ICaseStudy } from './caseStudies';
 // Featured project slugs - single source of truth
 // Order determines display order in search dropdown and projects sidebar
 export const FEATURED_PROJECT_SLUGS = [
+  'moniqo',
+  'artifexa',
   'lumore',
   'cultureticks',
   'roamonn',

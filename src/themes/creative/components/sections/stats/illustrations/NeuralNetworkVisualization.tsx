@@ -3,6 +3,7 @@ import { useRef, useState, useMemo, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sparkles, Sphere, Line, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
+import { useGestures } from '@/themes/creative/context/GestureContext';
 
 function useThemeColors() {
   const [colors, setColors] = useState({ 
@@ -39,12 +40,20 @@ function useThemeColors() {
 function NeuralNetwork({ colors }: { colors: { bg: string, primary: string, secondary: string, accent: string } }) {
   const groupRef = useRef<THREE.Group>(null);
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
+  const { isGesturesEnabled, isTrackingActive, handCoordinates, lastGesture } = useGestures();
   
-  const nodes = useMemo(() => {
-    return Array.from({ length: 25 }).map((_, i) => {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos((Math.random() * 2) - 1);
-      const radius = 2.5 + Math.random() * 4.5;
+  const { nodes, connections } = useMemo(() => {
+    // Use deterministic seeded random for consistent positioning
+    const random = (seed: number) => {
+      const x = Math.sin(seed) * 10000;
+      return x - Math.floor(x);
+    };
+    
+    // Generate nodes
+    const generatedNodes = Array.from({ length: 60 }).map((_, i) => {
+      const theta = random(i + 1) * Math.PI * 2;
+      const phi = Math.acos((random(i + 42) * 2) - 1);
+      const radius = 2.0 + random(i + 100) * 3.5; // Tighter radius
       
       return new THREE.Vector3(
         radius * Math.sin(phi) * Math.cos(theta),
@@ -52,6 +61,27 @@ function NeuralNetwork({ colors }: { colors: { bg: string, primary: string, seco
         radius * Math.cos(phi)
       );
     });
+
+    // Generate connections (nearest neighbors)
+    const generatedConnections: Array<[number, number]> = [];
+    generatedNodes.forEach((node, i) => {
+      // Find 2 closest neighbors for each node to create a complex web
+      const distances = generatedNodes
+        .map((other, j) => ({ index: j, dist: node.distanceTo(other) }))
+        .filter(d => d.index !== i)
+        .sort((a, b) => a.dist - b.dist);
+      
+      // Connect to top 2 neighbors
+      for (let k = 0; k < 2; k++) {
+        const neighborIdx = distances[k].index;
+        // Avoid duplicate lines (i, j) and (j, i)
+        if (i < neighborIdx) {
+          generatedConnections.push([i, neighborIdx]);
+        }
+      }
+    });
+    
+    return { nodes: generatedNodes, connections: generatedConnections };
   }, []);
 
   useFrame((state) => {
@@ -59,14 +89,38 @@ function NeuralNetwork({ colors }: { colors: { bg: string, primary: string, seco
       groupRef.current.rotation.y = state.clock.elapsedTime * 0.05;
       groupRef.current.rotation.z = state.clock.elapsedTime * 0.02;
       
-      const targetX = state.pointer.x * 0.5;
       const targetY = state.pointer.y * 0.5;
       groupRef.current.rotation.x += 0.05 * (targetY - groupRef.current.rotation.x);
+
+      // --- NEW: Hand Gesture Interaction (Pointing) ---
+      if (isGesturesEnabled && isTrackingActive && handCoordinates && lastGesture === 'Point') {
+        // Map hand to -1 to 1 range (for raycasting/comparison)
+        const px = (handCoordinates.x * 2) - 1;
+        const py = -((handCoordinates.y * 2) - 1);
+
+        let closestIdx = -1;
+        let minDistance = 0.5; // Detection threshold
+
+        nodes.forEach((pos, i) => {
+          // Project 3D node to 2D screen space for simplified distance check
+          const vector = pos.clone();
+          vector.applyMatrix4(groupRef.current!.matrixWorld);
+          vector.project(state.camera);
+          
+          const d = Math.hypot(vector.x - px, vector.y - py);
+          if (d < minDistance) {
+            minDistance = d;
+            closestIdx = i;
+          }
+        });
+
+        setHoveredNode(closestIdx !== -1 ? closestIdx : null);
+      }
     }
   });
 
   return (
-    <group ref={groupRef} position={[3, -2, 0]}> {/* Adjusted for smaller container, still bottom right */}
+    <group ref={groupRef} position={[2.2, -1.8, 1]} rotation={[0, -Math.PI / 4, 0]}> {/* Bottom-right position */}
       <Sphere args={[0.6, 32, 32]}>
         <meshBasicMaterial color={hoveredNode !== null ? colors.accent : colors.primary} />
       </Sphere>
@@ -94,32 +148,20 @@ function NeuralNetwork({ colors }: { colors: { bg: string, primary: string, seco
         );
       })}
 
-      {nodes.map((pos1, i) => {
-        const nextIndex = (i + 1) % nodes.length;
-        const pos2 = nodes[nextIndex];
-        const isHovered = hoveredNode === i || hoveredNode === nextIndex;
-        
-        const acrossIndex = (i + Math.floor(nodes.length / 3)) % nodes.length;
-        const pos3 = nodes[acrossIndex];
-        const isAcrossHovered = hoveredNode === i || hoveredNode === acrossIndex;
+      {connections.map(([i, j], idx) => {
+        const pos1 = nodes[i];
+        const pos2 = nodes[j];
+        const isHovered = hoveredNode === i || hoveredNode === j;
         
         return (
-          <group key={`web-group-${i}`}>
-            <Line 
-              points={[[pos1.x, pos1.y, pos1.z], [pos2.x, pos2.y, pos2.z]]} 
-              color={isHovered ? colors.accent : colors.secondary} 
-              opacity={isHovered ? 0.6 : 0.15} 
-              transparent 
-              lineWidth={isHovered ? 1.5 : 0.5} 
-            />
-            <Line 
-              points={[[pos1.x, pos1.y, pos1.z], [pos3.x, pos3.y, pos3.z]]} 
-              color={isAcrossHovered ? colors.accent : colors.secondary} 
-              opacity={isAcrossHovered ? 0.4 : 0.1} 
-              transparent 
-              lineWidth={isAcrossHovered ? 1 : 0.5} 
-            />
-          </group>
+          <Line 
+            key={`connection-${idx}`}
+            points={[[pos1.x, pos1.y, pos1.z], [pos2.x, pos2.y, pos2.z]]} 
+            color={isHovered ? colors.accent : colors.secondary} 
+            opacity={isHovered ? 0.7 : 0.25} 
+            transparent 
+            lineWidth={isHovered ? 1.5 : 0.5} 
+          />
         );
       })}
     </group>

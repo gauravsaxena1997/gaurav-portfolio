@@ -6,11 +6,6 @@ import { createPortal } from 'react-dom';
 import { useDeviceCapabilities } from '../../hooks/useDeviceCapabilities';
 import styles from './GuideBar.module.css';
 
-// localStorage key for guide bar dismissal
-const GUIDE_BAR_SHOWN_KEY = 'guide-bar-shown';
-// Auto-dismiss timer (9 seconds - enough time to read comfortably)
-const AUTO_DISMISS_MS = 9000;
-
 /**
  * Keyboard badge component for displaying key hints
  */
@@ -78,31 +73,6 @@ export const GuideBar = memo(function GuideBar({
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { isTouchDevice } = useDeviceCapabilities();
 
-  // Sync with forceVisible prop
-  useEffect(() => {
-    if (forceVisible) {
-      setIsVisible(true);
-      setIsDismissing(false);
-      clearDismissTimer(); // Persistent mode doesn't auto-dismiss
-    } else if (isPersistent) {
-      // If persistent (controlled by parent) and forceVisible becomes false, hide it
-      setIsVisible(false);
-    }
-  }, [forceVisible, isPersistent, message]);
-
-  // Start auto-dismiss timer
-  const startDismissTimer = useCallback((duration?: number) => {
-    if (isPersistent) return;
-
-    const timeout = duration || autoDismissAfter || AUTO_DISMISS_DEFAULT_MS;
-
-    if (timerRef.current) clearTimeout(timerRef.current);
-
-    timerRef.current = setTimeout(() => {
-      handleDismiss();
-    }, timeout);
-  }, [isPersistent, autoDismissAfter]);
-
   // Clear dismiss timer
   const clearDismissTimer = useCallback(() => {
     if (timerRef.current) {
@@ -110,6 +80,22 @@ export const GuideBar = memo(function GuideBar({
       timerRef.current = null;
     }
   }, []);
+
+  // Sync with forceVisible prop
+  useEffect(() => {
+    if (forceVisible) {
+      requestAnimationFrame(() => {
+        setIsVisible(true);
+        setIsDismissing(false);
+      });
+      clearDismissTimer(); // Persistent mode doesn't auto-dismiss
+    } else if (isPersistent) {
+      // If persistent (controlled by parent) and forceVisible becomes false, hide it
+      requestAnimationFrame(() => {
+        setIsVisible(false);
+      });
+    }
+  }, [forceVisible, isPersistent, message, clearDismissTimer]);
 
   // Dismiss handler (triggers exit animation)
   const handleDismiss = useCallback(() => {
@@ -122,13 +108,28 @@ export const GuideBar = memo(function GuideBar({
     setTimeout(() => {
       setIsVisible(false);
     }, 350);
-  }, [isDismissing, clearDismissTimer, isPersistent]);
+  }, [isDismissing, isPersistent, clearDismissTimer]);
+
+  // Start auto-dismiss timer
+  const startDismissTimer = useCallback((duration?: number) => {
+    if (isPersistent) return;
+
+    const timeout = duration || autoDismissAfter || AUTO_DISMISS_DEFAULT_MS;
+
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    timerRef.current = setTimeout(() => {
+      handleDismiss();
+    }, timeout);
+  }, [isPersistent, autoDismissAfter, handleDismiss]);
 
   // Handle visibility and timer for custom messages or forceVisible
   useEffect(() => {
     if (forceVisible) {
-      setIsVisible(true);
-      setIsDismissing(false);
+      requestAnimationFrame(() => {
+        setIsVisible(true);
+        setIsDismissing(false);
+      });
 
       if (autoDismissAfter) {
         startDismissTimer(autoDismissAfter);
@@ -136,7 +137,9 @@ export const GuideBar = memo(function GuideBar({
         clearDismissTimer();
       }
     } else if (isPersistent) {
-      setIsVisible(false);
+      requestAnimationFrame(() => {
+        setIsVisible(false);
+      });
     }
   }, [forceVisible, isPersistent, autoDismissAfter, startDismissTimer, clearDismissTimer]);
 
@@ -158,7 +161,7 @@ export const GuideBar = memo(function GuideBar({
       window.removeEventListener('hero-entrance-complete', handleEntranceComplete);
       clearDismissTimer();
     };
-  }, [startDismissTimer, clearDismissTimer, message, isPersistent]);
+  }, [startDismissTimer, clearDismissTimer, message, isPersistent, forceVisible, showGreeting]);
 
   // Hero Mode: Handle scroll event (cancel timer + dismiss immediately)
   useEffect(() => {

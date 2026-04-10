@@ -28,7 +28,7 @@ export const MobileSectionWrapper = ({
     fullHeight = false,
     withPadding = true,
 }: MobileSectionWrapperProps) => {
-    const { safeHeight, headerHeight } = useMobileHeight();
+    const { safeHeight } = useMobileHeight();
 
     const baseStyle: React.CSSProperties = {
         position: 'relative',

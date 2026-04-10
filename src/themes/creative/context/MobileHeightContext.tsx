@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useLayoutEffect } from 'react';
+import React, { createContext, useContext, useState, useLayoutEffect } from 'react';
 
 interface MobileHeightContextType {
     safeHeight: number;

@@ -1,6 +1,7 @@
 'use client';
 
 import { Tag } from 'lucide-react';
+import Image from 'next/image';
 import { SKILL_CATEGORIES } from '@/data';
 import styles from './Skills.module.css';
 
@@ -60,9 +61,11 @@ export function Skills() {
               <div className={styles.skillsGrid}>
                 {category.skills.map((skill) => (
                   <div key={skill.name} className={styles.skillBadge}>
-                    <img
+                    <Image
                       src={getIconUrl(skill.icon)}
                       alt={skill.name}
+                      width={24}
+                      height={24}
                       className={`${styles.skillIcon} ${DARK_ICONS.includes(skill.icon) ? styles.darkIcon : ''}`}
                       loading="lazy"
                     />

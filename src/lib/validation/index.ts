@@ -8,8 +8,10 @@ export async function validate<T>(schema: ZodSchema<T>, data: unknown): Promise<
     } catch (error) {
         if (error instanceof ZodError) {
             // Handle Zod error structure (issues vs errors) depending on version
-            const issues = (error as any).issues || (error as any).errors || [];
+            const zodError = error as ZodError;
+            const issues = zodError.issues || [];
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const formattedErrors = issues.map((issue: any) => ({
                 path: issue.path.join('.'),
                 message: issue.message

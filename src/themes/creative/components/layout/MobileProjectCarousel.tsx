@@ -35,7 +35,9 @@ export function MobileProjectCarousel({
 
     // Reset to first slide when project changes
     useEffect(() => {
-        setCurrentIndex(0);
+        requestAnimationFrame(() => {
+            setCurrentIndex(0);
+        });
     }, [projectName]);
 
     const goToNext = () => {

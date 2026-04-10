@@ -26,7 +26,9 @@ export function AnnouncementBar() {
   useEffect(() => {
     // Check if already dismissed today
     if (!wasDismissedToday()) {
-      setIsVisible(true);
+      requestAnimationFrame(() => {
+        setIsVisible(true);
+      });
       document.body.classList.add('has-announcement');
     }
 

@@ -78,8 +78,8 @@ export function ScrollOrchestrator() {
 
     // Detect navigation type (reload vs navigate)
     const navEntry = (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined);
-    const navType = navEntry?.type || (performance as any).navigation?.type;
-    const isReload = navType === 'reload' || navType === (performance as any).navigation?.TYPE_RELOAD;
+    const navType = navEntry?.type;
+    const isReload = navType === 'reload';
 
     // Read saved target
     let target: number | null = null;
@@ -150,7 +150,7 @@ export function ScrollOrchestrator() {
       });
 
       // Section Activators
-      const sections = [
+      const sections: { id: string; name: 'hero' | 'stats' | 'projects' | 'testimonials' | 'services' | 'contact' }[] = [
         { id: '#hero-section', name: 'hero' },
         { id: '#stats-section', name: 'stats' },
         { id: '#projects-section', name: 'projects' },
@@ -167,16 +167,16 @@ export function ScrollOrchestrator() {
             trigger: id,
             start: 'top 80%', // Trigger only when top is near bottom of viewport
             end: 'bottom bottom',
-            onEnter: () => setActiveSection(name as any),
-            onEnterBack: () => setActiveSection(name as any),
+            onEnter: () => setActiveSection(name),
+            onEnterBack: () => setActiveSection(name),
           });
         } else {
           ScrollTrigger.create({
             trigger: id,
             start: 'top 60%', // Slightly relaxed from 50%
             end: 'bottom 40%',
-            onEnter: () => setActiveSection(name as any),
-            onEnterBack: () => setActiveSection(name as any),
+            onEnter: () => setActiveSection(name),
+            onEnterBack: () => setActiveSection(name),
           });
         }
       });
@@ -198,8 +198,6 @@ export function ScrollOrchestrator() {
         {isDesktopStats && (
           <div className={styles.desktopStats}>
             {STATS_DATA.map((stat, index) => {
-              const isLast = index === STATS_DATA.length - 1;
-
               // Determine illustration based on index/ID
               // Note: In a larger app, illustrations could be in the config mapping or a lookup object
               let illustration = null;
@@ -230,6 +228,7 @@ export function ScrollOrchestrator() {
                     description={stat.description}
                     highlights={stat.highlights}
                     illustration={illustration}
+                    illustrationInfo={stat.illustrationInfo}
                     desktopLayout={stat.desktopLayout}
                     highlightsLocation={index === 0 ? undefined : "text"} // Keep existing logic: ChipStack has bullets in illust, others in text
                     illustAlign={stat.illustAlign}
@@ -245,7 +244,7 @@ export function ScrollOrchestrator() {
       {/* ===== SECTION DIVIDER: Stats → Projects ===== */}
       {/* ===== PROJECTS SECTION ===== */}
       <section id="projects-section" className={styles.projectsSection}>
-        <SectionDivider title="SELECTED PROJECTS" />
+        <SectionDivider title="PROJECT SHOWCASE" />
         <ProjectSection />
       </section>
 

@@ -1,12 +1,10 @@
-'use client';
-
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { HeroContent } from './HeroContent';
 import styles from './HeroSection.module.css';
 
 // Dynamic imports for the 3D grid hero, so it doesn't block the main thread
-const HeroGridSection = dynamic(() => import('./HeroConceptB').then(m => m.HeroGridSection), { 
+const HeroGridSection = dynamic(() => import('./HeroGridVisual').then(m => m.HeroGridSection), { 
   ssr: false,
   loading: () => <FallbackHero /> 
 });
@@ -27,6 +25,8 @@ function FallbackHero() {
 }
 
 export function HeroSection() {
+  const [isHoveringContent, setIsHoveringContent] = useState(false);
+
   // Emit event to unblock other entrance animations (like GuideBar)
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,7 +37,10 @@ export function HeroSection() {
 
   return (
     <div className="relative w-full min-h-screen">
-      <HeroGridSection />
+      <HeroGridSection 
+        isHoveringContent={isHoveringContent} 
+        onHoverChange={setIsHoveringContent} 
+      />
     </div>
   );
 }

@@ -141,7 +141,7 @@ export default function MobileLayout({ activeSubTheme = '' }: MobileLayoutProps)
                     domId="projects-section"
                     className={styles.projectsWrapper}
                 >
-                    <div className={styles.sectionLabel}>Selected Projects</div>
+                    <div className={styles.sectionLabel}>Project Showcase</div>
                     {projects.map((project, index) => (
                         <MobileProjectCard
                             key={project.id}

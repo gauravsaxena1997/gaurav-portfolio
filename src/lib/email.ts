@@ -48,12 +48,14 @@ export async function sendContactEmail(data: ContactEmailData): Promise<EmailRes
     });
 
     if (error) {
+      // eslint-disable-next-line no-console
       console.error('Resend error:', error);
       return { success: false, error: error.message };
     }
 
     return { success: true };
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error('Email service error:', err);
     return {
       success: false,

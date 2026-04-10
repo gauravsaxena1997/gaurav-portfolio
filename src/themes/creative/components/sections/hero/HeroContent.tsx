@@ -8,6 +8,7 @@ interface HeroContentProps {
   animate: boolean;
   className?: string;
   onCtaClick?: () => void;
+  onHoverChange?: (isHovering: boolean) => void;
 }
 
 // SVG Icons inline — avoids extra imports
@@ -28,7 +29,7 @@ const ICON_MAP = {
   github: GitHubIcon,
 };
 
-export function HeroContent({ animate, className, onCtaClick }: HeroContentProps) {
+export function HeroContent({ animate, className, onCtaClick, onHoverChange }: HeroContentProps) {
   const animClass = animate ? styles.animateIn : '';
   const contentClassName = `${styles.heroContent} ${className ?? ''}`.trim();
 
@@ -43,28 +44,43 @@ export function HeroContent({ animate, className, onCtaClick }: HeroContentProps
     }
   };
 
+  const handleMouseEnter = () => onHoverChange?.(true);
+  const handleMouseLeave = () => onHoverChange?.(false);
+
   return (
     <div className={contentClassName}>
-      <p className={`${styles.greeting} ${animClass} greeting`}>
+      <p 
+        className={`${styles.greeting} ${animClass} greeting`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         {HERO_CONTENT.greeting.text} <span className={styles.greetingAccent}>{HERO_CONTENT.greeting.accent}</span>
       </p>
 
-      <h1 className={`${styles.heroName} ${animClass} heroName`}>
+      <h1 
+        className={`${styles.heroName} ${animClass} heroName`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         {HERO_CONTENT.name}
       </h1>
 
-      <p className={`${styles.heroTagline} ${animClass} heroTagline`}>
+      <p 
+        className={`${styles.heroTagline} ${animClass} heroTagline`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         {HERO_CONTENT.tagline}
-      </p>
-
-      <p className={`${styles.heroSubtitle} ${animClass} heroSubtitle`}>
-        {HERO_CONTENT.subtitle}
       </p>
 
       <AccentSeparator className={`${animClass} socialDivider`} />
 
       {/* Action Row: Primary CTA first, then icon-only social circles */}
-      <div className={`${styles.actionRow} ${animClass} actionRow`}>
+      <div 
+        className={`${styles.actionRow} ${animClass} actionRow`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
 
         {/* Primary CTA — scrolls to contact section */}
         <button

@@ -2,6 +2,7 @@
 
 import { memo, useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
+import { useGestures } from '@/themes/creative/context/GestureContext';
 
 interface AIBrainIllustrationProps {
   className?: string;
@@ -17,6 +18,27 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
   const svgRef = useRef<SVGSVGElement>(null);
   const [pupilOffset, setPupilOffset] = useState({ x: 0, y: 0 });
   const [headTilt, setHeadTilt] = useState(0);
+  const { isGesturesEnabled, isTrackingActive, handCoordinates } = useGestures();
+
+  // Hand Gesture Tracking Logic
+  useEffect(() => {
+    if (!isGesturesEnabled || !isTrackingActive || !handCoordinates) return;
+
+    // Convert hand coordinates (0-1) to delta (-1 to 1)
+    const deltaX = (handCoordinates.x * 2) - 1;
+    const deltaY = (handCoordinates.y * 2) - 1;
+
+    // Same logic as handleMouseMove
+    const maxPupilMove = 6;
+    requestAnimationFrame(() => {
+      setPupilOffset({
+        x: Math.max(-maxPupilMove, Math.min(maxPupilMove, deltaX * maxPupilMove * 1.5)),
+        y: Math.max(-maxPupilMove, Math.min(maxPupilMove, deltaY * maxPupilMove)),
+      });
+
+      setHeadTilt(deltaX * 2);
+    });
+  }, [isGesturesEnabled, isTrackingActive, handCoordinates]);
 
   // Floating animation
   useEffect(() => {

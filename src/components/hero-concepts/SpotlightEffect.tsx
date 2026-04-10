@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { useMousePosition } from '../../themes/creative/hooks/useMousePosition';
 import styles from './LighthouseHero.module.css';
@@ -118,11 +118,7 @@ export function SpotlightEffect({
   const beamTweenRef = useRef<gsap.core.Tween | null>(null);
 
   // Generate particles on client mount to avoid hydration mismatch
-  const [particles, setParticles] = useState<Particle[]>([]);
-
-  useEffect(() => {
-    setParticles(generateParticles());
-  }, []);
+  const [particles] = useState<Particle[]>(() => generateParticles());
 
   // Track previous enabled state for transition direction
   const prevEnabledRef = useRef(isEnabled);
@@ -148,7 +144,7 @@ export function SpotlightEffect({
     if (particleLayerRef.current) {
       particleLayerRef.current.style.clipPath = clipPath;
     }
-  }, [lighthouseOrigin.x, lighthouseOrigin.y]);
+  }, [lighthouseOrigin.x, lighthouseOrigin.y, containerRef]);
 
   // Mouse/touch position hook (active in mouse or touch mode)
   useMousePosition({

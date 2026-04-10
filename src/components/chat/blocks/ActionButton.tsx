@@ -9,17 +9,13 @@ interface ActionButtonProps {
   size?: 'sm' | 'md';
 }
 
-function ActionButtonComponent({ action, onAction, size = 'md' }: ActionButtonProps) {
+function ActionButtonComponent({ action, onAction }: ActionButtonProps) {
   const handleClick = useCallback(() => {
     onAction(action);
   }, [action, onAction]);
 
   // Remove any trailing arrow glyphs from the label to avoid double arrows when we also show an icon
   const cleanedLabel = action.label.replace(/\s*(→|➡️|➜|➝|➞|->)+\s*$/u, '');
-
-  const sizeClass = size === 'sm' 
-    ? 'px-3 py-1.5 text-xs' 
-    : 'px-4 py-2 text-sm';
 
   const getIcon = () => {
     switch (action.type) {

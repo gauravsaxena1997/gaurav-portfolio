@@ -51,6 +51,7 @@ export interface ICaseStudy {
   techStack: string[];
   features: string[];
   highlights?: string[]; // Stats/metrics shown as badges
+  keyFeatures?: { icon: string; text: string }[]; // Icon + short text for project card display
 
   // Links
   liveUrl?: string;
@@ -78,6 +79,150 @@ export const CASE_STUDIES: ICaseStudy[] = [
   // ============================================
   // CASE STUDIES
   // ============================================
+  {
+    id: 'moniqo',
+    slug: 'moniqo',
+    title: 'Moniqo: AI Finance SaaS',
+    category: 'case-study',
+    featured: true,
+    shortDescription:
+      'An AI-powered personal finance SaaS showcasing how any application can be enriched with production-grade AI features. Demonstrates an intelligent financial chatbot, AI-generated dashboard insights, and real-time anomaly detection built on a full-stack mobile-first architecture.',
+    thumbnail: '/projects/moniqo-hero.webp',
+
+    caseStudyContent: {
+      concept: [
+        'Showcasing how AI features can be seamlessly integrated into any SaaS application',
+        'Demonstrating a multi-agent AI approach to financial analysis and insights',
+        'Building a production-grade finance tool with real-world auth, database, and AI layers',
+        'Proving that AI copilots can meaningfully enhance user experience beyond simple chatbots',
+      ],
+      approach: [
+        'Built a full-stack personal finance application with mobile-first responsive design',
+        'Integrated a dedicated AI Financial Chatbot with session persistence and follow-up suggestions',
+        'Layered AI-generated dashboard cards: Health Score, Forecast, Weekly Report, Insights, Anomaly Detection',
+        'Implemented production-grade JWT authentication with access/refresh token rotation',
+        'Seeded with 508 realistic transactions across 14 account types over 12 months',
+      ],
+      toolsUsed: [
+        'Next.js (App Router) - Full-stack framework with server actions',
+        'Prisma + PostgreSQL - Database ORM and relational data layer',
+        'OpenAI / LLM API - Powers the financial chatbot and AI insight cards',
+        'JWT (jose) - Secure httpOnly cookie-based authentication',
+        'Framer Motion - Smooth UI animations and transitions',
+      ],
+      learnings: [
+        'AI insights are most valuable when they are contextual and data-grounded',
+        'Multi-agent AI cards that stream independently improve perceived performance significantly',
+        'Production-grade auth with JWT and refresh rotation is essential even for demonstrations',
+      ],
+    },
+
+    highlights: [
+      'AI Financial Copilot',
+      'Multi-Agent Insights',
+      'Mobile-First Architecture',
+      'Full-Stack SaaS',
+    ],
+    techStack: [
+      'Next.js',
+      'Supabase',
+      'OpenAI',
+      'Framer Motion',
+    ],
+    features: [
+      'Dedicated AI Financial Chatbot with session persistence and smart follow-up suggestions',
+      'AI Dashboard Cards: Health Score, Cashflow Forecast, Weekly Report and Spending Insights',
+      'Real-time Spending Anomaly Detection with intelligent alerting',
+      'Transactions, Budgets and Multi-currency support across 14 account types',
+    ],
+    keyFeatures: [
+      { icon: 'BotMessageSquare', text: 'AI Financial Chatbot' },
+      { icon: 'BarChart3',        text: 'AI Dashboard Insights' },
+      { icon: 'Smartphone',       text: 'Mobile-First Design' },
+      { icon: 'ShieldCheck',      text: 'Production-Grade Auth' },
+    ],
+    heroVideo: '/projects/moniqo-demo-video.mp4',
+    liveUrl: 'https://moniqo.vercel.app/',
+    images: [
+      '/projects/moniqo-dashboard.webp',
+      '/projects/moniqo-reports.webp',
+      '/projects/moniqo-ai-cashflow.webp',
+      '/projects/moniqo-screenshot-3-mobile.webp',
+      '/projects/moniqo-screenshot-4-mobile.webp',
+      '/projects/moniqo-screenshot-5-mobile.webp',
+    ],
+  },
+  {
+    id: 'artifexa',
+    slug: 'artifexa',
+    title: 'Artifexa: AI Agent Orchestration',
+    category: 'case-study',
+    featured: true,
+    shortDescription:
+      'A showcase of AI agent orchestration featuring two specialized pipelines that convert unstructured prompts into structured, production-ready outputs. Demonstrates how collaborative AI agents can be designed for reliability using strict JSON contracts and Zod schema enforcement.',
+    thumbnail: '/projects/artifexa-hero.webp',
+
+    caseStudyContent: {
+      concept: [
+        'Demonstrating how multiple AI agents can collaborate in a deterministic, self-correcting pipeline',
+        'Proving that AI agents can be reliable when constrained by strict JSON contracts and schema validation',
+        'Showcasing two distinct orchestration pipelines for creative and technical domains',
+        'Exploring the frontier of multi-agent system design for production use cases',
+      ],
+      approach: [
+        'Designed a sticky-card scroll experience to reveal the platform story progressively',
+        'Built Vision Canvas Studio: high-fidelity prompt generation for text-to-image and video pipelines',
+        'Built Product Architect Studio: AI-generated PRDs, technical scoping docs and architecture diagrams',
+        'Implemented a 3-stage pipeline: Cognitive Parsing, Agent Delegation, and Deterministic Sync',
+        'Enforced output reliability via strict JSON contracts and Zod schema validation throughout',
+      ],
+      toolsUsed: [
+        'Next.js (App Router) - Core framework for both studios',
+        'Framer Motion - Scroll-driven sticky animations and card transitions',
+        'Zod - Schema validation for deterministic agent output contracts',
+        'LLM APIs - Underlying intelligence for both orchestration pipelines',
+        'Lucide Icons + Tailwind CSS - Clean, minimal UI system',
+      ],
+      learnings: [
+        'Multi-agent reliability depends on output contracts, not just model quality',
+        'Deterministic sync via schema validation eliminates hallucination drift in pipelines',
+        'Scroll-driven animation is highly effective for communicating complex system architecture',
+      ],
+    },
+
+    highlights: [
+      'Multi-Agent Orchestration',
+      'Vision Canvas Studio',
+      'Product Architect Studio',
+      'Zero-Hallucination Flows',
+    ],
+    techStack: [
+      'Next.js',
+      'Framer Motion',
+      'Zod',
+      'OpenAI',
+    ],
+    features: [
+      'Vision Canvas Studio: high-fidelity prompt generation for text-to-image & generative video pipelines',
+      'Product Architect Studio: AI-generated PRDs, technical scoping docs & architecture diagrams',
+      'Cognitive Parsing → Agent Delegation → Deterministic Sync execution pipeline',
+      'Self-correcting flows enforced by strict JSON contracts and Zod schema validation',
+    ],
+    keyFeatures: [
+      { icon: 'Network',    text: 'Multi-Agent Orchestration' },
+      { icon: 'Palette',    text: 'Vision Canvas Studio' },
+      { icon: 'FileCode2', text: 'Product Architect Studio' },
+      { icon: 'ShieldCheck', text: 'Zero-Hallucination Flows' },
+    ],
+    heroVideo: '/projects/artifexa-demo-video.mp4',
+    liveUrl: 'https://artifexa.vercel.app/',
+    images: [
+      '/projects/artifexa-hero.webp',
+      '/projects/artifexa-screenshot-1.webp',
+      '/projects/artifexa-screenshot-2.webp',
+      '/projects/artifexa-screenshot-3.webp',
+    ],
+  },
   {
     id: 'lumore',
     slug: 'lumore',
@@ -126,26 +271,21 @@ export const CASE_STUDIES: ICaseStudy[] = [
     ],
     techStack: [
       'Next.js',
-      'React',
-      'Tailwind CSS',
-      'Framer Motion',
-      'Lucide Icons',
-      'Vercel',
+      'Google Gemini',
+      'Google Veo',
+      'Claude Code',
     ],
     features: [
-      'Animated Hero with Product Orbit',
-      'Sticky Scroll Brand Story',
-      'Vertical Product Showcase',
-      'Parallax Products In Motion',
-      'Interactive Brand Motto',
-      'Bundle/Combo Cards',
-      'Honeycomb Ingredient Grid',
-      'Horizontal Scroll Testimonials',
-      'Magazine Press Section',
-      'Founder Story Section',
-      'Blog Highlights Grid',
-      'Authorized Retailers',
-      'Smooth Framer Motion Animations',
+      'AI-generated brand identity, product catalog, and all visual assets from scratch',
+      'Animated hero with product orbit, sticky scroll brand story, and parallax product motion',
+      'Full e-commerce sections: bundles, ingredient grid, testimonials, press, and founder story',
+      'Built end-to-end in 48 hours using only AI tools for design, copy, images, and video',
+    ],
+    keyFeatures: [
+      { icon: 'Sparkles',   text: '100% AI-Generated Assets' },
+      { icon: 'Zap',        text: 'Built in 48 Hours' },
+      { icon: 'ShoppingBag', text: 'Full E-comm Experience' },
+      { icon: 'Film',       text: 'AI Video Production' },
     ],
     liveUrl: 'https://lumore.vercel.app',
     heroVideo: '/projects/lumore-demo-video.mp4',

@@ -49,7 +49,9 @@ export default function NotFound404Physics() {
 
     useEffect(() => {
         prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        setDigitSize(getDigitSize(window.innerWidth));
+        requestAnimationFrame(() => {
+            setDigitSize(getDigitSize(window.innerWidth));
+        });
     }, []);
 
     // ── Controls ──
@@ -69,10 +71,11 @@ export default function NotFound404Physics() {
     }, [updateGravity]);
 
     // ── Engine Setup ──
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (!containerRef.current || prefersReducedMotion.current) {
-            setIsReady(true);
+            requestAnimationFrame(() => {
+                setIsReady(true);
+            });
             return;
         }
 
@@ -81,7 +84,9 @@ export default function NotFound404Physics() {
         const height = container.clientHeight;
 
         if (width === 0 || height === 0) {
-            setIsReady(true);
+            requestAnimationFrame(() => {
+                setIsReady(true);
+            });
             return;
         }
 
@@ -161,11 +166,12 @@ export default function NotFound404Physics() {
         const mouse = Matter.Mouse.create(container);
         const mouseConstraint = Matter.MouseConstraint.create(engine, {
             mouse,
-            constraint: { stiffness: 0.05, damping: 0.15, render: { visible: false } } as any
+            constraint: { stiffness: 0.05, damping: 0.15, render: { visible: false } } as Matter.IConstraintDefinition
         });
         // Prevent scroll hijack
-        mouseConstraint.mouse.element.removeEventListener('mousewheel', (mouseConstraint.mouse as any).mousewheel);
-        mouseConstraint.mouse.element.removeEventListener('DOMMouseScroll', (mouseConstraint.mouse as any).mousewheel);
+        const mouseWithWheel = mouseConstraint.mouse as Matter.Mouse & { mousewheel: (event: WheelEvent) => void };
+        mouseWithWheel.element.removeEventListener('mousewheel', mouseWithWheel.mousewheel as unknown as EventListener);
+        mouseWithWheel.element.removeEventListener('DOMMouseScroll', mouseWithWheel.mousewheel as unknown as EventListener);
         Matter.World.add(engine.world, mouseConstraint);
 
         // Position platform & catch floor visually

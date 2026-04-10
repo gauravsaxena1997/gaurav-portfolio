@@ -97,7 +97,7 @@ export function DevelopmentIllustration() {
                         {visibleTokens >= 12 && <tspan fill="#D4D4D4">  </tspan>}
                         {visibleTokens >= 13 && <tspan fill="#C586C0">return</tspan>}
                         {visibleTokens >= 14 && <tspan fill="#D4D4D4"> </tspan>}
-                        {visibleTokens >= 15 && <tspan fill="#CE9178">'Success'</tspan>}
+                        {visibleTokens >= 15 && <tspan fill="#CE9178">&apos;Success&apos;</tspan>}
                         {visibleTokens >= 16 && <tspan fill="#D4D4D4">;</tspan>}
                     </text>
 

@@ -202,8 +202,6 @@ function CaseStudyReadme({ project }: { project: ICaseStudy }) {
 
 export function ProjectDetailPage({
   project,
-  prevProject,
-  nextProject,
 }: ProjectDetailPageProps) {
   const { isDarkTheme } = useTheme();
   const categoryLabel =

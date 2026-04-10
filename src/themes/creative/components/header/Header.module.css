@@ -46,6 +46,35 @@
   outline-offset: 2px;
 }
 
+/* Labs Button (Experimental Flask) - Glassmorphic matching hamburger */
+.labsButton {
+  position: relative;
+  background: color-mix(in srgb, var(--creative-text-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--creative-text-primary) 25%, transparent);
+  color: var(--creative-text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  margin-left: 12px;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.15),
+    inset 0 1px 0 color-mix(in srgb, var(--creative-text-primary) 25%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--creative-bg-primary) 50%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color var(--creative-transition-fast), transform var(--creative-transition-fast), box-shadow var(--creative-transition-fast);
+}
+
+.labsButton:hover {
+  background-color: color-mix(in srgb, var(--creative-text-primary) 14%, transparent);
+  transform: translateY(-1px);
+}
+
 /* Toggle Buttons Container */
 .toggles {
   display: flex;
@@ -166,8 +195,15 @@
     padding: 0;
     background: transparent;
     top: 16px;
-    left: auto;
     right: 16px;
+    flex-direction: row-reverse;
+  }
+
+  .labsButton {
+    margin-left: 0;
+    margin-right: 12px;
+    width: 40px;
+    height: 40px;
   }
 
   .overlay {

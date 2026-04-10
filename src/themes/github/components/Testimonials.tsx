@@ -1,6 +1,7 @@
 'use client';
 
 import { Heart, Star, MessageSquare, FolderKanban } from 'lucide-react';
+import Image from 'next/image';
 import { TESTIMONIALS } from '@/data';
 import type { ITestimonial } from '@/data';
 import styles from './Testimonials.module.css';
@@ -14,9 +15,11 @@ function TestimonialCard({ testimonial }: TestimonialCardProps) {
     <div className={styles.testimonialCard}>
       <div className={styles.cardHeader}>
         {testimonial.image ? (
-          <img
+          <Image
             src={testimonial.image}
             alt={testimonial.author}
+            width={48}
+            height={48}
             className={styles.authorImage}
           />
         ) : (

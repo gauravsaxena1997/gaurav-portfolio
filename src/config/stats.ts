@@ -7,6 +7,8 @@ export interface StatItem {
     icon?: LucideIcon;
     // For chips or bullet points
     highlights?: string[];
+    // Info tooltip for interactive illustrations
+    illustrationInfo?: string;
     // Desktop layout preference
     desktopLayout: 'text-left' | 'text-right';
     illustAlign: 'center' | 'bottom';
@@ -23,6 +25,7 @@ export const STATS_DATA: StatItem[] = [
             'Scalable Systems',
             'Reliable Delivery',
         ],
+        illustrationInfo: "Interactive physics - drag blocks or reset to stack.",
         desktopLayout: 'text-left',
         illustAlign: 'bottom'
     },
@@ -36,6 +39,7 @@ export const STATS_DATA: StatItem[] = [
             'Automated QA Testing',
             'Rapid Prototyping',
         ],
+        illustrationInfo: "AI assistant with cursor-responsive visual feedback.",
         desktopLayout: 'text-right',
         illustAlign: 'center'
     },
@@ -49,6 +53,7 @@ export const STATS_DATA: StatItem[] = [
             'Global Performance',
             'Maximized Retention',
         ],
+        illustrationInfo: "Dynamic neural graph - hover to highlight nodes.",
         desktopLayout: 'text-left',
         illustAlign: 'center'
     }

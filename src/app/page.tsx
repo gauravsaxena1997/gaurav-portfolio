@@ -14,7 +14,12 @@ const MobileLayout = dynamic(() => import('@/themes/creative/components/layout/M
 const ACTIVE_THEME = 'theme-light-warm';
 
 export default function Home() {
-  const [isMobile, setIsMobile] = useState<boolean | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean | null>(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return null;
+  });
   const [activeTheme, setActiveTheme] = useState<'creative' | 'github'>('creative');
 
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -25,8 +30,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    checkDevice();
-
     const handleResize = () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
       debounceTimer.current = setTimeout(checkDevice, 150);

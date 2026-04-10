@@ -34,10 +34,10 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
   const videoRef = useRef<HTMLVideoElement>(null);
   const fullscreenVideoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [, setIsInView] = useState(false);
 
   const handleTimeUpdate = useCallback(() => {
     if (fullscreenVideoRef.current) {
@@ -48,12 +48,40 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
     }
   }, []);
 
+  // Handle fullscreen open
+  const openFullscreen = useCallback(() => {
+    if (onExpand) {
+      onExpand();
+      return;
+    }
+    setIsFullscreen(true);
+    // Sync time from inline video to fullscreen video
+    if (videoRef.current) {
+      const currentTime = videoRef.current.currentTime;
+      setTimeout(() => {
+        if (fullscreenVideoRef.current) {
+          fullscreenVideoRef.current.currentTime = currentTime;
+          fullscreenVideoRef.current.play().catch(() => { });
+        }
+      }, 100);
+    }
+  }, [onExpand]);
+
   // Expose fullscreen control to parent
   useImperativeHandle(ref, () => ({
     openFullscreen: () => {
       openFullscreen();
     }
   }));
+
+  // Handle fullscreen close
+  const closeFullscreen = useCallback(() => {
+    setIsFullscreen(false);
+    // Sync time back
+    if (fullscreenVideoRef.current && videoRef.current) {
+      videoRef.current.currentTime = fullscreenVideoRef.current.currentTime;
+    }
+  }, []);
 
   // IntersectionObserver to autoplay video when in viewport
   useEffect(() => {
@@ -80,34 +108,6 @@ export const TabletFrame = memo(forwardRef<TabletFrameHandle, TabletFrameProps>(
 
     observer.observe(container);
     return () => observer.disconnect();
-  }, []);
-
-  // Handle fullscreen open
-  const openFullscreen = useCallback(() => {
-    if (onExpand) {
-      onExpand();
-      return;
-    }
-    setIsFullscreen(true);
-    // Sync time from inline video to fullscreen video
-    if (videoRef.current) {
-      const currentTime = videoRef.current.currentTime;
-      setTimeout(() => {
-        if (fullscreenVideoRef.current) {
-          fullscreenVideoRef.current.currentTime = currentTime;
-          fullscreenVideoRef.current.play().catch(() => { });
-        }
-      }, 100);
-    }
-  }, [onExpand]);
-
-  // Handle fullscreen close
-  const closeFullscreen = useCallback(() => {
-    setIsFullscreen(false);
-    // Sync time back
-    if (fullscreenVideoRef.current && videoRef.current) {
-      videoRef.current.currentTime = fullscreenVideoRef.current.currentTime;
-    }
   }, []);
 
   // Body overflow control

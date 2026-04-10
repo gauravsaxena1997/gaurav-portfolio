@@ -1,5 +1,5 @@
 import { useRef, useCallback, useState } from 'react';
-import { MapPin, Mail, Clock, Compass, Calendar, Github, Linkedin, HelpCircle } from 'lucide-react';
+import { MapPin, Mail, Clock, Calendar, HelpCircle } from 'lucide-react';
 import { CONTACT_INFO } from '@/config';
 import { AnalyticsService } from '@/services/AnalyticsService';
 import { ContactForm, type ContactFormHandle } from './ContactForm';
@@ -41,9 +41,7 @@ export function ContactSection({ className }: ContactSectionProps) {
       <div className={`${styles.content} grid grid-cols-1 gap-[var(--grid-gap-lg)] max-w-[var(--container-lg)] w-full items-center relative z-[1] lg:grid-cols-2 lg:gap-[var(--grid-gap-lg)]`}>
         {/* Left Column: Text Content */}
         <div className={`${styles.textWrapper} flex flex-col justify-center items-start pr-[var(--space-lg)] relative text-left lg:items-start lg:pr-[var(--space-lg)]`}>
-          <div className={styles.compassWrapper}>
-            <Compass className={styles.compassIcon} strokeWidth={1} />
-          </div>
+
 
           <h2 className={styles.title}>Get in Touch</h2>
           <AccentSeparator />

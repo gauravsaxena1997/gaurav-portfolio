@@ -24,7 +24,7 @@
 
 .title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
     font-weight: 700;
     color: var(--creative-text-primary);
     margin-bottom: 1rem;
@@ -98,7 +98,7 @@
 
 .quoteText {
     font-family: var(--font-body);
-    font-size: 1.1rem;
+    font-size: var(--font-size-body);
     line-height: 1.7;
     color: var(--creative-text-secondary);
     font-weight: 300;

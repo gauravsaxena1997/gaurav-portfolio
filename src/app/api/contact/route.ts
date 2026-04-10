@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Contact API error:', error);
     return NextResponse.json(
       { success: false, error: 'Internal server error' },

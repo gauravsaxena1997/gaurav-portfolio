@@ -112,11 +112,6 @@ export function GitHubHeader({
       )
     : allSuggestions;
 
-  // Reset selected index when suggestions change
-  useEffect(() => {
-    setSelectedIndex(0);
-  }, [searchQuery]);
-
   // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

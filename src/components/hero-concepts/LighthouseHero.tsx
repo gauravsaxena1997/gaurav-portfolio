@@ -1,11 +1,10 @@
 'use client';
-import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
-import { SpotlightEffect, SpotlightMode } from './SpotlightEffect';
+import { useRef, useState, useEffect, useCallback } from 'react';
+import { SpotlightEffect } from './SpotlightEffect';
 import { LighthouseIllustration } from './LighthouseIllustration';
 import styles from './LighthouseHero.module.css';
 
 const SVG_LAMP_Y_RATIO = 67 / 230;
-const SVG_ASPECT_RATIO = 140 / 230;
 
 function GenericHeroContent({ animate, className }: { animate: boolean, className?: string }) {
   const animClass = animate ? styles.animateIn : '';
@@ -41,7 +40,7 @@ export function LighthouseHero() {
   
   const [lighthouseOrigin, setLighthouseOrigin] = useState({ x: 0.92, y: 0.65 });
   const [isSpotlightEnabled, setIsSpotlightEnabled] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted] = useState(true);
 
   const updateLampPosition = useCallback(() => {
     if (!containerRef.current || !lighthouseRef.current) return;
@@ -64,7 +63,6 @@ export function LighthouseHero() {
   }, []);
 
   useEffect(() => {
-    setIsMounted(true);
     updateLampPosition();
 
     const timer = setTimeout(() => setIsSpotlightEnabled(true), 500);

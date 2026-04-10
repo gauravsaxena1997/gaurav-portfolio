@@ -126,8 +126,8 @@
 
 .serviceTitle {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    /* Unified responsive size */
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    /* Scaled down to match Projects */
     font-weight: 700;
     /* Match Stats/Projects */
     color: var(--creative-text-primary);
@@ -140,10 +140,10 @@
 /* Separator now uses shared AccentSeparator component */
 
 .serviceDescription {
-    font-size: var(--font-size-body-md);
+    font-size: var(--font-size-body);
     line-height: 1.7;
-    color: var(--creative-text-secondary);
-    margin-bottom: var(--space-xl);
+    color: #2C333D;
+    margin-bottom: 1.25rem;
     max-width: 90%;
 }
 

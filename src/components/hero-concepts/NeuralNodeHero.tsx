@@ -4,15 +4,20 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Sparkles, Sphere, Line, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 
+function seededRandom(seed: number) {
+  const x = Math.sin(seed * 9999.123) * 10000;
+  return x - Math.floor(x);
+}
+
 function NeuralNetwork() {
   const groupRef = useRef<THREE.Group>(null);
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
   
   const nodes = useMemo(() => {
     return Array.from({ length: 25 }).map((_, i) => {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos((Math.random() * 2) - 1);
-      const radius = 2.5 + Math.random() * 4.5;
+      const theta = seededRandom(i + 1) * Math.PI * 2;
+      const phi = Math.acos((seededRandom(i + 101) * 2) - 1);
+      const radius = 2.5 + seededRandom(i + 201) * 4.5;
       
       return new THREE.Vector3(
         radius * Math.sin(phi) * Math.cos(theta),
@@ -27,7 +32,6 @@ function NeuralNetwork() {
       groupRef.current.rotation.y = state.clock.elapsedTime * 0.05;
       groupRef.current.rotation.z = state.clock.elapsedTime * 0.02;
       
-      const targetX = state.pointer.x * 0.5;
       const targetY = state.pointer.y * 0.5;
       groupRef.current.rotation.x += 0.05 * (targetY - groupRef.current.rotation.x);
     }

@@ -29,7 +29,7 @@
 .heroTextCol {
   flex: 1 1 60%;
   min-width: 0;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 /* Override heroContent padding inside two-col layout:
@@ -255,6 +255,7 @@
 
 /* Eyebrow - de-emphasized label (increased from 0.875rem to 1.25rem, bolder) */
 .greeting {
+  pointer-events: auto;
   font-family: var(--font-body);
   font-size: var(--font-size-h3);
   font-weight: 700;
@@ -271,6 +272,7 @@
 
 /* Hero Name - dominant, 70% visual weight (increased from clamp(3rem, 12vw, 9rem) to clamp(4rem, 14vw, 11rem) = +22%) */
 .heroName {
+  pointer-events: auto;
   font-family: var(--font-mono);
   font-size: var(--font-size-display-xl);
   font-weight: 800;
@@ -292,6 +294,7 @@
 
 /* Positioning Line - memorable tagline (increased from clamp(1.25rem, 3vw, 2.25rem) to clamp(1.5rem, 4vw, 2.75rem) = +22%) */
 .heroTagline {
+  pointer-events: auto;
   font-family: var(--font-body);
   font-size: var(--font-size-h2);
   font-weight: 600;
@@ -309,6 +312,7 @@
 
 /* Supporting Text - value-focused description (increased from clamp(1rem, 1.5vw, 1.25rem) to clamp(1.125rem, 2vw, 1.5rem) = +20%) */
 .heroSubtitle {
+  pointer-events: auto;
   font-family: var(--font-body);
   font-size: var(--font-size-body-lg);
   font-weight: 400;
@@ -391,10 +395,11 @@
 
 /* Action Row - clusters Social pills + CTA */
 .actionRow {
+  pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: var(--space-md);
+  margin-top: clamp(0.75rem, 2vw, 1.25rem);
   flex-wrap: wrap;
 }
 

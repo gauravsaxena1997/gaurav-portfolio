@@ -46,14 +46,16 @@ export function use3DTilt(options: Use3DTiltOptions = {}): Use3DTiltReturn {
     transform: `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale(1)`,
     transition: `transform ${speed}ms ease-out`,
   });
-  const [isHovering, setIsHovering] = useState(false);
   const [isEnabled, setIsEnabled] = useState(true);
+  const [, setIsHovering] = useState(false);
 
   // Check for touch device and reduced motion preference
   useEffect(() => {
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setIsEnabled(!isTouchDevice && !prefersReducedMotion && !disabled);
+    requestAnimationFrame(() => {
+      setIsEnabled(!isTouchDevice && !prefersReducedMotion && !disabled);
+    });
   }, [disabled]);
 
   const onMouseMove = useCallback(

@@ -1,19 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Menu, X, Palette } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useScrollContext } from '../../context/ScrollContext';
-import { ThemeInfoModal } from '@/components/shared/ThemeInfoModal';
+import { LaboratoryModal } from '../shared/LaboratoryModal';
 import styles from './Header.module.css';
 
 interface HeaderProps {
-  currentTheme: 'creative' | 'github';
-  onThemeChange: (theme: 'creative' | 'github') => void;
+    currentTheme?: 'creative' | 'github';
+    onThemeChange?: (theme: 'creative' | 'github') => void;
 }
 
-export function Header({ currentTheme, onThemeChange }: HeaderProps) {
+export function Header({}: HeaderProps): React.JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
+  const [isLabsModalOpen, setIsLabsModalOpen] = useState(false);
   const { activeSection } = useScrollContext();
 
   // Lock body scroll when menu is open
@@ -69,6 +69,19 @@ export function Header({ currentTheme, onThemeChange }: HeaderProps) {
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
+        {/* Labs Toggle - Experimental Hand Gestures - Hiding for production
+        {isDesktop && (
+          <button
+            className={styles.labsButton}
+            onClick={() => setIsLabsModalOpen(true)}
+            aria-label="Open experimental laboratory"
+            title="Experiment: Hand Gestures"
+          >
+            <FlaskConical size={20} />
+          </button>
+        )}
+        */}
+
         {/* Right: Toggles (removed dark/light mode toggle - creative theme is dark-only) */}
         <div className={styles.toggles}>
           {/* Theme Switcher (Creative/GitHub) - Commenting out until GitHub theme is ready */}
@@ -116,6 +129,10 @@ export function Header({ currentTheme, onThemeChange }: HeaderProps) {
         onThemeSwitch={onThemeChange}
       />
       */}
+      <LaboratoryModal 
+        isOpen={isLabsModalOpen}
+        onClose={() => setIsLabsModalOpen(false)}
+      />
     </>
   );
 }

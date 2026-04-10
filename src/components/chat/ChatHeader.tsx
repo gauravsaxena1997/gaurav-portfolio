@@ -12,7 +12,7 @@ export function ChatHeader({ onClose, onClear }: ChatHeaderProps) {
   return (
     <div className={styles.header}>
       <div className={styles.headerInfo}>
-        <h3 className={styles.headerTitle}>Gaurav's AI Assistant</h3>
+        <h3 className={styles.headerTitle}>Gaurav&apos;s AI Assistant</h3>
         <p className={styles.headerHint}>
           <kbd className={styles.kbd}>C</kbd>
           <span>open</span>
