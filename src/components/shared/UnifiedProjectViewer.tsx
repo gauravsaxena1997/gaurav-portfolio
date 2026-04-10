@@ -215,9 +215,24 @@ export function UnifiedProjectViewer({
                 <div style={styles.headerLeft}>
                     {title && <h2 style={styles.projectTitle}>{title}</h2>}
                 </div>
-                <button style={styles.closeButton} onClick={onClose} aria-label="Close">
-                    <X size={20} />
-                </button>
+                <div style={styles.headerRight}>
+                    {liveUrl && (
+                        <a
+                            href={liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={styles.liveButtonHeader}
+                            className="view-live-cta-desktop"
+                            onClick={() => title && AnalyticsService.trackProjectInteraction('click_live_demo', title)}
+                        >
+                            Visit Website
+                            <ChevronRight size={14} style={{ marginLeft: 4 }} />
+                        </a>
+                    )}
+                    <button style={styles.closeButton} onClick={onClose} aria-label="Close">
+                        <X size={20} />
+                    </button>
+                </div>
             </div>
 
             <div
@@ -311,8 +326,8 @@ export function UnifiedProjectViewer({
                         href={liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={styles.liveButton}
-                        className="view-live-cta"
+                        style={styles.liveButtonFooter}
+                        className="view-live-cta-mobile"
                         onClick={() => title && AnalyticsService.trackProjectInteraction('click_live_demo', title)}
                     >
                         Visit Website
@@ -334,14 +349,36 @@ export function UnifiedProjectViewer({
                     color: #555;
                 }
                 
+                .view-live-cta-desktop {
+                    display: flex !important;
+                }
+                
+                .view-live-cta-mobile {
+                    display: none !important;
+                }
+                
                 @media (max-width: 768px) {
                     .nav-btn-desktop { display: none !important; }
-                    
-                    .view-live-cta {
+                    .view-live-cta-desktop { display: none !important; }
+                    .view-live-cta-mobile { 
+                        display: flex !important;
                         flex: 1;
                         justify-content: center;
                         font-weight: 700 !important;
                         letter-spacing: 0.02em;
+                        border-radius: 9999px !important;
+                    }
+                    
+                    .viewer-nav-bottom {
+                        padding: 16px 20px calc(16px + env(safe-area-inset-bottom)) !important;
+                    }
+                }
+                
+                @media (min-width: 769px) {
+                    .viewer-nav-bottom {
+                        display: ${totalSlides > 1 ? 'flex' : 'none'} !important;
+                        padding: 12px 24px !important;
+                        border-top: 1px solid #f0f0f0;
                     }
                 }
             `}</style>
@@ -365,16 +402,22 @@ const styles: Record<string, React.CSSProperties> = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '20px 24px',
+        padding: '16px 24px',
         borderBottom: '1px solid #f0f0f0',
         background: '#ffffff',
+        height: '72px',
     },
     headerLeft: {
         flex: 1,
     },
+    headerRight: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '16px',
+    },
     projectTitle: {
         color: '#111111',
-        fontSize: '16px',
+        fontSize: '18px',
         fontWeight: 700,
         margin: 0,
     },
@@ -382,8 +425,8 @@ const styles: Record<string, React.CSSProperties> = {
         background: '#f5f5f5',
         border: '1px solid #e5e5e5',
         borderRadius: '50%',
-        width: '36px',
-        height: '36px',
+        width: '40px',
+        height: '40px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -447,7 +490,6 @@ const styles: Record<string, React.CSSProperties> = {
         flexDirection: 'column',
         gap: '16px',
         padding: '24px 24px calc(24px + env(safe-area-inset-bottom))',
-        borderBottom: 'none',
         background: '#ffffff',
     },
     mobileCarouselNav: {
@@ -463,16 +505,29 @@ const styles: Record<string, React.CSSProperties> = {
         minWidth: '40px',
         textAlign: 'center',
     },
-    liveButton: {
+    liveButtonHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        color: '#ffffff',
+        textDecoration: 'none',
+        fontSize: '14px',
+        fontWeight: 700,
+        background: '#ff6b3d',
+        padding: '10px 20px',
+        borderRadius: '9999px', // Capsule
+        transition: 'all 0.2s ease',
+        boxShadow: '0 4px 12px rgba(255, 107, 61, 0.2)',
+    },
+    liveButtonFooter: {
         display: 'flex',
         alignItems: 'center',
         color: '#ffffff',
         textDecoration: 'none',
         fontSize: '14px',
         fontWeight: 600,
-        background: '#ff6b3d', // Custom accent for CTA
-        padding: '12px 24px',
-        borderRadius: '12px',
+        background: '#ff6b3d',
+        padding: '14px 24px',
+        borderRadius: '9999px', // Capsule
         transition: 'transform 0.2s',
     },
     playPauseButton: {
