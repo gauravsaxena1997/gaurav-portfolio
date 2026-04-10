@@ -15,13 +15,13 @@
 
 /* --- CSS Variables (scoped to .bio-root) --- */
 .bio-root {
-  --bio-bg: #000000;
-  --bio-surface: #111111;
-  --bio-surface-hover: #1a1a1a;
-  --bio-border: #222222;
-  --bio-text-primary: #ffffff;
-  --bio-text-secondary: #a0a0a0;
-  --bio-text-muted: #666666;
+  --bio-bg: #ffffff;
+  --bio-surface: #f7f7f8;
+  --bio-surface-hover: #ebebeb;
+  --bio-border: #e2e2e2;
+  --bio-text-primary: #111111;
+  --bio-text-secondary: #555555;
+  --bio-text-muted: #888888;
 
   /* Instagram brand colors */
   --bio-ig-orange: #ff9f55;
@@ -386,9 +386,9 @@
   transform: none;
   padding: 0.95rem 1.25rem;
   border-radius: var(--bio-radius-lg);
-  background: rgba(20, 20, 20, 0.92);
-  color: #f1f1f1;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  color: #111111;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
   text-align: center;
   font-size: 0.95rem;
@@ -435,7 +435,7 @@
 
 .bio-milestones__card {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--bio-space-md);
   padding: var(--bio-space-md) var(--bio-space-lg);
   background: var(--bio-surface);
@@ -456,13 +456,49 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-top: 2px;
   color: var(--bio-ig-purple);
+}
+
+.bio-milestones__content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
 .bio-milestones__title {
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--bio-text-primary);
+}
+
+.bio-milestones__progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bio-milestones__progress-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bio-milestones__progress-fill {
+  height: 100%;
+  background: var(--bio-gradient);
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bio-milestones__counter {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--bio-text-secondary);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ========================
@@ -556,38 +592,38 @@
 }
 
 .bio-links-grid__item--Linkedin {
-  background: linear-gradient(135deg, rgba(14, 118, 168, 0.2), rgba(0, 119, 181, 0.35));
-  border-color: rgba(0, 119, 181, 0.35);
+  background: linear-gradient(135deg, rgba(14, 118, 168, 0.08), rgba(0, 119, 181, 0.12));
+  border-color: rgba(0, 119, 181, 0.2);
 }
 
 .bio-links-grid__item--Github {
-  background: linear-gradient(135deg, rgba(36, 41, 46, 0.7), rgba(13, 17, 23, 0.8));
-  border-color: rgba(88, 96, 105, 0.4);
+  background: linear-gradient(135deg, rgba(36, 41, 46, 0.08), rgba(13, 17, 23, 0.12));
+  border-color: rgba(88, 96, 105, 0.2);
 }
 
 .bio-links-grid__item--MessageCircle {
-  background: linear-gradient(135deg, rgba(37, 211, 102, 0.25), rgba(32, 189, 90, 0.28));
-  border-color: rgba(37, 211, 102, 0.25);
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.08), rgba(32, 189, 90, 0.12));
+  border-color: rgba(37, 211, 102, 0.2);
 }
 
 .bio-links-grid__item--Whatsapp {
-  background: linear-gradient(135deg, rgba(37, 211, 102, 0.5), rgba(32, 189, 90, 0.45));
-  border-color: rgba(37, 211, 102, 0.4);
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.08), rgba(32, 189, 90, 0.12));
+  border-color: rgba(37, 211, 102, 0.2);
 }
 
 .bio-links-grid__item--CalendarClock {
-  background: linear-gradient(135deg, rgba(0, 108, 255, 0.3), rgba(70, 130, 255, 0.35));
-  border-color: rgba(0, 108, 255, 0.4);
+  background: linear-gradient(135deg, rgba(0, 108, 255, 0.08), rgba(70, 130, 255, 0.12));
+  border-color: rgba(0, 108, 255, 0.2);
 }
 
 .bio-links-grid__item--Calendly {
-  background: linear-gradient(135deg, rgba(0, 108, 255, 0.3), rgba(70, 130, 255, 0.35));
-  border-color: rgba(0, 108, 255, 0.4);
+  background: linear-gradient(135deg, rgba(0, 108, 255, 0.08), rgba(70, 130, 255, 0.12));
+  border-color: rgba(0, 108, 255, 0.2);
 }
 
 .bio-links-grid__item:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  filter: brightness(1.06);
+  border-color: rgba(0, 0, 0, 0.15);
+  filter: brightness(0.95);
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
@@ -598,8 +634,8 @@
   border-radius: var(--bio-radius-full);
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.04);
-  color: #ffffff;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--bio-text-primary);
 }
 
 .bio-links-grid__label {

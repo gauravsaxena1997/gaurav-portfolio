@@ -21,6 +21,7 @@ export interface BioStat {
 
 export interface BioMilestone {
   title: string;
+  progress?: { current: number; target: number };
 }
 
 export interface BioBadge {
@@ -94,9 +95,9 @@ export const bioConfig: BioPageConfig = {
   },
 
   milestones: [
-    { title: 'Acquire My First Client' },
-    { title: 'Post Consistently for 30 Days' },
-    { title: 'Publish 3 Case Study Breakdowns' },
+    { title: 'Acquire My First 10 Clients', progress: { current: 4, target: 10 } },
+    { title: 'Post Consistently for 30 Days', progress: { current: 0, target: 30 } },
+    { title: 'Publish 3 Case Study Breakdowns', progress: { current: 0, target: 3 } },
   ],
 
   badges: [

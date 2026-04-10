@@ -112,7 +112,22 @@ export default function BioPage() {
                 <div className="bio-milestones__icon">
                   <Icon size={18} />
                 </div>
-                <span className="bio-milestones__title">{m.title}</span>
+                <div className="bio-milestones__content">
+                  <span className="bio-milestones__title">{m.title}</span>
+                  {(m as any).progress && (
+                    <div className="bio-milestones__progress">
+                      <div className="bio-milestones__progress-bar">
+                        <div
+                          className="bio-milestones__progress-fill"
+                          style={{ width: `${Math.min(100, Math.max(0, ((m as any).progress.current / (m as any).progress.target) * 100))}%` }}
+                        />
+                      </div>
+                      <span className="bio-milestones__counter">
+                        {(m as any).progress.current}/{(m as any).progress.target}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
