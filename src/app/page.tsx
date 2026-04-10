@@ -14,22 +14,20 @@ const MobileLayout = dynamic(() => import('@/themes/creative/components/layout/M
 const ACTIVE_THEME = 'theme-light-warm';
 
 export default function Home() {
-  const [isMobile, setIsMobile] = useState<boolean | null>(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth < 768;
-    }
-    return null;
-  });
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [activeTheme, setActiveTheme] = useState<'creative' | 'github'>('creative');
 
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const checkDevice = useCallback(() => {
-    const mobile = window.innerWidth < 768;
+    const mobile = typeof window !== 'undefined' && window.innerWidth < 768;
     setIsMobile(mobile);
   }, []);
 
   useEffect(() => {
+    // Run immediately on mount to resolve the initial desktop/mobile state
+    checkDevice();
+    
     const handleResize = () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
       debounceTimer.current = setTimeout(checkDevice, 150);
