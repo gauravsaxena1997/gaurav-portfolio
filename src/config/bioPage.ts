@@ -79,7 +79,7 @@ export const bioConfig: BioPageConfig = {
   stats: [
     { label: 'Years Building', value: '6+' },
     { label: 'Clients Helped', value: '4' },
-    { label: 'Releases Shipped', value: '20+' },
+    { label: 'Build Velocity', value: '10x' },
   ],
 
   momentumLine: 'and counting...',

@@ -47,8 +47,8 @@ export default function BioPage() {
             src={hero.avatarUrl}
             alt={hero.name}
             className="bio-hero__avatar"
-            width={94}
-            height={94}
+            width={124}
+            height={124}
             loading="eager"
           />
         </div>

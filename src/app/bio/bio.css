@@ -142,8 +142,8 @@
 }
 
 .bio-hero__avatar-ring {
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
   border-radius: var(--bio-radius-full);
   padding: 3px;
   background: var(--bio-gradient);
@@ -310,7 +310,7 @@
   font-size: 0.9rem;
   font-family: var(--bio-font);
   color: var(--bio-text-primary);
-  background: var(--bio-surface);
+  background: var(--bio-bg);
   border: 1px solid var(--bio-border);
   border-radius: var(--bio-radius-sm);
   transition: border-color var(--bio-transition), box-shadow var(--bio-transition);
