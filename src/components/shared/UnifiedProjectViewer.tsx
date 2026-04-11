@@ -5,6 +5,26 @@ import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import { AnalyticsService } from '@/services/AnalyticsService';
 
+// Preload images using browser API
+function preloadImages(srcs: string[]) {
+  if (typeof window === 'undefined') return;
+  srcs.forEach((src) => {
+    const img = new window.Image();
+    img.src = src;
+  });
+}
+
+// Preload with link tags for better performance
+function addPreloadLinks(srcs: string[]) {
+  srcs.forEach((src) => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = src;
+    document.head.appendChild(link);
+  });
+}
+
 interface UnifiedProjectViewerProps {
     isOpen: boolean;
     onClose: () => void;
@@ -44,21 +64,31 @@ export function UnifiedProjectViewer({
     const requestRef = useRef<number | null>(null);
     const [isPlaying, setIsPlaying] = useState(true);
 
-    // Reset index when opening
+    // Track loaded images
+    const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+    
+    // Reset index and preload images when opening
     useEffect(() => {
         if (isOpen) {
             // Use requestAnimationFrame to avoid synchronous setState
             requestAnimationFrame(() => {
                 setCurrentIndex(initialIndex);
                 setIsPlaying(true);
-                setVideoError(false); // Reset error state when re-opening
+                setVideoError(false);
+                setLoadedImages(new Set()); // Reset loaded state
             });
             // Reset progress bar width directly
             if (progressBarRef.current) {
                 progressBarRef.current.style.width = '0%';
             }
+            
+            // Preload all images immediately when gallery opens
+            if (images.length > 0) {
+                preloadImages(images);
+                addPreloadLinks(images);
+            }
         }
-    }, [isOpen, initialIndex]);
+    }, [isOpen, initialIndex, images]);
 
     // Lock Body Scroll
     useEffect(() => {
@@ -284,17 +314,44 @@ export function UnifiedProjectViewer({
                             </div>
                         </div>
                     ) : (
-                        <div style={styles.imageWrapper}>
-                            <Image
-                                src={images[imageIndex]}
-                                alt={`${alt} ${imageIndex + 1}`}
-                                fill
-                                style={{ objectFit: 'contain' }}
-                                quality={100}
-                                sizes="95vw"
-                                priority
-                            />
-                        </div>
+                        // Render all images but only show current (prevents loading delays)
+                        images.map((imgSrc, idx) => {
+                            const isCurrent = idx === imageIndex;
+                            const isAdjacent = Math.abs(idx - imageIndex) <= 1; // Prev, current, next
+                            
+                            // Only render current and adjacent images
+                            if (!isCurrent && !isAdjacent) return null;
+                            
+                            return (
+                                <div 
+                                    key={imgSrc} 
+                                    style={{
+                                        ...styles.imageWrapper,
+                                        visibility: isCurrent ? 'visible' : 'hidden',
+                                        opacity: isCurrent ? 1 : 0,
+                                        zIndex: isCurrent ? 1 : 0,
+                                        position: 'absolute',
+                                    }}
+                                >
+                                    <Image
+                                        src={imgSrc}
+                                        alt={`${alt} ${idx + 1}`}
+                                        fill
+                                        style={{ objectFit: 'contain' }}
+                                        quality={100}
+                                        sizes="95vw"
+                                        priority={isCurrent || isAdjacent}
+                                        onLoad={() => {
+                                            setLoadedImages(prev => new Set([...prev, idx]));
+                                        }}
+                                    />
+                                    {/* Skeleton placeholder while loading */}
+                                    {!loadedImages.has(idx) && (
+                                        <div style={styles.imageSkeleton} />
+                                    )}
+                                </div>
+                            );
+                        })
                     )}
                 </div>
 
@@ -390,6 +447,11 @@ export function UnifiedProjectViewer({
                         justify-content: center !important;
                         padding: 12px 24px !important;
                     }
+                }
+                
+                @keyframes shimmer {
+                    0% { background-position: -200% 0; }
+                    100% { background-position: 200% 0; }
                 }
             `}</style>
         </div>
@@ -575,5 +637,16 @@ const styles: Record<string, React.CSSProperties> = {
         color: '#111111',
         boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
         zIndex: 10,
+    },
+    imageSkeleton: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+        backgroundSize: '200% 100%',
+        animation: 'shimmer 1.5s infinite',
+        zIndex: 0,
     }
 };
