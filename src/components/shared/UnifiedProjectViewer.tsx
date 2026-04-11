@@ -278,6 +278,10 @@ export function UnifiedProjectViewer({
                                     <Play size={40} fill="currentColor" />
                                 </button>
                             )}
+                            {/* Video Progress Bar - YouTube Style */}
+                            <div style={styles.progressBarContainer}>
+                                <div ref={progressBarRef} style={styles.progressBar} />
+                            </div>
                         </div>
                     ) : (
                         <div style={styles.imageWrapper}>
@@ -307,17 +311,17 @@ export function UnifiedProjectViewer({
                 )}
             </div>
 
-            {/* Bottom Controls / CTA Bar */}
+            {/* Bottom Controls / CTA Bar - Always visible for both video and images */}
             <div
                 style={styles.footer}
                 onClick={(e) => e.stopPropagation()}
                 className="viewer-nav-bottom"
             >
                 {totalSlides > 1 && (
-                    <div style={styles.mobileCarouselNav}>
-                         <button className="mob-page-btn" onClick={goToPrev}><ChevronLeft size={18} /></button>
+                    <div style={styles.carouselNav}>
+                         <button className="page-btn" onClick={goToPrev}><ChevronLeft size={18} /></button>
                          <span style={styles.counter}>{currentIndex + 1} / {totalSlides}</span>
-                         <button className="mob-page-btn" onClick={goToNext}><ChevronRight size={18} /></button>
+                         <button className="page-btn" onClick={goToNext}><ChevronRight size={18} /></button>
                     </div>
                 )}
                 
@@ -337,7 +341,7 @@ export function UnifiedProjectViewer({
             </div>
 
             <style jsx>{`
-                .mob-page-btn {
+                .page-btn {
                     background: #f5f5f5;
                     border: 1px solid #e5e5e5;
                     border-radius: 8px;
@@ -347,6 +351,11 @@ export function UnifiedProjectViewer({
                     align-items: center;
                     justify-content: center;
                     color: #555;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                .page-btn:hover {
+                    background: #e8e8e8;
                 }
                 
                 .view-live-cta-desktop {
@@ -370,15 +379,16 @@ export function UnifiedProjectViewer({
                     }
                     
                     .viewer-nav-bottom {
+                        flex-direction: column !important;
                         padding: 16px 20px calc(16px + env(safe-area-inset-bottom)) !important;
                     }
                 }
                 
                 @media (min-width: 769px) {
                     .viewer-nav-bottom {
-                        display: ${totalSlides > 1 ? 'flex' : 'none'} !important;
+                        flex-direction: row !important;
+                        justify-content: center !important;
                         padding: 12px 24px !important;
-                        border-top: 1px solid #f0f0f0;
                     }
                 }
             `}</style>
@@ -441,14 +451,16 @@ const styles: Record<string, React.CSSProperties> = {
         alignItems: 'center',
         justifyContent: 'center',
         background: '#fafafa',
+        overflow: 'hidden',
     },
     mediaContainer: {
         position: 'relative',
         width: '100%',
-        height: '100%',
+        height: 'calc(100% - 80px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        paddingBottom: '10px',
     },
     videoWrapper: {
         width: '100%',
@@ -457,6 +469,7 @@ const styles: Record<string, React.CSSProperties> = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        overflow: 'hidden',
     },
     fullscreenVideo: {
         maxWidth: '100%',
@@ -487,16 +500,35 @@ const styles: Record<string, React.CSSProperties> = {
     },
     footer: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
         gap: '16px',
-        padding: '24px 24px calc(24px + env(safe-area-inset-bottom))',
+        padding: '16px 24px',
         background: '#ffffff',
+        borderTop: '1px solid #f0f0f0',
+        minHeight: '64px',
     },
-    mobileCarouselNav: {
+    carouselNav: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         gap: '16px',
+    },
+    progressBarContainer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '5px',
+        background: 'rgba(255, 255, 255, 0.3)',
+        cursor: 'pointer',
+        zIndex: 20,
+    },
+    progressBar: {
+        height: '100%',
+        background: '#ff6b3d',
+        width: '0%',
     },
     counter: {
         fontSize: '13px',
