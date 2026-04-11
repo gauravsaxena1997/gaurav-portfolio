@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { X, Maximize2, Play, Pause } from 'lucide-react';
 
 interface VideoPlayerProps {
@@ -51,6 +51,13 @@ export function VideoPlayer({
       document.body.style.overflow = '';
     };
   }, [isFullscreen]);
+
+  // Detect MIME type from file extension
+  const mimeType = useMemo(() => {
+    if (src.endsWith('.webm')) return 'video/webm';
+    if (src.endsWith('.ogg') || src.endsWith('.ogv')) return 'video/ogg';
+    return 'video/mp4';
+  }, [src]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -109,7 +116,7 @@ export function VideoPlayer({
             }
           }}
         >
-          <source src={src} type="video/mp4" />
+          <source src={src} type={mimeType} />
           <track kind="captions" src="/captions/en.vtt" label="English" default />
         </video>
 
@@ -150,7 +157,7 @@ export function VideoPlayer({
                   }
                 }}
               >
-                <source src={src} type="video/mp4" />
+                <source src={src} type={mimeType} />
                 <track kind="captions" src="/captions/en.vtt" label="English" default />
               </video>
 

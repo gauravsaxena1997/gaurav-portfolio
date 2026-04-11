@@ -12,7 +12,8 @@ import {
   BotMessageSquare, BarChart3, Smartphone, ShieldCheck,
   Network, Palette, FileCode2,
   Sparkles, Zap, ShoppingBag, Film,
-  Star, Layers, Globe, TrendingUp, type LucideIcon,
+  Star, Layers, Globe, TrendingUp,
+  CheckCircle, Rocket, type LucideIcon,
 } from 'lucide-react';
 import styles from './ProjectSection.module.css';
 
@@ -21,6 +22,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Network, Palette, FileCode2,
   Sparkles, Zap, ShoppingBag, Film,
   Star, Layers, Globe, TrendingUp,
+  CheckCircle, Rocket,
 };
 
 /**
