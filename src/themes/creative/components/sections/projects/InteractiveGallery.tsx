@@ -25,10 +25,17 @@ const GALLERY_CONFIG = {
   STAGGER_OFFSETS: [-16, 16, 0, -10, 10], // Base horizontal offsets (percent)
   PORTRAIT_SPREAD: 25,       // Wider horizontal spread for portrait images
   SCALES: [1.02, 0.98, 1.0, 1.01, 0.99],
+  // Drives BOTH container height AND scroll handler progress (single source of truth).
+  // Container must be at least (ANIMATION_SCROLL_DISTANCE_VH + SETTLE_BUFFER_VH) × vh tall
+  // so the sticky image stack stays in viewport until both stickies (left text + right images)
+  // release together when the container bottom exits the viewport.
+  ANIMATION_SCROLL_DISTANCE_VH: 1.5, // page scroll (in vh) for stack to fully dock
+  SETTLE_BUFFER_VH: 0.1,             // 10% vh settle before both sides scroll away
+  // Must match --project-sticky-offset in ProjectSection.module.css
+  STICKY_OFFSET_PX: 72,
 };
 
 function getXOffset(index: number, isPortrait: boolean): number {
-  // Logic: For portrait images (usually index 3, 4+), use wider horizontal spread
   if (isPortrait) {
     return (index % 2 === 0) ? GALLERY_CONFIG.PORTRAIT_SPREAD : -GALLERY_CONFIG.PORTRAIT_SPREAD;
   }
@@ -40,8 +47,24 @@ function getScale(index: number): number {
 }
 
 /**
- * InteractiveGallery - Staggered left/right/center screenshot reveal with parallax
- * Images appear on scroll in a L → R → C pattern for clear visual rhythm.
+ * InteractiveGallery — Staggered screenshot reveal driven by scroll.
+ *
+ * Layout strategy (solves "dead scroll" on right):
+ *   The outer container (.container) is in normal flow and scrolls with the page.
+ *   Animation progress is read from container.getBoundingClientRect().top so it
+ *   still advances as the user scrolls.
+ *
+ *   Inside the container, a sticky inner wrapper (.stickyStack) is pinned at
+ *   top: STICKY_OFFSET_PX — the same offset as the left sticky text column.
+ *   Screenshots are positioned absolute inside the sticky wrapper.
+ *
+ *   This means:
+ *   - Animation drives screenshot positions (via JS transform) ✓
+ *   - Screenshots stay visible in the viewport throughout the scroll window ✓
+ *   - Sticky wrapper releases exactly when the container bottom exits viewport ✓
+ *   - Container height = (AnimDist + buffer) × vh so both stickies (left text
+ *     and right images) release at the same moment → whole project exits together ✓
+ *   - No dead right column after stack settles.
  */
 export const InteractiveGallery = memo(function InteractiveGallery({
   images,
@@ -51,37 +74,28 @@ export const InteractiveGallery = memo(function InteractiveGallery({
   const containerRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Slice images to max limit to prevent excessive DOM nodes
   const displayImages = useMemo(() => images.slice(0, GALLERY_CONFIG.MAX_DISPLAY_IMAGES), [images]);
 
-  // Set gallery container height based on stacked images (mount + resize only).
+  // Set container height so the sticky image stack stays visible for the full
+  // animation + settle window, then both stickies release simultaneously.
   useEffect(() => {
     const setHeight = () => {
       if (!containerRef.current) return;
       const vh = window.innerHeight;
-      const n = displayImages.length;
-      const firstImg = imagesRef.current[0];
-      const imgHeight = firstImg?.getBoundingClientRect().height || 320;
-      const stackedHeight = (n - 1) * GALLERY_CONFIG.VERTICAL_GAP + imgHeight;
 
-      // Gallery just needs to fit stacked images plus a bit of breathing room.
-      const galleryHeight = stackedHeight + vh * 0.45;
-      containerRef.current.style.minHeight = `${Math.ceil(galleryHeight)}px`;
+      // Container must be at least (AnimDist + buffer) × vh so its bottom doesn't
+      // exit the viewport before animation ends.  The sticky wrapper inside will
+      // release exactly when container.bottom crosses viewport top, which happens
+      // at Y = S + containerHeight.  Left sticky releases at Y = S + containerHeight - vh.
+      // With containerHeight = (1.5 + 0.1) × vh both releases coincide within 0.1 vh.
+      const required =
+        vh * (GALLERY_CONFIG.ANIMATION_SCROLL_DISTANCE_VH + GALLERY_CONFIG.SETTLE_BUFFER_VH);
 
-      // Set parent slide height to right column content so sticky unpins exactly when content ends.
-      const slide = containerRef.current.closest('[class*="projectSlide"]') as HTMLElement;
-      if (slide) {
-        const rightCol = containerRef.current.closest('[class*="rightColumn"]') as HTMLElement;
-        if (rightCol) {
-          const rightHeight = rightCol.scrollHeight;
-          const minNeeded = vh + 200;
-          const capped = Math.max(minNeeded, Math.min(rightHeight, vh * 1.80));
-          slide.style.minHeight = `${Math.ceil(capped)}px`;
-        }
-      }
+      containerRef.current.style.minHeight = `${Math.ceil(required)}px`;
+      containerRef.current.style.height    = `${Math.ceil(required)}px`;
     };
 
-    const timer = setTimeout(setHeight, 400);
+    const timer = setTimeout(setHeight, 100);
     window.addEventListener('resize', setHeight);
     return () => {
       clearTimeout(timer);
@@ -90,6 +104,8 @@ export const InteractiveGallery = memo(function InteractiveGallery({
   }, [displayImages.length]);
 
   // Sequential staggered reveal — L → R → C pattern becomes visible on scroll.
+  // Progress is driven by the OUTER container's rect.top (normal-flow), NOT the
+  // sticky wrapper, so it still advances as the user scrolls.
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -99,7 +115,7 @@ export const InteractiveGallery = memo(function InteractiveGallery({
       const windowHeight = window.innerHeight;
       if (prefersReducedMotion) return;
 
-      const ANIMATION_SCROLL_DISTANCE = windowHeight * 1.5;
+      const ANIMATION_SCROLL_DISTANCE = windowHeight * GALLERY_CONFIG.ANIMATION_SCROLL_DISTANCE_VH;
       const scrolledInto = windowHeight - rect.top;
       const totalProgress = Math.max(0, Math.min(1, scrolledInto / ANIMATION_SCROLL_DISTANCE));
 
@@ -132,38 +148,46 @@ export const InteractiveGallery = memo(function InteractiveGallery({
 
   return (
     <div ref={containerRef} className={`${styles.container} ${className || ''}`}>
-      {displayImages.map((image, index) => {
-        const isPortrait = image.toLowerCase().includes('mobile') || image.toLowerCase().includes('portrait');
-        const imgWidth = isPortrait ? 550 : 1600; // Increased width for better resolution/size
-        const imgHeight = isPortrait ? 1000 : 900; // Increased height limit
+      {/*
+        Sticky inner wrapper — pins screenshots at the same top offset as the left
+        sticky text column.  Screenshots are absolute inside this wrapper so they
+        stay in the viewport as the outer container (in normal flow) scrolls beneath.
+        When the container bottom exits the viewport the wrapper un-sticks and the
+        images scroll away together with the left text.
+      */}
+      <div className={styles.stickyStack}>
+        {displayImages.map((image, index) => {
+          const isPortrait = image.toLowerCase().includes('mobile') || image.toLowerCase().includes('portrait');
+          const imgWidth  = isPortrait ? 550  : 1600;
+          const imgHeight = isPortrait ? 1000 : 900;
 
-        return (
-          <div
-            key={image}
-            ref={(el) => { imagesRef.current[index] = el; }}
-            className={`${styles.screenshot} ${isPortrait ? styles.portrait : ''}`}
-            style={{
-              zIndex: index + 1,
-              top: 0,
-            }}
-          >
-            <Image
-              src={image}
-              alt={`${projectName} screenshot ${index + 1}`}
-              width={imgWidth}
-              height={imgHeight}
-              sizes="(max-width: 900px) 100vw, 50vw"
-              className={styles.image}
-              style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '72vh' }}
-              priority={index === 0}
-              loading={index <= 1 ? 'eager' : 'lazy'}
-              placeholder="blur"
-              blurDataURL="data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoIAAUAAUAmJYgCdAEO/gHOAAD++P/////////////////////8"
-            />
-          </div>
-        );
-      })}
+          return (
+            <div
+              key={image}
+              ref={(el) => { imagesRef.current[index] = el; }}
+              className={`${styles.screenshot} ${isPortrait ? styles.portrait : ''}`}
+              style={{
+                zIndex: index + 1,
+                top: 0,
+              }}
+            >
+              <Image
+                src={image}
+                alt={`${projectName} screenshot ${index + 1}`}
+                width={imgWidth}
+                height={imgHeight}
+                sizes="(max-width: 900px) 100vw, 50vw"
+                className={styles.image}
+                style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '72vh' }}
+                priority={index === 0}
+                loading={index <= 1 ? 'eager' : 'lazy'}
+                placeholder="blur"
+                blurDataURL="data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoIAAUAAUAmJYgCdAEO/gHOAAD++P/////////////////////8"
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 });
-

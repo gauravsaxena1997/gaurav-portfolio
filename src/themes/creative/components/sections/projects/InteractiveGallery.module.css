@@ -1,8 +1,29 @@
 .container {
   position: relative;
   width: 100%;
-  /* Height is set dynamically by JS; this is just a small fallback before hydration */
+  /* Height is set dynamically by JS to (AnimDist + buffer) × vh */
   min-height: 600px;
+}
+
+/*
+ * Sticky inner wrapper — keeps the screenshot stack pinned in the viewport
+ * at the same offset as the left sticky text column (--project-sticky-offset).
+ * The outer .container is in normal flow; animation progress is driven from
+ * container.rect.top so it advances as the user scrolls.  This wrapper just
+ * prevents the images from scrolling above the viewport while the container
+ * is still visible.  It un-sticks when container.bottom exits the viewport,
+ * at which point the left text sticky also releases — both sides exit together.
+ */
+.stickyStack {
+  position: sticky;
+  top: var(--project-sticky-offset, 72px);
+  width: 100%;
+  height: calc(var(--viewport-height) - var(--project-sticky-offset, 72px));
+  /* overflow: visible — stagger intentionally bleeds left/right beyond column boundary.
+     Vertical overflow below viewport bottom is naturally hidden by the viewport itself.
+     The 12vh margin-bottom on .projectSlide prevents bleed into the next project. */
+  overflow: visible;
+  isolation: isolate;
 }
 
 .screenshot {

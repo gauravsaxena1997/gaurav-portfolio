@@ -13,6 +13,14 @@
   gap: var(--grid-gap-lg);
   position: relative;
   overflow: visible;
+  /* Gap between projects — creates blank scroll space after each project's sticky
+     releases so the next project's images don't appear immediately. */
+  margin-bottom: 12vh;
+}
+
+/* Remove bottom gap on the last project so there's no excess below the section. */
+.projectSlide:last-child {
+  margin-bottom: 0;
 }
 
 /* LEFT COLUMN - Sticky & Centered */
