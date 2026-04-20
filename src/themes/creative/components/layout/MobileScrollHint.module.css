@@ -1,0 +1,19 @@
+.scrollHint {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--creative-accent);
+    opacity: 0.6;
+    z-index: 10;
+    pointer-events: none;
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .scrollHint {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

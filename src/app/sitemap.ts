@@ -5,30 +5,36 @@ import { BLOG_POSTS } from '@/data/blog';
 const BASE_URL = 'https://gauravsaxena.site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const currentDate = new Date().toISOString();
+  const now = new Date().toISOString();
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
-      lastModified: currentDate,
+      lastModified: now,
       changeFrequency: 'weekly',
-      priority: 1,
+      priority: 1.0,
     },
     {
       url: `${BASE_URL}/blog`,
-      lastModified: currentDate,
+      lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/projects`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.9,
     },
   ];
 
   // Project/Case study pages
   const projectPages: MetadataRoute.Sitemap = CASE_STUDIES.map((project) => ({
     url: `${BASE_URL}/projects/${project.slug}`,
-    lastModified: currentDate,
+    lastModified: now,
     changeFrequency: 'monthly' as const,
-    priority: 0.7,
+    priority: 0.8,
   }));
 
   // Blog post pages (only internal posts)
@@ -38,7 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: post.publishedAt,
     changeFrequency: 'monthly' as const,
-    priority: 0.6,
+    priority: 0.7,
   }));
 
   return [...staticPages, ...projectPages, ...blogPages];

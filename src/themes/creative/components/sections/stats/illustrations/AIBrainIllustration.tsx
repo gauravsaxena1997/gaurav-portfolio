@@ -3,6 +3,7 @@
 import { memo, useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { useGestures } from '@/themes/creative/context/GestureContext';
+import { useGyroscope } from '@/themes/creative/hooks/useGyroscope';
 
 interface AIBrainIllustrationProps {
   className?: string;
@@ -19,6 +20,7 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
   const [pupilOffset, setPupilOffset] = useState({ x: 0, y: 0 });
   const [headTilt, setHeadTilt] = useState(0);
   const { isGesturesEnabled, isTrackingActive, handCoordinates } = useGestures();
+  const { readingRef: gyroRef, isActive: gyroActive } = useGyroscope();
 
   // Hand Gesture Tracking Logic
   useEffect(() => {
@@ -89,6 +91,23 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [handleMouseMove]);
+
+  useEffect(() => {
+    if (!gyroActive) return;
+    let raf = 0;
+    const tick = () => {
+      const { x, y } = gyroRef.current;
+      const maxPupilMove = 6;
+      setPupilOffset({
+        x: Math.max(-maxPupilMove, Math.min(maxPupilMove, x * maxPupilMove * 1.5)),
+        y: Math.max(-maxPupilMove, Math.min(maxPupilMove, y * maxPupilMove)),
+      });
+      setHeadTilt(x * 2);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [gyroActive, gyroRef]);
 
   return (
     <svg
@@ -205,8 +224,8 @@ export const AIBrainIllustration = memo(function AIBrainIllustration({
         />
 
         {/* Ear pieces - curved */}
-        <ellipse cx="35" cy="70" rx="8" ry="15" fill="#c0c0c0" />
-        <ellipse cx="165" cy="70" rx="8" ry="15" fill="#c0c0c0" />
+        <ellipse cx="35" cy="70" rx="8" ry="15" fill="url(#robotBodyGrad)" />
+        <ellipse cx="165" cy="70" rx="8" ry="15" fill="url(#robotBodyGrad)" />
 
         {/* Slight curve on top (no antenna) */}
         <ellipse cx="100" cy="32" rx="15" ry="4" fill="url(#robotBodyGrad)" />

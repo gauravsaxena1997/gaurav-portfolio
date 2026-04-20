@@ -2,7 +2,7 @@
 
 import { TESTIMONIALS } from '@/config/testimonials';
 import { TestimonialCard } from './TestimonialCard';
-import styles from './MobileTestimonials.module.css'; // Dedicated mobile styles needed for snap layout
+import styles from './MobileTestimonials.module.css';
 import { AccentSeparator } from '@/themes/creative/components/ui';
 
 export function MobileTestimonialsSection() {
@@ -23,8 +23,6 @@ export function MobileTestimonialsSection() {
                             />
                         </div>
                     ))}
-                    {/* Add a spacer at only the end to allow scrolling past last item if needed, 
-                        but usually CSS padding on track handles this. */}
                 </div>
             </div>
         </section>

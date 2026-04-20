@@ -49,8 +49,7 @@ export function createActionHandler(
         if (action.modalId.startsWith('project_')) {
           const projectId = action.modalId.replace('project_', '');
           // Trigger project viewer (would need to be wired through context/props)
-          // eslint-disable-next-line no-console
-          console.log('Open project modal:', projectId, action.payload);
+          void projectId; // modal wiring pending
         }
         break;
 

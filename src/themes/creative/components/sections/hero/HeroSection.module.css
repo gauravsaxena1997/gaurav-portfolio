@@ -476,8 +476,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background: #ffffff;
   color: var(--creative-text-primary);
@@ -512,10 +512,10 @@
   background: var(--creative-accent);
   border: 2px solid var(--creative-accent);
   color: #ffffff;
-  height: 48px;
-  padding: 0 1.75rem;
+  height: 54px;
+  padding: 0 2.25rem;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -731,11 +731,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 clamp(1.25rem, 5vw, 2rem);
-    padding-top: calc(var(--header-height, 64px) + 1.5rem);
-    padding-bottom: 2rem;
-    gap: 1.5rem;
-    height: auto;
+    padding: 1rem clamp(1.25rem, 5vw, 2rem);
+    gap: 1.25rem;
+    height: 100dvh;
     min-height: 100dvh;
   }
 
@@ -847,42 +845,47 @@
     gap: 1rem;
   }
 
-  /* Action row — CTA + social icons on ONE row, centered */
+  /* Action row — block layout: full-width CTA stacked above social row */
   .actionRow {
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     justify-content: center;
     gap: 0.75rem;
     margin-top: 1.25rem;
     flex-wrap: nowrap;
     width: 100%;
+    max-width: 420px;
   }
 
-  /* Social pills row — inline with CTA */
+  /* Social pills row — sits below CTA, fills width, icons split evenly */
   .socialPillRow {
-    flex-shrink: 0;
-    gap: 0.5rem;
+    display: flex;
+    width: 100%;
+    gap: 0.75rem;
   }
 
-  /* CTA — proper touch target */
+  /* CTA — full-width block */
   .heroCTA {
-    width: auto;
+    width: 100%;
     padding: 0 1.5rem;
-    height: 44px;
-    font-size: 0.8125rem;
+    height: 52px;
+    font-size: 0.9rem;
     letter-spacing: 0.07em;
     white-space: nowrap;
   }
 
-  /* Social icon circles — sized for touch */
+  /* Social icon circles become full-width pill buttons on mobile */
   .socialIconCircle {
-    width: 44px;
-    height: 44px;
+    flex: 1;
+    width: auto;
+    height: 52px;
+    border-radius: 9999px;
+    min-width: 0;
   }
 
   .socialIconCircle svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
   }
 
   /* Accent separator — centered */
@@ -917,7 +920,6 @@
 /* Small mobile (iPhone SE / 375px) */
 @media (max-width: 480px) {
   .heroTwoCol {
-    padding-top: calc(var(--header-height, 64px) + 1rem);
     gap: 1rem;
   }
 
@@ -951,24 +953,22 @@
   }
 
   .actionRow {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     gap: 0.6rem;
   }
 
   .heroCTA {
-    height: 40px;
-    padding: 0 1.25rem;
-    font-size: 0.75rem;
+    height: 48px;
+    font-size: 0.85rem;
   }
 
   .socialIconCircle {
-    width: 40px;
-    height: 40px;
+    height: 48px;
   }
 
   .socialIconCircle svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
 }
 

@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Sora, Manrope, Archivo, Space_Grotesk, JetBrains_Mono, Inter, Outfit, Playfair_Display, DM_Sans, Syne, Montserrat } from 'next/font/google';
 import Script from 'next/script';
 import { ThemeProvider } from '@/components/shared';
-import { PersonSchema, ServiceSchema, WebSiteSchema, BreadcrumbSchema, FAQSchema, TestimonialSchema } from '@/components/seo';
+import { PersonSchema, ServiceSchema, WebSiteSchema, ProfilePageSchema, HowToSchema, BreadcrumbSchema, FAQSchema, TestimonialSchema } from '@/components/seo';
 import { AnalyticsService } from '@/services/AnalyticsService';
 import { ChatWidgetLoader } from '@/components/chat/ChatWidgetLoader';
 import './globals.css';
@@ -88,87 +88,120 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'Gaurav Saxena | Creative Technologist & Full Stack Architect',
+    default: 'Gaurav Saxena | Freelance Full Stack Developer & Creative Technologist',
     template: '%s | Gaurav Saxena',
   },
   description:
-    'Building immersive, high-performance web platforms that drive growth. Full Stack Architect specializing in scalable systems and AI-driven engineering.',
+    'Gaurav Saxena is a freelance full stack developer and creative technologist based in Jaipur, India. 6+ years experience building web apps, SaaS platforms, and AI-powered tools for global clients. Ex-Zetwerk Senior SWE. Available for hire.',
   keywords: [
+    // Identity
+    'Gaurav Saxena',
+    'Gaurav Saxena developer',
+    'Gaurav Saxena portfolio',
+    'Gaurav Saxena Jaipur',
+    // Role
+    'Freelance Full Stack Developer',
+    'Full Stack Developer India',
     'Creative Technologist',
-    'Creative Engineer',
     'Full Stack Architect',
+    'React Developer India',
+    'Next.js Developer',
+    'Hire Full Stack Developer',
+    'Hire React Developer',
+    'Freelance Web Developer India',
+    // Technologies
     'Next.js 15',
+    'React Developer',
+    'Node.js Developer',
+    'TypeScript Developer',
     'Three.js',
     'WebGL',
     'React Three Fiber',
-    'System Architecture',
-    'Gaurav Saxena',
-    'Full Stack Developer',
-    'Freelancer',
-    'Web Developer',
-    'React Developer',
-    'Node.js Developer',
-    'TypeScript',
-    'Jaipur',
-    'India',
-    'Hire Developer',
+    'AI Developer',
+    'LLM Integration',
+    'OpenAI Developer',
+    // Services
+    'MVP Development',
+    'SaaS Development',
     'Web Application Development',
+    'AI-Powered Applications',
+    'E-commerce Development',
+    'Technical Consulting',
+    // Location
+    'Jaipur Developer',
+    'India',
+    'Remote Developer',
+    // Long-tail / AEO
+    'freelance developer for startup',
+    'hire Next.js developer remote',
+    'full stack developer for SaaS',
   ],
   authors: [{ name: 'Gaurav Saxena', url: BASE_URL }],
   creator: 'Gaurav Saxena',
   publisher: 'Gaurav Saxena',
+  applicationName: 'Gaurav Saxena Portfolio',
+  referrer: 'origin-when-cross-origin',
   formatDetection: {
     email: true,
     address: true,
     telephone: true,
   },
   openGraph: {
-    type: 'website',
+    type: 'profile',
     locale: 'en_US',
     url: BASE_URL,
-    title: 'Gaurav Saxena | Creative Technologist & Full Stack Architect',
+    title: 'Gaurav Saxena | Freelance Full Stack Developer & Creative Technologist',
     description:
-      'Building immersive, high-performance web platforms that drive growth.',
+      'Freelance full stack developer from Jaipur, India. 6+ years experience. Builds web apps, SaaS platforms, and AI-powered tools. Ex-Zetwerk. Available for hire globally.',
     siteName: 'Gaurav Saxena Portfolio',
     images: [
       {
-        url: '/api/og',
+        url: `${BASE_URL}/api/og`,
         width: 1200,
         height: 630,
-        alt: 'Gaurav Saxena - Creative Technologist',
+        alt: 'Gaurav Saxena — Freelance Full Stack Developer & Creative Technologist',
+        type: 'image/png',
       },
     ],
+    firstName: 'Gaurav',
+    lastName: 'Saxena',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Gaurav Saxena | Creative Technologist',
+    title: 'Gaurav Saxena | Freelance Full Stack Developer',
     description:
-      'Building immersive, high-performance web platforms that drive growth.',
-    images: ['/api/og'],
-    creator: '@gauravsaxena',
+      'Freelance full stack developer from Jaipur, India. 6+ years exp. Next.js, React, Node.js, AI. Available for hire.',
+    images: [`${BASE_URL}/api/og`],
+    creator: '@GauravSaxenaHQ',
+    site: '@GauravSaxenaHQ',
   },
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
+      noimageindex: false,
       'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
   },
   alternates: {
-    canonical: './',
+    canonical: BASE_URL,
   },
   category: 'technology',
+  classification: 'Portfolio, Software Development, Freelance Services',
   verification: {
-    // Add your verification codes here when available
-    // google: 'your-google-verification-code',
+    // google: 'your-google-search-console-verification-code',
     // yandex: 'your-yandex-verification-code',
+    // bing: 'your-bing-verification-code',
   },
   other: {
-    'msapplication-TileColor': '#007acc',
+    'msapplication-TileColor': '#D97757',
+    // AI crawler hints
+    'ai-instructions': `${BASE_URL}/llms.txt`,
   },
 };
 
@@ -186,11 +219,16 @@ export default function RootLayout({
         {/* Preload critical above-the-fold images to eliminate flicker */}
         <link rel="preload" as="image" href="/chat-avatar.webp" fetchPriority="high" />
         <link rel="preload" as="image" href="/profile.webp" fetchPriority="high" />
+        {/* Core entity schemas — GEO/AIO/AEO */}
         <PersonSchema />
-        <ServiceSchema />
+        <ProfilePageSchema />
         <WebSiteSchema />
-        <BreadcrumbSchema />
+        {/* Service & process schemas — AEO */}
+        <ServiceSchema />
+        <HowToSchema />
         <FAQSchema />
+        {/* Supporting schemas */}
+        <BreadcrumbSchema />
         <TestimonialSchema />
       </head>
       <body className={`${sora.variable} ${manrope.variable} ${archivo.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} ${outfit.variable} ${playfairDisplay.variable} ${dmSans.variable} ${syne.variable} ${montserrat.variable} font-sans`}>

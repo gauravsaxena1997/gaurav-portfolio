@@ -4,6 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Sparkles, Sphere, Line, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { useGestures } from '@/themes/creative/context/GestureContext';
+import { useGyroscope } from '@/themes/creative/hooks/useGyroscope';
 
 function useThemeColors() {
   const [colors, setColors] = useState({ 
@@ -41,7 +42,8 @@ function NeuralNetwork({ colors }: { colors: { bg: string, primary: string, seco
   const groupRef = useRef<THREE.Group>(null);
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
   const { isGesturesEnabled, isTrackingActive, handCoordinates, lastGesture } = useGestures();
-  
+  const { readingRef: gyroRef, isActive: gyroActive } = useGyroscope();
+
   const { nodes, connections } = useMemo(() => {
     // Use deterministic seeded random for consistent positioning
     const random = (seed: number) => {
@@ -50,7 +52,7 @@ function NeuralNetwork({ colors }: { colors: { bg: string, primary: string, seco
     };
     
     // Generate nodes
-    const generatedNodes = Array.from({ length: 60 }).map((_, i) => {
+    const generatedNodes = Array.from({ length: 40 }).map((_, i) => {
       const theta = random(i + 1) * Math.PI * 2;
       const phi = Math.acos((random(i + 42) * 2) - 1);
       const radius = 2.0 + random(i + 100) * 3.5; // Tighter radius
@@ -88,9 +90,14 @@ function NeuralNetwork({ colors }: { colors: { bg: string, primary: string, seco
     if (groupRef.current) {
       groupRef.current.rotation.y = state.clock.elapsedTime * 0.05;
       groupRef.current.rotation.z = state.clock.elapsedTime * 0.02;
-      
-      const targetY = state.pointer.y * 0.5;
+
+      // Gyro on mobile, pointer on desktop
+      const tiltY = gyroActive ? gyroRef.current.y : state.pointer.y;
+      const tiltX = gyroActive ? gyroRef.current.x : state.pointer.x;
+      const targetY = tiltY * 0.5;
+      const targetX = tiltX * 0.3;
       groupRef.current.rotation.x += 0.05 * (targetY - groupRef.current.rotation.x);
+      groupRef.current.rotation.y += 0.03 * (targetX - groupRef.current.rotation.y);
 
       // --- NEW: Hand Gesture Interaction (Pointing) ---
       if (isGesturesEnabled && isTrackingActive && handCoordinates && lastGesture === 'Point') {
@@ -172,18 +179,19 @@ export function NeuralNetworkVisualization() {
   const colors = useThemeColors();
 
   return (
-    <div className="relative w-full h-[500px] overflow-hidden" style={{ cursor: 'crosshair', pointerEvents: 'auto', background: colors.bg }}>
-      <Canvas>
-        <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={60} />
+    <div className="relative w-full overflow-hidden" style={{ height: 'clamp(220px, 35vw, 320px)', cursor: 'crosshair', pointerEvents: 'auto', background: 'transparent' }}>
+      <Canvas gl={{ alpha: true, antialias: true }} style={{ background: 'transparent' }}>
+        {/* Zoomed in + shifted to focus bottom-right cluster */}
+        <PerspectiveCamera makeDefault position={[2, -1, 7]} fov={55} />
         <ambientLight intensity={0.5} />
         <NeuralNetwork colors={colors} />
-        <Sparkles 
-          count={150} 
-          scale={15} 
-          size={1.5} 
-          speed={0.4} 
-          opacity={0.3} 
-          color={colors.accent} 
+        <Sparkles
+          count={150}
+          scale={15}
+          size={1.5}
+          speed={0.4}
+          opacity={0.3}
+          color={colors.accent}
         />
         <fog attach="fog" args={[colors.bg, 5, 20]} />
       </Canvas>

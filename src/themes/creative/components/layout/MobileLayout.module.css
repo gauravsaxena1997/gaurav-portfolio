@@ -11,7 +11,7 @@
     background: var(--creative-bg-secondary);
     min-height: 100vh;
     color: var(--creative-text-primary);
-    font-family: var(--font-body, monospace);
+    font-family: var(--font-body, var(--font-space-grotesk, sans-serif));
     transition: background-color 0.3s ease, color 0.3s ease;
 
     position: relative;

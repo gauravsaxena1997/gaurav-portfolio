@@ -13,6 +13,8 @@ import { GestureProvider } from '@/themes/creative/context/GestureContext';
 import { useScrollProgress } from '@/themes/creative/hooks/useScrollProgress';
 import { ProgressScrollbar } from '@/themes/creative/components/scroll/ProgressScrollbar';
 import { ClickTrigger } from '@/themes/creative/components/ui';
+import { MobileScrollHint } from './MobileScrollHint';
+import { MotionPermissionChip } from '@/themes/creative/components/common/MotionPermissionChip';
 
 // Regular imports for preloaded components
 import { MobileStatPanel } from '@/themes/creative/components/sections/stats/MobileStatPanel';
@@ -124,6 +126,8 @@ export default function MobileLayout({ activeSubTheme = '' }: MobileLayoutProps)
                         style={{ position: 'relative' }}
                     >
                         <HeroSection />
+                        <MotionPermissionChip />
+                        <MobileScrollHint />
                     </TrackedSection>
 
                     <TrackedSection
@@ -166,7 +170,6 @@ export default function MobileLayout({ activeSubTheme = '' }: MobileLayoutProps)
                         domId="services-section"
                         style={{ position: 'relative', background: 'var(--creative-bg-secondary)' }}
                     >
-                        <div className={styles.sectionLabel}>What I Offer</div>
                         <MobileServicesSection />
                     </TrackedSection>
 

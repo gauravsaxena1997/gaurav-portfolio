@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './MobileStatPanel.module.css';
 import { MobileChipStack } from './MobileChipStack';
 import { AIBrainIllustration } from './illustrations/AIBrainIllustration';
@@ -8,7 +8,7 @@ import { NeuralNetworkVisualization } from './illustrations/NeuralNetworkVisuali
 import { AccentSeparator, Highlights } from '@/themes/creative/components/ui';
 import { BackgroundDecor } from '@/themes/creative/components/common/BackgroundDecor';
 import { STATS_DATA } from '@/config/stats';
-import { useMobileReveal } from '@/themes/creative/hooks/useMobileReveal';
+import { useMobileCoordinatedReveal } from '@/themes/creative/hooks/useMobileSectionAnimation';
 
 
 
@@ -19,7 +19,9 @@ interface MobileStatPanelProps {
 export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
     const stat = STATS_DATA[index];
     const Icon = stat?.icon;
-    const panelRef = useMobileReveal<HTMLDivElement>({ y: 30, delay: index * 0.1 });
+    const panelRef = useRef<HTMLDivElement>(null);
+    const { titleRef, separatorRef, bodyRef, listRef, illustrationRef } =
+        useMobileCoordinatedReveal(panelRef, { start: 'top 90%' });
 
     return (
         <div ref={panelRef} className={styles.statPanel}>
@@ -38,19 +40,21 @@ export const MobileStatPanel = ({ index }: MobileStatPanelProps) => {
                         </BackgroundDecor>
                     )}
                     <div className={styles.statTextContent}>
-                        <h2 className={styles.statTitle}>{stat?.title}</h2>
-                        <AccentSeparator width="40%" />
-                        <p className={styles.statDescription}>{stat?.description}</p>
+                        <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className={styles.statTitle}>{stat?.title}</h2>
+                        <div ref={separatorRef as React.RefObject<HTMLDivElement>} className={styles.separatorWrap}>
+                            <AccentSeparator width="40%" />
+                        </div>
+                        <p ref={bodyRef as React.RefObject<HTMLParagraphElement>} className={styles.statDescription}>{stat?.description}</p>
                     </div>
                 </div>
                 {/* Highlights Zone - for ALL layouts now */}
                 {stat?.highlights && (
-                    <div className={styles.listZone}>
+                    <div ref={listRef as React.RefObject<HTMLDivElement>} className={styles.listZone}>
                         <Highlights items={stat.highlights} mono />
                     </div>
                 )}
                 {/* Illustration Zone */}
-                <div className={styles.illustrationZone}>
+                <div ref={illustrationRef as React.RefObject<HTMLDivElement>} className={styles.illustrationZone}>
                     {index === 0 && (
                         <div className={styles.illustrationWrapper50}>
                             <MobileChipStack />

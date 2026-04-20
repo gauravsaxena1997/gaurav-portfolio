@@ -15,7 +15,8 @@ const ChatWidget = dynamic(
 export function ChatWidgetLoader() {
   const pathname = usePathname();
   const [is404, setIs404] = useState(false);
-  
+  const [heroInView, setHeroInView] = useState(true);
+
   useEffect(() => {
     // Check for our custom marker that the 404 component sets
     const check = () => {
@@ -27,9 +28,25 @@ export function ChatWidgetLoader() {
     observer.observe(document.body, { attributes: true, attributeFilter: ['data-page-type'] });
     return () => observer.disconnect();
   }, [pathname]);
-  
+
+  // Hide FAB while hero section intersects viewport; show once scrolled past.
+  useEffect(() => {
+    const hero = document.getElementById('hero-section');
+    if (!hero) {
+      setHeroInView(false);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => setHeroInView(entry.isIntersecting && entry.intersectionRatio > 0.25),
+      { threshold: [0, 0.25, 0.5, 1] }
+    );
+    io.observe(hero);
+    return () => io.disconnect();
+  }, [pathname]);
+
   // Hide on 404 page and component showcase pages
   if (is404 || pathname?.startsWith('/components/')) return null;
-  
+  if (heroInView) return null;
+
   return <ChatWidget />;
 }

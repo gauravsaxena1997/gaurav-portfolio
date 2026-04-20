@@ -35,13 +35,8 @@ export default function ServicesDemo() {
                 // Each service gets 20% of the scroll range (1/5 = 0.2)
                 const newIndex = Math.min(4, Math.floor(scrollProgress * 5));
 
-                // eslint-disable-next-line no-console
-                console.log('Scroll Progress:', scrollProgress.toFixed(2), 'Active Index:', newIndex);
-
                 if (newIndex !== activeServiceIndex) {
                     setActiveServiceIndex(newIndex);
-                    // eslint-disable-next-line no-console
-                    console.log('Updated active service to:', newIndex, SERVICES[newIndex]?.title);
                 }
             }
         };

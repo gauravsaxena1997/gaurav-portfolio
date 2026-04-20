@@ -800,3 +800,19 @@
   box-shadow: none !important;
 }
 /* End of Chat Styles */
+
+/* ── MOBILE FAB — shrink + reposition to avoid hero action row collision ── */
+@media (max-width: 900px) {
+  .fab {
+    right: 12px;
+    bottom: 12px;
+    width: 44px;
+    height: 44px;
+  }
+  .fabBubble,
+  .fabClose {
+    width: 44px;
+    height: 44px;
+  }
+}
+

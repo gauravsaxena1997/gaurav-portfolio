@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useState } from 'react';
-import { MapPin, Mail, Clock, Calendar, Compass, HelpCircle } from 'lucide-react';
+import { MapPin, Mail, Clock, Calendar, HelpCircle } from 'lucide-react';
 import styles from './MobileContactSection.module.css';
 import { AccentSeparator, FAQModal } from '@/themes/creative/components/ui';
 import { ContactForm, type ContactFormHandle } from './ContactForm';
@@ -22,11 +22,6 @@ export const MobileContactSection = () => {
 
     return (
         <div className={styles.contactSection}>
-            {/* Rotating Compass Background */}
-            <div className={styles.contactCompassWrapper}>
-                <Compass className={styles.contactCompassIcon} strokeWidth={1} />
-            </div>
-
             {/* Title */}
             <h2 className={styles.contactTitle}>Get in Touch</h2>
             <AccentSeparator width="40%" />

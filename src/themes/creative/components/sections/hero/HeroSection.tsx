@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { HeroContent } from './HeroContent';
+import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
 import styles from './HeroSection.module.css';
 
 // Dynamic imports for the 3D grid hero, so it doesn't block the main thread
@@ -37,10 +38,12 @@ export function HeroSection() {
 
   return (
     <div className="relative w-full min-h-screen">
-      <HeroGridSection 
-        isHoveringContent={isHoveringContent} 
-        onHoverChange={setIsHoveringContent} 
-      />
+      <ErrorBoundary fallback={<FallbackHero />}>
+        <HeroGridSection
+          isHoveringContent={isHoveringContent}
+          onHoverChange={setIsHoveringContent}
+        />
+      </ErrorBoundary>
     </div>
   );
 }
