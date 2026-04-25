@@ -75,17 +75,35 @@ export function ContactSection({ className }: ContactSectionProps) {
             </div>
           </div>
 
-          <button
-            type="button"
-            className={`${styles.scheduleButton} mt-[var(--space-xl)] flex items-center gap-3 px-8 py-3 bg-transparent border border-[var(--creative-accent)] rounded-full text-[var(--creative-accent)] text-sm font-semibold uppercase tracking-[0.08em] w-fit cursor-pointer transition-transform transition-colors duration-200 ease-out hover:bg-[rgba(var(--creative-accent-rgb),0.12)] hover:-translate-y-[2px] hover:shadow-[0_4px_15px_rgba(var(--creative-accent-rgb),0.2)] active:translate-y-0`}
-            onClick={() => {
-              AnalyticsService.trackCallScheduled();
-              window.open(CONTACT_INFO.schedulingUrl, '_blank', 'noopener,noreferrer');
-            }}
-          >
-            <Calendar size={20} />
-            <span>Schedule a Call</span>
-          </button>
+          <div className="flex items-center gap-3" style={{ marginTop: 'var(--space-xl)' }}>
+            <button
+              type="button"
+              className={styles.scheduleButton}
+              style={{ marginTop: 0 }}
+              onClick={() => {
+                AnalyticsService.trackCallScheduled();
+                window.open(CONTACT_INFO.schedulingUrl, '_blank', 'noopener,noreferrer');
+              }}
+            >
+              <Calendar size={20} />
+              <span>Schedule a Call</span>
+            </button>
+
+            <button
+              type="button"
+              className={`${styles.scheduleButton} ${styles.contraButton}`}
+              style={{ marginTop: 0 }}
+              onClick={() => {
+                AnalyticsService.trackContraClick();
+                window.open('https://contra.com/gauravsaxena97', '_blank', 'noopener,noreferrer');
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0L14.4 9.6L24 12L14.4 14.4L12 24L9.6 14.4L0 12L9.6 9.6Z" />
+              </svg>
+              <span>Hire Me on Contra</span>
+            </button>
+          </div>
         </div>
 
         {/* Right Column: Contact Form */}
@@ -100,7 +118,7 @@ export function ContactSection({ className }: ContactSectionProps) {
       {/* Floating FAQ Button */}
       <button
         className={`${styles.floatingFAQ} absolute bottom-[120px] right-6 w-[60px] h-[60px] rounded-full bg-[rgba(var(--creative-accent-rgb),0.1)] border border-[var(--creative-accent)] text-[var(--creative-accent)] flex items-center justify-center cursor-pointer z-[20] transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[0_4px_15px_rgba(0,0,0,0.2)] hover:bg-[var(--creative-accent)] hover:text-[var(--creative-bg-primary)] hover:scale-110 hover:shadow-[0_8px_25px_rgba(var(--creative-accent-rgb),0.4)] lg:bottom-[110px] lg:right-6`}
-        onClick={() => setIsFAQOpen(true)}
+        onClick={() => { setIsFAQOpen(true); AnalyticsService.trackFAQOpen('desktop'); }}
         aria-label="Frequently Asked Questions"
       >
         <HelpCircle size={28} />

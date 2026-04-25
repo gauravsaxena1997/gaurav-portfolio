@@ -90,34 +90,55 @@
   color: var(--creative-text-primary);
 }
 
-/* Schedule CTA styling */
+/* Schedule CTA — primary filled, matches heroCTA */
 .scheduleButton {
   margin-top: var(--space-xl);
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.85rem 1.5rem;
-  background: transparent;
-  border: 1px solid var(--creative-accent);
+  height: 54px;
+  padding: 0 2.25rem;
+  background: var(--creative-accent);
+  border: 2px solid var(--creative-accent);
   border-radius: 9999px;
-  color: var(--creative-accent);
-  font-size: var(--font-size-body-sm);
-  font-weight: 600;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all var(--creative-transition-fast);
+  transition: all 0.2s ease;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   width: fit-content;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(var(--creative-accent-rgb), 0.2);
 }
 
 .scheduleButton:hover {
-  background: rgba(var(--creative-accent-rgb), 0.1);
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(var(--creative-accent-rgb), 0.15);
+  box-shadow: 0 12px 24px rgba(var(--creative-accent-rgb), 0.3);
 }
 
 .scheduleButton:active {
   transform: translateY(0);
+}
+
+/* Contra CTA — secondary outlined, matches theme accent */
+.contraButton {
+  background: transparent;
+  border-color: var(--creative-accent);
+  color: var(--creative-accent);
+  box-shadow: none;
+  padding: 0 2.25rem;
+  margin-top: 0;
+}
+
+.contraButton:hover {
+  background: rgba(var(--creative-accent-rgb), 0.1);
+  border-color: var(--creative-accent);
+  box-shadow: 0 4px 15px rgba(var(--creative-accent-rgb), 0.15);
 }
 
 /* .formWrapper layout handled by Tailwind utilities in component */

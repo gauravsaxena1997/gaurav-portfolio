@@ -4,6 +4,7 @@ import styles from './MobileContactSection.module.css';
 import { AccentSeparator, FAQModal } from '@/themes/creative/components/ui';
 import { ContactForm, type ContactFormHandle } from './ContactForm';
 import { CONTACT_INFO } from '@/config';
+import { AnalyticsService } from '@/services/AnalyticsService';
 
 export const MobileContactSection = () => {
     const formRef = useRef<ContactFormHandle>(null);
@@ -51,6 +52,18 @@ export const MobileContactSection = () => {
                 />
             </div>
 
+            {/* Hire Me on Contra */}
+            <button
+                type="button"
+                className={`${styles.contactScheduleButton} ${styles.contraButton}`}
+                onClick={() => { AnalyticsService.trackContraClick(); window.open('https://contra.com/gauravsaxena97', '_blank', 'noopener,noreferrer'); }}
+            >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 0L14.4 9.6L24 12L14.4 14.4L12 24L9.6 14.4L0 12L9.6 9.6Z" />
+                </svg>
+                <span>Hire Me on Contra</span>
+            </button>
+
             {/* Schedule a Call */}
             <button
                 type="button"
@@ -65,7 +78,7 @@ export const MobileContactSection = () => {
             <button
                 type="button"
                 className={styles.inlineFaqLink}
-                onClick={() => setIsFAQOpen(true)}
+                onClick={() => { setIsFAQOpen(true); AnalyticsService.trackFAQOpen('mobile'); }}
                 aria-label="Frequently Asked Questions"
             >
                 <HelpCircle size={18} />

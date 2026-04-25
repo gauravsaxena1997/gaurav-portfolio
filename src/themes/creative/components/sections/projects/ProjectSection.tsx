@@ -133,6 +133,7 @@ export const ProjectSection = memo(function ProjectSection() {
             if (index !== activeProjectIndex) {
               setActiveProjectIndex(index);
               setCurrentProjectIndex(index);
+              AnalyticsService.trackProjectInteraction('view_project', projects[index].title);
             }
           }
         });

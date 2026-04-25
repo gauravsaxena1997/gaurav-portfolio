@@ -5,34 +5,29 @@ type GTagEvent = {
     value?: number;
 };
 
-// Define custom event types for type safety
 export type AnalyticsEvent =
     | { action: 'submit_form'; category: 'Contact'; label: 'success' | 'error' }
     | { action: 'click_social'; category: 'Social'; label: string }
-    | { action: 'view_project'; category: 'Portfolio'; label: string } // Label = Project Title
+    | { action: 'view_project'; category: 'Portfolio'; label: string }
     | { action: 'click_case_study'; category: 'Portfolio'; label: string }
     | { action: 'click_live_demo'; category: 'Portfolio'; label: string }
     | { action: 'view_project_gallery'; category: 'Portfolio'; label: string }
-    | { action: 'schedule_call'; category: 'Contact'; label?: string };
+    | { action: 'schedule_call'; category: 'Contact'; label?: string }
+    | { action: 'click_contra'; category: 'Contact'; label?: string }
+    | { action: 'open_faq'; category: 'Engagement'; label?: string };
 
 
 export const AnalyticsService = {
-    // Measurement ID
     GA_MEASUREMENT_ID: 'G-ZVFENY0XPB',
 
-    // Check if analytics should be enabled (Production only)
-    isEnabled: () => {
-        return process.env.NODE_ENV === 'production';
-    },
+    isEnabled: () => process.env.NODE_ENV === 'production',
 
-    // Generic track event
     track: ({ action, category, label, value }: GTagEvent) => {
         if (!AnalyticsService.isEnabled()) {
             // eslint-disable-next-line no-console
-            console.log(`[Analytics - Dev] Envent Skipped: ${action}`, { category, label, value });
+            console.log(`[Analytics - Dev] Event Skipped: ${action}`, { category, label, value });
             return;
         }
-
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if (typeof window !== 'undefined' && (window as any).gtag) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -44,7 +39,6 @@ export const AnalyticsService = {
         }
     },
 
-    // Specific Actions
     trackFormSubmission: (success: boolean) => {
         AnalyticsService.track({
             action: 'submit_form',
@@ -76,6 +70,21 @@ export const AnalyticsService = {
         });
     },
 
+    trackContraClick: () => {
+        AnalyticsService.track({
+            action: 'click_contra',
+            category: 'Contact',
+        });
+    },
+
+    trackFAQOpen: (source: 'desktop' | 'mobile') => {
+        AnalyticsService.track({
+            action: 'open_faq',
+            category: 'Engagement',
+            label: source,
+        });
+    },
+
     trackPageView: (url: string) => {
         if (!AnalyticsService.isEnabled()) return;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,5 +94,5 @@ export const AnalyticsService = {
                 page_path: url,
             });
         }
-    }
+    },
 };
